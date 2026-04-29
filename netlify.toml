@@ -1,0 +1,36 @@
+# netlify.toml
+# ─────────────────────────────────────────────────────────────────
+# Drop this file in the ROOT of your repo (same level as index.html).
+# Netlify reads it automatically on every deploy.
+
+[build]
+  # Where your static HTML files live (repo root)
+  publish = "."
+
+# ── Security & performance headers for all pages ──────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# ── Short cache on HTML so updates propagate instantly ────────────
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ── Redirect bare domain → www (optional, uncomment if you add a custom domain)
+# [[redirects]]
+#   from   = "https://yourdomain.com/*"
+#   to     = "https://www.yourdomain.com/:splat"
+#   status = 301
+#   force  = true
+
+# ── 404 fallback ──────────────────────────────────────────────────
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 404

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Midnight Healer Quiz — Find Your Perfect Healing Class</title>
+  <meta name="description" content="9 questions to find your perfect healer for World of Warcraft: Midnight. All 7 healing specs ranked by playstyle fit.">
+  <meta property="og:title" content="Which WoW Midnight Healer Should You Play?">
+  <meta property="og:description" content="9 questions. 7 healing specs. From Discipline's atonement to Resto Shaman's Spirit Link — find your perfect healer for WoW Midnight.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://YOURDOMAIN.com/og-healer.jpg">
+  <meta property="og:url" content="https://YOURDOMAIN.com/healer">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Google AdSense -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0e1810;
+      --surf1:     #142018;
+      --surf2:     #1a2e20;
+      --surf3:     #223a28;
+      --border:    rgba(80,200,120,0.22);
+      --border2:   rgba(100,220,140,0.55);
+      --green:     #48b868;
+      --green-lt:  #78d898;
+      --green-dk:  #286840;
+      --teal:      #3cc8a8;
+      --text:      #e8f5ec;
+      --text2:     #88c8a0;
+      --text3:     #4a7858;
+      --warn:      #d4a840;
+      --radius:    10px;
+      --radius-lg: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; background: var(--surf1); z-index: 100; }
+    .logo { font-size: 15px; font-weight: 600; color: var(--green-lt); letter-spacing: 0.03em; }
+    .logo span { color: var(--text2); font-weight: 400; }
+    .nav-links { display: flex; gap: 16px; align-items: center; }
+    .nav-link { font-size: 13px; color: var(--text2); text-decoration: none; padding: 5px 12px; border-radius: 99px; border: 1px solid transparent; transition: all 0.15s; }
+    .nav-link:hover { border-color: var(--border2); color: var(--green-lt); }
+    .nav-link.premium { border-color: var(--green-dk); color: var(--green-lt); }
+    .nav-link.premium:hover { background: var(--green); color: #fff; }
+
+    .ad-slot { background: var(--surf2); border: 1px dashed var(--border); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; margin: 0 auto; }
+    .ad-rectangle { width: 300px; height: 250px; margin: 0 auto; }
+    .ad-section { padding: 16px 0; display: flex; justify-content: center; }
+    .ad-section-inline { padding: 20px 0 8px; display: flex; justify-content: center; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+    .hero { text-align: center; padding: 60px 0 36px; }
+    .hero-badge { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-lt); border: 1px solid var(--green-dk); border-radius: 99px; padding: 4px 14px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(26px,5vw,40px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+    .hero h1 em { color: var(--green-lt); font-style: normal; }
+    .hero p { font-size: 17px; color: var(--text2); max-width: 480px; margin: 0 auto 20px; }
+    .hero-meta { margin-bottom: 28px; font-size: 13px; color: var(--text3); }
+    .hero-meta span { margin: 0 8px; }
+    .btn-start { display: inline-block; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; padding: 14px 36px; border-radius: 99px; border: none; cursor: pointer; transition: background 0.15s, transform 0.1s; }
+    .btn-start:hover { background: var(--green-lt); color: #0a1808; transform: scale(1.02); }
+
+    .quiz-section { padding: 20px 0 60px; display: none; }
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .progress-bar { height: 3px; background: var(--surf3); border-radius: 2px; }
+    .progress-fill { height: 3px; background: var(--green); border-radius: 2px; transition: width 0.4s ease; }
+
+    .q-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-dk); margin-bottom: 8px; }
+    .q-text { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 28px; line-height: 1.35; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .options-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .opt { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s; text-align: left; }
+    .opt:hover { border-color: var(--border2); background: var(--surf3); transform: translateY(-1px); }
+    .opt.selected { border: 1.5px solid var(--green); background: rgba(72,184,104,0.1); }
+    .opt-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+    .opt-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .opt.selected .opt-title { color: var(--green-lt); }
+    .opt-desc { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    .quiz-nav { display: flex; align-items: center; justify-content: space-between; }
+    .btn-nav { padding: 10px 24px; border-radius: 99px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .btn-nav:hover:not(:disabled) { background: var(--surf3); color: var(--text); }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-next { background: var(--green); color: #fff; border-color: var(--green); font-weight: 700; }
+    .btn-next:hover:not(:disabled) { background: var(--green-lt); color: #0a1808; }
+    .btn-next:disabled { background: var(--surf3); color: var(--text3); border-color: var(--border); }
+
+    .results-section { padding: 20px 0 60px; display: none; }
+    .results-header h2 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .results-header p { color: var(--text2); font-size: 15px; margin-bottom: 28px; }
+    .class-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; margin-bottom: 14px; }
+    .class-card.top-pick { border: 1.5px solid var(--green); }
+    .card-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+    .class-icon-wrap { width: 48px; height: 48px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; border: 1px solid var(--border); }
+    .card-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .class-name { font-size: 18px; font-weight: 700; color: #fff; }
+    .top-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; background: rgba(72,184,104,0.18); color: var(--green-lt); border: 1px solid var(--green-dk); }
+    .match-row { display: flex; align-items: center; gap: 10px; }
+    .match-bar { flex: 1; height: 5px; background: var(--surf3); border-radius: 3px; }
+    .match-fill { height: 5px; border-radius: 3px; background: var(--green); transition: width 0.9s ease; }
+    .match-pct { font-size: 14px; font-weight: 700; color: var(--green-lt); min-width: 40px; text-align: right; }
+    .card-why { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
+    .specs-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+    .spec-pill { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--border); color: var(--text2); background: var(--surf3); }
+    .specs-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .spec-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+
+    .premium-cta { background: linear-gradient(135deg, #0a1e0e 0%, #0a1408 100%); border: 1px solid rgba(72,184,104,0.4); border-radius: var(--radius-lg); padding: 28px; margin: 28px 0; text-align: center; }
+    .premium-cta .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-lt); margin-bottom: 10px; }
+    .premium-cta h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .premium-cta p { font-size: 14px; color: var(--text2); margin-bottom: 18px; line-height: 1.6; }
+    .premium-features { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
+    .feature-pill { font-size: 12px; padding: 5px 12px; border-radius: 99px; background: rgba(72,184,104,0.12); border: 1px solid rgba(72,184,104,0.3); color: var(--green-lt); }
+    .btn-premium { display: inline-block; background: var(--green); color: #fff; font-size: 15px; font-weight: 700; padding: 13px 32px; border-radius: 99px; border: none; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+    .btn-premium:hover { background: var(--green-lt); color: #0a1808; }
+    .premium-note { margin-top: 10px; font-size: 12px; color: var(--text3); }
+
+    .share-section { margin-top: 28px; }
+    .share-label { font-size: 14px; color: var(--text2); margin-bottom: 12px; text-align: center; }
+    .share-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .share-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 99px; border: 1px solid var(--border); cursor: pointer; text-decoration: none; background: var(--surf2); color: var(--text); transition: background 0.15s; }
+    .share-btn:hover { background: var(--surf3); }
+    .share-btn.reddit:hover { background: rgba(255,69,0,0.1); border-color: rgba(255,69,0,0.4); }
+    .share-btn.twitter:hover { background: rgba(29,161,242,0.1); border-color: rgba(29,161,242,0.4); }
+    .copy-confirm { font-size: 12px; color: var(--green-lt); display: none; text-align: center; margin-top: 8px; }
+    .restart-row { text-align: center; margin-top: 24px; }
+    .btn-restart { background: transparent; color: var(--text2); font-size: 13px; border: 1px solid var(--border); border-radius: 99px; padding: 8px 20px; cursor: pointer; }
+    .btn-restart:hover { background: var(--surf2); color: var(--text); }
+    .site-footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .options-grid, .options-grid.cols-3 { grid-template-columns: 1fr; }
+      .card-top { flex-direction: column; gap: 10px; }
+      .share-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">WoW Class Quiz <span>· Healer</span></div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">← All Roles</a>
+    <a href="https://YOURGUMROADLINK.com/healer" class="nav-link premium">✦ Premium — $5</a>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-badge">💚 Healer · WoW Midnight · 7 Specs</div>
+    <h1>Which <em>healer</em> should you play<br>in WoW Midnight?</h1>
+    <p>9 questions — from Discipline's damage-to-heal to Resto Shaman's Spirit Link. Find your perfect healing spec.</p>
+    <div class="hero-meta">
+      <span>💚 All 7 healing specs</span>
+      <span>·</span>
+      <span>🕐 2 minutes</span>
+      <span>·</span>
+      <span>🎯 100% free</span>
+    </div>
+
+    <div class="ad-section-inline">
+      <div class="ad-slot ad-rectangle">
+        <!-- AdSense rectangle
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        -->
+        Advertisement
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Take the Free Quiz →</button>
+  </div>
+</section>
+
+<div class="ad-section" id="ad-hero">
+  <div class="ad-slot ad-leaderboard">
+    <!-- AdSense leaderboard
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    Advertisement
+  </div>
+</div>
+
+<section class="quiz-section container" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="qLabel">Question 1 of 9</span>
+      <span id="qCounter">1 / 9</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:11%"></div></div>
+  </div>
+  <div class="q-label" id="qCategoryLabel">Healing Philosophy</div>
+  <div class="q-text" id="qText"></div>
+  <div class="options-grid" id="optsGrid"></div>
+  <div class="quiz-nav">
+    <button class="btn-nav" id="backBtn" onclick="goBack()" disabled>← Back</button>
+    <button class="btn-nav btn-next" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+  </div>
+</section>
+
+<section class="results-section container" id="results">
+  <div class="results-header">
+    <h2>Your healer recommendations</h2>
+    <p>Ranked by playstyle match — based on your 9 answers</p>
+  </div>
+  <div id="classCards"></div>
+
+  <div class="ad-section">
+    <div class="ad-slot ad-rectangle">
+      <!-- AdSense rectangle
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+      Advertisement
+    </div>
+  </div>
+
+  <div class="premium-cta">
+    <div class="tag">✦ Premium Healer Analysis</div>
+    <h3>Get the deep-dive: spec ratings, throughput vs utility breakdown, and your learning roadmap.</h3>
+    <p>The premium quiz doubles the questions — covering mana management style, AoE vs ST throughput, cooldown sequencing, M+ vs Raid ratings per spec, and a step-by-step roadmap from fresh healer to Cutting Edge.</p>
+    <div class="premium-features">
+      <span class="feature-pill">20 questions</span>
+      <span class="feature-pill">Mythic + M+ tier per spec</span>
+      <span class="feature-pill">Throughput vs utility ratings</span>
+      <span class="feature-pill">✓ / ✗ fit analysis</span>
+      <span class="feature-pill">Learning roadmap</span>
+    </div>
+    <a href="https://YOURGUMROADLINK.com/healer" class="btn-premium" target="_blank" rel="noopener">Get Premium for $5 →</a>
+    <div class="premium-note">One-time · Instant access · No account needed</div>
+  </div>
+
+  <div class="share-section">
+    <div class="share-label">Help your raid team find their healer — share the quiz</div>
+    <div class="share-btns">
+      <a class="share-btn reddit" id="shareReddit" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="#FF4500"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.93 10.36c.03.22.05.45.05.68 0 3.44-4 6.23-8.98 6.23S2 14.48 2 11.04c0-.23.02-.46.05-.68a1.5 1.5 0 10-1.44-2.59A8.93 8.93 0 012 5.96a1.5 1.5 0 102.76-1.16c1.3-.93 2.9-1.48 4.64-1.52l.87-4.1.1-.01 2.83.6a1.5 1.5 0 101.47-1.27l-3.16-.66-.12.56-.73 3.42c1.76.03 3.38.58 4.69 1.52A1.5 1.5 0 1016.5 5.1c.33.53.5 1.13.5 1.74 0 .26-.03.51-.07.76a1.5 1.5 0 10-1 2.76zM7 11.5a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm-1.18 2.5c-.46.46-1.17.68-2.32.68s-1.86-.22-2.32-.68a.5.5 0 01.7-.7c.29.28.82.44 1.62.44s1.33-.16 1.62-.44a.5.5 0 01.7.7z"/></svg>
+        Reddit
+      </a>
+      <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Twitter / X
+      </a>
+      <a class="share-btn" href="#" onclick="copyLink(event)">📋 Copy link</a>
+    </div>
+    <div class="copy-confirm" id="copyConfirm">✓ Link copied!</div>
+  </div>
+
+  <div class="ad-section">
+    <div class="ad-slot ad-rectangle">Advertisement</div>
+  </div>
+
+  <div class="restart-row">
+    <button class="btn-restart" onclick="restart()">↺ Retake quiz</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 WoW Class Quiz &nbsp;·&nbsp; Not affiliated with Blizzard Entertainment &nbsp;·&nbsp; <a href="index.html">All Roles</a> &nbsp;·&nbsp; <a href="https://YOURGUMROADLINK.com/healer">Premium</a></p>
+</footer>
+
+<script>
+const questions = [
+  { id:'philosophy', cat:'Healing Philosophy', text:'What healing philosophy appeals to you most?', cols:3,
+    options:[
+      {icon:'🔮', title:'Proactive',          desc:'I set up HoTs and shields before damage hits — prevention over reaction', val:'proactive'},
+      {icon:'⚡', title:'Reactive',           desc:'I respond to what actually happens — big direct heals on demand',         val:'reactive'},
+      {icon:'🗡️', title:'Damage-to-heal',    desc:'I deal damage to my targets which passively heals my allies — unique',    val:'atonement'},
+    ]
+  },
+  { id:'fantasy', cat:'Class Fantasy', text:'Which healer fantasy excites you most?', cols:2,
+    options:[
+      {icon:'🌿', title:'Nature & rejuvenation', desc:'Healing through the living world — HoTs, shapeshifting, Tranquility',    val:'nature'},
+      {icon:'🐉', title:'Dragon & time magic',   desc:'Preserve the timeline, rewind deaths, empower spells with dragon breath', val:'dragon'},
+      {icon:'👊', title:'Martial & mist monk',   desc:'Heal through movement, fistweaving — fighting and mending simultaneously', val:'monk'},
+      {icon:'✨', title:'Holy light & light',     desc:'Divine healing, Aura Mastery, the holy warrior who keeps their allies alive',val:'holy'},
+      {icon:'🕊️', title:'Priest — light or void', desc:'Classic healer purity (Holy) or dark matter empowerment (Discipline)',  val:'priest'},
+      {icon:'⚡', title:'Elemental & totems',    desc:'Spirit Link, Chain Heal, totems — the healing shaman commands the world',  val:'shaman'},
+    ]
+  },
+  { id:'dps', cat:'DPS Involvement', text:'How much do you want to contribute to damage?', cols:3,
+    options:[
+      {icon:'💚', title:'Pure healing focus',  desc:'My entire kit is dedicated to keeping people alive — 0 DPS by choice',    val:'pure'},
+      {icon:'⚖️', title:'DPS when able',       desc:'I chip in damage during downtime but healing comes first',                  val:'some'},
+      {icon:'🗡️', title:'Heavy DPS while healing',desc:'I deal constant damage and my healing happens as a byproduct',           val:'heavy'},
+    ]
+  },
+  { id:'mobility', cat:'Mobility', text:'How mobile do you want to be while healing?', cols:3,
+    options:[
+      {icon:'🚀', title:'Highly mobile',     desc:'I want to be moving constantly and casting on the run',                      val:'mobile'},
+      {icon:'⚖️', title:'Moderately mobile', desc:'Some movement casts, some turret moments — manageable balance',              val:'balanced'},
+      {icon:'🏰', title:'Plant and cast',    desc:'I prefer to stand still and optimize my output without movement pressure',    val:'stationary'},
+    ]
+  },
+  { id:'healing_type', cat:'Healing Style', text:'What type of healing output appeals to you?', cols:2,
+    options:[
+      {icon:'🌱', title:'HoT stacking',           desc:'Layer healing over time effects — constant slow sustained output',       val:'hots'},
+      {icon:'💊', title:'Big direct heals',        desc:'Flash Heal, Holy Shock — massive single-target impact per button',       val:'direct'},
+      {icon:'🌊', title:'AoE blanket healing',     desc:'Chain Heal, Prayer of Healing — lift the whole raid at once',           val:'aoe'},
+      {icon:'🛡️', title:'Absorbs & shields',       desc:'Prevent damage before it happens — Power Word: Shield, bubbles',         val:'absorbs'},
+    ]
+  },
+  { id:'complexity', cat:'Complexity', text:'How complex do you want your healing kit to be?', cols:3,
+    options:[
+      {icon:'🎯', title:'Accessible',     desc:'Clear priorities, forgiving mechanics — I want to heal well without spreadsheets', val:'simple'},
+      {icon:'⚙️', title:'Medium depth',  desc:'Several systems to manage — enough complexity to feel skilled',                   val:'medium'},
+      {icon:'🌀', title:'Deep mastery',   desc:'I want to solve the hardest healing puzzle in WoW — the steeper the better',     val:'complex'},
+    ]
+  },
+  { id:'cooldowns', cat:'Cooldown Style', text:'What raid cooldown style appeals to you?', cols:3,
+    options:[
+      {icon:'💣', title:'Massive raid saver',      desc:'One button that can save a wipe — Tranquility, Divine Hymn, Spirit Link', val:'massive'},
+      {icon:'🔄', title:'Frequent flexible tools', desc:'Multiple smaller cooldowns I can deploy precisely throughout a fight',    val:'frequent'},
+      {icon:'🔁', title:'Proactive building',      desc:'I ramp up before the damage spike — Evangelism, Rewind, prep work',      val:'ramp'},
+    ]
+  },
+  { id:'content', cat:'Primary Content', text:'What\'s your primary healing environment?', cols:3,
+    options:[
+      {icon:'⚔️', title:'Mythic raid',       desc:'Progression raiding — I want to be a top-tier raid healer for guild kills',  val:'raid'},
+      {icon:'🏃', title:'Mythic+ keys',      desc:'High-key healing — fast-paced, lower player count, I carry the team',        val:'mplus'},
+      {icon:'⚖️', title:'Both equally',      desc:'I need to be exceptional in both formats — no compromises',                  val:'both'},
+    ]
+  },
+  { id:'unique', cat:'Unique Mechanic', text:'Which unique healing mechanic sounds most exciting?', cols:2,
+    options:[
+      {icon:'🌿', title:'HoT juggling (Resto Druid)',   desc:'Stack 4–5 different HoTs simultaneously across the raid',           val:'druid_hots'},
+      {icon:'⏰', title:'Rewind & empowered spells (Evoker)',desc:'Hold casts to charge them, rewind a death, time manipulation',  val:'evoker_empow'},
+      {icon:'🥊', title:'Fistweaving (Mistweaver)',     desc:'Melee to heal — punch enemies and watch allies get healed from it', val:'monk_fist'},
+      {icon:'🕯️', title:'Atonement (Discipline)',      desc:'Deal damage that heals everyone with Atonement — completely unique', val:'disc_atonement'},
+      {icon:'💡', title:'Beacon of Light (Holy Paladin)',desc:'Beacon mirrors your heals to a target automatically — elegant',    val:'pala_beacon'},
+      {icon:'🌊', title:'Chain Heal + totems (Shaman)', desc:'Bounce heals through the raid, Spirit Link Totem — event-changing', val:'shaman_chain'},
+    ]
+  },
+];
+
+const classes = [
+  {
+    name:'Restoration Druid', icon:'🌿', bg:'rgba(60,160,60,0.12)', border:'rgba(80,200,80,0.35)', matchColor:'#50c850',
+    specs:['Restoration'],
+    specDesc:'Rejuvenation, Lifebloom, Wild Growth — proactive HoT blanket healing with exceptional mobility and Tranquility as a raid cooldown.',
+    why:'Resto Druid is WoW\'s most mobile healer and the gold standard for proactive healing. You layer HoTs across the raid before damage hits, then let them tick while you move freely. Wild Growth AoE, Tranquility as a wipe-save, and Convoke for burst make your toolkit complete. Innervate is one of the most valuable mana cooldowns in the game — giving it to other healers or Discipline Priests at the right moment is significant raid contribution. If movement, proactive thinking, and HoT management define your healing dream, Resto Druid is your class.',
+    scores:{ philosophy:{proactive:3,reactive:1}, fantasy:{nature:3}, dps:{pure:2,some:1}, mobility:{mobile:3,balanced:2}, healing_type:{hots:3,aoe:2}, complexity:{simple:2,medium:2}, cooldowns:{massive:2,frequent:1}, content:{raid:2,mplus:3,both:2}, unique:{druid_hots:3} }
+  },
+  {
+    name:'Preservation Evoker', icon:'🐉', bg:'rgba(60,220,180,0.12)', border:'rgba(80,240,200,0.35)', matchColor:'#40c8a0',
+    specs:['Preservation'],
+    specDesc:'Empowered spells charged by holding the keybind, Rewind to reverse a death, Temporal Anomaly shields, and mid-range 25yd healing.',
+    why:'Preservation Evoker is WoW\'s most mechanically unique healer. Holding abilities to charge Empowered versions creates a feel unlike any other class. Rewind — which reverses a teammate\'s recent health loss — is among the most powerful individual cooldowns in the game. Temporal Anomaly pre-shields the raid before damage. The 25-yard range restriction forces clever positioning. If you want to play something that nobody else plays and has mechanics that feel genuinely fresh, Preservation Evoker is the answer.',
+    scores:{ philosophy:{proactive:3,reactive:2}, fantasy:{dragon:3}, dps:{some:2,pure:1}, mobility:{balanced:2,mobile:1}, healing_type:{absorbs:2,direct:2,hots:1}, complexity:{medium:2,complex:3}, cooldowns:{ramp:3,massive:2}, content:{raid:3,both:2}, unique:{evoker_empow:3} }
+  },
+  {
+    name:'Mistweaver Monk', icon:'👊', bg:'rgba(60,200,160,0.12)', border:'rgba(80,220,180,0.35)', matchColor:'#3cc8a0',
+    specs:['Mistweaver'],
+    specDesc:'Fistweaving (melee hits heal allies with Atonement), Soothing Mist channeling, Rising Sun Kick, Revival — the most complex healer in WoW.',
+    why:'Mistweaver is WoW\'s most complex and skill-demanding healer. The Fistweaving playstyle turns you into a melee combatant whose strikes heal your allies — a completely unique fantasy. Soothing Mist channeling creates smart-heal chains. Rising Mist with HoT management adds another mastery layer. Revival is among the most powerful cooldowns a healer has. If you want to be the healer who outperforms their ilvl through mechanical mastery, and the idea of punching enemies to heal your raid sounds amazing, Mistweaver is your calling.',
+    scores:{ philosophy:{atonement:2,reactive:2,proactive:1}, fantasy:{monk:3}, dps:{heavy:2,some:2}, mobility:{mobile:3,balanced:1}, healing_type:{direct:2,hots:2,aoe:2}, complexity:{complex:3,medium:1}, cooldowns:{massive:2,frequent:2}, content:{mplus:3,both:2,raid:2}, unique:{monk_fist:3} }
+  },
+  {
+    name:'Holy Paladin', icon:'✨', bg:'rgba(255,220,80,0.12)', border:'rgba(255,240,100,0.35)', matchColor:'#d4c040',
+    specs:['Holy'],
+    specDesc:'Beacon of Light, Holy Shock procs, Word of Glory — reactive single-target powerhouse with Aura Mastery as one of WoW\'s strongest raid cooldowns.',
+    why:'Holy Paladin is the premier reactive single-target healer. Holy Shock creates instant-cast procs that let you respond to any emergency. Beacon of Light mirrors your heals onto a second target for free — elegant passive efficiency. Aura Mastery is the strongest damage-reduction cooldown any healer brings to raid. Lay on Hands and Blessing of Protection give you incredible emergency responses. If you want to be the person who saves individual players at critical moments and brings godlike defensive utility, Holy Paladin is the answer.',
+    scores:{ philosophy:{reactive:3,proactive:1}, fantasy:{holy:3}, dps:{some:1,pure:2}, mobility:{stationary:2,balanced:1}, healing_type:{direct:3,absorbs:1}, complexity:{simple:2,medium:2}, cooldowns:{massive:3,frequent:2}, content:{raid:3,both:2}, unique:{pala_beacon:3} }
+  },
+  {
+    name:'Holy Priest', icon:'🕊️', bg:'rgba(220,220,255,0.12)', border:'rgba(200,200,240,0.35)', matchColor:'#c0c0e8',
+    specs:['Holy'],
+    specDesc:'Guardian Spirit (death prevention), Circle of Healing, Divine Hymn, Serendipity procs — the classic WoW healer with the most accessible playstyle.',
+    why:'Holy Priest is WoW\'s most classic healer — accessible, powerful, and satisfying. Guardian Spirit prevents a death outright. Divine Hymn blanket-heals the whole raid. Circle of Healing gives instant smart AoE. Holy Word spells create a satisfying cooldown loop. If you want a healer that feels intuitive, has a clear priority system, delivers enormous value without requiring exotic mechanics, and lets you focus on reading the raid rather than managing complex systems, Holy Priest is the perfect home.',
+    scores:{ philosophy:{reactive:2,proactive:2}, fantasy:{priest:3}, dps:{pure:3,some:1}, mobility:{stationary:2,balanced:2}, healing_type:{direct:3,aoe:2}, complexity:{simple:3,medium:1}, cooldowns:{massive:2,frequent:2}, content:{raid:3,both:2}, unique:{pala_beacon:1,druid_hots:1} }
+  },
+  {
+    name:'Discipline Priest', icon:'🔮', bg:'rgba(160,80,220,0.12)', border:'rgba(180,100,240,0.35)', matchColor:'#b868e0',
+    specs:['Discipline'],
+    specDesc:'Atonement: deal damage to enemies which heals allies with the buff active. Evangelism extends Atonement across the raid. Completely unlike any other healer.',
+    why:'Discipline is the most mechanically unique healer in WoW — you deal damage and that damage heals your allies through the Atonement mechanic. Ramping Atonement before a major raid damage event, then Evangelism-extending it for maximum output, is a puzzle no other spec creates. Power Word: Shield absorbs before damage hits. Clarity of Will builds absorbs. Rapture for shield spam. If you love solving complex optimization problems, want your DPS to matter, and are willing to put in hundreds of hours to master truly different mechanics, Discipline is unmatched in depth.',
+    scores:{ philosophy:{atonement:3,proactive:2}, fantasy:{priest:3}, dps:{heavy:3,some:1}, mobility:{stationary:2,balanced:1}, healing_type:{absorbs:3,direct:1}, complexity:{complex:3,medium:1}, cooldowns:{ramp:3,frequent:1}, content:{raid:3,both:2}, unique:{disc_atonement:3} }
+  },
+  {
+    name:'Restoration Shaman', icon:'⚡', bg:'rgba(60,180,220,0.12)', border:'rgba(80,200,240,0.35)', matchColor:'#40b8d8',
+    specs:['Restoration'],
+    specDesc:'Chain Heal, Healing Rain, Spirit Link Totem, Ancestral Guidance — the most powerful raid cooldowns of any healer, with unmatched utility toolkit.',
+    why:'Restoration Shaman brings the most powerful raid cooldown toolkit of any healer. Spirit Link Totem — which equalizes health across the raid — can turn certain wipes into kills. Ancestral Guidance converts your output to raid healing. Wind Rush Totem provides movement speed. Capacitor Totem stuns enemies. Chain Heal and Healing Rain create satisfying AoE healing chains. If you want to be the healer who defines raid outcomes with perfectly-timed cooldowns — and the elemental shaman fantasy appeals — Resto Shaman is the most indispensable healer for progression raiding.',
+    scores:{ philosophy:{reactive:2,proactive:2}, fantasy:{shaman:3}, dps:{some:2,pure:1}, mobility:{balanced:2,stationary:1}, healing_type:{aoe:3,direct:2}, complexity:{medium:2,simple:1}, cooldowns:{massive:3,frequent:2}, content:{raid:3,both:2}, unique:{shaman_chain:3} }
+  },
+];
+
+let current = 0, answers = {};
+
+function startQuiz() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('ad-hero').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const pct = ((current+1)/questions.length)*100;
+  document.getElementById('qLabel').textContent = `Question ${current+1} of ${questions.length}`;
+  document.getElementById('qCounter').textContent = `${current+1} / ${questions.length}`;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('qCategoryLabel').textContent = q.cat;
+  document.getElementById('qText').textContent = q.text;
+  const grid = document.getElementById('optsGrid');
+  grid.className = 'options-grid'+(q.cols===3?' cols-3':'');
+  grid.innerHTML = '';
+  q.options.forEach(opt=>{
+    const div = document.createElement('div');
+    div.className = 'opt'+(answers[q.id]===opt.val?' selected':'');
+    div.innerHTML = `<span class="opt-icon">${opt.icon}</span><div class="opt-title">${opt.title}</div><div class="opt-desc">${opt.desc}</div>`;
+    div.addEventListener('click',()=>selectOpt(opt.val, opt.title));
+    grid.appendChild(div);
+  });
+  document.getElementById('backBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = !answers[q.id];
+  document.getElementById('nextBtn').textContent = current===questions.length-1?'See results →':'Next →';
+}
+
+function selectOpt(val, title) {
+  answers[questions[current].id] = val;
+  document.querySelectorAll('.opt').forEach(el=>{
+    el.classList.toggle('selected', el.querySelector('.opt-title').textContent===title);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function goNext() { if(current===questions.length-1){showResults();return;} current++; renderQuestion(); }
+function goBack() { if(current>0){current--;renderQuestion();} }
+
+function calcScores() {
+  return classes.map(cls=>{
+    let score=0, maxPossible=0;
+    Object.entries(answers).forEach(([qid,val])=>{
+      const qScores=cls.scores[qid]; if(!qScores)return;
+      const maxQ=Math.max(...Object.values(qScores));
+      maxPossible+=maxQ; score+=qScores[val]||0;
+    });
+    return {...cls, pct:maxPossible>0?Math.round((score/maxPossible)*100):0};
+  }).sort((a,b)=>b.pct-a.pct);
+}
+
+function showResults() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  const top3=calcScores().slice(0,3);
+  const cards=document.getElementById('classCards');
+  cards.innerHTML='';
+  top3.forEach((cls,i)=>{
+    const isTop=i===0;
+    const card=document.createElement('div');
+    card.className='class-card'+(isTop?' top-pick':'');
+    card.innerHTML=`
+      <div class="card-top">
+        <div class="class-icon-wrap" style="background:${cls.bg};border-color:${cls.border};">${cls.icon}</div>
+        <div style="flex:1">
+          <div class="card-title-row">
+            <span class="class-name">${cls.name}</span>
+            ${isTop?'<span class="top-badge">Best match</span>':''}
+          </div>
+          <div class="match-row">
+            <div class="match-bar"><div class="match-fill" style="width:0%;background:${cls.matchColor}" data-target="${cls.pct}"></div></div>
+            <span class="match-pct" style="color:${cls.matchColor}">${cls.pct}%</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-why">${cls.why}</div>
+      <div class="specs-label">Healing spec</div>
+      <div class="specs-row">${cls.specs.map(s=>`<span class="spec-pill">${s}</span>`).join('')}</div>
+      <div class="spec-desc">${cls.specDesc}</div>
+    `;
+    cards.appendChild(card);
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.match-fill').forEach(bar=>{bar.style.transition='width 0.9s ease';bar.style.width=bar.dataset.target+'%';});
+  },80);
+  const topName=top3[0].name;
+  const shareText=encodeURIComponent(`I got ${topName} on the WoW Midnight Healer Quiz!`);
+  const shareUrl=encodeURIComponent(window.location.href);
+  document.getElementById('shareReddit').href=`https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Healer Quiz — find your perfect healing spec (free)')}`;
+  document.getElementById('shareTwitter').href=`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function copyLink(e) {
+  e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    const c=document.getElementById('copyConfirm'); c.style.display='block';
+    setTimeout(()=>{c.style.display='none';},3000);
+  });
+}
+
+function restart() {
+  current=0; answers={};
+  document.getElementById('results').style.display='none';
+  document.getElementById('hero').style.display='block';
+  document.getElementById('ad-hero').style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

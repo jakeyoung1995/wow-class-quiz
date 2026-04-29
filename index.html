@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Midnight Class Quiz — DPS, Tank & Healer</title>
+  <meta name="description" content="Free playstyle quizzes for every WoW Midnight role. Find your perfect DPS class, tank spec, or healer — no tier list bias, just your preferences.">
+  <meta property="og:title" content="WoW Midnight Class Quiz — Find Your Perfect Role & Class">
+  <meta property="og:description" content="Free class quizzes for DPS, Tank, and Healer. 9 questions each. No tier list bias. Built for WoW Midnight players.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://YOURDOMAIN.com/og-main.jpg">
+  <meta property="og:url" content="https://YOURDOMAIN.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Google AdSense -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0c0f14;
+      --surf1:    #141a22;
+      --surf2:    #1a2230;
+      --surf3:    #22303f;
+      --border:   rgba(160,140,80,0.2);
+      --border2:  rgba(200,180,100,0.4);
+      --gold:     #d4aa52;
+      --gold-lt:  #f0cc70;
+      --gold-dk:  #8a6e28;
+      --text:     #f0e8d8;
+      --text2:    #b0a080;
+      --text3:    #6a5a40;
+      --dps-col:  #d4aa52;
+      --tank-col: #6090d8;
+      --heal-col: #58c878;
+      --radius:   12px;
+      --radius-lg:16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 16px; font-weight: 700; color: var(--gold); }
+    .logo span { color: var(--text2); font-size: 13px; font-weight: 400; margin-left: 8px; }
+
+    .ad-slot { background: var(--surf2); border: 1px dashed var(--border); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; margin: 0 auto; }
+    .ad-rectangle { width: 300px; height: 250px; margin: 0 auto; }
+    .ad-section { padding: 20px 0; display: flex; justify-content: center; }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+
+    .hero { text-align: center; padding: 64px 0 40px; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .hero h1 { font-size: clamp(28px,5vw,46px); font-weight: 700; color: #fff; line-height: 1.18; margin-bottom: 18px; }
+    .hero h1 em { color: var(--gold-lt); font-style: normal; }
+    .hero p { font-size: 18px; color: var(--text2); max-width: 540px; margin: 0 auto 40px; line-height: 1.6; }
+
+    .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 48px; }
+
+    .role-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 24px 24px; text-align: center; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: border-color 0.2s, transform 0.15s, background 0.15s; cursor: pointer; }
+    .role-card:hover { transform: translateY(-3px); background: var(--surf3); }
+    .role-card.dps:hover { border-color: var(--dps-col); }
+    .role-card.tank:hover { border-color: var(--tank-col); }
+    .role-card.heal:hover { border-color: var(--heal-col); }
+
+    .role-icon { font-size: 40px; margin-bottom: 12px; }
+    .role-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .role-card.dps .role-title { color: var(--dps-col); }
+    .role-card.tank .role-title { color: var(--tank-col); }
+    .role-card.heal .role-title { color: var(--heal-col); }
+    .role-sub { font-size: 13px; color: var(--text2); margin-bottom: 18px; line-height: 1.5; }
+    .role-stats { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .role-stat { font-size: 11px; color: var(--text3); background: var(--surf3); border: 1px solid var(--border); border-radius: 99px; padding: 3px 10px; }
+    .role-btn { display: block; width: 100%; padding: 11px 0; border-radius: 99px; font-size: 14px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .role-card.dps .role-btn { background: rgba(212,170,82,0.15); color: var(--dps-col); border: 1px solid rgba(212,170,82,0.4); }
+    .role-card.dps .role-btn:hover { background: var(--dps-col); color: #0a0800; }
+    .role-card.tank .role-btn { background: rgba(96,144,216,0.15); color: var(--tank-col); border: 1px solid rgba(96,144,216,0.4); }
+    .role-card.tank .role-btn:hover { background: var(--tank-col); color: #fff; }
+    .role-card.heal .role-btn { background: rgba(88,200,120,0.15); color: var(--heal-col); border: 1px solid rgba(88,200,120,0.4); }
+    .role-card.heal .role-btn:hover { background: var(--heal-col); color: #0a1808; }
+
+    .premium-section { margin-bottom: 48px; }
+    .premium-banner { background: linear-gradient(135deg, #1a1530 0%, #0e1020 100%); border: 1px solid rgba(139,125,216,0.4); border-radius: var(--radius-lg); padding: 28px 32px; display: flex; align-items: center; gap: 28px; }
+    .premium-text { flex: 1; }
+    .premium-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #b0a5e8; margin-bottom: 6px; }
+    .premium-banner h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .premium-banner p { font-size: 14px; color: #9090b0; line-height: 1.6; }
+    .premium-right { flex-shrink: 0; text-align: center; }
+    .premium-price { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .premium-price span { font-size: 14px; font-weight: 400; color: #9090b0; display: block; }
+    .btn-premium-main { display: inline-block; margin-top: 12px; background: #8b7dd8; color: #fff; font-size: 14px; font-weight: 700; padding: 11px 24px; border-radius: 99px; text-decoration: none; border: none; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+    .btn-premium-main:hover { background: #b0a5e8; color: #111; }
+
+    .how-section { margin-bottom: 48px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-align: center; margin-bottom: 24px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .step-num { font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+    .step h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .step p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; margin: 0 8px; }
+    .site-footer a:hover { color: var(--gold); }
+
+    @media (max-width: 680px) {
+      .role-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .premium-banner { flex-direction: column; text-align: center; }
+      .hero h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">WoW Class Quiz <span>Midnight Edition</span></div>
+</header>
+
+<!-- Top leaderboard ad -->
+<div class="ad-section">
+  <div class="ad-slot ad-leaderboard">
+    <!-- AdSense leaderboard
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    Advertisement
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Free · WoW Midnight · All Roles</div>
+    <h1>Find your perfect class<br>for <em>WoW Midnight</em></h1>
+    <p>Pick your role, answer 9 playstyle questions, get your perfect class match — no tier list bias, no spreadsheets required.</p>
+  </div>
+</section>
+
+<!-- Role picker -->
+<section class="container">
+  <div class="role-grid">
+
+    <div class="role-card dps">
+      <div class="role-icon">⚔️</div>
+      <div class="role-title">DPS</div>
+      <div class="role-sub">Find your perfect damage dealer from all 12 DPS classes in Midnight</div>
+      <div class="role-stats">
+        <span class="role-stat">12 classes</span>
+        <span class="role-stat">9 questions</span>
+        <span class="role-stat">~2 min</span>
+      </div>
+      <a href="wow-quiz-free.html" class="role-btn">Take DPS Quiz →</a>
+    </div>
+
+    <div class="role-card tank">
+      <div class="role-icon">🛡️</div>
+      <div class="role-title">Tank</div>
+      <div class="role-sub">Match your tanking philosophy to one of 6 tank specs — from Blood DK to Brewmaster</div>
+      <div class="role-stats">
+        <span class="role-stat">6 specs</span>
+        <span class="role-stat">9 questions</span>
+        <span class="role-stat">~2 min</span>
+      </div>
+      <a href="wow-quiz-tank.html" class="role-btn">Take Tank Quiz →</a>
+    </div>
+
+    <div class="role-card heal">
+      <div class="role-icon">💚</div>
+      <div class="role-title">Healer</div>
+      <div class="role-sub">From Discipline's atonement to Resto Shaman's Spirit Link — find your healing identity</div>
+      <div class="role-stats">
+        <span class="role-stat">7 specs</span>
+        <span class="role-stat">9 questions</span>
+        <span class="role-stat">~2 min</span>
+      </div>
+      <a href="wow-quiz-healer.html" class="role-btn">Take Healer Quiz →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Mid-page ad -->
+<div class="ad-section">
+  <div class="ad-slot ad-rectangle">
+    <!-- AdSense rectangle
+    <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    Advertisement
+  </div>
+</div>
+
+<!-- Premium section -->
+<section class="container premium-section">
+  <div class="premium-banner">
+    <div class="premium-text">
+      <div class="premium-tag">✦ Premium Deep Analysis</div>
+      <h2>20 questions. Spec-by-spec tier ratings. Your personal roadmap to Cutting Edge.</h2>
+      <p>The premium quiz doubles the question count, adds per-spec Mythic and M+ tier ratings, complexity scores, ✓ / ✗ fit analysis, and a step-by-step learning roadmap — available for all three roles.</p>
+    </div>
+    <div class="premium-right">
+      <div class="premium-price">$5 <span>one-time</span></div>
+      <a href="https://YOURGUMROADLINK.com" class="btn-premium-main" target="_blank" rel="noopener">Get Premium Analysis →</a>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="container how-section">
+  <div class="section-label">How it works</div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick your role</h3>
+      <p>Choose DPS, Tank, or Healer above — or take all three if you're deciding between roles.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Answer 9 questions</h3>
+      <p>Playstyle, fantasy, complexity, mobility, and more — takes about 2 minutes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Get your top 3 matches</h3>
+      <p>Ranked by playstyle fit with explanations of why each class matches how you want to play.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom ad -->
+<div class="ad-section">
+  <div class="ad-slot ad-leaderboard">
+    <!-- AdSense leaderboard
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    Advertisement
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>
+    <a href="wow-quiz-free.html">DPS Quiz</a>
+    <a href="wow-quiz-tank.html">Tank Quiz</a>
+    <a href="wow-quiz-healer.html">Healer Quiz</a>
+    <a href="https://YOURGUMROADLINK.com">Premium</a>
+  </p>
+  <p style="margin-top:12px;">© 2026 WoW Class Quiz &nbsp;·&nbsp; Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+</body>
+</html>

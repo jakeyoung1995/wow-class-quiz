@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Midnight Premium Class Quiz — Deep Dive (20 Questions)</title>
+  <meta name="description" content="20-question deep-dive class quiz for WoW Midnight. Per-spec tier ratings, M+ vs Mythic breakdown, complexity scores, and a personalized learning roadmap.">
+  <meta property="og:title" content="WoW Midnight Premium Class Quiz — 20 Questions">
+  <meta property="og:description" content="Deep-dive class analysis for WoW Midnight. Spec-by-spec ratings, difficulty, M+/Mythic tiers, and your personalized path to Cutting Edge.">
+  <meta property="og:type" content="website">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1218;
+      --surf1:     #171d28;
+      --surf2:     #1e2636;
+      --surf3:     #262f42;
+      --surf4:     #2e3a50;
+      --border:    rgba(180,150,70,0.22);
+      --border2:   rgba(200,168,75,0.55);
+      --gold:      #d4aa52;
+      --gold-lt:   #f0cc70;
+      --gold-dk:   #9a7830;
+      --purple:    #9b8fe8;
+      --purple-lt: #c5bcf8;
+      --teal:      #3dc8a0;
+      --red:       #e05858;
+      --green:     #5aca80;
+      --amber:     #d4903a;
+      --text:      #f2e8d5;
+      --text2:     #c4a878;
+      --text3:     #8a7860;
+      --radius:    10px;
+      --radius-lg: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ────────────────────────────────────── */
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      background: var(--surf1);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 15px; font-weight: 600; color: var(--gold); }
+    .logo span { color: var(--purple-lt); font-size: 12px; font-weight: 400; margin-left: 6px; border: 1px solid var(--purple); border-radius: 99px; padding: 2px 9px; }
+    .back-link { font-size: 13px; color: var(--text2); text-decoration: none; }
+    .back-link:hover { color: var(--gold); }
+
+    /* ── Layout ────────────────────────────────────── */
+    .container { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── Hero ──────────────────────────────────────── */
+    .hero { text-align: center; padding: 56px 0 40px; }
+    .premium-badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--purple-lt);
+      border: 1px solid var(--purple);
+      border-radius: 99px;
+      padding: 4px 16px;
+      margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero p { font-size: 16px; color: var(--text2); max-width: 500px; margin: 0 auto 28px; }
+    .feature-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 32px; }
+    .feat { font-size: 13px; padding: 6px 14px; border-radius: 99px; background: var(--surf3); border: 1px solid var(--border); color: var(--text2); }
+    .feat strong { color: var(--gold); font-weight: 600; }
+    .btn-start {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      font-size: 16px; font-weight: 700;
+      padding: 14px 36px; border-radius: 99px; border: none; cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-start:hover { background: var(--purple-lt); color: #111; transform: scale(1.02); }
+    .hero-sub { margin-top: 16px; font-size: 13px; color: var(--text3); }
+
+    /* ── Progress ──────────────────────────────────── */
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .progress-bar { height: 3px; background: var(--surf3); border-radius: 2px; }
+    .progress-fill { height: 3px; background: var(--purple); border-radius: 2px; transition: width 0.4s ease; }
+
+    /* ── Quiz ──────────────────────────────────────── */
+    .quiz-section { padding: 20px 0 60px; display: none; }
+    .section-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: rgba(139,125,216,0.08);
+      border: 1px solid rgba(139,125,216,0.2);
+      border-radius: var(--radius);
+    }
+    .section-divider .s-icon { font-size: 20px; }
+    .section-divider h3 { font-size: 14px; font-weight: 600; color: var(--purple-lt); margin-bottom: 1px; }
+    .section-divider p { font-size: 12px; color: var(--text2); }
+
+    .q-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dk); margin-bottom: 8px; }
+    .q-text { font-size: 21px; font-weight: 600; color: #fff; margin-bottom: 24px; line-height: 1.35; }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 28px; }
+    .options-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .options-grid.cols-1 { grid-template-columns: 1fr; }
+
+    .opt {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 15px 17px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    }
+    .opt:hover { border-color: var(--border2); background: var(--surf3); transform: translateY(-1px); }
+    .opt.selected { border: 1.5px solid var(--purple); background: rgba(139,125,216,0.1); }
+    .opt-icon { font-size: 20px; margin-bottom: 7px; display: block; }
+    .opt-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .opt.selected .opt-title { color: var(--purple-lt); }
+    .opt-desc { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    .quiz-nav { display: flex; align-items: center; justify-content: space-between; }
+    .btn-nav {
+      padding: 10px 24px; border-radius: 99px;
+      border: 1px solid var(--border2); background: transparent;
+      color: var(--text2); font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .btn-nav:hover:not(:disabled) { background: var(--surf3); color: var(--text); }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-next { background: var(--purple); color: #fff; border-color: var(--purple); font-weight: 700; }
+    .btn-next:hover:not(:disabled) { background: var(--purple-lt); color: #111; }
+    .btn-next:disabled { background: var(--surf3); color: var(--text3); border-color: var(--border); }
+
+    /* ── Results ───────────────────────────────────── */
+    .results-section { padding: 20px 0 80px; display: none; }
+    .results-header { margin-bottom: 32px; }
+    .results-header h2 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .results-header p { color: var(--text2); }
+
+    /* Main class card */
+    .class-card {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .class-card.top { border: 1.5px solid var(--gold); }
+
+    .card-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .class-icon-lg {
+      width: 54px; height: 54px; border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; flex-shrink: 0;
+    }
+    .class-name { font-size: 20px; font-weight: 700; color: #fff; }
+    .top-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 99px;
+      background: rgba(200,168,75,0.15); color: var(--gold); border: 1px solid var(--gold-dk);
+      margin-left: 8px;
+    }
+    .match-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .match-bar { flex: 1; height: 5px; background: var(--surf4); border-radius: 3px; }
+    .match-fill { height: 5px; border-radius: 3px; transition: width 0.9s ease; }
+    .match-pct { font-size: 14px; font-weight: 700; min-width: 40px; text-align: right; }
+
+    .card-body { padding: 18px 22px; }
+    .card-why { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
+
+    /* Rating bars */
+    .ratings-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; margin-bottom: 20px;
+    }
+    .rating-item { display: flex; align-items: center; gap: 10px; }
+    .rating-label { font-size: 12px; color: var(--text2); min-width: 80px; }
+    .rating-bar { flex: 1; height: 4px; background: var(--surf4); border-radius: 2px; }
+    .rating-fill { height: 4px; border-radius: 2px; transition: width 0.8s ease; }
+    .rating-val { font-size: 12px; font-weight: 600; min-width: 28px; text-align: right; }
+
+    /* Spec cards */
+    .specs-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text3); margin-bottom: 12px;
+    }
+    .spec-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .spec-card {
+      background: var(--surf3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .spec-card-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .spec-tiers { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+    .tier-badge {
+      font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .tier-S { background: rgba(200,168,75,0.2); color: var(--gold); border: 1px solid var(--gold-dk); }
+    .tier-A { background: rgba(60,200,160,0.15); color: var(--teal); border: 1px solid rgba(60,200,160,0.3); }
+    .tier-B { background: rgba(100,140,220,0.15); color: #8abaee; border: 1px solid rgba(100,140,220,0.3); }
+    .tier-C { background: rgba(140,140,140,0.15); color: #909090; border: 1px solid rgba(140,140,140,0.3); }
+    .spec-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
+    .spec-stat { font-size: 11px; color: var(--text2); }
+    .spec-stat strong { color: var(--text); }
+    .spec-card-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+    /* Fit section */
+    .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .fit-box { background: var(--surf3); border-radius: var(--radius); padding: 14px 16px; }
+    .fit-box h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+    .fit-box.yes h4 { color: var(--green); }
+    .fit-box.no  h4 { color: var(--red); }
+    .fit-box ul { list-style: none; }
+    .fit-box ul li { font-size: 12px; color: var(--text2); margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.4; }
+    .fit-box.yes ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+    .fit-box.no  ul li::before { content: '✗'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+    /* Roadmap */
+    .roadmap { background: var(--surf3); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 20px; }
+    .roadmap h4 { font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 14px; }
+    .roadmap-steps { display: flex; flex-direction: column; gap: 10px; }
+    .roadmap-step { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(200,168,75,0.15); border: 1px solid var(--gold-dk);
+      color: var(--gold); font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+    .step-text strong { color: var(--text); }
+
+    /* Addons */
+    .addons-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .addon-pill {
+      font-size: 11px; padding: 4px 10px; border-radius: 99px;
+      background: var(--surf4); border: 1px solid var(--border); color: var(--text2);
+    }
+
+    /* Share & restart */
+    .bottom-actions { margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .share-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 600;
+      padding: 9px 18px; border-radius: 99px;
+      border: 1px solid var(--border); cursor: pointer;
+      text-decoration: none; background: var(--surf2); color: var(--text);
+      transition: background 0.15s;
+    }
+    .share-btn:hover { background: var(--surf3); }
+    .share-btn.reddit:hover  { background: rgba(255,69,0,0.1); border-color: rgba(255,69,0,0.4); }
+    .share-btn.twitter:hover { background: rgba(29,161,242,0.1); border-color: rgba(29,161,242,0.4); }
+    .btn-restart { background: transparent; color: var(--text2); font-size: 13px; border: 1px solid var(--border); border-radius: 99px; padding: 8px 20px; cursor: pointer; }
+    .btn-restart:hover { background: var(--surf2); color: var(--text); }
+    .copy-confirm { font-size: 12px; color: var(--green); display: none; }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .options-grid, .options-grid.cols-3 { grid-template-columns: 1fr; }
+      .ratings-grid { grid-template-columns: 1fr; }
+      .fit-grid { grid-template-columns: 1fr; }
+      .spec-cards { grid-template-columns: 1fr; }
+      .share-btns { flex-direction: column; align-items: center; }
+      .card-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ── Access Gate ──────────────────────────────────── */
+    .gate-overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,12,18,0.97);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .gate-card {
+      background: var(--surf2);
+      border: 1px solid rgba(155,143,232,0.4);
+      border-radius: 18px;
+      padding: 40px 36px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .gate-icon { font-size: 40px; margin-bottom: 16px; }
+    .gate-card h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .gate-card p { font-size: 14px; color: var(--text2); margin-bottom: 28px; line-height: 1.65; }
+    .gate-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; text-align: left; }
+    .gate-feat { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 10px; }
+    .gate-feat::before { content: '✦'; color: var(--purple-lt); font-size: 11px; flex-shrink: 0; }
+    .gate-btn {
+      display: block;
+      width: 100%;
+      background: var(--purple);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      border-radius: 99px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+      margin-bottom: 16px;
+    }
+    .gate-btn:hover { background: var(--purple-lt); color: #111; }
+    .gate-restore { font-size: 12px; color: var(--text3); }
+    .gate-restore a { color: var(--text2); text-decoration: underline; cursor: pointer; }
+    .gate-restore a:hover { color: var(--purple-lt); }
+  </style>
+</head>
+<body>
+
+<!-- ── Access Gate (hidden via JS if buyer arrives from Gumroad redirect or returning device) ── -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-card">
+    <div class="gate-icon">✦</div>
+    <h2>Premium Access Required</h2>
+    <p>Get the 20-question deep-analysis quiz with spec-by-spec Mythic &amp; M+ tier ratings and your personalized Cutting Edge roadmap.</p>
+    <div class="gate-features">
+      <div class="gate-feat">20 questions — double the depth of the free quiz</div>
+      <div class="gate-feat">Per-spec Mythic &amp; M+ tier ratings (S/A/B/C)</div>
+      <div class="gate-feat">Complexity, mobility &amp; self-sufficiency scores</div>
+      <div class="gate-feat">✓ / ✗ fit analysis for every spec</div>
+      <div class="gate-feat">Step-by-step learning roadmap to Cutting Edge</div>
+    </div>
+    <a href="https://YOURGUMROADLINK.com" class="gate-btn" target="_blank" rel="noopener">Get Premium — $5 one-time →</a>
+    <div class="gate-restore">Already purchased? <a onclick="restoreAccess()">Click here after buying</a> — works instantly from the link in your confirmation email.</div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="logo">WoW Class Quiz <span>Premium</span></div>
+  <a href="wow-quiz-free.html" class="back-link">← Free version</a>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="premium-badge">✦ Premium · 20 Questions · Deep Analysis</div>
+    <h1>Find your <em>perfect</em> WoW Midnight class.</h1>
+    <p>20 questions. Spec-by-spec tier ratings. A personalized roadmap to Cutting Edge. This is the analysis the free quiz doesn't give you.</p>
+    <div class="feature-grid">
+      <span class="feat"><strong>20</strong> questions</span>
+      <span class="feat"><strong>Mythic + M+</strong> tier ratings per spec</span>
+      <span class="feat"><strong>Complexity</strong> score</span>
+      <span class="feat"><strong>✓ / ✗</strong> fit analysis</span>
+      <span class="feat"><strong>Learning roadmap</strong></span>
+      <span class="feat"><strong>Essential addons</strong> list</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Start Deep Analysis →</button>
+    <div class="hero-sub">All 12 DPS classes · ~5 minutes · No account needed</div>
+  </div>
+</section>
+
+<!-- Quiz -->
+<section class="quiz-section container" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="qLabel">Question 1 of 20</span>
+      <span id="qCounter">1 / 20</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
+  </div>
+
+  <div id="sectionDivider" style="display:none" class="section-divider">
+    <div class="s-icon" id="sIcon"></div>
+    <div><h3 id="sTitle"></h3><p id="sDesc"></p></div>
+  </div>
+
+  <div class="q-label" id="qCat"></div>
+  <div class="q-text" id="qText"></div>
+  <div class="options-grid" id="optsGrid"></div>
+
+  <div class="quiz-nav">
+    <button class="btn-nav" id="backBtn" onclick="goBack()" disabled>← Back</button>
+    <button class="btn-nav btn-next" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+  </div>
+</section>
+
+<!-- Results -->
+<section class="results-section container" id="results">
+  <div class="results-header">
+    <h2>Your deep-dive results</h2>
+    <p>Top 3 classes ranked by playstyle match — with full spec breakdowns</p>
+  </div>
+  <div id="classCards"></div>
+
+  <div class="bottom-actions">
+    <div class="share-btns">
+      <a class="share-btn reddit" id="shareReddit" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="#FF4500"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.93 10.36c.03.22.05.45.05.68 0 3.44-4 6.23-8.98 6.23S2 14.48 2 11.04c0-.23.02-.46.05-.68a1.5 1.5 0 10-1.44-2.59A8.93 8.93 0 012 5.96a1.5 1.5 0 102.76-1.16c1.3-.93 2.9-1.48 4.64-1.52l.87-4.1.1-.01 2.83.6a1.5 1.5 0 101.47-1.27l-3.16-.66-.12.56-.73 3.42c1.76.03 3.38.58 4.69 1.52A1.5 1.5 0 1016.5 5.1c.33.53.5 1.13.5 1.74 0 .26-.03.51-.07.76a1.5 1.5 0 10-1 2.76zM7 11.5a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm-1.18 2.5c-.46.46-1.17.68-2.32.68s-1.86-.22-2.32-.68a.5.5 0 01.7-.7c.29.28.82.44 1.62.44s1.33-.16 1.62-.44a.5.5 0 01.7.7z"/></svg>
+        Share on Reddit
+      </a>
+      <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Share on X
+      </a>
+      <button class="share-btn" onclick="copyLink()">📋 Copy link</button>
+    </div>
+    <div class="copy-confirm" id="copyConfirm">✓ Link copied!</div>
+    <button class="btn-restart" onclick="restart()">↺ Retake quiz</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+// ──────────────────────────────────────────────────────
+// ACCESS GATE — Gumroad redirect URL approach
+//
+// HOW IT WORKS:
+//   1. Buyer purchases on Gumroad
+//   2. Gumroad redirects them to:
+//      https://yoursite.com/wow-quiz-premium.html?unlock=MIDNIGHT2026
+//   3. This page sees the param, saves a flag to localStorage, strips the
+//      URL clean, and drops the gate — seamless, no typing required
+//   4. On future visits from the same browser, localStorage restores access
+//
+// TO CHANGE THE SECRET WORD:
+//   - Update UNLOCK_WORD below
+//   - Update your Gumroad product's "Redirect URL" to match
+//   - Redeploy — old localStorage tokens keep working for existing buyers
+// ──────────────────────────────────────────────────────
+const STORAGE_KEY  = 'wowquiz_premium_v1';
+const UNLOCK_WORD  = 'MIDNIGHT2026'; // also set this in Gumroad → Product → Redirect URL
+
+function dismissGate() {
+  const overlay = document.getElementById('gateOverlay');
+  if (!overlay) return;
+  overlay.style.transition = 'opacity 0.4s';
+  overlay.style.opacity = '0';
+  setTimeout(() => overlay.remove(), 420);
+}
+
+function saveAccess() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      unlocked: true,
+      expiry: Date.now() + 365 * 24 * 60 * 60 * 1000  // 1 year
+    }));
+  } catch(e) {}
+}
+
+function hasStoredAccess() {
+  try {
+    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    return !!(d.unlocked && d.expiry > Date.now());
+  } catch(e) { return false; }
+}
+
+// Called by the "Already purchased?" link in the gate
+// Tells users the access is stored automatically — they just need to use
+// the redirect link from their Gumroad confirmation email on this device
+function restoreAccess() {
+  if (hasStoredAccess()) {
+    dismissGate();
+  } else {
+    alert(
+      'No purchase found on this browser.\n\n' +
+      'Open the confirmation email from Gumroad and click the product link — ' +
+      'it will unlock access on this device automatically.'
+    );
+  }
+}
+
+// Run on page load
+(function checkAccess() {
+  // Dev bypass — never block on localhost / file://
+  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') {
+    dismissGate();
+    return;
+  }
+
+  // Check for Gumroad redirect param (?unlock=MIDNIGHT2026)
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('unlock') === UNLOCK_WORD) {
+    saveAccess();
+    // Strip the token from the URL so it's not visible or bookmarked
+    history.replaceState({}, '', window.location.pathname);
+    dismissGate();
+    return;
+  }
+
+  // Check localStorage for returning buyers on the same device
+  if (hasStoredAccess()) {
+    dismissGate();
+    return;
+  }
+
+  // Nothing matched — gate stays visible
+})();
+
+// ──────────────────────────────────────────────────────
+// QUESTIONS (20)
+// ──────────────────────────────────────────────────────
+const SECTIONS = [
+  { at: 0,  icon: '⚔️', title: 'Section 1: Core Playstyle', desc: 'Questions 1–9 cover your fundamental preferences.' },
+  { at: 9,  icon: '🏆', title: 'Section 2: Advanced Preferences', desc: 'Questions 10–20 go deeper into raid environment, pacing, and mastery goals.' },
+];
+
+const questions = [
+  // ── Section 1 (same core as free quiz) ──────────────
+  { id:'range',        cat:'Combat Position',    text:'Where do you prefer to be in a fight?', cols:3,
+    options:[
+      {icon:'⚔️',title:'In their face',       desc:'Melee — up close, feel every hit',       val:'melee'},
+      {icon:'🏹',title:'At a safe distance',  desc:'Ranged — controlling from afar',          val:'ranged'},
+      {icon:'🤷',title:'Either works',        desc:'I care more about feel than position',    val:'any'},
+    ]
+  },
+  { id:'complexity',   cat:'Rotation Depth',     text:'What rotation complexity calls to you?', cols:2,
+    options:[
+      {icon:'🎯',title:'Reactive & fluid',     desc:'Respond to procs, play by feel',          val:'reactive'},
+      {icon:'🧮',title:'Planned & optimized',  desc:'Ramp windows, rotation puzzles, prep',    val:'planned'},
+      {icon:'💥',title:'Simple but explosive', desc:'Few buttons, massive moments',             val:'simple'},
+      {icon:'🌀',title:'Deep & multi-layered', desc:'Resources, dots, pets — organized chaos', val:'complex'},
+    ]
+  },
+  { id:'fantasy',      cat:'Class Fantasy',      text:'Which class fantasy excites you most?', cols:2,
+    options:[
+      {icon:'💀',title:'Death & undeath',      desc:'Necromancy, commanding the dead',         val:'death'},
+      {icon:'😈',title:'Fel & demonic',        desc:'Corrupted power, warlocks, demons',       val:'fel'},
+      {icon:'🌿',title:'Nature & beasts',      desc:'Shapeshifting, animal companions',        val:'nature'},
+      {icon:'⚡',title:'Elemental fury',       desc:'Lightning, fire, frost, raw power',       val:'elemental'},
+      {icon:'🔮',title:'Arcane & magic',       desc:'Spellcasting, cosmic forces, time',       val:'arcane'},
+      {icon:'🥷',title:'Stealth & precision',  desc:'Shadows, assassination, the dark',        val:'stealth'},
+      {icon:'👊',title:'Martial arts & chi',   desc:'Speed, discipline, combat mastery',       val:'monk'},
+      {icon:'⚔️',title:'Brute warrior strength',desc:'Raw power, fury, big two-handers',      val:'warrior'},
+    ]
+  },
+  { id:'resource',     cat:'Resource Mechanic',  text:'What resource mechanic sounds most fun?', cols:2,
+    options:[
+      {icon:'🔋',title:'Build then spend',      desc:'Generate resources, then unleash spenders',val:'builder'},
+      {icon:'⏱️',title:'Cooldown windows',      desc:'Everything builds toward a big burst',    val:'cooldown'},
+      {icon:'🐾',title:'Pet & minion management',desc:'Commanding companions, indirect damage', val:'pets'},
+      {icon:'🩸',title:'DoTs & sustained',      desc:'Bleeds, poisons, watching enemies tick',  val:'dots'},
+    ]
+  },
+  { id:'mobility',     cat:'Mobility',           text:'How do you feel about mobility in a raid?', cols:3,
+    options:[
+      {icon:'🚀',title:'High mobility',     desc:'Dash and dodge while dealing damage',          val:'mobile'},
+      {icon:'🏰',title:'Turret is fine',    desc:'Stand still and optimize — movement = penalty',val:'turret'},
+      {icon:'🎭',title:'Balanced',          desc:'Some options, but not parkour simulator',       val:'balanced'},
+    ]
+  },
+  { id:'visual',       cat:'Visual Style',       text:'What visual style do you want?', cols:2,
+    options:[
+      {icon:'🌋',title:'Explosions & spectacle',desc:'My screen = fireworks show',              val:'flashy'},
+      {icon:'🗡️',title:'Clean & precise',     desc:'Elegant, purposeful — less chaos, more craft',val:'clean'},
+      {icon:'🎆',title:'Epic cosmic / dark',   desc:'Void rifts, holy beams, dragon breath',    val:'epic'},
+      {icon:'🌿',title:'Grounded & primal',    desc:'Nature, earth, beast — organic and raw',   val:'primal'},
+    ]
+  },
+  { id:'spec_variety', cat:'Spec Breadth',       text:'How different do you want your specs to feel?', cols:3,
+    options:[
+      {icon:'🌍',title:'Totally different worlds',desc:'Each spec like a different class',      val:'huge'},
+      {icon:'🔄',title:'Same core, new flavor',  desc:'Distinct toolkit but shared identity',   val:'moderate'},
+      {icon:'🎯',title:'One deep master',         desc:'Pick one spec and go as deep as possible',val:'focused'},
+    ]
+  },
+  { id:'raid_role',    cat:'Raid Role',          text:'What role do you imagine beyond raw DPS?', cols:2,
+    options:[
+      {icon:'💣',title:'Pure damage machine',  desc:'My job is numbers — utility is others\' problem',val:'pure'},
+      {icon:'🛡️',title:'The interrupt / CC bot',desc:'I love utility — stopping the big spell',  val:'utility'},
+      {icon:'📈',title:'Support DPS',           desc:'Buff allies — my value is what I enable',  val:'support'},
+      {icon:'☠️',title:'Execute & add killer',  desc:'Shine on priority targets and execute',    val:'execute'},
+    ]
+  },
+  { id:'vibe',         cat:'General Vibe',       text:'Final vibe check — which sounds most like you?', cols:2,
+    options:[
+      {icon:'🎸',title:'Chaos enjoyer',      desc:'More going on = more fun, I love juggling',  val:'chaos'},
+      {icon:'🎯',title:'Perfectionist',      desc:'Master the hardest rotation, be the best',   val:'perfect'},
+      {icon:'😎',title:'Cool factor first',  desc:'Class must look amazing — I\'ll learn it',   val:'cool'},
+      {icon:'🧘',title:'Flow state seeker',  desc:'Rotation becomes muscle memory bliss',        val:'flow'},
+    ]
+  },
+  // ── Section 2: Advanced ─────────────────────────────
+  { id:'aoe',          cat:'Target Preference',  text:'What\'s your preferred damage profile?', cols:3,
+    options:[
+      {icon:'🎯',title:'Pure single target',  desc:'I want to destroy one target faster than anyone',val:'st'},
+      {icon:'🌊',title:'AoE is life',         desc:'I want to demolish packs of adds and mobs',  val:'aoe'},
+      {icon:'⚖️',title:'Both matter equally', desc:'Good ST and AoE — I want to be effective always',val:'both'},
+    ]
+  },
+  { id:'meta',         cat:'Meta Awareness',     text:'How much does being "meta" matter to you?', cols:3,
+    options:[
+      {icon:'📊',title:'Always meta',          desc:'I want to play whatever is strongest this tier',val:'meta'},
+      {icon:'🎖️',title:'Competitive enough',  desc:'Within 5% of top — I\'ll flex for performance',val:'flex'},
+      {icon:'❤️',title:'I play what I love',  desc:'Fun first — I\'ll make any class work',       val:'love'},
+    ]
+  },
+  { id:'defensives',   cat:'Survivability',      text:'How important are defensives and survival tools to you?', cols:2,
+    options:[
+      {icon:'🛡️',title:'Critical — save myself', desc:'I want to solo-soak, immune mechanics, survive mistakes',val:'high'},
+      {icon:'💊',title:'Self-sustain matters',   desc:'I want some self-healing — top myself off between pulls',val:'medium'},
+      {icon:'🏃',title:'I\'ll manage with externals',desc:'I rely on healers and raid CDs, not personal survival',val:'low'},
+      {icon:'☠️',title:'Ignore it — max DPS',    desc:'I play aggro — if I die it was worth it',  val:'ignore'},
+    ]
+  },
+  { id:'content',      cat:'Primary Content',    text:'What\'s your main focus outside raid?', cols:2,
+    options:[
+      {icon:'⚔️',title:'Raid only',            desc:'Mythic progression is my entire endgame',   val:'raid'},
+      {icon:'🏃',title:'Mythic+ is my life',   desc:'I push keys constantly — raid is secondary', val:'mplus'},
+      {icon:'⚖️',title:'Both equally',          desc:'I need to be great in both formats',        val:'both_content'},
+      {icon:'🎮',title:'Solo content matters',  desc:'I also want to perform well in world content',val:'solo'},
+    ]
+  },
+  { id:'rng',          cat:'RNG Tolerance',      text:'How do you feel about RNG in your rotation?', cols:3,
+    options:[
+      {icon:'🎲',title:'Love RNG',              desc:'Proc watching keeps me engaged — randomness is fun',val:'love_rng'},
+      {icon:'⚖️',title:'Some is fine',          desc:'A few procs are ok, but the core should be consistent',val:'some_rng'},
+      {icon:'📐',title:'Hate RNG',              desc:'Give me a deterministic rotation I can perfect',val:'no_rng'},
+    ]
+  },
+  { id:'cooldowns',    cat:'Cooldown Management', text:'How many active cooldowns do you want to track?', cols:2,
+    options:[
+      {icon:'🚀',title:'1–2 big ones',          desc:'One massive button that changes everything',  val:'few'},
+      {icon:'⚙️',title:'3–4 medium ones',       desc:'Several CDs that interact — I like orchestration',val:'medium_cd'},
+      {icon:'🌪️',title:'Many small ones',       desc:'Tons of small cooldowns to weave — always busy',val:'many'},
+      {icon:'🤓',title:'CD management is fun',  desc:'The more complex the CD tracking, the more I enjoy it',val:'love_cd'},
+    ]
+  },
+  { id:'pacing',       cat:'Combat Pacing',      text:'How fast do you want your rotation to feel?', cols:3,
+    options:[
+      {icon:'🏔️',title:'Slow & methodical',     desc:'Deliberate big hits — every button matters',  val:'slow'},
+      {icon:'🌊',title:'Medium — flowing',       desc:'A natural rhythm that\'s fun to sustain',     val:'medium_pace'},
+      {icon:'⚡',title:'Blazing fast',           desc:'Constant button pressing — maximum APM',      val:'fast'},
+    ]
+  },
+  { id:'utility_val',  cat:'Utility vs Damage',  text:'What matters more — personal damage or group utility?', cols:3,
+    options:[
+      {icon:'💣',title:'Pure damage always',     desc:'I want my logs to speak for themselves',      val:'dmg'},
+      {icon:'⚖️',title:'Utility + damage',       desc:'I want both — carry the raid in multiple ways',val:'both_util'},
+      {icon:'📈',title:'Utility first',           desc:'If I\'m amplifying top DPS players, I\'m happy',val:'util'},
+    ]
+  },
+  { id:'pets_feel',    cat:'Pet Preference',     text:'How do you feel about pet or minion management?', cols:3,
+    options:[
+      {icon:'🐺',title:'Love pets',              desc:'My companions are part of my identity — I name them',val:'love_pets'},
+      {icon:'🔧',title:'Fine if they\'re useful', desc:'Pets are ok as long as they feel meaningful',val:'ok_pets'},
+      {icon:'🚫',title:'No pets please',         desc:'I want to be the source of all my damage',   val:'no_pets'},
+    ]
+  },
+  { id:'mastery',      cat:'Long-term Mastery',  text:'How deep do you want the mastery rabbit hole to go?', cols:3,
+    options:[
+      {icon:'🕳️',title:'The deepest possible',  desc:'I want a class that rewards 500+ hours of dedication',val:'deep'},
+      {icon:'📈',title:'Good ceiling, accessible floor',desc:'I want to feel effective quickly and grow over time',val:'medium_mastery'},
+      {icon:'🎯',title:'Quick to competence',    desc:'I want to perform well without years of practice',val:'easy'},
+    ]
+  },
+  { id:'guild_value',  cat:'Guild Role',         text:'Beyond parsing, how do you want to contribute to your guild?', cols:2,
+    options:[
+      {icon:'💎',title:'The DPS anchor',         desc:'My role is unbeatable numbers, every pull, every boss',val:'anchor'},
+      {icon:'🧰',title:'The utility Swiss army', desc:'I bring tools, immunities, CCs, off-heals — indispensable',val:'swiss'},
+      {icon:'🔊',title:'The shot-caller DPS',    desc:'I want to be trusted with mechanic responsibility',val:'caller'},
+      {icon:'📖',title:'The class expert',       desc:'I want to be the guild\'s resource for my class knowledge',val:'expert'},
+    ]
+  },
+];
+
+// ──────────────────────────────────────────────────────
+// CLASS DATA (premium extended)
+// ──────────────────────────────────────────────────────
+const classes = [
+  {
+    name:'Rogue', icon:'🗡️', bg:'rgba(255,180,80,0.12)', border:'rgba(255,180,80,0.3)', matchColor:'#c8a84b',
+    why:'Three specs that feel like different games. Assassination\'s methodical poison DoT management, Outlaw\'s chaotic swashbuckler proc-dance, and Subtlety\'s precision burst-from-stealth gameplay. Rogues have one of WoW\'s widest spec ranges and among the highest skill ceilings. Your utility toolkit (Tricks, Shroud, Blind, Kick) makes you indispensable on complex mythic fights. If mastery depth and spec variety both appeal, no class competes with Rogue.',
+    specs:[
+      { name:'Assassination', mythic:'A', mplus:'A', complexity:4, mobility:2, aoe:3, st:5,
+        desc:'Poison stacking, Envenom windows, Rupture uptime. Methodical and deeply satisfying to master. Excellent sustained single target.',
+        goodFor:'Patient players who love optimizing sustained DoT uptime.',
+        badFor:'Players who want explosive burst moments or frequent movement.' },
+      { name:'Outlaw', mythic:'B', mplus:'S', complexity:3, mobility:3, aoe:5, st:3,
+        desc:'Roll the Bones RNG buffs, swashbuckler fantasy, insane AoE via Blade Flurry. Fast-paced and flashy.',
+        goodFor:'AoE-heavy content (M+), players who enjoy controlled chaos and RNG engagement.',
+        badFor:'Players who hate RNG variance or need predictable single-target throughput.' },
+      { name:'Subtlety', mythic:'S', mplus:'A', complexity:5, mobility:3, aoe:3, st:5,
+        desc:'Burst from stealth, Dance windows, precise cooldown sequencing. Highest skill ceiling in melee.',
+        goodFor:'Perfectionists who want the deepest melee mastery and burst-window gameplay.',
+        badFor:'Players who want forgiving, sustained damage without tight burst timing.' },
+    ],
+    fit:{ yes:['You want specs that feel completely different','You love stealth and precision fantasy','You want maximum skill ceiling','You enjoy both ST and AoE options'], no:['You want ranged playstyle','You hate RNG (Outlaw)','You want strong self-healing to survive mistakes'] },
+    roadmap:['Learn Assassination first — the most beginner-friendly Rogue spec with clear rotation structure.','Set up WeakAuras for Rupture timer, combo points, and cooldown tracking from wago.io.','Master Subtlety after 2–3 weeks — start with M+ before bringing it into mythic raid.','Study your Warcraftlogs reports for energy pooling efficiency and cooldown alignment.','Work toward Top 50 Rogue parses as your benchmark for raid readiness.'],
+    addons:['WeakAuras','Subtlety Audit WA','Details!','DBM/BigWigs','OmniCD'],
+    scores:{
+      range:{melee:3,any:1}, complexity:{reactive:2,planned:2,complex:2}, fantasy:{stealth:3},
+      resource:{builder:2,cooldown:2,dots:2}, mobility:{mobile:2,balanced:1},
+      visual:{clean:2,epic:1}, spec_variety:{huge:3,moderate:2},
+      raid_role:{utility:2,execute:2,pure:1}, vibe:{perfect:2,cool:2,chaos:1},
+      aoe:{st:2,aoe:2,both:3}, meta:{meta:2,flex:2,love:1},
+      defensives:{high:1,medium:1,low:2,ignore:2}, content:{raid:2,mplus:3,both_content:3,solo:1},
+      rng:{love_rng:2,some_rng:2,no_rng:1}, cooldowns:{few:1,medium_cd:2,many:2,love_cd:3},
+      pacing:{slow:2,medium_pace:2,fast:3}, utility_val:{dmg:2,both_util:2,util:1},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:3,medium_mastery:2,easy:1},
+      guild_value:{anchor:2,swiss:2,caller:1,expert:3}
+    }
+  },
+  {
+    name:'Mage', icon:'🔥', bg:'rgba(100,160,255,0.12)', border:'rgba(100,160,255,0.3)', matchColor:'#5aaaee',
+    why:'The definitive caster fantasy with three radically different specs. Fire\'s Combustion is one of WoW\'s most satisfying burst sequences. Frost brings unrivaled crowd control utility that scales perfectly in raid environments. Arcane is arguably the most demanding ranged rotation in the game — rewarding deep optimization. Mages also provide Bloodlust/Heroism, permanently securing raid value regardless of meta.',
+    specs:[
+      { name:'Fire', mythic:'S', mplus:'A', complexity:4, mobility:3, aoe:4, st:5,
+        desc:'Combustion burst windows, Hot Streak procs, Pyroblast fantasy. Explosive and satisfying once mastered.',
+        goodFor:'Players who love big burst moments, proc management, and flashy visuals.',
+        badFor:'Players who want consistent sustained damage without relying on RNG procs.' },
+      { name:'Frost', mythic:'A', mplus:'S', complexity:3, mobility:3, aoe:3, st:4,
+        desc:'Shatter combos with Frozen Orb, unrivaled CC toolkit, consistent throughput.',
+        goodFor:'Players who want utility alongside damage and a more forgiving rotation floor.',
+        badFor:'Players seeking the absolute highest DPS ceiling — Frost trades some damage for consistency.' },
+      { name:'Arcane', mythic:'A', mplus:'B', complexity:5, mobility:2, aoe:3, st:5,
+        desc:'Mana management, burn phases, touch of the Magi — the most complex ranged DPS rotation in WoW.',
+        goodFor:'Perfectionists who want a rotation that rewards hundreds of hours of optimization.',
+        badFor:'Players who need mobility or a forgiving rotation on their first run.' },
+    ],
+    fit:{ yes:['You want a pure caster fantasy','You love burst window gameplay','You need Bloodlust value for guild roster','You want all three specs to feel genuinely different'], no:['You want melee playstyle','You hate standing still (Arcane)','You want pets or minions in your toolkit'] },
+    roadmap:['Start with Fire Mage — the most beginner-friendly with clear proc feedback and satisfying Combustion moments.','Get the Fire Mage WeakAuras suite from wago.io — especially Combustion window tracker.','Learn Combustion sequencing: pre-pool Hot Streak charges, align with lust and trinkets.','Once comfortable with Fire, learn Frost for M+ — the CC toolkit is invaluable in keys.','Graduate to Arcane for the deepest mastery challenge once you understand the raid environment.'],
+    addons:['WeakAuras (Combustion WA)','Details!','DBM/BigWigs','OmniCD','GTFO'],
+    scores:{
+      range:{ranged:3,any:1}, complexity:{reactive:2,planned:3,simple:1},
+      fantasy:{arcane:3}, resource:{cooldown:3,builder:2},
+      mobility:{mobile:2,balanced:2}, visual:{flashy:3,epic:2},
+      spec_variety:{huge:2,moderate:2}, raid_role:{pure:2,utility:2,execute:1},
+      vibe:{perfect:3,cool:2,flow:1},
+      aoe:{st:3,aoe:2,both:2}, meta:{meta:3,flex:2,love:1},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:2,mplus:2,both_content:3,solo:1},
+      rng:{love_rng:2,some_rng:3,no_rng:1}, cooldowns:{few:2,medium_cd:3,many:1,love_cd:2},
+      pacing:{slow:2,medium_pace:3,fast:1}, utility_val:{dmg:2,both_util:3,util:1},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:3,medium_mastery:2,easy:1},
+      guild_value:{anchor:3,swiss:2,caller:1,expert:2}
+    }
+  },
+  {
+    name:'Warlock', icon:'😈', bg:'rgba(139,100,220,0.12)', border:'rgba(139,100,220,0.3)', matchColor:'#9b7dd8',
+    why:'Three specs under one dark banner — each a completely different game. Affliction\'s multi-target DoT juggling rewards methodical precision. Demonology builds toward an army of demons and unique shard spending mechanics. Destruction is the most accessible with satisfying Chaos Bolt moments. All three bring exceptional self-healing and Soulstone — arguably the most raid-impactful utility in the game.',
+    specs:[
+      { name:'Affliction', mythic:'A', mplus:'B', complexity:5, mobility:3, aoe:4, st:5,
+        desc:'Multi-dot on up to 5 targets, Malefic Rapture windows, sustained mastery at its finest.',
+        goodFor:'Players who love watching complex systems deliver results — the most methodical DPS spec.',
+        badFor:'Players who want big flashy moments — Affliction rewards patience and sustained thinking.' },
+      { name:'Demonology', mythic:'B', mplus:'A', complexity:4, mobility:2, aoe:5, st:3,
+        desc:'Build a demon army via Hand of Gul\'dan, Demonic Tyrant for burst. AoE powerhouse.',
+        goodFor:'Pet lovers who want to command an army and dominate cleave/AoE encounters.',
+        badFor:'Pure single-target fights — Demonology shines hardest when there are targets to spread to.' },
+      { name:'Destruction', mythic:'A', mplus:'A', complexity:3, mobility:2, aoe:3, st:4,
+        desc:'Chaos Bolt fantasy, Havoc cleave, Rain of Fire — the most accessible Warlock spec.',
+        goodFor:'Players who want a clear, satisfying rotation with a huge payoff button (Chaos Bolt).',
+        badFor:'Players who need mobility — Destruction is one of the least mobile casters.' },
+    ],
+    fit:{ yes:['You love dark/demonic class fantasy','You want strong self-healing survivability','You want Soulstone utility for guild progression','You love sustained damage with high skill ceiling'], no:['You want high mobility','You dislike managing DoTs or pets','You need to top single-target charts as top priority'] },
+    roadmap:['Start with Destruction — clearest rotation structure, immediate Chaos Bolt satisfaction.','Learn the Soulstone rotation: who to stone when, and how to maximize its raid impact.','Graduate to Affliction — study DoT pandemic refresh windows and target priority.',
+      'Use Raidbots to sim your character weekly — Warlock secondary stat choices are nuanced.','Build toward Demonology for M+ — pet timing around dungeon pack compositions.'],
+    addons:['WeakAuras (DoT tracker for Affliction)','Details!','DBM/BigWigs','OmniCD','Deadly Boss Mods'],
+    scores:{
+      range:{ranged:3,any:1}, complexity:{complex:3,reactive:1},
+      fantasy:{fel:3}, resource:{pets:2,dots:3,cooldown:2},
+      mobility:{turret:2,balanced:1}, visual:{epic:3,flashy:2},
+      spec_variety:{huge:3,moderate:2}, raid_role:{execute:2,pure:2},
+      vibe:{chaos:3,cool:2},
+      aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:2,love:1},
+      defensives:{high:2,medium:3,low:1,ignore:1}, content:{raid:3,mplus:2,both_content:2,solo:2},
+      rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:3},
+      pacing:{slow:2,medium_pace:2,fast:2}, utility_val:{dmg:2,both_util:2,util:2},
+      pets_feel:{love_pets:3,ok_pets:2,no_pets:1}, mastery:{deep:3,medium_mastery:2,easy:1},
+      guild_value:{anchor:2,swiss:3,caller:1,expert:2}
+    }
+  },
+  {
+    name:'Death Knight', icon:'💀', bg:'rgba(150,150,160,0.12)', border:'rgba(150,150,160,0.3)', matchColor:'#aaaaaa',
+    why:'Among the most powerful class fantasies in WoW — risen champions of the Lich King. Frost is a burst-focused melee powerhouse with satisfying Pillar of Frost windows and cleave via Breath of Sindragosa. Unholy is a disease-spreading, undead-summoning machine built for sustained AoE and pet synergy. Both specs bring Anti-Magic Zone — one of the most prized raid defensive cooldowns in the game.',
+    specs:[
+      { name:'Frost', mythic:'A', mplus:'A', complexity:4, mobility:2, aoe:4, st:5,
+        desc:'Pillar of Frost + Breath of Sindragosa burst, Killing Machine procs, dual-wield or 2H. Excellent sustained damage.',
+        goodFor:'Players who love burst cooldown alignment and strong single-target output.',
+        badFor:'Players who need high mobility — DK is one of the least mobile melee specs.' },
+      { name:'Unholy', mythic:'S', mplus:'A', complexity:5, mobility:2, aoe:5, st:4,
+        desc:'Army of the Dead, Festermight stacking, dark transformation — complex pet + disease management.',
+        goodFor:'Players who want maximum AoE + pets combined, with a high mastery ceiling.',
+        badFor:'Players who dislike managing pets or want a simple rotation.' },
+    ],
+    fit:{ yes:['Death/undead class fantasy excites you','You want one of WoW\'s most prized raid utilities (AMZ)','You prefer methodical, powerful melee playstyle','You want strong AoE options'], no:['You want high mobility','You need ranged playstyle','You want simple rotation with low complexity'] },
+    roadmap:['Start Frost — learn Pillar of Frost windows and how to pool Runic Power before burst.','Install an AMZ positioning WA — knowing when and where to drop it is huge mythic value.','Graduate to Unholy for AoE-heavy mythic bosses — pet timing and disease uptime are key.',
+      'Study logs for Runic Power capping (the biggest DPS loss for new DKs).','Learn the M+ utility toolkit: Death Grip, Chains of Ice — they\'re some of the best M+ tools.'],
+    addons:['WeakAuras (Runic Power tracker)','Details!','DBM/BigWigs','OmniCD','GTFO'],
+    scores:{
+      range:{melee:3,any:1}, complexity:{planned:2,complex:2,reactive:1},
+      fantasy:{death:3}, resource:{builder:2,pets:2,dots:2},
+      mobility:{turret:2,balanced:1}, visual:{epic:3,clean:1},
+      spec_variety:{moderate:2,focused:2}, raid_role:{pure:2,utility:2,execute:2},
+      vibe:{cool:3,perfect:2},
+      aoe:{st:3,aoe:3,both:3}, meta:{meta:2,flex:2,love:2},
+      defensives:{high:2,medium:2,low:1,ignore:1}, content:{raid:3,mplus:2,both_content:2,solo:1},
+      rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:3,many:2,love_cd:2},
+      pacing:{slow:3,medium_pace:2,fast:1}, utility_val:{dmg:2,both_util:3,util:2},
+      pets_feel:{love_pets:2,ok_pets:2,no_pets:1}, mastery:{deep:2,medium_mastery:3,easy:1},
+      guild_value:{anchor:2,swiss:3,caller:2,expert:2}
+    }
+  },
+  {
+    name:'Hunter', icon:'🏹', bg:'rgba(80,180,100,0.12)', border:'rgba(80,180,100,0.3)', matchColor:'#4ab070',
+    why:'Uniquely versatile across all three DPS archetypes. BM is one of the most mobile DPS specs in WoW — near-full damage while moving, making it invaluable on movement-heavy mythic fights. MM offers a sniper fantasy with Aimed Shot satisfaction and cleave via Trick Shots. Survival is a melee hunter outlier with bombs and traps for a completely unique identity. All three bring Misdirection — a staple M+ utility.',
+    specs:[
+      { name:'Beast Mastery', mythic:'A', mplus:'S', complexity:2, mobility:5, aoe:4, st:4,
+        desc:'Maximum mobility, pet management, Kill Command focus. Accessible floor, relevant ceiling. Dominates movement-heavy fights.',
+        goodFor:'Players who want the most mobile DPS in WoW and an accessible entry point to high performance.',
+        badFor:'Players who want a high complexity ceiling — BM has a relatively low skill ceiling vs other specs.' },
+      { name:'Marksmanship', mythic:'A', mplus:'A', complexity:3, mobility:2, aoe:4, st:5,
+        desc:'Aimed Shot precision, Trick Shots AoE, Volley. Less mobile but more skill expression.',
+        goodFor:'Players who want sniper fantasy, cleave moments, and a more complex rotation than BM.',
+        badFor:'Players who need to move constantly — MM suffers more from movement than BM.' },
+      { name:'Survival', mythic:'B', mplus:'A', complexity:4, mobility:3, aoe:4, st:3,
+        desc:'Melee hunter with bombs, Wildfire Bomb, Kill Command — a completely unique identity.',
+        goodFor:'Players who want a truly different melee identity with bombs, traps, and a Mongoose Bite combo.',
+        badFor:'Players who expected a ranged hunter — Survival is fully melee.' },
+    ],
+    fit:{ yes:['You want maximum mobility in a raid','You love the beast/nature fantasy','Accessibility to competence matters (BM)','You want versatility across all three DPS archetypes'], no:['You want the highest possible damage ceiling','You want zero pet management','You want a melee-only or caster-only identity (Survival bridges both)'] },
+    roadmap:['Start BM — learn the focus economy and pet management, get competitive fast.','Set up Misdirection macro on your tank immediately — it\'s expected utility in M+.','Once proficient in BM, learn MM for single-target mythic boss fights.',
+      'Practice Survival in M+ to understand the melee hunter identity before committing to raid.','Focus on movement optimization — Hunters\' value multiplies on fights where other classes lose damage moving.'],
+    addons:['WeakAuras (Focus tracker)','Details!','DBM/BigWigs','OmniCD','Angry Keystones (M+)'],
+    scores:{
+      range:{ranged:2,melee:1,any:2}, complexity:{simple:2,reactive:2,planned:2},
+      fantasy:{nature:3}, resource:{pets:3,cooldown:2,builder:1},
+      mobility:{mobile:3,balanced:2}, visual:{primal:2,flashy:1,clean:1},
+      spec_variety:{huge:3,moderate:1}, raid_role:{execute:2,utility:2,pure:1},
+      vibe:{flow:2,cool:2,chaos:1},
+      aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:3,love:2},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:2,mplus:3,both_content:3,solo:2},
+      rng:{love_rng:2,some_rng:3,no_rng:2}, cooldowns:{few:2,medium_cd:2,many:2,love_cd:1},
+      pacing:{slow:1,medium_pace:3,fast:2}, utility_val:{dmg:2,both_util:3,util:1},
+      pets_feel:{love_pets:3,ok_pets:2,no_pets:1}, mastery:{deep:2,medium_mastery:3,easy:2},
+      guild_value:{anchor:2,swiss:2,caller:1,expert:2}
+    }
+  },
+  {
+    name:'Demon Hunter', icon:'😤', bg:'rgba(255,80,80,0.12)', border:'rgba(255,80,80,0.3)', matchColor:'#e05050',
+    why:'Havoc is the definitive "cool factor" melee spec — double jumps, Metamorphosis, fel-green Eye Beam, Vengeful Retreat. The rotation is reactive and satisfying without being overwhelming, making it accessible for newcomers while still rewarding mastery. Only one DPS spec (Havoc), so spec-switching doesn\'t apply — you commit fully to one identity and perfect it. Consistent S/A-tier mythic raid presence historically.',
+    specs:[
+      { name:'Havoc', mythic:'A', mplus:'S', complexity:3, mobility:5, aoe:5, st:4,
+        desc:'Metamorphosis burst, Eye Beam AoE, Fel Rush + Vengeful Retreat mobility — the most cinematic melee spec.',
+        goodFor:'Players who want maximum mobility, flashy visuals, and a rewarding but accessible rotation.',
+        badFor:'Players who want multiple specs to explore or a heavy single-target focus spec.' },
+    ],
+    fit:{ yes:['Cool factor is your primary driver','You want the most mobile melee spec','You prefer mastering one spec deeply','AoE/M+ performance is critical to you'], no:['You want multiple DPS spec options','You want the deepest possible skill ceiling (DH is mid-complexity)','You prefer ranged playstyle'] },
+    roadmap:['Learn the Metamorphosis window: pre-pool Fury, align with lust, use Eye Beam for Demonic buff.','Set up mobility macros: Fel Rush + Vengeful Retreat back-to-back for repositioning.',
+      'Study The Hunt vs other openers — opener optimization is significant for DH.','Track Fury capping in logs — that\'s the #1 DPS loss for Havoc players.',
+      'Push high M+ keys — DH is arguably the best M+ melee spec and your reputation will grow fast.'],
+    addons:['WeakAuras (Fury tracker, Metamorphosis timer)','Details!','DBM/BigWigs','OmniCD','MythicDungeonTools'],
+    scores:{
+      range:{melee:3,any:1}, complexity:{reactive:3,simple:2},
+      fantasy:{fel:3,warrior:1}, resource:{cooldown:3,builder:1},
+      mobility:{mobile:3}, visual:{flashy:3,epic:3},
+      spec_variety:{focused:3}, raid_role:{pure:2,execute:2},
+      vibe:{cool:3,flow:2},
+      aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:2,love:2},
+      defensives:{high:1,medium:2,low:2,ignore:2}, content:{raid:2,mplus:3,both_content:3,solo:1},
+      rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:3,medium_cd:2,many:1,love_cd:1},
+      pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:3,both_util:2,util:1},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:2,medium_mastery:2,easy:2},
+      guild_value:{anchor:3,swiss:1,caller:2,expert:2}
+    }
+  },
+  {
+    name:'Shaman', icon:'⚡', bg:'rgba(60,180,220,0.12)', border:'rgba(60,180,220,0.3)', matchColor:'#3cb4dc',
+    why:'The ultimate utility DPS. Bloodlust, interrupt, Ancestral Guidance, Wind Rush Totem, capacitor totem — Shaman brings value to a raid beyond what most classes can match. Elemental and Enhancement share elemental identity but feel completely different in execution — turret caster vs fluid melee spell-weaver. If you want your raid contribution to go far beyond your damage numbers, Shaman is the answer.',
+    specs:[
+      { name:'Elemental', mythic:'B', mplus:'A', complexity:4, mobility:2, aoe:4, st:4,
+        desc:'Stormkeeper burst, Lava Burst + Lightning Bolt weaving, Primordial Wave — solid sustained damage.',
+        goodFor:'Players who want a caster with strong utility and a methodical, satisfying rotation.',
+        badFor:'Players who need high mobility — Elemental is a turret caster on priority casts.' },
+      { name:'Enhancement', mythic:'A', mplus:'S', complexity:5, mobility:3, aoe:5, st:4,
+        desc:'Melee spell-weaver — Maelstrom stacks, lightning shields, feral spirit. One of the most complex melee rotations.',
+        goodFor:'Players who love chaos-adjacent rotations, fast pacing, and hybrid melee/caster playstyle.',
+        badFor:'Players who want a simple rotation — Enhancement has one of the highest rotational complexities in WoW.' },
+    ],
+    fit:{ yes:['You want to provide Bloodlust — permanent guild value','You love elemental/nature fantasy','You\'re ok being valued for utility, not just damage','You want melee AND ranged options in same class'], no:['You want the highest raw DPS ceiling','You hate managing totems and utility','You want purely visual-spectacle gameplay'] },
+    roadmap:['Learn Elemental first — understand Lava Surge procs and Stormkeeper alignment.','Master the totem toolkit: when to drop Capacitor Totem, Wind Rush, Earthen Wall in raid.',
+      'Learn Enhancement\'s Maelstrom spending priority — it\'s overwhelming at first, then becomes flow state.','Use WeakAuras to track all Shaman procs simultaneously — the stack gets complex.',
+      'Position yourself as the Bloodlust coordinator for your raid group — takes pressure off officers.'],
+    addons:['WeakAuras (Enhancement priority stack)','Details!','DBM/BigWigs','OmniCD','Totem Plates'],
+    scores:{
+      range:{ranged:2,melee:2,any:3}, complexity:{reactive:3,complex:2},
+      fantasy:{elemental:3}, resource:{builder:2,cooldown:2,dots:1},
+      mobility:{balanced:2,turret:1}, visual:{flashy:2,primal:2,epic:1},
+      spec_variety:{moderate:3}, raid_role:{support:3,utility:3},
+      vibe:{chaos:2,flow:2,perfect:1},
+      aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:2,love:1},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:2,mplus:3,both_content:3,solo:2},
+      rng:{love_rng:2,some_rng:3,no_rng:1}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:3},
+      pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:1,both_util:2,util:3},
+      pets_feel:{love_pets:2,ok_pets:2,no_pets:1}, mastery:{deep:3,medium_mastery:2,easy:1},
+      guild_value:{anchor:1,swiss:3,caller:2,expert:2}
+    }
+  },
+  {
+    name:'Druid', icon:'🌿', bg:'rgba(80,180,80,0.12)', border:'rgba(80,180,80,0.3)', matchColor:'#4ab040',
+    why:'The shapeshifter fantasy fully realized. Balance moonkin brings celestial AoE power and Eclipse cycle management. Feral delivers Rogue-adjacent satisfaction through stealth, combo points, and one of the most demanding bleed-uptime rotations in melee. Both specs carry emergency off-healing capability in dire situations — a genuine progression night lifesaver when healers go down.',
+    specs:[
+      { name:'Balance', mythic:'A', mplus:'A', complexity:4, mobility:2, aoe:5, st:4,
+        desc:'Eclipse cycles, Starsurge vs Starfall decision-making, Fury of Elune cooldown. Excellent AoE burst.',
+        goodFor:'Players who love managing cyclical systems and delivering massive AoE windows.',
+        badFor:'Players who need mobility — Balance is largely a turret for priority casts.' },
+      { name:'Feral', mythic:'B', mplus:'A', complexity:5, mobility:3, aoe:3, st:5,
+        desc:'Rip + Rake bleed uptime, Bloodtalons proc, Adaptive Swarm — one of WoW\'s hardest melee specs.',
+        goodFor:'Players who want the ultimate melee mastery challenge and love stealth/precision fantasy.',
+        badFor:'Players who want accessible floor performance — Feral has a harsh punishment for mistakes.' },
+    ],
+    fit:{ yes:['Nature/shapeshifter fantasy is your dream','You want emergency off-healing capability','You love methodical, complex rotations','You want strong AoE (Balance)'], no:['You want simple, explosive gameplay','You want multiple ranged-only options','Feral\'s high complexity/skill floor is daunting'] },
+    roadmap:['Start Balance — Eclipse cycle is learnable in a day, and Starsurge vs Starfall decision becomes intuitive.','Learn Innervate targeting — giving it to your healers at the right moment is significant raid value.','Graduate to Feral once you understand raid mechanics — the rotation requires fight knowledge to execute well.',
+      'For Feral: prioritize Rake, Rip, and Bloodtalons — these are 80% of your optimization surface.','Study top Feral logs on Warcraftlogs — the gap between average and excellent Feral is enormous and educational.'],
+    addons:['WeakAuras (Eclipse + Feral DoT tracker)','Details!','DBM/BigWigs','OmniCD','DruidBar'],
+    scores:{
+      range:{ranged:2,melee:2,any:3}, complexity:{complex:3,planned:2},
+      fantasy:{nature:3}, resource:{dots:3,builder:3},
+      mobility:{balanced:2,mobile:1}, visual:{primal:3,epic:1},
+      spec_variety:{moderate:2,huge:1}, raid_role:{support:2,utility:2,pure:1},
+      vibe:{chaos:2,perfect:2},
+      aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:2,love:2},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:2,mplus:2,both_content:3,solo:2},
+      rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:2},
+      pacing:{slow:2,medium_pace:2,fast:3}, utility_val:{dmg:1,both_util:3,util:2},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:2}, mastery:{deep:3,medium_mastery:2,easy:1},
+      guild_value:{anchor:2,swiss:2,caller:1,expert:3}
+    }
+  },
+  {
+    name:'Monk', icon:'👊', bg:'rgba(60,200,160,0.12)', border:'rgba(60,200,160,0.3)', matchColor:'#3cc8a0',
+    why:'Windwalker is the purest martial arts fantasy in WoW — fast, fluid, and deeply satisfying once mastered. The Storm, Earth & Fire cooldown creates one of the most visually spectacular melee moments in the game. The chi builder-spender system rewards smooth rotation execution and becomes genuine flow state at high skill. Ring of Peace and Leg Sweep make Windwalker one of melee\'s best utility providers for mythic mechanics.',
+    specs:[
+      { name:'Windwalker', mythic:'A', mplus:'S', complexity:4, mobility:3, aoe:4, st:4,
+        desc:'SEF + Invoke Xuen burst, chi building, fast-paced weaving. Ring of Peace is invaluable on specific mythic mechanics.',
+        goodFor:'Flow-state seekers who want a fast, fluid melee rotation and satisfying burst windows.',
+        badFor:'Players who want multiple DPS specs — Monk only has Windwalker for damage.' },
+    ],
+    fit:{ yes:['Martial arts fantasy resonates strongly','You want fast, fluid button pressing','Utility (Ring of Peace, Leg Sweep) excites you','You want to become an expert in one deep spec'], no:['You want ranged options','You want multiple DPS specs to explore','You prefer slow, methodical combat pacing'] },
+    roadmap:['Learn chi generation and spending — never overcap chi, never waste generators.','Set up the SEF WA — Storm, Earth & Fire clone management is critical for burst alignment.','Practice Ring of Peace — being the person who saves a pull with a well-timed RoP makes you irreplaceable.',
+      'Focus on M+ first — WW shines in keys and it\'s the fastest path to building rotation fluency.','Graduate to raid with clean logs: WW players are judged harshly on chi capping in warcraftlogs.'],
+    addons:['WeakAuras (Chi tracker, SEF timer)','Details!','DBM/BigWigs','OmniCD','Plater (nameplates)'],
+    scores:{
+      range:{melee:3,any:1}, complexity:{reactive:2,complex:2,planned:2},
+      fantasy:{monk:3}, resource:{builder:3,cooldown:2},
+      mobility:{mobile:3,balanced:1}, visual:{clean:3,flashy:1},
+      spec_variety:{focused:3}, raid_role:{utility:3,execute:1},
+      vibe:{flow:3,perfect:2},
+      aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:2,love:2},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:2,mplus:3,both_content:3,solo:1},
+      rng:{love_rng:1,some_rng:3,no_rng:2}, cooldowns:{few:1,medium_cd:3,many:2,love_cd:2},
+      pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:2,both_util:3,util:2},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:2,medium_mastery:3,easy:1},
+      guild_value:{anchor:2,swiss:2,caller:2,expert:3}
+    }
+  },
+  {
+    name:'Warrior', icon:'🪖', bg:'rgba(220,180,60,0.12)', border:'rgba(220,180,60,0.3)', matchColor:'#c8a030',
+    why:'The pure melee archetype — no pets, no DoTs, no complex resource systems. Arms rewards precise cooldown timing and Mortal Strike application, with some of WoW\'s most satisfying execute gameplay below 20% HP. Fury is a dual-wield frenzy machine built for sustained AoE via Whirlwind and Bladestorm. Both specs bring Rallying Cry — a genuine emergency raid defensive cooldown that can save wipes.',
+    specs:[
+      { name:'Arms', mythic:'A', mplus:'B', complexity:3, mobility:2, aoe:3, st:5,
+        desc:'Mortal Strike, Colossus Smash windows, Execute fantasy. Methodical and rewarding on ST-heavy fights.',
+        goodFor:'Players who love precise cooldown alignment, strong single-target, and execute phase fantasy.',
+        badFor:'Players who want AoE-heavy content — Arms is single-target focused.' },
+      { name:'Fury', mythic:'A', mplus:'A', complexity:3, mobility:2, aoe:4, st:4,
+        desc:'Dual-wield Enrage frenzy, Rampage as spender, Bladestorm AoE. More forgiving, excellent sustained damage.',
+        goodFor:'Players who want consistent sustained damage without the precise timing requirements of Arms.',
+        badFor:'Players who want the highest skill ceiling — Fury has a lower complexity ceiling than Arms.' },
+    ],
+    fit:{ yes:['Pure warrior/strength fantasy resonates','You want an accessible but effective rotation','Execute phase gameplay excites you','You want no pets or complex resource systems'], no:['You want mobility','You want ranged options','You want multiple very different specs'] },
+    roadmap:['Start Fury — more forgiving Rage management and clear rotation structure.','Learn Rallying Cry timing — know which boss abilities to cover and communicate with your healing lead.',
+      'Graduate to Arms for single-target mythic bosses — the CS window optimization is learnable in a week.','Track Rage capping in logs — the most common Warrior DPS loss for all skill levels.',
+      'Arms Execute: practice the sub-20% transition — knowing when to shift priorities takes raid experience.'],
+    addons:['WeakAuras (Colossus Smash timer, Enrage tracker)','Details!','DBM/BigWigs','OmniCD','GTFO'],
+    scores:{
+      range:{melee:3,any:1}, complexity:{reactive:2,simple:2,planned:1},
+      fantasy:{warrior:3}, resource:{cooldown:2,builder:2},
+      mobility:{mobile:2,balanced:1}, visual:{flashy:2,clean:2},
+      spec_variety:{moderate:2}, raid_role:{pure:2,utility:1,execute:3},
+      vibe:{flow:2,cool:2,chaos:1},
+      aoe:{st:3,aoe:2,both:2}, meta:{meta:2,flex:2,love:2},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:3,mplus:2,both_content:2,solo:1},
+      rng:{love_rng:1,some_rng:2,no_rng:3}, cooldowns:{few:2,medium_cd:2,many:1,love_cd:1},
+      pacing:{slow:2,medium_pace:3,fast:1}, utility_val:{dmg:3,both_util:2,util:1},
+      pets_feel:{love_pets:1,ok_pets:1,no_pets:3}, mastery:{deep:2,medium_mastery:2,easy:2},
+      guild_value:{anchor:3,swiss:1,caller:2,expert:2}
+    }
+  },
+  {
+    name:'Paladin', icon:'✨', bg:'rgba(255,160,200,0.12)', border:'rgba(255,160,200,0.3)', matchColor:'#e070a0',
+    why:'Retribution brings the holy melee fantasy with some of the most powerful group utility in the game. Blessings (Sacrifice, Protection), Lay on Hands, off-healing, and massive defensive cooldowns mean you\'re never just a DPS player — you\'re a raid safety net. The Holy Power builder-spender rotation is accessible but rewards cooldown alignment mastery. Historically one of the most-wanted DPS specs for guild rosters due to utility value.',
+    specs:[
+      { name:'Retribution', mythic:'A', mplus:'A', complexity:3, mobility:2, aoe:3, st:4,
+        desc:'Holy power build-spend, Templar\'s Verdict / Divine Storm, massive burst with Avenging Wrath.',
+        goodFor:'Players who want to feel genuinely indispensable for raid utility beyond their DPS number.',
+        badFor:'Players who want to be the pure damage anchor — Ret trades some damage ceiling for utility.' },
+    ],
+    fit:{ yes:['You want to be a raid utility Swiss army knife','Holy/light fantasy resonates','You want accessible rotation with growing reward','Lay on Hands emergency saves excite you'], no:['You want multiple DPS specs','You want the highest possible damage ceiling','You want high mobility'] },
+    roadmap:['Learn Blessing of Protection usage — rotating it on the tank during bleeds/physical mechanics is enormous value.','Master Avenging Wrath alignment: always pair with lust, trinkets, and raid cooldowns for maximum burst.',
+      'Learn Lay on Hands timing — saving a healer or tank in a wipe pull can turn into a kill.','Study the Holy Power generation — never cap, never dump without a proc available.',
+      'Track your utility usage in logs — many Ret players are undervalued because their utility is invisible.'],
+    addons:['WeakAuras (Holy Power tracker, Avenging Wrath)','Details!','DBM/BigWigs','OmniCD','Plater'],
+    scores:{
+      range:{melee:3,any:1}, complexity:{simple:2,reactive:2},
+      fantasy:{arcane:1,warrior:1}, resource:{builder:3,cooldown:2},
+      mobility:{turret:2,balanced:2}, visual:{epic:2,flashy:2},
+      spec_variety:{focused:3}, raid_role:{support:3,utility:3,execute:1},
+      vibe:{cool:2,flow:2},
+      aoe:{st:3,aoe:2,both:2}, meta:{meta:2,flex:3,love:2},
+      defensives:{high:3,medium:2,low:1,ignore:1}, content:{raid:3,mplus:2,both_content:2,solo:1},
+      rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:2,medium_cd:2,many:2,love_cd:1},
+      pacing:{slow:2,medium_pace:3,fast:1}, utility_val:{dmg:1,both_util:2,util:3},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:1,medium_mastery:3,easy:2},
+      guild_value:{anchor:2,swiss:3,caller:2,expert:2}
+    }
+  },
+  {
+    name:'Evoker', icon:'🐉', bg:'rgba(60,220,180,0.12)', border:'rgba(60,220,180,0.3)', matchColor:'#3cd8b0',
+    why:'WoW\'s newest class with mechanics that exist nowhere else. Devastation charges abilities by holding the keybind — a genuinely unique input mechanic that creates satisfying skill expression. Augmentation is the only support DPS spec in WoW: you exist to amplify your guild\'s best players, with logs that look completely different from every other class (your value shows in teammates\' numbers, not yours). If you want to stand completely apart, Evoker is the answer.',
+    specs:[
+      { name:'Devastation', mythic:'A', mplus:'A', complexity:4, mobility:3, aoe:4, st:5,
+        desc:'Empowered spells via hold-casting, Dragonrage burst, Eternity Surge AoE — mid-range caster fantasy.',
+        goodFor:'Players who want a unique input mechanic, dragon fantasy, and satisfying empowered spellcasting.',
+        badFor:'Players who want pure long-range caster — Evoker has limited range (25 yards).' },
+      { name:'Augmentation', mythic:'S', mplus:'S', complexity:5, mobility:3, aoe:5, st:4,
+        desc:'Support DPS — Prescience, Ebon Might, Breath of Eons amplify your teammates. Your logs measure buffs given, not raw damage.',
+        goodFor:'Players who want to be the most unique DPS in WoW and find joy in enabling others\' performance.',
+        badFor:'Players who want their damage to be directly visible — Augmentation\'s value is indirect by design.' },
+    ],
+    fit:{ yes:['You want to play something completely unique','Dragon fantasy is genuinely exciting to you','You want the most valued support DPS in WoW','Augmentation\'s indirect value appeals to you'], no:['You want to top damage meters directly','You want long-range caster fantasy (Evoker is 25yd range)','Simple or familiar class mechanics appeal more'] },
+    roadmap:['Start Devastation — learn the Dragonrage window and empowered spell timing.',
+      'Practice empowered cast queuing: queue your next spell while a charged cast is releasing.',
+      'If taking Augmentation, study the Ebon Might target priority — you always buff your highest DPS players.',
+      'For Aug: track uptime on your Ebon Might in logs — that\'s 90% of your optimization surface.',
+      'Communicate with your raid lead about Augmentation\'s value — most guilds now understand it, but you\'ll need to educate some.'],
+    addons:['WeakAuras (Empower charge tracker, Ebon Might targets)','Details! (Aug mode)','DBM/BigWigs','OmniCD','Exorsus Raid Tools'],
+    scores:{
+      range:{ranged:2,any:2}, complexity:{planned:3,complex:2},
+      fantasy:{arcane:2,elemental:2}, resource:{cooldown:3,builder:2},
+      mobility:{mobile:2,balanced:2}, visual:{epic:3,flashy:2},
+      spec_variety:{huge:3,moderate:1}, raid_role:{support:3,pure:2},
+      vibe:{cool:3,perfect:2,chaos:1},
+      aoe:{st:3,aoe:3,both:3}, meta:{meta:3,flex:2,love:1},
+      defensives:{high:1,medium:2,low:2,ignore:1}, content:{raid:3,mplus:3,both_content:3,solo:1},
+      rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:3},
+      pacing:{slow:1,medium_pace:3,fast:2}, utility_val:{dmg:1,both_util:2,util:3},
+      pets_feel:{love_pets:1,ok_pets:2,no_pets:2}, mastery:{deep:3,medium_mastery:2,easy:1},
+      guild_value:{anchor:2,swiss:2,caller:2,expert:3}
+    }
+  }
+];
+
+// ──────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────
+let current = 0;
+let answers = {};
+
+// ──────────────────────────────────────────────────────
+// QUIZ RENDER
+// ──────────────────────────────────────────────────────
+function startQuiz() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const pct = ((current + 1) / questions.length) * 100;
+
+  document.getElementById('qLabel').textContent = `Question ${current + 1} of ${questions.length}`;
+  document.getElementById('qCounter').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qText').textContent = q.text;
+
+  // Section divider
+  const secDiv = document.getElementById('sectionDivider');
+  const sec = SECTIONS.find(s => s.at === current);
+  if (sec) {
+    secDiv.style.display = 'flex';
+    document.getElementById('sIcon').textContent = sec.icon;
+    document.getElementById('sTitle').textContent = sec.title;
+    document.getElementById('sDesc').textContent = sec.desc;
+  } else {
+    secDiv.style.display = 'none';
+  }
+
+  const grid = document.getElementById('optsGrid');
+  const colClass = q.cols === 3 ? 'options-grid cols-3' : q.cols === 1 ? 'options-grid cols-1' : 'options-grid';
+  grid.className = colClass;
+  grid.innerHTML = '';
+
+  q.options.forEach(opt => {
+    const div = document.createElement('div');
+    div.className = 'opt' + (answers[q.id] === opt.val ? ' selected' : '');
+    div.innerHTML = `<span class="opt-icon">${opt.icon}</span><div class="opt-title">${opt.title}</div><div class="opt-desc">${opt.desc}</div>`;
+    div.addEventListener('click', () => selectOpt(opt.val, opt.title));
+    grid.appendChild(div);
+  });
+
+  document.getElementById('backBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = !answers[q.id];
+  document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'See deep analysis →' : 'Next →';
+}
+
+function selectOpt(val, title) {
+  answers[questions[current].id] = val;
+  document.querySelectorAll('.opt').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('.opt-title').textContent === title);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function goNext() {
+  if (current === questions.length - 1) { showResults(); return; }
+  current++;
+  renderQuestion();
+}
+
+function goBack() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+// ──────────────────────────────────────────────────────
+// SCORING
+// ──────────────────────────────────────────────────────
+function calcScores() {
+  return classes.map(cls => {
+    let score = 0, maxPossible = 0;
+    Object.entries(answers).forEach(([qid, val]) => {
+      const qScores = cls.scores[qid];
+      if (!qScores) return;
+      const maxQ = Math.max(...Object.values(qScores));
+      maxPossible += maxQ;
+      score += qScores[val] || 0;
+    });
+    const pct = maxPossible > 0 ? Math.round((score / maxPossible) * 100) : 0;
+    return { ...cls, score, pct };
+  }).sort((a, b) => b.pct - a.pct);
+}
+
+function getTierColor(tier) {
+  return { S:'tier-S', A:'tier-A', B:'tier-B', C:'tier-C' }[tier] || 'tier-C';
+}
+
+function ratingBar(value, max, color) {
+  const pct = (value / max) * 100;
+  return `<div class="rating-bar"><div class="rating-fill" style="width:0%;background:${color}" data-target="${pct}"></div></div>`;
+}
+
+// ──────────────────────────────────────────────────────
+// RESULTS
+// ──────────────────────────────────────────────────────
+function showResults() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  const ranked = calcScores();
+  const top3 = ranked.slice(0, 3);
+  const cards = document.getElementById('classCards');
+  cards.innerHTML = '';
+
+  top3.forEach((cls, i) => {
+    const isTop = i === 0;
+
+    // Build spec cards
+    const specCardsHTML = cls.specs.map(spec => `
+      <div class="spec-card">
+        <div class="spec-card-name">${spec.name}</div>
+        <div class="spec-tiers">
+          <span class="tier-badge ${getTierColor(spec.mythic)}">Mythic ${spec.mythic}</span>
+          <span class="tier-badge ${getTierColor(spec.mplus)}">M+ ${spec.mplus}</span>
+        </div>
+        <div class="spec-stats">
+          <div class="spec-stat">Complexity: <strong>${'★'.repeat(spec.complexity)}${'☆'.repeat(5-spec.complexity)}</strong></div>
+          <div class="spec-stat">Mobility: <strong>${'★'.repeat(spec.mobility)}${'☆'.repeat(5-spec.mobility)}</strong></div>
+          <div class="spec-stat">AoE: <strong>${'★'.repeat(spec.aoe)}${'☆'.repeat(5-spec.aoe)}</strong></div>
+          <div class="spec-stat">Single Target: <strong>${'★'.repeat(spec.st)}${'☆'.repeat(5-spec.st)}</strong></div>
+        </div>
+        <div class="spec-card-desc">${spec.desc}</div>
+      </div>
+    `).join('');
+
+    // Fit analysis
+    const fitHTML = `
+      <div class="fit-grid">
+        <div class="fit-box yes">
+          <h4>✓ Perfect for you if...</h4>
+          <ul>${cls.fit.yes.map(f => `<li>${f}</li>`).join('')}</ul>
+        </div>
+        <div class="fit-box no">
+          <h4>✗ Avoid if...</h4>
+          <ul>${cls.fit.no.map(f => `<li>${f}</li>`).join('')}</ul>
+        </div>
+      </div>
+    `;
+
+    // Roadmap
+    const roadmapHTML = `
+      <div class="roadmap">
+        <h4>🗺️ Your learning roadmap</h4>
+        <div class="roadmap-steps">
+          ${cls.roadmap.map((step, si) => `
+            <div class="roadmap-step">
+              <div class="step-num">${si + 1}</div>
+              <div class="step-text">${step}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="addons-row">
+          <div class="specs-section-label" style="margin-top:14px;margin-bottom:8px;">Essential addons</div>
+          ${cls.addons.map(a => `<span class="addon-pill">${a}</span>`).join('')}
+        </div>
+      </div>
+    `;
+
+    // Aggregate ratings
+    const avgComplexity = Math.round(cls.specs.reduce((s,sp) => s + sp.complexity, 0) / cls.specs.length);
+    const avgMobility   = Math.round(cls.specs.reduce((s,sp) => s + sp.mobility,   0) / cls.specs.length);
+
+    const card = document.createElement('div');
+    card.className = 'class-card' + (isTop ? ' top' : '');
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="class-icon-lg" style="background:${cls.bg};border:1px solid ${cls.border};">${cls.icon}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+            <span class="class-name">${cls.name}</span>
+            ${isTop ? '<span class="top-badge">Best match</span>' : ''}
+          </div>
+          <div class="match-row">
+            <div class="match-bar"><div class="match-fill" style="width:0%;background:${cls.matchColor};" data-target="${cls.pct}"></div></div>
+            <span class="match-pct" style="color:${cls.matchColor}">${cls.pct}%</span>
+          </div>
+          <div class="ratings-grid" style="margin-top:12px;">
+            <div class="rating-item">
+              <span class="rating-label">Complexity</span>
+              ${ratingBar(avgComplexity, 5, cls.matchColor)}
+              <span class="rating-val" style="color:${cls.matchColor}">${avgComplexity}/5</span>
+            </div>
+            <div class="rating-item">
+              <span class="rating-label">Mobility</span>
+              ${ratingBar(avgMobility, 5, cls.matchColor)}
+              <span class="rating-val" style="color:${cls.matchColor}">${avgMobility}/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-why">${cls.why}</div>
+        <div class="specs-section-label">Spec breakdown</div>
+        <div class="spec-cards">${specCardsHTML}</div>
+        ${fitHTML}
+        ${roadmapHTML}
+      </div>
+    `;
+    cards.appendChild(card);
+  });
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.match-fill, .rating-fill').forEach(bar => {
+      bar.style.transition = 'width 0.9s ease';
+      bar.style.width = bar.dataset.target + '%';
+    });
+  }, 80);
+
+  // Share links
+  const topClass = top3[0].name;
+  const shareText = encodeURIComponent(`I got ${topClass} on the WoW Midnight Premium Class Quiz! Incredibly detailed results.`);
+  const shareUrl = encodeURIComponent(window.location.href);
+  document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Class Quiz — Deep 20-question analysis')}`;
+  document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const c = document.getElementById('copyConfirm');
+    c.style.display = 'block';
+    setTimeout(() => { c.style.display = 'none'; }, 3000);
+  });
+}
+
+function restart() {
+  current = 0;
+  answers = {};
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('hero').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

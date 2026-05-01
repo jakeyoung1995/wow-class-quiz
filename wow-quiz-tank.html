@@ -151,7 +151,7 @@
 <header class="site-header">
   <div class="logo">WoW Class Quiz <span>· Tank</span></div>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">← All Roles</a>
+    <a id="homeLink" href="index.html" class="nav-link">← Home</a>
     <a href="wow-quiz-premium-tank.html" class="nav-link premium">✦ Premium Tank Quiz</a>
   </div>
 </header>
@@ -509,6 +509,16 @@ function restart() {
   document.getElementById('ad-hero').style.display='flex';
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// Smart home link
+(function() {
+  try {
+    const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || '{}');
+    if (d.unlocked && d.expiry > Date.now()) {
+      document.getElementById('homeLink').href = 'wow-quiz-premium-hub.html';
+    }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

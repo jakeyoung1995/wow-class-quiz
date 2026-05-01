@@ -732,7 +732,7 @@ function showResults() {
 
   const topName = top3[0].name;
   const shareText = encodeURIComponent(`I got ${topName} on the WoW Midnight Premium Healer Quiz!`);
-  const shareUrl = encodeURIComponent('https://wow-class.netlify.app/wow-quiz-healer.html');
+  const shareUrl = encodeURIComponent('https://wowclassquiz.com/wow-quiz-healer.html');
   document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Healer Quiz — find your perfect healing spec')}`;
   document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
   window.scrollTo({ top: 0, behavior: 'smooth' });

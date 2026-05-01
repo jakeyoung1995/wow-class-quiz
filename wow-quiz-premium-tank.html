@@ -733,7 +733,7 @@ function showResults() {
 
   const topName = top3[0].name;
   const shareText = encodeURIComponent(`I got ${topName} on the WoW Midnight Premium Tank Quiz!`);
-  const shareUrl = encodeURIComponent('https://wow-class.netlify.app/wow-quiz-tank.html');
+  const shareUrl = encodeURIComponent('https://wowclassquiz.com/wow-quiz-tank.html');
   document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Tank Quiz — find your perfect tank spec')}`;
   document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
   window.scrollTo({ top: 0, behavior: 'smooth' });

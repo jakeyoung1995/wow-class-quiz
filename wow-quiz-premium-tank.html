@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Midnight Premium Tank Quiz — Deep Dive (20 Questions)</title>
+  <meta name="description" content="20-question deep-dive tank quiz for WoW Midnight. Per-spec Mythic & M+ tier ratings, complexity scores, fit analysis, and a personalized learning roadmap for all 6 tank specs.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0f1218;
+      --surf1:     #171d28;
+      --surf2:     #1e2636;
+      --surf3:     #262f42;
+      --surf4:     #2e3a50;
+      --border:    rgba(180,150,70,0.22);
+      --border2:   rgba(200,168,75,0.55);
+      --gold:      #d4aa52;
+      --gold-lt:   #f0cc70;
+      --gold-dk:   #9a7830;
+      --purple:    #9b8fe8;
+      --purple-lt: #c5bcf8;
+      --tank-col:  #6090d8;
+      --tank-lt:   #90b8f8;
+      --teal:      #3dc8a0;
+      --red:       #e05858;
+      --green:     #5aca80;
+      --text:      #f2e8d5;
+      --text2:     #c4a878;
+      --text3:     #8a7860;
+      --radius:    10px;
+      --radius-lg: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 15px; font-weight: 600; color: var(--gold); }
+    .logo span { color: var(--tank-lt); font-size: 12px; font-weight: 400; margin-left: 6px; border: 1px solid var(--tank-col); border-radius: 99px; padding: 2px 9px; }
+    .back-link { font-size: 13px; color: var(--text2); text-decoration: none; }
+    .back-link:hover { color: var(--gold); }
+
+    .container { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+
+    .hero { text-align: center; padding: 56px 0 40px; }
+    .premium-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tank-lt); border: 1px solid var(--tank-col); border-radius: 99px; padding: 4px 16px; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero p { font-size: 16px; color: var(--text2); max-width: 500px; margin: 0 auto 28px; }
+    .feature-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 32px; }
+    .feat { font-size: 13px; padding: 6px 14px; border-radius: 99px; background: var(--surf3); border: 1px solid var(--border); color: var(--text2); }
+    .feat strong { color: var(--gold); font-weight: 600; }
+    .btn-start { display: inline-block; background: var(--tank-col); color: #fff; font-size: 16px; font-weight: 700; padding: 14px 36px; border-radius: 99px; border: none; cursor: pointer; transition: background 0.15s, transform 0.1s; }
+    .btn-start:hover { background: var(--tank-lt); color: #111; transform: scale(1.02); }
+    .hero-sub { margin-top: 16px; font-size: 13px; color: var(--text3); }
+
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .progress-bar { height: 3px; background: var(--surf3); border-radius: 2px; }
+    .progress-fill { height: 3px; background: var(--tank-col); border-radius: 2px; transition: width 0.4s ease; }
+
+    .quiz-section { padding: 20px 0 60px; display: none; }
+    .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 12px 16px; background: rgba(96,144,216,0.08); border: 1px solid rgba(96,144,216,0.2); border-radius: var(--radius); }
+    .section-divider .s-icon { font-size: 20px; }
+    .section-divider h3 { font-size: 14px; font-weight: 600; color: var(--tank-lt); margin-bottom: 1px; }
+    .section-divider p { font-size: 12px; color: var(--text2); }
+
+    .q-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dk); margin-bottom: 8px; }
+    .q-text { font-size: 21px; font-weight: 600; color: #fff; margin-bottom: 24px; line-height: 1.35; }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 28px; }
+    .options-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .options-grid.cols-1 { grid-template-columns: 1fr; }
+
+    .opt { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 15px 17px; cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s; }
+    .opt:hover { border-color: var(--border2); background: var(--surf3); transform: translateY(-1px); }
+    .opt.selected { border: 1.5px solid var(--tank-col); background: rgba(96,144,216,0.1); }
+    .opt-icon { font-size: 20px; margin-bottom: 7px; display: block; }
+    .opt-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .opt.selected .opt-title { color: var(--tank-lt); }
+    .opt-desc { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    .quiz-nav { display: flex; align-items: center; justify-content: space-between; }
+    .btn-nav { padding: 10px 24px; border-radius: 99px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .btn-nav:hover:not(:disabled) { background: var(--surf3); color: var(--text); }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-next { background: var(--tank-col); color: #fff; border-color: var(--tank-col); font-weight: 700; }
+    .btn-next:hover:not(:disabled) { background: var(--tank-lt); color: #111; }
+    .btn-next:disabled { background: var(--surf3); color: var(--text3); border-color: var(--border); }
+
+    .results-section { padding: 20px 0 80px; display: none; }
+    .results-header { margin-bottom: 32px; }
+    .results-header h2 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .results-header p { color: var(--text2); }
+
+    .class-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
+    .class-card.top { border: 1.5px solid var(--gold); }
+
+    .card-header { display: flex; align-items: center; gap: 16px; padding: 20px 22px 16px; border-bottom: 1px solid var(--border); }
+    .class-icon-lg { width: 54px; height: 54px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .class-name { font-size: 20px; font-weight: 700; color: #fff; }
+    .top-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; background: rgba(200,168,75,0.15); color: var(--gold); border: 1px solid var(--gold-dk); margin-left: 8px; }
+    .match-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .match-bar { flex: 1; height: 5px; background: var(--surf4); border-radius: 3px; }
+    .match-fill { height: 5px; border-radius: 3px; transition: width 0.9s ease; }
+    .match-pct { font-size: 14px; font-weight: 700; min-width: 40px; text-align: right; }
+
+    .card-body { padding: 18px 22px; }
+    .card-why { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
+
+    /* Tier row */
+    .tier-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .tier-box { background: var(--surf3); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
+    .tier-box-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px; }
+    .tier-badge-lg { font-size: 26px; font-weight: 800; }
+    .tier-S { color: var(--gold); }
+    .tier-A { color: var(--teal); }
+    .tier-B { color: #8abaee; }
+    .tier-C { color: #909090; }
+    .score-bar-wrap { margin-top: 6px; }
+    .score-bar { height: 3px; background: var(--surf4); border-radius: 2px; margin-top: 4px; }
+    .score-fill { height: 3px; border-radius: 2px; background: var(--tank-col); transition: width 0.8s ease; }
+    .score-label { font-size: 10px; color: var(--text3); display: flex; justify-content: space-between; }
+
+    /* Spec cards */
+    .specs-section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; }
+    .spec-desc-box { background: var(--surf3); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 20px; font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+    /* Fit section */
+    .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .fit-box { background: var(--surf3); border-radius: var(--radius); padding: 14px 16px; }
+    .fit-box h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+    .fit-box.yes h4 { color: var(--green); }
+    .fit-box.no h4 { color: var(--red); }
+    .fit-box ul { list-style: none; }
+    .fit-box ul li { font-size: 12px; color: var(--text2); margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.4; }
+    .fit-box.yes ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+    .fit-box.no ul li::before { content: '✗'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+    /* Roadmap */
+    .roadmap { background: var(--surf3); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 20px; }
+    .roadmap h4 { font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 14px; }
+    .roadmap-steps { display: flex; flex-direction: column; gap: 10px; }
+    .roadmap-step { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num { width: 24px; height: 24px; border-radius: 50%; background: rgba(200,168,75,0.15); border: 1px solid var(--gold-dk); color: var(--gold); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .step-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+    .step-text strong { color: var(--text); }
+
+    .addons-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .addon-pill { font-size: 11px; padding: 4px 10px; border-radius: 99px; background: var(--surf4); border: 1px solid var(--border); color: var(--text2); }
+
+    .bottom-actions { margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .share-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .share-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 99px; border: 1px solid var(--border); cursor: pointer; text-decoration: none; background: var(--surf2); color: var(--text); transition: background 0.15s; }
+    .share-btn:hover { background: var(--surf3); }
+    .btn-restart { background: transparent; color: var(--text2); font-size: 13px; border: 1px solid var(--border); border-radius: 99px; padding: 8px 20px; cursor: pointer; }
+    .btn-restart:hover { background: var(--surf2); color: var(--text); }
+    .copy-confirm { font-size: 12px; color: var(--green); display: none; }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .options-grid, .options-grid.cols-3 { grid-template-columns: 1fr; }
+      .fit-grid { grid-template-columns: 1fr; }
+      .tier-row { grid-template-columns: 1fr 1fr 1fr; }
+      .share-btns { flex-direction: column; align-items: center; }
+      .card-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* Gate */
+    .gate-overlay { position: fixed; inset: 0; background: rgba(10,12,18,0.97); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .gate-card { background: var(--surf2); border: 1px solid rgba(96,144,216,0.4); border-radius: 18px; padding: 40px 36px; max-width: 440px; width: 100%; text-align: center; }
+    .gate-icon { font-size: 40px; margin-bottom: 16px; }
+    .gate-card h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .gate-card p { font-size: 14px; color: var(--text2); margin-bottom: 28px; line-height: 1.65; }
+    .gate-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; text-align: left; }
+    .gate-feat { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 10px; }
+    .gate-feat::before { content: '✦'; color: var(--tank-lt); font-size: 11px; flex-shrink: 0; }
+    .gate-btn { display: block; width: 100%; background: var(--tank-col); color: #fff; font-size: 15px; font-weight: 700; padding: 14px; border-radius: 99px; border: none; cursor: pointer; text-decoration: none; transition: background 0.15s; margin-bottom: 16px; }
+    .gate-btn:hover { background: var(--tank-lt); color: #111; }
+    .gate-restore { font-size: 12px; color: var(--text3); }
+    .gate-restore a { color: var(--text2); text-decoration: underline; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-card">
+    <div class="gate-icon">🛡️</div>
+    <h2>Premium Tank Access Required</h2>
+    <p>Get the 20-question deep-analysis tank quiz with spec-by-spec Mythic &amp; M+ tier ratings and your personalized tanking roadmap.</p>
+    <div class="gate-features">
+      <div class="gate-feat">20 questions — double the depth of the free quiz</div>
+      <div class="gate-feat">Per-spec Mythic &amp; M+ tier ratings (S/A/B/C)</div>
+      <div class="gate-feat">Complexity, mobility &amp; self-sufficiency scores</div>
+      <div class="gate-feat">✓ / ✗ fit analysis for every tank spec</div>
+      <div class="gate-feat">Step-by-step learning roadmap to progression tanking</div>
+    </div>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $5 one-time →</a>
+    <div class="gate-restore">Already purchased? <a onclick="restoreAccess()">Click here after buying</a> — works instantly from the link in your confirmation email.</div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="logo">WoW Class Quiz <span>Premium · Tank</span></div>
+  <a href="wow-quiz-premium-hub.html" class="back-link">← Home</a>
+</header>
+
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="premium-badge">🛡️ Premium · 20 Questions · Tank Deep Analysis</div>
+    <h1>Find your <em>perfect</em> WoW Midnight tank.</h1>
+    <p>20 questions. Spec-by-spec tier ratings for all 6 tanks. A personalized roadmap to progression tanking. This is the analysis the free quiz doesn't give you.</p>
+    <div class="feature-grid">
+      <span class="feat"><strong>20</strong> questions</span>
+      <span class="feat"><strong>Mythic + M+</strong> tier ratings per spec</span>
+      <span class="feat"><strong>Complexity</strong> score</span>
+      <span class="feat"><strong>✓ / ✗</strong> fit analysis</span>
+      <span class="feat"><strong>Learning roadmap</strong></span>
+      <span class="feat"><strong>Essential addons</strong> list</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Start Deep Analysis →</button>
+    <div class="hero-sub">All 6 tank specs · ~5 minutes · No account needed</div>
+  </div>
+</section>
+
+<section class="quiz-section container" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="qLabel">Question 1 of 20</span>
+      <span id="qCounter">1 / 20</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
+  </div>
+  <div id="sectionDivider" style="display:none" class="section-divider">
+    <div class="s-icon" id="sIcon"></div>
+    <div><h3 id="sTitle"></h3><p id="sDesc"></p></div>
+  </div>
+  <div class="q-label" id="qCat"></div>
+  <div class="q-text" id="qText"></div>
+  <div class="options-grid" id="optsGrid"></div>
+  <div class="quiz-nav">
+    <button class="btn-nav" id="backBtn" onclick="goBack()" disabled>← Back</button>
+    <button class="btn-nav btn-next" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+  </div>
+</section>
+
+<section class="results-section container" id="results">
+  <div class="results-header">
+    <h2>Your tank deep-dive results</h2>
+    <p>Top 3 tank specs ranked by playstyle match — with full breakdowns</p>
+  </div>
+  <div id="classCards"></div>
+  <div class="bottom-actions">
+    <div class="share-btns">
+      <a class="share-btn" id="shareReddit" href="#" target="_blank" rel="noopener">Share on Reddit</a>
+      <a class="share-btn" id="shareTwitter" href="#" target="_blank" rel="noopener">Share on X</a>
+      <button class="share-btn" onclick="copyLink(event)">📋 Copy link</button>
+    </div>
+    <div class="copy-confirm" id="copyConfirm">✓ Link copied!</div>
+    <button class="btn-restart" onclick="restart()">↺ Retake quiz</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+// ── ACCESS GATE ──────────────────────────────────────────
+const STORAGE_KEY = 'wowquiz_premium_v1';
+const UNLOCK_WORD = 'MIDNIGHT2026';
+
+function dismissGate() {
+  const o = document.getElementById('gateOverlay');
+  if (!o) return;
+  o.style.transition = 'opacity 0.4s';
+  o.style.opacity = '0';
+  setTimeout(() => o.remove(), 420);
+}
+function saveAccess() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expiry: Date.now() + 365*24*60*60*1000 })); } catch(e) {}
+}
+function hasStoredAccess() {
+  try { const d = JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'); return !!(d.unlocked && d.expiry > Date.now()); } catch(e) { return false; }
+}
+function restoreAccess() {
+  if (hasStoredAccess()) { dismissGate(); }
+  else { alert('No purchase found on this browser.\n\nOpen the confirmation email from Gumroad and click the product link — it will unlock access on this device automatically.'); }
+}
+(function checkAccess() {
+  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') { dismissGate(); return; }
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('unlock') === UNLOCK_WORD) { saveAccess(); history.replaceState({}, '', window.location.pathname); dismissGate(); return; }
+  if (hasStoredAccess()) { dismissGate(); return; }
+})();
+
+// ── QUESTIONS (20) ───────────────────────────────────────
+const SECTIONS = [
+  { at: 0, icon: '🛡️', title: 'Section 1: Core Tanking Style', desc: 'Questions 1–9 cover your fundamental tank preferences.' },
+  { at: 9, icon: '🏆', title: 'Section 2: Advanced Tanking Profile', desc: 'Questions 10–20 go deeper into pull style, mastery goals, and content focus.' },
+];
+
+const questions = [
+  // Section 1
+  { id:'philosophy', cat:'Tanking Philosophy', text:'What best describes your tanking philosophy?', cols:2,
+    options:[
+      {icon:'🧱',title:'The immovable wall',    desc:'Take the hit, never flinch — outlast everything thrown at you', val:'wall'},
+      {icon:'⚔️',title:'Aggressive attacker',   desc:'High damage, offensive tanking — threat and DPS in one', val:'attacker'},
+      {icon:'🎛️',title:'Fight controller',      desc:'CC, displacement, managing the entire fight from the front', val:'controller'},
+      {icon:'🩺',title:'Self-sufficient survivor',desc:'Heal myself through anything — I don\'t need my healers nervous', val:'survivor'},
+    ]
+  },
+  { id:'fantasy', cat:'Class Fantasy', text:'Which tank fantasy calls to you?', cols:2,
+    options:[
+      {icon:'💀',title:'Undead juggernaut',      desc:'Death Knight — commanding death itself to protect you', val:'death'},
+      {icon:'😤',title:'Fel-powered demon',      desc:'Demon Hunter — demonic energy, aggressive and offensive', val:'demon'},
+      {icon:'🐻',title:'Primal bear guardian',   desc:'Druid — nature\'s indestructible protector in bear form', val:'nature'},
+      {icon:'👊',title:'Disciplined monk',        desc:'Brewmaster — chi, stagger, monastic combat mastery', val:'monk'},
+      {icon:'✨',title:'Holy crusader',           desc:'Paladin — divine protection, holy power, sacred duty', val:'holy'},
+      {icon:'⚔️',title:'Classic warrior shield',  desc:'Warrior — sword and board, the original tank archetype', val:'warrior'},
+    ]
+  },
+  { id:'mitigation', cat:'Mitigation Style', text:'What mitigation style suits you most?', cols:2,
+    options:[
+      {icon:'🩸',title:'Self-healing',           desc:'I want to heal myself through anything — Death Strike, Frenzied Regen', val:'selfheal'},
+      {icon:'🔄',title:'Active mitigation',      desc:'Shield Block, Ironfur, Purifying Brew — constant button pressing', val:'active'},
+      {icon:'🔮',title:'Absorb shields',         desc:'Pre-emptive shields and absorbs that prevent damage entirely', val:'absorb'},
+      {icon:'💣',title:'Big cooldowns',          desc:'Save major cooldowns for the scary moments — Last Stand, Ardent Defender', val:'cds'},
+    ]
+  },
+  { id:'mobility', cat:'Mobility', text:'How important is mobility to you while tanking?', cols:3,
+    options:[
+      {icon:'🚀',title:'High mobility',     desc:'I want to reposition constantly — Fel Rush, Wild Charge, Roll', val:'mobile'},
+      {icon:'🏰',title:'Stationary is fine',desc:'Plant and tank — I\'ll rely on others for extra movement', val:'stationary'},
+      {icon:'🎭',title:'Balanced',          desc:'Some movement tools without being parkour-dependent', val:'balanced'},
+    ]
+  },
+  { id:'selfsufficiency', cat:'Healer Dependency', text:'How healer-dependent do you want to be?', cols:3,
+    options:[
+      {icon:'🧬',title:'Fully self-sufficient',  desc:'I should be able to survive with minimal healer attention', val:'self'},
+      {icon:'🤝',title:'Balanced partnership',   desc:'Work with the healer — I do my part, they do theirs', val:'balanced'},
+      {icon:'💊',title:'Healer-reliant is fine', desc:'Strong cooldowns and mitigation but I need regular healing', val:'healer_reliant'},
+    ]
+  },
+  { id:'content', cat:'Primary Content', text:'What\'s your primary tanking environment?', cols:3,
+    options:[
+      {icon:'⚔️',title:'Mythic raid',    desc:'Progression tanking — guild kills, raid cooldown management', val:'raid'},
+      {icon:'🏃',title:'Mythic+',        desc:'High-key tanking — pull optimization, routes, pack control', val:'mplus'},
+      {icon:'⚖️',title:'Both equally',  desc:'I need to be excellent in both formats', val:'both'},
+    ]
+  },
+  { id:'cooldowns', cat:'Cooldown Style', text:'What cooldown style appeals to you?', cols:3,
+    options:[
+      {icon:'💣',title:'One massive save',       desc:'One button that stops a wipe — Last Stand, Survival Instincts', val:'oneshot'},
+      {icon:'🔄',title:'Rotation-based',         desc:'Cooldowns woven into rotation — always something available', val:'rotation'},
+      {icon:'⚡',title:'Constant active play',   desc:'High APM, always pressing mitigation — Stagger, Shield Block', val:'constant'},
+    ]
+  },
+  { id:'utility', cat:'Group Utility', text:'What utility toolkit excites you most?', cols:2,
+    options:[
+      {icon:'🧲',title:'Death Grip (DK)',        desc:'Pull enemies to me, Anti-Magic Zone for group magic immunity', val:'grip'},
+      {icon:'🔮',title:'Sigils (DH)',            desc:'Zone-based CC and debuffs — controlling the fight\'s geography', val:'sigils'},
+      {icon:'💨',title:'Mobility / displacement',desc:'Stampeding Roar, Wind Rush — moving the whole group faster', val:'displace'},
+      {icon:'✝️',title:'Blessings & Auras (Pala)',desc:'Aura Mastery, Blessing of Protection — powerful single-target saves', val:'blessings'},
+      {icon:'📣',title:'Shouts & rallies (War)', desc:'Rallying Cry, Commanding Shout — raid-wide buffs and saves', val:'shouts'},
+      {icon:'🦵',title:'Leg Sweep / Ring of Peace',desc:'Mistweaver-style CC — stunning and displacing groups of enemies', val:'cc'},
+    ]
+  },
+  { id:'pacing', cat:'Tanking Pace', text:'What pace of active decision-making do you prefer?', cols:3,
+    options:[
+      {icon:'🧘',title:'Slow & deliberate',  desc:'Make impactful decisions every few seconds — methodical, calculated', val:'slow'},
+      {icon:'🎯',title:'Medium tempo',       desc:'Steady rhythm of mitigation, threat, and utility weaved together', val:'medium'},
+      {icon:'⚡',title:'Fast & reactive',    desc:'Constant inputs, always making micro-decisions — high APM tank', val:'fast'},
+    ]
+  },
+  // Section 2
+  { id:'complexity', cat:'Complexity Tolerance', text:'How complex do you want your tank\'s mechanics to be?', cols:3,
+    options:[
+      {icon:'🎯',title:'Keep it clear',      desc:'Direct and reliable — I want to tank well without deep theory-crafting', val:'simple'},
+      {icon:'⚙️',title:'Medium depth',      desc:'Meaningful decisions but not overwhelming — room to improve', val:'medium'},
+      {icon:'🌀',title:'Deepest mastery',   desc:'Stagger management, active mitigation windows — I want the hardest tank', val:'complex'},
+    ]
+  },
+  { id:'meta', cat:'Meta Awareness', text:'How much does meta strength matter to you?', cols:3,
+    options:[
+      {icon:'📊',title:'Always meta',        desc:'I want the strongest tank spec this tier — invites first', val:'meta'},
+      {icon:'🎖️',title:'Competitive enough',desc:'Within reason — I\'ll play something I enjoy if it\'s still viable', val:'flex'},
+      {icon:'❤️',title:'I play what I love', desc:'The best tank is the one I\'m most comfortable on', val:'love'},
+    ]
+  },
+  { id:'pull_style', cat:'Pull Style', text:'In M+, what\'s your pull philosophy?', cols:3,
+    options:[
+      {icon:'🔥',title:'Big aggressive pulls',  desc:'Stack as much as possible — I\'ll survive it somehow', val:'big'},
+      {icon:'🧩',title:'Calculated pulls',      desc:'Precise routes, pull what I can handle perfectly', val:'calculated'},
+      {icon:'🎓',title:'Learn as I go',         desc:'I\'m still developing my routes — prefer safer pulls', val:'safe'},
+    ]
+  },
+  { id:'defensive_active', cat:'Under Pressure', text:'When a pull goes sideways, what\'s your instinct?', cols:2,
+    options:[
+      {icon:'🛡️',title:'Pop everything and survive',  desc:'Blow all my cooldowns to stay alive — deal with the mess after', val:'defensive'},
+      {icon:'⚔️',title:'Kill it faster',              desc:'Offensive cooldowns — burst the enemies down before they kill me', val:'offensive'},
+      {icon:'🎛️',title:'Reposition and control',      desc:'CC, kite, and reset the pull into something manageable', val:'control'},
+      {icon:'📣',title:'Communicate with the group',  desc:'Coordinate with healer and DPS — get everyone to react', val:'team'},
+    ]
+  },
+  { id:'raid_role', cat:'Raid Contribution', text:'Beyond tanking, what raid role excites you?', cols:2,
+    options:[
+      {icon:'💊',title:'Emergency response',     desc:'The player who can save a wipe with one perfectly timed ability', val:'emergency'},
+      {icon:'📈',title:'Group buffer',            desc:'Passively improving the whole raid\'s performance through my kit', val:'buffer'},
+      {icon:'🧲',title:'Crowd control anchor',   desc:'My CC defines how clean our pulls are every single pull', val:'cc'},
+      {icon:'💣',title:'Offensive threat',        desc:'My DPS and threat generation are always dangerous — never pull off me', val:'threat'},
+    ]
+  },
+  { id:'spec_variety', cat:'Spec Identity', text:'Do you want your tank spec to feel unique in WoW?', cols:3,
+    options:[
+      {icon:'🌍',title:'Totally unique',    desc:'I want a mechanic nobody else has — Stagger, Death Strike loop', val:'unique'},
+      {icon:'🔄',title:'Familiar but deep', desc:'Classic tank feel with meaningful upgrades and decisions', val:'familiar'},
+      {icon:'🎯',title:'Best-in-class',     desc:'I want the archetype done as well as possible — best wall, best CC', val:'best'},
+    ]
+  },
+  { id:'healer_relationship', cat:'Healer Synergy', text:'How do you want to interact with your healer?', cols:3,
+    options:[
+      {icon:'🦸',title:'I make their job easy',   desc:'Predictable mitigation — my healer barely notices I took damage', val:'easy'},
+      {icon:'🤝',title:'Active partnership',       desc:'Coordinate cooldowns, communicate spikes — teamwork is core', val:'partner'},
+      {icon:'🧬',title:'I barely need them',      desc:'Self-sufficient enough that healer can focus on DPS throughput', val:'independent'},
+    ]
+  },
+  { id:'mastery_ceiling', cat:'Mastery Ceiling', text:'What kind of skill ceiling excites you?', cols:3,
+    options:[
+      {icon:'📈',title:'Always room to improve',  desc:'The top tanks of this spec are unreachable — I want that chase', val:'high'},
+      {icon:'✅',title:'Clear mastery milestones', desc:'I want to clearly feel myself getting better — visible improvement', val:'medium'},
+      {icon:'🏁',title:'Solid and learnable',      desc:'Good results within a few weeks — I can focus on the fight, not the spec', val:'low'},
+    ]
+  },
+  { id:'tanking_feel', cat:'Physical Feel', text:'What physical sensation do you want from tanking?', cols:2,
+    options:[
+      {icon:'💥',title:'Feeling every hit',         desc:'Big numbers, reactive healing — I feel the weight of tanking', val:'weight'},
+      {icon:'🌊',title:'Flow state',                desc:'Smooth mitigation rhythm — never a spike, always in control', val:'flow'},
+      {icon:'🔮',title:'Puzzle solving',            desc:'Resource management and optimization is the fun', val:'puzzle'},
+      {icon:'🎸',title:'Chaos and recovery',        desc:'I love pulling too much, then barely surviving — the thrill', val:'chaos'},
+    ]
+  },
+  { id:'progression', cat:'Progression Ambition', text:'What\'s your tanking ambition in Midnight?', cols:3,
+    options:[
+      {icon:'🏆',title:'Cutting Edge raiding',    desc:'World / region rank matters — I want to be one of the best', val:'ce'},
+      {icon:'🎯',title:'Mythic progression',      desc:'Clear mythic content at a reasonable pace without world-first pressure', val:'mythic'},
+      {icon:'🏃',title:'High keys in M+',          desc:'Pushing the highest keys I can — 20+ or bust', val:'highkeys'},
+    ]
+  },
+  { id:'vibe', cat:'Final Vibe', text:'Last one — which describes you best?', cols:2,
+    options:[
+      {icon:'🦾',title:'Unstoppable juggernaut',   desc:'I don\'t die. Ever. That\'s the goal.', val:'immortal'},
+      {icon:'⚔️',title:'Aggressive carry',         desc:'My damage and threat make the group faster — I tank offensively', val:'carry'},
+      {icon:'🎛️',title:'Control freak',            desc:'I own the pull — every enemy goes exactly where I want it', val:'control'},
+      {icon:'🧠',title:'Chess player',             desc:'Perfect cooldown timing and positioning — the thinking-person\'s tank', val:'chess'},
+    ]
+  },
+];
+
+// ── TANK DATA ────────────────────────────────────────────
+const tanks = [
+  {
+    name: 'Blood Death Knight',
+    icon: '💀', bg: 'rgba(160,30,30,0.12)', border: 'rgba(200,50,50,0.35)', matchColor: '#e05858',
+    tiers: { mythic: 'A', mplus: 'B', complexity: 7, mobility: 4, selfSufficiency: 9 },
+    specDesc: 'The ultimate self-sufficient tank. Death Strike heals you based on damage taken — the harder the fight, the stronger you get.',
+    why: 'Blood DK is WoW\'s most iconic self-sustaining tank. Your core loop — Death Strike to self-heal, Bone Shield to mitigate, Dancing Rune Weapon for burst survival — creates a deeply satisfying "I refuse to die" fantasy. Anti-Magic Zone and Death Grip make you indispensable. If you want to feel like an unstoppable undead juggernaut who gets stronger as fights get harder, Blood DK is your class.',
+    pros: ['Best self-healing in the game — Death Strike scales with damage taken', 'Death Grip is unique and irreplaceable utility in any raid', 'Anti-Magic Zone prevents enormous magic damage for the whole group', 'Excellent for learning — very forgiving of mistakes through self-recovery'],
+    cons: ['Lower mobility than most tanks — no gap closers in a hurry', 'Heavily punished by physical damage with no active block', 'Requires tight rune management — resource mistakes cascade', 'M+ viability is below DH and Brewmaster this tier'],
+    roadmap: [
+      { n:1, text: '<strong>Learn the Death Strike timing loop</strong> — cast on 2+ Bone Shield stacks, never waste the Crimson Scourge proc' },
+      { n:2, text: '<strong>Master your rune management</strong> — keep Death and Decay rolling, prioritize Marrowrend for Bone Shield' },
+      { n:3, text: '<strong>Use Dancing Rune Weapon reactively</strong> — save it for predictable spike moments, not proactively' },
+      { n:4, text: '<strong>Practice Anti-Magic Zone placement</strong> — pre-position it before magic abilities, not after' },
+      { n:5, text: '<strong>Study Vampiric Blood windows</strong> — coordinate with healers to maximize its value on progression' },
+    ],
+    addons: ['WeakAuras (Blood DK suite)', 'Details! Damage Meter', 'GTFO', 'Angry Keystones'],
+    scores: { philosophy:{wall:3,survivor:3,attacker:1}, fantasy:{death:3}, mitigation:{selfheal:3,cds:1}, mobility:{stationary:2,balanced:1}, selfsufficiency:{self:3,balanced:2}, content:{raid:3,both:2}, cooldowns:{oneshot:2,rotation:2}, utility:{grip:3}, pacing:{slow:2,medium:2}, complexity:{medium:2,complex:2}, meta:{flex:2,love:2}, pull_style:{calculated:2,safe:2}, defensive_active:{defensive:3,team:1}, raid_role:{emergency:2,cc:1}, spec_variety:{unique:3}, healer_relationship:{independent:3,easy:2}, mastery_ceiling:{medium:2,high:2}, tanking_feel:{weight:3,flow:1}, progression:{mythic:2,ce:2}, vibe:{immortal:3,chess:2} }
+  },
+  {
+    name: 'Vengeance Demon Hunter',
+    icon: '😤', bg: 'rgba(200,50,50,0.12)', border: 'rgba(220,80,80,0.35)', matchColor: '#d06060',
+    tiers: { mythic: 'A', mplus: 'S', complexity: 6, mobility: 9, selfSufficiency: 7 },
+    specDesc: 'WoW\'s most offensive tank — Sigil control, soul fragment consumption, and enormous personal DPS while tanking.',
+    why: 'Vengeance is WoW\'s most aggressive tank — you deal enormous damage while tanking and control fights through Sigil placement. The soul fragment pickup loop feels uniquely active and rewarding. Spirit Bomb vs Fel Devastation builds create meaningful playstyle differences. Excellent mobility through Fel Rush and Vengeful Retreat makes Vengeance the dominant M+ tank. If you want to feel like you\'re winning the fight, not just surviving it, Vengeance delivers.',
+    pros: ['S-tier M+ this season — best pull sizes and pack control via Sigils', 'Highest tank DPS in the game — significant offensive contribution', 'Exceptional mobility — Fel Rush and Vengeful Retreat are outstanding', 'Sigil-based CC gives unmatched pull control in M+'],
+    cons: ['More healer-dependent than self-sufficient tanks at extreme levels', 'Sigil placement requires practice — misplacing Sigils wastes cooldowns', 'Less impactful raid cooldowns than Paladin, Warrior, or DK', 'Learning curve on managing soul fragments efficiently'],
+    roadmap: [
+      { n:1, text: '<strong>Learn Sigil placement before anything else</strong> — correct pre-placement is the difference between good and great VDH' },
+      { n:2, text: '<strong>Optimize soul fragment pickups</strong> — always be in position to absorb them during Fel Devastation or Spirit Bomb windows' },
+      { n:3, text: '<strong>Study M+ routing</strong> — Vengeance is the strongest M+ tank; invest time in dungeon routes and pull strategies' },
+      { n:4, text: '<strong>Master Metamorphosis timing</strong> — use it proactively on predictable burst windows, never panic-pop it' },
+      { n:5, text: '<strong>Build Demon Spikes discipline</strong> — always have one charge on cooldown, use the other actively' },
+    ],
+    addons: ['VDH WeakAuras', 'MythicDungeonTools (routes)', 'Details!', 'Angry Keystones'],
+    scores: { philosophy:{attacker:3,controller:2}, fantasy:{demon:3}, mitigation:{active:2,absorb:2}, mobility:{mobile:3,balanced:1}, selfsufficiency:{self:2,balanced:2}, content:{mplus:3,both:3,raid:2}, cooldowns:{rotation:2,constant:2}, utility:{sigils:3,cc:1}, pacing:{fast:2,medium:2}, complexity:{medium:2,complex:1}, meta:{meta:2,flex:2}, pull_style:{big:3,calculated:2}, defensive_active:{offensive:3,control:2}, raid_role:{cc:2,threat:2}, spec_variety:{unique:2,best:2}, healer_relationship:{partner:2,easy:2}, mastery_ceiling:{high:3,medium:1}, tanking_feel:{chaos:2,flow:2}, progression:{highkeys:3,ce:2}, vibe:{carry:3,control:2} }
+  },
+  {
+    name: 'Guardian Druid',
+    icon: '🐻', bg: 'rgba(60,160,60,0.12)', border: 'rgba(80,180,80,0.35)', matchColor: '#5ab050',
+    tiers: { mythic: 'B', mplus: 'A', complexity: 5, mobility: 7, selfSufficiency: 7 },
+    specDesc: 'Ironfur for armor stacking, Frenzied Regeneration for burst self-healing, Wild Charge and Stampeding Roar for unmatched group movement.',
+    why: 'Guardian Druid brings the nature shapeshifter fantasy to tanking — an immovable bear with remarkable off-healing from Regrowth and Frenzied Regeneration. Ironfur management creates a satisfying active mitigation loop. Wild Charge and Stampeding Roar make you extremely mobile. Incapacitating Roar and Typhoon give phenomenal M+ pack control. If you want a tank that feels indestructible and mobile at the same time, with the best group movement speed in the game, Guardian is the choice.',
+    pros: ['Stampeding Roar — the best group movement speed cooldown in the game', 'Strong self-healing makes it very forgiving for new tanks', 'Excellent mobility for a tank — Wild Charge is versatile and powerful', 'Typhoon and Incapacitating Roar provide strong M+ control options'],
+    cons: ['Lower Mythic raid representation than Paladin or DK this tier', 'Ironfur management can feel repetitive compared to other tanks', 'Less impactful raid cooldowns outside of Stampeding Roar', 'Survives well but doesn\'t bring the offensive numbers of DH'],
+    roadmap: [
+      { n:1, text: '<strong>Learn Ironfur priority</strong> — keep it rolling at 2+ stacks in sustained combat, never let it fully drop' },
+      { n:2, text: '<strong>Practice Frenzied Regeneration timing</strong> — use it at 40-60% HP before the next hit, not as an emergency below 20%' },
+      { n:3, text: '<strong>Master Typhoon and Incapacitating Roar placement</strong> — these define your M+ utility ceiling' },
+      { n:4, text: '<strong>Learn Stampeding Roar timing</strong> — coordinate with DPS for movement-heavy mechanics to maximize its value' },
+      { n:5, text: '<strong>Experiment with Convoke builds</strong> — Convoke the Spirits adds significant burst healing that synergizes with Survival Instincts' },
+    ],
+    addons: ['Guardian Druid WeakAuras', 'Details!', 'GTFO', 'MythicDungeonTools'],
+    scores: { philosophy:{wall:2,survivor:2,controller:1}, fantasy:{nature:3}, mitigation:{selfheal:2,active:2,absorb:1}, mobility:{mobile:2,balanced:2}, selfsufficiency:{self:2,balanced:2}, content:{mplus:3,both:2,raid:2}, cooldowns:{rotation:2,constant:2}, utility:{displace:3,cc:2}, pacing:{medium:2,slow:1}, complexity:{simple:2,medium:2}, meta:{flex:2,love:2}, pull_style:{calculated:2,big:1}, defensive_active:{defensive:2,team:2}, raid_role:{buffer:2,cc:2}, spec_variety:{familiar:2,best:1}, healer_relationship:{easy:3,partner:1}, mastery_ceiling:{medium:3,low:1}, tanking_feel:{flow:2,weight:1}, progression:{mythic:2,highkeys:2}, vibe:{immortal:2,control:1} }
+  },
+  {
+    name: 'Brewmaster Monk',
+    icon: '👊', bg: 'rgba(60,200,160,0.12)', border: 'rgba(80,220,180,0.35)', matchColor: '#3cc8a0',
+    tiers: { mythic: 'A', mplus: 'S', complexity: 9, mobility: 8, selfSufficiency: 7 },
+    specDesc: 'Stagger converts incoming damage into a DoT — then purify it with Purifying Brew. The highest skill ceiling tank in WoW, with exceptional M+ utility.',
+    why: 'Brewmaster has the most unique and complex survival mechanic in WoW: Stagger converts burst damage into a delayed DoT that you then purify with Purifying Brew. This creates an entirely different risk calculus — you manage a damage debt, not just mitigation. Brewmaster rewards deep mastery with exceptional performance, brings Ring of Peace and Leg Sweep for incredible utility, and has outstanding mobility. If you want the most challenging and rewarding tank mastery experience, Brewmaster is unmatched.',
+    pros: ['Unique Stagger mechanic — highest skill ceiling and most rewarding mastery in tanking', 'S-tier M+ alongside VDH — Ring of Peace and Leg Sweep are exceptional CC tools', 'Excellent mobility — Roll and Transcendence create unique positioning options', 'Significant DPS contribution — Keg Smash and Breath of Fire hit hard'],
+    cons: ['Steepest learning curve of any tank — Stagger management takes weeks to master', 'Punishing when played wrong — "Heavy Stagger" periods can kill you quickly', 'Relies on Purifying Brew usage — miscounting stacks is catastrophic', 'Less accessible than other tanks for players new to active mitigation'],
+    roadmap: [
+      { n:1, text: '<strong>Understand Stagger completely</strong> — watch your Stagger bar at all times; Heavy Stagger (red) requires immediate Purifying Brew' },
+      { n:2, text: '<strong>Learn Blackout Kick priority</strong> — it resets Purifying Brew charges; this combo is the core of your survival rotation' },
+      { n:3, text: '<strong>Practice Celestial Brew timing</strong> — absorb as much Stagger as possible with the shield before purifying' },
+      { n:4, text: '<strong>Master Ring of Peace and Leg Sweep placement</strong> — your CC kit is M+ defining; learn every dungeon\'s interrupt/control moments' },
+      { n:5, text: '<strong>Study high-level Brewmaster POV content</strong> — this spec has the deepest playbook; watching top players accelerates learning dramatically' },
+    ],
+    addons: ['Brewmaster Monk WeakAuras (Stagger tracker)', 'MythicDungeonTools', 'Details!', 'GTFO'],
+    scores: { philosophy:{controller:3,attacker:2}, fantasy:{monk:3}, mitigation:{absorb:3,active:2}, mobility:{mobile:3,fast:1}, selfsufficiency:{self:2,balanced:2}, content:{mplus:3,both:3,raid:2}, cooldowns:{rotation:3,constant:3}, utility:{cc:3,displace:2}, pacing:{fast:3,medium:1}, complexity:{complex:3,medium:1}, meta:{meta:2,flex:2}, pull_style:{big:3,calculated:2}, defensive_active:{control:3,offensive:1}, raid_role:{cc:3,emergency:1}, spec_variety:{unique:3}, healer_relationship:{partner:3,independent:1}, mastery_ceiling:{high:3}, tanking_feel:{puzzle:3,flow:2}, progression:{ce:3,highkeys:3}, vibe:{control:3,chess:3} }
+  },
+  {
+    name: 'Protection Paladin',
+    icon: '✨', bg: 'rgba(255,180,60,0.12)', border: 'rgba(255,200,80,0.35)', matchColor: '#d4aa40',
+    tiers: { mythic: 'S', mplus: 'A', complexity: 6, mobility: 5, selfSufficiency: 7 },
+    specDesc: 'Holy Power builder-spender, Word of Glory self-healing, and the most powerful defensive utility toolkit of any tank — Aura Mastery alone can save wipes.',
+    why: 'Protection Paladin is WoW\'s best all-around tank for Mythic raid progression. Your Holy Power system creates a satisfying builder-spender loop. Word of Glory self-heals without losing resources. Aura Mastery, Blessing of Protection, Lay on Hands, and Divine Shield make you the most utility-rich tank in the game. Consecration awareness teaches you to manage your own space. If you want a tank that is equally valued for what it enables as what it absorbs, Protection Paladin is the definitive choice.',
+    pros: ['S-tier Mythic raid — Aura Mastery is the best damage reduction cooldown any tank brings', 'Blessing of Protection and Lay on Hands provide unique save tools for other players', 'Word of Glory self-healing is efficient and fits naturally into the rotation', 'Holy Power system is deep and rewarding without being overwhelming'],
+    cons: ['Lower mobility compared to DH, Druid, and Brewmaster', 'Consecration management requires positioning discipline — stepping out loses uptime', 'Less dominant in M+ than VDH or Brewmaster this tier', 'Ardent Defender can feel passive compared to more active mitigation specs'],
+    roadmap: [
+      { n:1, text: '<strong>Master Holy Power generation and spending</strong> — Avenger\'s Shield, Judgment, Blessed Hammer feed Word of Glory and Shield of the Righteous' },
+      { n:2, text: '<strong>Learn Consecration placement</strong> — you need to fight inside it for Moment of Glory and Sanctified Ground bonuses' },
+      { n:3, text: '<strong>Practice Aura Mastery timing</strong> — this is your #1 raid cooldown; learn each fight\'s magic damage window and pre-plan the cast' },
+      { n:4, text: '<strong>Use Blessing of Protection situationally</strong> — this drops threat for the target, so know when and on whom to cast it' },
+      { n:5, text: '<strong>Build coordination habits with your healers</strong> — Lay on Hands and Devotion Aura are often the difference in progression kills' },
+    ],
+    addons: ['Protection Paladin WeakAuras', 'Details!', 'GTFO', 'Exorsus Raid Tools'],
+    scores: { philosophy:{wall:2,survivor:2,controller:2}, fantasy:{holy:3,warrior:1}, mitigation:{active:2,selfheal:2,cds:2}, mobility:{balanced:2,stationary:1}, selfsufficiency:{self:2,balanced:2}, content:{raid:3,both:2}, cooldowns:{oneshot:2,rotation:2}, utility:{blessings:3,cc:1}, pacing:{medium:2,slow:1}, complexity:{medium:2,simple:1}, meta:{meta:2,flex:2}, pull_style:{calculated:3,safe:1}, defensive_active:{defensive:3,team:2}, raid_role:{emergency:3,buffer:2}, spec_variety:{best:3,familiar:2}, healer_relationship:{easy:3,partner:2}, mastery_ceiling:{medium:3,high:1}, tanking_feel:{weight:2,flow:2}, progression:{ce:3,mythic:3}, vibe:{chess:3,immortal:2} }
+  },
+  {
+    name: 'Protection Warrior',
+    icon: '⚔️', bg: 'rgba(200,160,60,0.12)', border: 'rgba(220,180,80,0.35)', matchColor: '#c89840',
+    tiers: { mythic: 'A', mplus: 'B', complexity: 4, mobility: 5, selfSufficiency: 5 },
+    specDesc: 'Shield Block for consistent physical mitigation, Ignore Pain for magic, Last Stand + Shield Wall as the strongest emergency cooldowns in the game.',
+    why: 'Protection Warrior is WoW\'s most archetypal tank — a warrior with a sword and shield who stands between enemies and allies. Shield Block creates reliable physical mitigation. Ignore Pain handles magic damage. Last Stand and Shield Wall are among the strongest emergency cooldowns in the game. Rallying Cry for the raid. Thunder Clap for AoE. If you want a tank that is clear, purposeful, and powerful without complex mechanics getting in the way, Protection Warrior is the definitive "just let me tank" choice.',
+    pros: ['Lowest learning curve of any tank — clear priority system, strong fundamentals', 'Last Stand + Shield Wall are the strongest personal emergency cooldowns in the game', 'Rallying Cry is a powerful raid cooldown that heals the entire group', 'Spear of Bastion and Storm Bolt provide solid CC and utility'],
+    cons: ['Most healer-dependent tank — lacks self-healing beyond Ignore Pain and Victory Rush', 'Lowest skill ceiling of the tank specs — fewer mechanics to master long-term', 'Below the top tier for M+ this season compared to DH and Brewmaster', 'Limited mobility compared to other tanks — no gap closers like Fel Rush or Wild Charge'],
+    roadmap: [
+      { n:1, text: '<strong>Lock in Shield Block priority</strong> — use it on cooldown against physical damage; Ignore Pain fills the gaps for magic damage' },
+      { n:2, text: '<strong>Communicate with your healer</strong> — Protection Warrior benefits most from coordinated healer attention on spike moments' },
+      { n:3, text: '<strong>Learn Last Stand + Shield Wall timing</strong> — these are your wipe-prevention tools; never panic-pop them early' },
+      { n:4, text: '<strong>Develop a Thunderous Roar and Rallying Cry rhythm</strong> — use them proactively on predictable raid damage phases' },
+      { n:5, text: '<strong>Focus on your cooldown map for each boss</strong> — Warrior tanking at a high level is about perfect cooldown coverage across a full encounter' },
+    ],
+    addons: ['Protection Warrior WeakAuras', 'Details!', 'GTFO', 'Exorsus Raid Tools'],
+    scores: { philosophy:{wall:3,survivor:1}, fantasy:{warrior:3,holy:1}, mitigation:{active:3,cds:2}, mobility:{stationary:2,balanced:1}, selfsufficiency:{healer_reliant:2,balanced:2}, content:{raid:3,both:2}, cooldowns:{oneshot:3,rotation:2}, utility:{shouts:3,cc:1}, pacing:{slow:2,medium:2}, complexity:{simple:3,medium:1}, meta:{flex:2,love:2}, pull_style:{safe:2,calculated:2}, defensive_active:{defensive:3,team:2}, raid_role:{emergency:3,buffer:2}, spec_variety:{familiar:3,best:2}, healer_relationship:{partner:3,easy:2}, mastery_ceiling:{low:3,medium:2}, tanking_feel:{weight:3,flow:1}, progression:{mythic:2,ce:1}, vibe:{immortal:3,chess:1} }
+  },
+];
+
+let current = 0, answers = {};
+
+function startQuiz() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const pct = Math.round(((current+1)/questions.length)*100);
+  document.getElementById('qLabel').textContent = `Question ${current+1} of ${questions.length}`;
+  document.getElementById('qCounter').textContent = `${current+1} / ${questions.length}`;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qText').textContent = q.text;
+
+  const divider = document.getElementById('sectionDivider');
+  const sec = SECTIONS.find(s => s.at === current);
+  if (sec && current > 0) {
+    divider.style.display = 'flex';
+    document.getElementById('sIcon').textContent = sec.icon;
+    document.getElementById('sTitle').textContent = sec.title;
+    document.getElementById('sDesc').textContent = sec.desc;
+  } else { divider.style.display = 'none'; }
+
+  const grid = document.getElementById('optsGrid');
+  grid.className = 'options-grid' + (q.cols===3?' cols-3':q.cols===1?' cols-1':'');
+  grid.innerHTML = '';
+  q.options.forEach(opt => {
+    const div = document.createElement('div');
+    div.className = 'opt' + (answers[q.id]===opt.val?' selected':'');
+    div.innerHTML = `<span class="opt-icon">${opt.icon}</span><div class="opt-title">${opt.title}</div><div class="opt-desc">${opt.desc}</div>`;
+    div.addEventListener('click', () => selectOpt(opt.val, opt.title));
+    grid.appendChild(div);
+  });
+  document.getElementById('backBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = !answers[q.id];
+  document.getElementById('nextBtn').textContent = current === questions.length-1 ? 'See results →' : 'Next →';
+}
+
+function selectOpt(val, title) {
+  answers[questions[current].id] = val;
+  document.querySelectorAll('.opt').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('.opt-title').textContent === title);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function goNext() { if (current === questions.length-1) { showResults(); return; } current++; renderQuestion(); }
+function goBack() { if (current > 0) { current--; renderQuestion(); } }
+
+function calcScores() {
+  return tanks.map(t => {
+    let score = 0, maxPossible = 0;
+    Object.entries(answers).forEach(([qid, val]) => {
+      const qs = t.scores[qid]; if (!qs) return;
+      const maxQ = Math.max(...Object.values(qs));
+      maxPossible += maxQ; score += qs[val] || 0;
+    });
+    return { ...t, pct: maxPossible > 0 ? Math.round((score/maxPossible)*100) : 0 };
+  }).sort((a,b) => b.pct - a.pct);
+}
+
+function tierColor(t) {
+  return t==='S'?'var(--gold)':t==='A'?'var(--teal)':t==='B'?'#8abaee':'#909090';
+}
+
+function showResults() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  const top3 = calcScores().slice(0, 3);
+  const cards = document.getElementById('classCards');
+  cards.innerHTML = '';
+
+  top3.forEach((t, i) => {
+    const isTop = i === 0;
+    const card = document.createElement('div');
+    card.className = 'class-card' + (isTop ? ' top' : '');
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="class-icon-lg" style="background:${t.bg};border:1px solid ${t.border};">${t.icon}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="class-name">${t.name}</span>
+            ${isTop?'<span class="top-badge">Best match</span>':''}
+          </div>
+          <div class="match-row">
+            <div class="match-bar"><div class="match-fill" style="width:0%;background:${t.matchColor}" data-target="${t.pct}"></div></div>
+            <span class="match-pct" style="color:${t.matchColor}">${t.pct}%</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-why">${t.why}</div>
+
+        <div class="tier-row">
+          <div class="tier-box">
+            <div class="tier-box-label">Mythic Raid</div>
+            <div class="tier-badge-lg tier-${t.tiers.mythic}" style="color:${tierColor(t.tiers.mythic)}">${t.tiers.mythic}</div>
+          </div>
+          <div class="tier-box">
+            <div class="tier-box-label">Mythic+</div>
+            <div class="tier-badge-lg tier-${t.tiers.mplus}" style="color:${tierColor(t.tiers.mplus)}">${t.tiers.mplus}</div>
+          </div>
+          <div class="tier-box">
+            <div class="tier-box-label">Complexity</div>
+            <div class="tier-badge-lg" style="color:var(--text);font-size:20px;margin-top:4px;">${t.tiers.complexity}/10</div>
+            <div class="score-bar"><div class="score-fill" style="width:${t.tiers.complexity*10}%"></div></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+          <div class="tier-box">
+            <div class="tier-box-label">Mobility</div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin:4px 0;">${t.tiers.mobility}/10</div>
+            <div class="score-bar"><div class="score-fill" style="width:${t.tiers.mobility*10}%"></div></div>
+          </div>
+          <div class="tier-box">
+            <div class="tier-box-label">Self-Sufficiency</div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin:4px 0;">${t.tiers.selfSufficiency}/10</div>
+            <div class="score-bar"><div class="score-fill" style="width:${t.tiers.selfSufficiency*10}%"></div></div>
+          </div>
+        </div>
+
+        <div class="specs-section-label">Spec summary</div>
+        <div class="spec-desc-box">${t.specDesc}</div>
+
+        <div class="fit-grid">
+          <div class="fit-box yes">
+            <h4>Where it excels</h4>
+            <ul>${t.pros.map(p=>`<li>${p}</li>`).join('')}</ul>
+          </div>
+          <div class="fit-box no">
+            <h4>Where it struggles</h4>
+            <ul>${t.cons.map(c=>`<li>${c}</li>`).join('')}</ul>
+          </div>
+        </div>
+
+        <div class="roadmap">
+          <h4>🗺️ Your learning roadmap</h4>
+          <div class="roadmap-steps">
+            ${t.roadmap.map(s=>`<div class="roadmap-step"><div class="step-num">${s.n}</div><div class="step-text">${s.text}</div></div>`).join('')}
+          </div>
+          <div class="addons-row">
+            ${t.addons.map(a=>`<span class="addon-pill">${a}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+    cards.appendChild(card);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.match-fill').forEach(bar => {
+      bar.style.transition = 'width 0.9s ease';
+      bar.style.width = bar.dataset.target + '%';
+    });
+  }, 80);
+
+  const topName = top3[0].name;
+  const shareText = encodeURIComponent(`I got ${topName} on the WoW Midnight Premium Tank Quiz!`);
+  const shareUrl = encodeURIComponent('https://wow-class.netlify.app/wow-quiz-tank.html');
+  document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Tank Quiz — find your perfect tank spec')}`;
+  document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(e) {
+  e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const c = document.getElementById('copyConfirm');
+    c.style.display = 'block';
+    setTimeout(() => { c.style.display = 'none'; }, 3000);
+  });
+}
+
+function restart() {
+  current = 0; answers = {};
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('hero').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

@@ -3,14 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Midnight Class Quiz — DPS, Tank & Healer</title>
-  <meta name="description" content="Free playstyle quizzes for every WoW Midnight role. Find your perfect DPS class, tank spec, or healer — no tier list bias, just your preferences.">
-  <meta property="og:title" content="WoW Midnight Class Quiz — Find Your Perfect Role & Class">
-  <meta property="og:description" content="Free class quizzes for DPS, Tank, and Healer. 9 questions each. No tier list bias. Built for WoW Midnight players.">
+  <title>WoW Midnight Class Quiz — What Class Should You Play?</title>
+  <meta name="description" content="Free WoW Midnight class quiz for DPS, Tank &amp; Healer. Answer 9 playstyle questions to find your perfect class or spec — no tier list bias, no spreadsheets. Takes 2 minutes.">
+  <link rel="canonical" href="https://wow-class.netlify.app/">
+  <meta property="og:title" content="WoW Midnight Class Quiz — What Class Should You Play?">
+  <meta property="og:description" content="Free WoW Midnight class quiz for DPS, Tank &amp; Healer. 9 questions. No tier list bias. Find your perfect class or spec in 2 minutes.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://wow-class.netlify.app/og-main.jpg">
   <meta property="og:url" content="https://wow-class.netlify.app">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WoW Midnight Class Quiz — What Class Should You Play?">
+  <meta name="twitter:description" content="Free WoW Midnight class quiz for DPS, Tank &amp; Healer. 9 questions. No tier list bias. 2 minutes.">
+  <meta name="keywords" content="wow midnight class quiz, what class to play wow midnight, wow class picker, wow midnight best class, world of warcraft class quiz">
+
+  <!-- Schema: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "WoW Midnight Class Quiz",
+    "url": "https://wow-class.netlify.app",
+    "description": "Free playstyle quizzes to find your perfect class for World of Warcraft: Midnight — DPS, Tank, and Healer.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://wow-class.netlify.app/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What class should I play in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on your playstyle. This quiz asks 9 questions about how you like to play — rotation feel, mobility, fantasy, complexity — and matches you to the best class for you in WoW Midnight. No tier list bias, just your preferences."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this WoW class quiz free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The DPS, Tank, and Healer quizzes are all completely free. A $5 premium version adds 20 questions, per-spec Mythic and M+ tier ratings, and a personalized learning roadmap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which WoW Midnight classes are covered?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DPS quiz covers all 12 DPS classes in WoW Midnight. The Tank quiz covers all 6 tank specs (Blood DK, Vengeance DH, Guardian Druid, Brewmaster Monk, Protection Paladin, Protection Warrior). The Healer quiz covers all 7 healer specs (Resto Druid, Preservation Evoker, Mistweaver Monk, Holy Paladin, Holy Priest, Discipline Priest, Resto Shaman)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does the WoW class quiz take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "About 2 minutes. Each free quiz is 9 questions. The premium deep-dive version is 20 questions and takes around 4-5 minutes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best class for beginners in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on the role. For DPS, Beast Mastery Hunter and Retribution Paladin are consistently beginner-friendly. For tanking, Protection Warrior has a forgiving toolkit. For healing, Restoration Druid and Holy Priest are great starting points. Take the quiz to get a personalized recommendation based on how you want to play."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between the free and premium quiz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The free quiz is 9 questions and gives you your top 3 class matches with playstyle explanations. The $5 premium quiz is 20 questions and adds per-spec Mythic raid tier ratings, Mythic+ tier ratings, complexity and mobility scores, a detailed fit analysis showing exactly where each spec excels or struggles for your playstyle, and a 5-step learning roadmap to get raid-ready."
+        }
+      }
+    ]
+  }
+  </script>
+
   <!-- Google AdSense -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
   <style>
@@ -102,11 +181,29 @@
     .site-footer a { color: var(--text2); text-decoration: none; margin: 0 8px; }
     .site-footer a:hover { color: var(--gold); }
 
+    .about-section { margin-bottom: 48px; }
+    .about-box { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 32px; }
+    .about-box h2 { font-size: 18px; font-weight: 700; color: var(--gold-lt); margin-bottom: 12px; }
+    .about-box p { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 10px; }
+    .about-box p:last-child { margin-bottom: 0; }
+
+    .faq-section { margin-bottom: 48px; }
+    .faq-section h2 { font-size: 18px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 20px; }
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    .faq-item { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .faq-q { width: 100%; background: none; border: none; text-align: left; padding: 16px 20px; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq-q:hover { background: var(--surf3); }
+    .faq-chevron { font-size: 12px; color: var(--text3); transition: transform 0.2s; flex-shrink: 0; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-a { display: none; padding: 0 20px 16px; font-size: 14px; color: var(--text2); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; }
+    .faq-item.open .faq-a { display: block; }
+
     @media (max-width: 680px) {
       .role-grid { grid-template-columns: 1fr; }
       .steps-grid { grid-template-columns: 1fr; }
       .premium-banner { flex-direction: column; text-align: center; }
       .hero h1 { font-size: 28px; }
+      .about-box { padding: 20px; }
     }
   </style>
 </head>
@@ -228,6 +325,54 @@
   </div>
 </section>
 
+<!-- About section -->
+<section class="container about-section">
+  <div class="about-box">
+    <h2>Why this quiz is different</h2>
+    <p>Most WoW class guides push you toward whatever is topping the tier list that week. This quiz ignores the meta entirely and asks about <em>you</em> — how you like your rotation to feel, whether you prefer burst or sustained damage, how much complexity you actually enjoy, and what kind of class fantasy resonates with you.</p>
+    <p>The result is a recommendation that fits how you want to play WoW Midnight, not what a spreadsheet says you should play. A class you enjoy will always outperform a class you hate, no matter the tier list.</p>
+    <p>Built by a returning player aiming for Cutting Edge — because the best class is the one you'll actually stick with.</p>
+  </div>
+</section>
+
+<!-- FAQ section -->
+<section class="container faq-section">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What class should I play in WoW Midnight? <span class="faq-chevron">▼</span></button>
+      <div class="faq-a">It depends entirely on your playstyle. This quiz asks 9 questions about rotation feel, mobility, fantasy, and complexity, then matches you to the best class for the way you want to play — no tier list influence, just your preferences.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is this WoW class quiz free? <span class="faq-chevron">▼</span></button>
+      <div class="faq-a">Yes — the DPS, Tank, and Healer quizzes are all completely free. A $5 premium version adds 20 questions, per-spec Mythic and M+ tier ratings, complexity scores, and a personalized 5-step learning roadmap.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Which WoW Midnight classes are covered? <span class="faq-chevron">▼</span></button>
+      <div class="faq-a">The DPS quiz covers all 12 DPS classes. The Tank quiz covers all 6 tank specs (Blood DK, Vengeance DH, Guardian Druid, Brewmaster Monk, Prot Paladin, Prot Warrior). The Healer quiz covers all 7 healer specs (Resto Druid, Preservation Evoker, Mistweaver Monk, Holy Paladin, Holy Priest, Discipline Priest, Resto Shaman).</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What is the best class for beginners in WoW Midnight? <span class="faq-chevron">▼</span></button>
+      <div class="faq-a">For DPS, Beast Mastery Hunter and Retribution Paladin are consistently beginner-friendly with forgiving rotations. For tanking, Protection Warrior has a straightforward toolkit. For healing, Restoration Druid and Holy Priest are great starting points. Take the quiz for a personalized pick based on how you want to play.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How is this different from just looking at a tier list? <span class="faq-chevron">▼</span></button>
+      <div class="faq-a">Tier lists tell you what deals the most damage today. They change every patch and don't account for whether you'll actually enjoy the class. This quiz finds the class that fits your playstyle so you'll still be enjoying it months into the expansion — which matters a lot more than being S-tier on week one.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What's the difference between the free and premium quiz? <span class="faq-chevron">▼</span></button>
+      <div class="faq-a">The free quiz is 9 questions and gives your top 3 class matches with playstyle explanations. The $5 premium quiz doubles the question count to 20 and adds per-spec Mythic raid tier ratings, M+ tier ratings, complexity and mobility scores, a ✓/✗ fit breakdown showing where each spec excels or struggles for your playstyle, and a 5-step learning roadmap to get raid-ready.</div>
+    </div>
+
+  </div>
+</section>
+
 <!-- Bottom ad -->
 <div class="ad-section">
   <div class="ad-slot ad-leaderboard">
@@ -249,5 +394,13 @@
   <p style="margin-top:12px;">© 2026 WoW Class Quiz &nbsp;·&nbsp; Not affiliated with Blizzard Entertainment</p>
 </footer>
 
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
 </body>
 </html>

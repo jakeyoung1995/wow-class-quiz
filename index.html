@@ -6,6 +6,12 @@
   <title>WoW Midnight Class Quiz — What Class Should You Play?</title>
   <meta name="description" content="Free WoW Midnight class quiz for DPS, Tank &amp; Healer. Answer 9 playstyle questions to find your perfect class or spec — no tier list bias, no spreadsheets. Takes 2 minutes.">
   <link rel="canonical" href="https://wowclassquiz.com/">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="WoW Class Quiz">
   <meta property="og:title" content="WoW Midnight Class Quiz — What Class Should You Play?">
   <meta property="og:description" content="Free WoW Midnight class quiz for DPS, Tank &amp; Healer. 9 questions. No tier list bias. Find your perfect class or spec in 2 minutes.">
   <meta property="og:type" content="website">
@@ -21,7 +27,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "WoW Midnight Class Quiz",
+    "name": "WoW Class Quiz",
     "url": "https://wowclassquiz.com",
     "description": "Free playstyle quizzes to find your perfect class for World of Warcraft: Midnight — DPS, Tank, and Healer.",
     "potentialAction": {
@@ -181,6 +187,22 @@
     .site-footer a { color: var(--text2); text-decoration: none; margin: 0 8px; }
     .site-footer a:hover { color: var(--gold); }
 
+    /* ── Version toggle ─── */
+    .version-wrap { padding: 32px 0 0; }
+    .version-toggle { display: flex; gap: 0; background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 4px; margin: 0 auto 32px; max-width: 480px; }
+    .vtab { flex: 1; background: none; border: none; border-radius: 10px; padding: 10px 16px; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .vtab-icon { font-size: 22px; display: block; margin-bottom: 2px; }
+    .vtab-label { font-size: 14px; font-weight: 700; color: var(--text2); display: block; }
+    .vtab-sub { font-size: 11px; color: var(--text3); display: block; margin-top: 1px; }
+    .vtab.active { background: var(--surf3); }
+    .vtab.active .vtab-label { color: var(--gold-lt); }
+    .vtab.active .vtab-sub { color: var(--text2); }
+    .classic-notice { background: rgba(180,120,30,0.1); border: 1px solid rgba(200,150,50,0.3); border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--text2); display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; line-height: 1.55; }
+    /* Classic-specific card colours */
+    .role-card.classic-dps:hover  { border-color: #c89a30; }
+    .role-card.classic-tank:hover { border-color: #a0b8d8; }
+    .role-card.classic-heal:hover { border-color: #80c870; }
+
     .about-section { margin-bottom: 48px; }
     .about-box { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 32px; }
     .about-box h2 { font-size: 18px; font-weight: 700; color: var(--gold-lt); margin-bottom: 12px; }
@@ -233,7 +255,24 @@
   </div>
 </section>
 
-<!-- Role picker -->
+<!-- Version toggle -->
+<div class="container version-wrap">
+  <div class="version-toggle">
+    <button class="vtab active" id="tab-retail" onclick="switchVersion('retail')">
+      <span class="vtab-icon">🌌</span>
+      <span class="vtab-label">WoW Midnight</span>
+      <span class="vtab-sub">Retail · Current expansion</span>
+    </button>
+    <button class="vtab" id="tab-classic" onclick="switchVersion('classic')">
+      <span class="vtab-icon">🏆</span>
+      <span class="vtab-label">WoW Classic</span>
+      <span class="vtab-sub">Vanilla · Original 1–60</span>
+    </button>
+  </div>
+</div>
+
+<!-- Retail: Role picker -->
+<div id="retail-content">
 <section class="container">
   <div class="role-grid">
 
@@ -275,6 +314,28 @@
 
   </div>
 </section>
+</div><!-- /retail-content -->
+
+<!-- Classic: Single entry point to Classic Hub -->
+<div id="classic-content" style="display:none;">
+<section class="container">
+  <div class="role-grid" style="grid-template-columns:1fr;max-width:480px;margin:0 auto;">
+
+    <div class="role-card classic-dps" style="text-align:center;">
+      <div class="role-icon">🏆</div>
+      <div class="role-title" style="color:#c89a30;">WoW Classic Class Quiz</div>
+      <div class="role-sub">All 9 Vanilla classes — faction-aware, leveling-focused, built around class identity. Free 9-question quiz + Premium 25-question deep dive with leveling roadmaps, race analysis, and PvP breakdowns.</div>
+      <div class="role-stats">
+        <span class="role-stat">9 classes</span>
+        <span class="role-stat">Free + Premium</span>
+        <span class="role-stat">Faction-aware</span>
+      </div>
+      <a href="classic-hub.html" class="role-btn" style="background:rgba(200,154,48,0.15);color:#c89a30;border:1px solid rgba(200,154,48,0.4);">Go to Classic Hub →</a>
+    </div>
+
+  </div>
+</section>
+</div><!-- /classic-content -->
 
 <!-- Mid-page ad -->
 <div class="ad-section">
@@ -395,6 +456,13 @@
 </footer>
 
 <script>
+function switchVersion(v) {
+  document.getElementById('retail-content').style.display = v === 'retail' ? '' : 'none';
+  document.getElementById('classic-content').style.display = v === 'classic' ? '' : 'none';
+  document.getElementById('tab-retail').classList.toggle('active', v === 'retail');
+  document.getElementById('tab-classic').classList.toggle('active', v === 'classic');
+}
+
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
   const isOpen = item.classList.contains('open');

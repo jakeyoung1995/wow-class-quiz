@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Classic Premium Class Quiz — 25 Deep Questions</title>
+  <meta name="description" content="25-question deep-dive Classic WoW class quiz. Leveling roadmaps, race analysis, PvP breakdown, raid role, role versatility grid, and your full Classic journey mapped out.">
+  <meta property="og:title" content="WoW Classic Premium Class Quiz — 25 Questions, Deep Insights">
+  <meta property="og:description" content="The most thorough WoW Classic class finder. 25 questions. 9 classes. Leveling roadmaps, race picks, PvP power, raid utility, and your Classic identity.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wowclassquiz.com/classic-quiz-premium.html">
+  <link rel="canonical" href="https://wowclassquiz.com/classic-quiz-premium.html">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0a0800;
+      --surf1:    #141008;
+      --surf2:    #1c1508;
+      --surf3:    #261d0a;
+      --surf4:    #30250d;
+      --border:   rgba(180,140,50,0.22);
+      --border2:  rgba(220,170,60,0.55);
+      --cgold:    #c89a30;
+      --cgold-lt: #f0cc60;
+      --cgold-dk: #8a6818;
+      --amber:    #d4903a;
+      --teal:     #3dc8a0;
+      --red:      #e05858;
+      --green:    #5aca80;
+      --blue:     #6090e0;
+      --text:     #f2e8d5;
+      --text2:    #c4a460;
+      --text3:    #8a7040;
+      --radius:   10px;
+      --radius-lg:14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 15px; font-weight: 600; color: var(--cgold); }
+    .logo span { color: var(--cgold-lt); font-size: 12px; font-weight: 400; margin-left: 6px; border: 1px solid var(--cgold-dk); border-radius: 99px; padding: 2px 9px; }
+    .back-link { font-size: 13px; color: var(--text2); text-decoration: none; }
+    .back-link:hover { color: var(--cgold); }
+
+    .container { max-width: 740px; margin: 0 auto; padding: 0 20px; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 56px 0 40px; }
+    .premium-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cgold-lt); border: 1px solid var(--cgold-dk); border-radius: 99px; padding: 4px 16px; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 em { color: var(--cgold-lt); font-style: normal; }
+    .hero p { font-size: 16px; color: var(--text2); max-width: 500px; margin: 0 auto 28px; }
+    .feature-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 32px; }
+    .feat { font-size: 13px; padding: 6px 14px; border-radius: 99px; background: var(--surf3); border: 1px solid var(--border); color: var(--text2); }
+    .feat strong { color: var(--cgold); font-weight: 600; }
+    .btn-start { display: inline-block; background: var(--cgold); color: #0a0800; font-size: 16px; font-weight: 700; padding: 14px 36px; border-radius: 99px; border: none; cursor: pointer; transition: background 0.15s, transform 0.1s; }
+    .btn-start:hover { background: var(--cgold-lt); transform: scale(1.02); }
+    .hero-sub { margin-top: 16px; font-size: 13px; color: var(--text3); }
+
+    /* Progress */
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .progress-bar { height: 3px; background: var(--surf3); border-radius: 2px; }
+    .progress-fill { height: 3px; background: var(--cgold); border-radius: 2px; transition: width 0.4s ease; }
+
+    /* Quiz */
+    .quiz-section { padding: 20px 0 60px; display: none; }
+    .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 12px 16px; background: rgba(200,154,48,0.06); border: 1px solid rgba(200,154,48,0.2); border-radius: var(--radius); }
+    .section-divider .s-icon { font-size: 20px; }
+    .section-divider h3 { font-size: 14px; font-weight: 600; color: var(--cgold-lt); margin-bottom: 1px; }
+    .section-divider p { font-size: 12px; color: var(--text2); }
+
+    .q-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cgold-dk); margin-bottom: 8px; }
+    .q-text { font-size: 21px; font-weight: 600; color: #fff; margin-bottom: 24px; line-height: 1.35; }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 28px; }
+    .options-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .options-grid.cols-1 { grid-template-columns: 1fr; }
+    .opt { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 15px 17px; cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s; }
+    .opt:hover { border-color: var(--border2); background: var(--surf3); transform: translateY(-1px); }
+    .opt.selected { border: 1.5px solid var(--cgold); background: rgba(200,154,48,0.1); }
+    .opt-icon { font-size: 20px; margin-bottom: 7px; display: block; }
+    .opt-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .opt.selected .opt-title { color: var(--cgold-lt); }
+    .opt-desc { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    .quiz-nav { display: flex; align-items: center; justify-content: space-between; }
+    .btn-nav { padding: 10px 24px; border-radius: 99px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .btn-nav:hover:not(:disabled) { background: var(--surf3); color: var(--text); }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-next { background: var(--cgold); color: #0a0800; border-color: var(--cgold); font-weight: 700; }
+    .btn-next:hover:not(:disabled) { background: var(--cgold-lt); color: #0a0800; }
+    .btn-next:disabled { background: var(--surf3); color: var(--text3); border-color: var(--border); }
+
+    /* Results */
+    .results-section { padding: 20px 0 80px; display: none; }
+    .results-header { margin-bottom: 32px; }
+    .results-header h2 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .results-header p { color: var(--text2); }
+
+    .class-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
+    .class-card.top { border: 1.5px solid var(--cgold); }
+
+    .card-header { display: flex; align-items: center; gap: 16px; padding: 20px 22px 16px; border-bottom: 1px solid var(--border); }
+    .class-icon-lg { width: 54px; height: 54px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; background: var(--surf3); }
+    .class-name { font-size: 20px; font-weight: 700; color: #fff; }
+    .top-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; background: rgba(200,154,48,0.15); color: var(--cgold); border: 1px solid var(--cgold-dk); margin-left: 8px; }
+    .archetype-tag { font-size: 12px; color: var(--text2); margin-top: 4px; font-style: italic; }
+    .match-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .match-bar { flex: 1; height: 5px; background: var(--surf4); border-radius: 3px; }
+    .match-fill { height: 5px; border-radius: 3px; transition: width 0.9s ease; background: var(--cgold); }
+    .match-pct { font-size: 14px; font-weight: 700; color: var(--cgold); min-width: 40px; text-align: right; }
+
+    .card-body { padding: 18px 22px; }
+    .card-why { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 22px; }
+
+    /* Section labels */
+    .ins-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+
+    /* Rating bars */
+    .ratings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+    .rating-item { display: flex; align-items: center; gap: 10px; }
+    .rating-label { font-size: 12px; color: var(--text2); min-width: 90px; }
+    .rating-bar { flex: 1; height: 4px; background: var(--surf4); border-radius: 2px; }
+    .rating-fill { height: 4px; border-radius: 2px; transition: width 0.8s ease; }
+    .rating-val { font-size: 12px; font-weight: 600; min-width: 28px; text-align: right; color: var(--text); }
+
+    /* Role versatility */
+    .versatility-grid { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .v-role { padding: 8px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 600; border: 1px solid; }
+    .v-role.yes  { background: rgba(90,202,128,0.1); color: var(--green); border-color: rgba(90,202,128,0.35); }
+    .v-role.full { background: rgba(200,154,48,0.15); color: var(--cgold); border-color: var(--cgold-dk); }
+    .v-role.no   { background: rgba(255,255,255,0.03); color: var(--text3); border-color: var(--border); }
+
+    /* Faction badge */
+    .faction-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .f-badge { font-size: 11px; font-weight: 700; padding: 3px 11px; border-radius: 99px; }
+    .f-badge.a { background: rgba(60,120,220,0.15); color: #80b0f8; border: 1px solid rgba(60,120,220,0.3); }
+    .f-badge.h { background: rgba(200,40,40,0.15); color: #f08080; border: 1px solid rgba(200,40,40,0.3); }
+    .f-badge.b { background: rgba(200,154,48,0.12); color: var(--cgold); border: 1px solid var(--cgold-dk); }
+
+    /* Race picks */
+    .race-picks { margin-bottom: 22px; }
+    .race-entry { display: flex; gap: 12px; padding: 10px 14px; background: var(--surf3); border-radius: var(--radius); margin-bottom: 8px; }
+    .race-name { font-size: 13px; font-weight: 700; color: #fff; min-width: 140px; flex-shrink: 0; }
+    .race-why { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    /* Abilities */
+    .ability-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+    .ability-entry { background: var(--surf3); border-radius: var(--radius); padding: 12px 14px; }
+    .ability-name { font-size: 13px; font-weight: 700; color: var(--cgold-lt); margin-bottom: 4px; }
+    .ability-why { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+    /* Leveling roadmap */
+    .leveling-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+    .level-step { display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; background: var(--surf3); border-radius: var(--radius); border-left: 3px solid var(--cgold-dk); }
+    .level-range { font-size: 12px; font-weight: 700; color: var(--cgold); min-width: 50px; flex-shrink: 0; padding-top: 1px; }
+    .level-tip { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+    /* PvP breakdown */
+    .pvp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 22px; }
+    .pvp-item { background: var(--surf3); border-radius: var(--radius); padding: 12px; text-align: center; }
+    .pvp-cat { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+    .pvp-stars { font-size: 16px; margin-bottom: 4px; letter-spacing: 2px; }
+    .pvp-note { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+    /* Pros/cons */
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+    .pros, .cons { background: var(--surf3); border-radius: var(--radius); padding: 13px 15px; }
+    .pros { border-top: 2px solid rgba(90,202,128,0.5); }
+    .cons { border-top: 2px solid rgba(224,88,88,0.5); }
+    .pc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .pros .pc-label { color: var(--green); }
+    .cons .pc-label { color: var(--red); }
+    .pc-item { font-size: 12px; color: var(--text2); padding: 4px 0; border-bottom: 1px solid var(--border); line-height: 1.45; }
+    .pc-item:last-child { border-bottom: none; }
+    .pros .pc-item::before { content: '✓ '; color: var(--green); font-weight: 700; }
+    .cons .pc-item::before { content: '✗ '; color: var(--red); font-weight: 700; }
+
+    /* Journey */
+    .journey-box { background: var(--surf3); border: 1px solid rgba(200,154,48,0.2); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 22px; }
+    .journey-box p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+    .journey-box strong { color: var(--cgold-lt); }
+
+    .restart-row { text-align: center; margin-top: 32px; }
+    .btn-restart { background: var(--surf2); border: 1px solid var(--border); color: var(--text2); font-size: 14px; padding: 11px 28px; border-radius: 99px; cursor: pointer; transition: all 0.15s; }
+    .btn-restart:hover { border-color: var(--cgold); color: var(--cgold); }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; margin: 0 6px; }
+    .site-footer a:hover { color: var(--cgold); }
+
+    @media (max-width: 600px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .options-grid.cols-3 { grid-template-columns: 1fr; }
+      .ratings-grid { grid-template-columns: 1fr; }
+      .pros-cons { grid-template-columns: 1fr; }
+      .pvp-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">WoW Class Quiz <span>⭐ Classic Premium</span></div>
+  <a id="homeLink" href="classic-hub.html" class="back-link">← Classic Hub</a>
+</header>
+
+<!-- Gate check -->
+<div id="gateWall" style="display:none;text-align:center;padding:80px 24px;">
+  <div style="font-size:40px;margin-bottom:16px;">🔒</div>
+  <h2 style="color:#fff;margin-bottom:10px;">Premium Content</h2>
+  <p style="color:var(--text2);margin-bottom:24px;">Enter your unlock word to access the 25-question Classic deep dive.</p>
+  <input id="gateInput" type="text" placeholder="Enter unlock word" style="padding:11px 18px;border-radius:99px;border:1px solid var(--border2);background:var(--surf2);color:#fff;font-size:15px;width:260px;text-align:center;outline:none;">
+  <br><br>
+  <button onclick="tryUnlock()" style="background:var(--cgold);color:#0a0800;font-size:15px;font-weight:700;padding:11px 32px;border-radius:99px;border:none;cursor:pointer;">Unlock →</button>
+  <p id="gateError" style="color:var(--red);margin-top:14px;font-size:13px;display:none;">Incorrect word. Check your purchase confirmation.</p>
+  <p style="margin-top:24px;font-size:13px;color:var(--text3);">Don't have access? <a href="https://jynova2.gumroad.com/l/yejhos" style="color:var(--cgold);">Get Premium →</a></p>
+</div>
+
+<div id="mainContent">
+
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="premium-badge">⭐ Classic Premium · 25 Questions</div>
+    <h1>Your Classic identity,<br><em>completely mapped out.</em></h1>
+    <p>25 deep questions covering every dimension of your Classic WoW playstyle — from leveling philosophy to PvP ambitions to your endgame identity.</p>
+    <div class="feature-grid">
+      <span class="feat"><strong>25</strong> questions across 5 sections</span>
+      <span class="feat"><strong>9</strong> Classic classes analyzed</span>
+      <span class="feat"><strong>Leveling</strong> roadmap 1–60</span>
+      <span class="feat"><strong>Race</strong> picks with reasoning</span>
+      <span class="feat"><strong>PvP</strong> power breakdown</span>
+      <span class="feat"><strong>Role</strong> versatility grid</span>
+      <span class="feat"><strong>Iconic</strong> abilities deep dive</span>
+      <span class="feat"><strong>Classic journey</strong> forecast</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Begin Deep Dive →</button>
+    <p class="hero-sub">~8 minutes · All 9 Classic classes · Faction-aware scoring</p>
+  </div>
+</section>
+
+<section class="quiz-section container" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="qLabel">Question 1 of 25</span>
+      <span id="qPct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div id="sectionBanner"></div>
+  <div id="qContent"></div>
+  <div class="quiz-nav">
+    <button class="btn-nav" id="backBtn" onclick="goBack()" disabled>← Back</button>
+    <button class="btn-nav btn-next" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+  </div>
+</section>
+
+<section class="results-section container" id="results">
+  <div class="results-header">
+    <h2>Your Classic Class Analysis</h2>
+    <p>Ranked by total compatibility across all 25 dimensions of your playstyle.</p>
+  </div>
+  <div id="resultCards"></div>
+  <div class="restart-row">
+    <button class="btn-restart" onclick="restart()">↩ Retake Quiz</button>
+  </div>
+</section>
+
+</div><!-- /mainContent -->
+
+<footer class="site-footer">
+  <p>
+    <a href="classic-hub.html">Classic Hub</a>
+    <a href="classic-quiz-free.html">Free Classic Quiz</a>
+    <a href="index.html">Home</a>
+    <a href="wow-quiz-premium-hub.html">Midnight Premium</a>
+  </p>
+  <p style="margin-top:10px;">© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+// ── Gate ──────────────────────────────────────────────────────────────────
+(function() {
+  try {
+    const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || 'null');
+    if (d && d.word === 'MIDNIGHT2026') {
+      document.getElementById('homeLink').href = 'classic-hub.html';
+      return;
+    }
+  } catch(e) {}
+  document.getElementById('gateWall').style.display = 'block';
+  document.getElementById('mainContent').style.display = 'none';
+})();
+
+function tryUnlock() {
+  const val = document.getElementById('gateInput').value.trim().toUpperCase();
+  if (val === 'MIDNIGHT2026') {
+    localStorage.setItem('wowquiz_premium_v1', JSON.stringify({ word: val, ts: Date.now() }));
+    document.getElementById('gateWall').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  } else {
+    document.getElementById('gateError').style.display = 'block';
+  }
+}
+
+// ── Questions ─────────────────────────────────────────────────────────────
+const SECTIONS = [
+  { start: 0,  icon: '🏰', title: 'Your Classic Identity',      sub: 'Why you play, who you are, what you want from Vanilla WoW.' },
+  { start: 5,  icon: '🗺️', title: 'The 1–60 Journey',           sub: 'Leveling philosophy, solo vs group, your ideal pace.' },
+  { start: 10, icon: '⚔️', title: 'Combat & Mechanics',          sub: 'How you fight, your resource preference, rotation complexity.' },
+  { start: 15, icon: '🏛️', title: 'Endgame & Guild Life',        sub: 'Raids, PvP, your social role, how seriously you play.' },
+  { start: 20, icon: '🔮', title: 'The Deep Cuts',               sub: 'Race instincts, iconic abilities, long-term identity, gut feelings.' },
+];
+
+const QUESTIONS = [
+  // ── Section 1: Identity ───────────────────────────────────────────────
+  {
+    id: 'why_classic',
+    text: 'Why are you drawn to WoW Classic specifically?',
+    cols: 2,
+    opts: [
+      { icon: '🕰️', val: 'nostalgia',    title: 'Pure nostalgia',             desc: 'The original game is the only game. I want Vanilla exactly as it was.' },
+      { icon: '⏳', val: 'deliberate',   title: 'Slower, deliberate world',   desc: 'I want an MMO that respects my time investment and rewards patience.' },
+      { icon: '🌍', val: 'community',    title: 'Server community',           desc: 'I want a real server identity — reputation, trade chat, world PvP.' },
+      { icon: '💪', val: 'challenge',    title: 'Prestige and challenge',     desc: 'Classic\'s difficulty is real. I want to earn my progression.' },
+    ]
+  },
+  {
+    id: 'investment',
+    text: 'How deeply do you plan to invest in Classic WoW?',
+    cols: 2,
+    opts: [
+      { icon: '🌊', val: 'casual_dip',   title: 'Nostalgia trip — 1 to 2 months',  desc: 'Hit some key moments, enjoy the memories, move on.' },
+      { icon: '📅', val: 'full_60',      title: 'Through to level 60',             desc: 'I want the full journey and to see max level content.' },
+      { icon: '⚔️', val: 'raid_tier',   title: 'Full raid tier — gear and clear',  desc: 'I\'m going all the way: BIS gear, raid clears, server progression.' },
+      { icon: '🏆', val: 'long_haul',   title: 'Long-term — rank, rep, everything',desc: 'PvP rank, faction rep, economy, server fame — I\'m here to stay.' },
+    ]
+  },
+  {
+    id: 'zone_feel',
+    text: 'Which Classic WoW zone atmosphere calls to you most?',
+    cols: 2,
+    opts: [
+      { icon: '🌲', val: 'nelf_forest',  title: 'Ancient Night Elf forests',    desc: 'Teldrassil, Ashenvale — ethereal, nature-touched, mysterious.' },
+      { icon: '☠️', val: 'undead_dark',  title: 'Forsaken undercity and shadows',desc: 'Tirisfal Glades, Western Plaguelands — haunted and gothic.' },
+      { icon: '🌋', val: 'horde_plains', title: 'Horde barrens and war drums',  desc: 'The Barrens, Durotar — brutal, open, Horde culture at its finest.' },
+      { icon: '🗡️', val: 'alliance_maj', title: 'Alliance majesty and stone cities', desc: 'Stormwind, Ironforge — the grandeur of the original Alliance.' },
+    ]
+  },
+  {
+    id: 'social_style',
+    text: 'What\'s your social style in a Classic server?',
+    cols: 2,
+    opts: [
+      { icon: '🧍', val: 'solo_at_heart', title: 'Solo until max, then group',    desc: 'I level alone and join up for dungeons and raids at 60.' },
+      { icon: '👥', val: 'love_groups',   title: 'Groups all the way',            desc: 'Leveling with friends is the point. I love having a crew.' },
+      { icon: '🌟', val: 'server_famous', title: 'I want server reputation',      desc: 'I want people to recognize my name. Good or feared — I\'ll take it.' },
+      { icon: '📊', val: 'min_maxer',     title: 'Silent min-maxer',             desc: 'I study class guides before I log in. I\'m here to be optimal.' },
+    ]
+  },
+  {
+    id: 'meta_stance',
+    text: 'What\'s your relationship with the Classic WoW meta?',
+    cols: 2,
+    opts: [
+      { icon: '📈', val: 'play_strong',   title: 'Play what\'s strong — period',  desc: 'If Warrior DPS is S-tier, I\'m rolling Warrior DPS. Simple.' },
+      { icon: '❤️', val: 'fun_first',     title: 'Good enough is fine — fun first',desc: 'I want to perform well but not sacrifice enjoyment for rankings.' },
+      { icon: '🎭', val: 'flavor',        title: 'Class fantasy over numbers',    desc: 'The right class identity matters far more than tier lists.' },
+      { icon: '🔥', val: 'off_meta',      title: 'I like off-meta challenge picks',desc: 'Shadow Priest DPS, Moonkin — I\'ll play underdog and prove it works.' },
+    ]
+  },
+
+  // ── Section 2: Leveling ────────────────────────────────────────────────
+  {
+    id: 'leveling_speed',
+    text: 'What\'s your ideal leveling pace in Classic?',
+    cols: 2,
+    opts: [
+      { icon: '🚀', val: 'race_to_60',   title: 'Race to 60 as fast as possible',  desc: 'AoE grind spots, optimal quest routing, no dawdling.' },
+      { icon: '🎒', val: 'enjoy_it',     title: 'Read every quest, enjoy it all',  desc: 'I\'m here for the journey. Smell the Elwynn roses.' },
+      { icon: '👫', val: 'level_group',  title: 'Level with a friend or duo',      desc: 'The XP bonus is real, and company makes it better.' },
+      { icon: '💰', val: 'grind_gold',   title: 'Efficiency — XP and gold together', desc: 'I want to arrive at 60 with a full mount fund already.' },
+    ]
+  },
+  {
+    id: 'struggle',
+    text: 'How do you handle Classic\'s brutally unforgiving early levels?',
+    cols: 2,
+    opts: [
+      { icon: '🛡️', val: 'embrace_pain',  title: 'Embrace the pain — builds character', desc: 'Warrior leveling is a rite of passage. I accept the suffering.' },
+      { icon: '🦊', val: 'self_suff',     title: 'I need self-sufficient, hard-to-kill', desc: 'Hunter or Warlock — I should rarely need to eat or run.' },
+      { icon: '🧊', val: 'efficient',     title: 'Find the most efficient path',         desc: 'Mage AoE grinding or Rogue stealth — work smarter, not harder.' },
+      { icon: '🌿', val: 'moderate_hard', title: 'Moderate challenge is fine',           desc: 'Some deaths and downtime is acceptable — I just don\'t want constant struggle.' },
+    ]
+  },
+  {
+    id: 'downtime',
+    text: 'How do you feel about Classic\'s infamous downtime between pulls?',
+    cols: 2,
+    opts: [
+      { icon: '😤', val: 'hate_downtime', title: 'I hate it — I want constant action',  desc: 'Eating and drinking between every pull will drive me insane.' },
+      { icon: '🧘', val: 'fine_with_it',  title: 'Fine with it — that\'s Classic',      desc: 'Downtime is part of the experience. I\'ll manage my resources.' },
+      { icon: '🐾', val: 'pet_tanks',     title: 'I never have downtime — pet tanks',   desc: 'Hunter or Warlock — my companion absorbs damage so I barely rest.' },
+      { icon: '🔋', val: 'life_tap',      title: 'I convert life to mana — no wasted time', desc: 'Warlock\'s Life Tap means I never sit and drink. Kill and keep going.' },
+    ]
+  },
+  {
+    id: 'gold_farming',
+    text: 'What\'s your approach to Classic\'s player economy?',
+    cols: 2,
+    opts: [
+      { icon: '💰', val: 'heavy_farmer',  title: 'Heavy farmer — I want to be wealthy', desc: 'Mage AoE farming, selling services, crafting — I\'ll dominate the AH.' },
+      { icon: '⚖️', val: 'average_gold',  title: 'Average — enough for my needs',       desc: 'Mount, consumes, respecs — that\'s all I need.' },
+      { icon: '🗝️', val: 'service_sell',  title: 'Sell services — portals, lockpicking', desc: 'Passive income through class utility is elegant and easy.' },
+      { icon: '🎮', val: 'ignore_gold',   title: 'I\'ll figure it out — gold is secondary', desc: 'Gear and fun come first. I\'ll worry about gold when I need it.' },
+    ]
+  },
+  {
+    id: 'zone_grind',
+    text: 'Which leveling zone experience excites you most?',
+    cols: 2,
+    opts: [
+      { icon: '🌴', val: 'stv',          title: 'Stranglethorn Vale PvP chaos',      desc: 'The most dangerous leveling zone in Classic — gank or be ganked.' },
+      { icon: '❄️', val: 'winterspring',  title: 'Winterspring AoE grind at 58–60',  desc: 'The famous Mage grinding spot. Hundreds of mobs, efficient and satisfying.' },
+      { icon: '🌿', val: 'barrens',      title: 'The Barrens and Horde culture',     desc: 'Barrens chat is an experience. Crossroads, The Wailing Caverns, the open plains.' },
+      { icon: '🏰', val: 'alliance_zones',title: 'Classic Alliance zones and dungeons', desc: 'Westfall, Redridge, Deadmines — the classic Alliance leveling experience.' },
+    ]
+  },
+
+  // ── Section 3: Combat ──────────────────────────────────────────────────
+  {
+    id: 'combat_rhythm',
+    text: 'What combat rhythm appeals to you most?',
+    cols: 2,
+    opts: [
+      { icon: '🗡️', val: 'burst_stealth', title: 'Burst from stealth — over in seconds', desc: 'Cheap Shot, Backstab, Ambush — the fight ends before they react.' },
+      { icon: '☠️', val: 'dot_drain',     title: 'Patient DoTs that tick them to death',  desc: 'Fear, Corruption, Drain Life — slow, methodical, inevitable.' },
+      { icon: '🔮', val: 'spell_nuke',    title: 'Cast powerful spells from range',       desc: 'Frostbolt chains, Fireball crits — satisfying cast-time spells.' },
+      { icon: '⚔️', val: 'melee_rage',   title: 'Get in melee and smash with procs',     desc: 'Charge, Whirlwind, Execute — rage-fueled melee combat.' },
+    ]
+  },
+  {
+    id: 'resource',
+    text: 'What kind of resource system do you want to manage?',
+    cols: 2,
+    opts: [
+      { icon: '🔴', val: 'rage_resource', title: 'Rage — build it by getting hit',        desc: 'The more dangerous the fight, the more powerful I become.' },
+      { icon: '♾️', val: 'no_resource',   title: 'Minimal resource — near-infinite ammo', desc: 'Hunter almost never runs out — focus on combat, not drinking.' },
+      { icon: '🔵', val: 'mana_complex',  title: 'Mana — manage and optimize every pull', desc: 'Think carefully about spell choices to avoid going OOM too fast.' },
+      { icon: '❤️', val: 'hp_as_mana',    title: 'Life itself — Life Tap is my mana bar', desc: 'Convert HP to mana, then drain life back — a dark engine of war.' },
+    ]
+  },
+  {
+    id: 'cc_style',
+    text: 'What\'s your stance on crowd control in Classic dungeons?',
+    cols: 2,
+    opts: [
+      { icon: '🐑', val: 'cc_king',       title: 'CC king — I control every pull',         desc: 'Polymorph sheep, Sap the rogue, Hibernate the beast — I\'m essential.' },
+      { icon: '💥', val: 'kill_fast',     title: 'Just kill things — CC is overrated',    desc: 'Burst damage and a good healer beats fancy crowd control.' },
+      { icon: '🌀', val: 'utility_cc',    title: 'Utility CC — helpful but not the lead',  desc: 'I have solid CC but I\'m not the group\'s sole controller.' },
+      { icon: '🌊', val: 'passive_cc',    title: 'Passive CC through totems/auras',        desc: 'My presence buffs the group and reduces the need for hard CC.' },
+    ]
+  },
+  {
+    id: 'danger_response',
+    text: 'Something goes wrong mid-fight. What\'s your instinct?',
+    cols: 2,
+    opts: [
+      { icon: '👻', val: 'vanish_reset',  title: 'Vanish — disappear and reset the fight', desc: 'You never saw me. I\'ll re-enter from stealth when it\'s safe.' },
+      { icon: '💀', val: 'feign_death',   title: 'Feign Death — I\'m dead, actually fine', desc: 'My pet wipes with the group. I come back to finish the job.' },
+      { icon: '🛡️', val: 'immune_button', title: 'Bubble or Ice Block — full immunity',    desc: 'Nothing can touch me for 12 seconds. I\'ll outlast the chaos.' },
+      { icon: '🦇', val: 'voidwalker',    title: 'Let my demon handle it',                 desc: 'Voidwalker taunts, I Fear, I drain — danger doesn\'t reach me.' },
+    ]
+  },
+  {
+    id: 'rotation_complexity',
+    text: 'What level of rotation complexity do you enjoy?',
+    cols: 2,
+    opts: [
+      { icon: '🔨', val: 'simple',        title: 'Simple — auto-attack with key cooldowns', desc: 'I want to focus on the world, not a 7-step priority list.' },
+      { icon: '🎯', val: 'moderate',      title: 'Moderate — a rotation I can master',      desc: 'Enough depth to feel skilled, simple enough not to be stressful.' },
+      { icon: '🧠', val: 'complex',       title: 'Complex — maximize every GCD',            desc: 'I enjoy optimizing every single button press and proc reaction.' },
+      { icon: '🎻', val: 'situational',   title: 'Situational — adapt to every fight',      desc: 'I want to make different decisions every pull based on the context.' },
+    ]
+  },
+
+  // ── Section 4: Endgame ─────────────────────────────────────────────────
+  {
+    id: 'raid_role',
+    text: 'What role do you see yourself filling in Classic raids?',
+    cols: 2,
+    opts: [
+      { icon: '🛡️', val: 'main_tank_r',  title: 'Main tank — most respected position',    desc: 'First pull of Ragnaros. Every death is on me. That\'s the appeal.' },
+      { icon: '📊', val: 'top_dps',      title: 'Top DPS — I want to top the meters',     desc: 'Rogue, Warrior Fury, Fire Mage — pure performance and recognition.' },
+      { icon: '🌟', val: 'support_dps',  title: 'Support DPS — I make everyone better',   desc: 'Windfury, Healthstones, Portals — my existence improves the raid.' },
+      { icon: '✨', val: 'dedicated_heal',title: 'Dedicated healer — I keep people alive', desc: 'I never DPS. I\'m here to make sure no one dies.' },
+    ]
+  },
+  {
+    id: 'utility_vs_perf',
+    text: 'Performance on the meters vs. irreplaceable utility — which matters more?',
+    cols: 2,
+    opts: [
+      { icon: '📈', val: 'pure_perf',    title: 'Pure performance — top of logs, always', desc: 'If my DPS isn\'t high, I\'m not doing my job. Numbers are truth.' },
+      { icon: '🧲', val: 'utility_king', title: 'Utility — I\'m needed regardless of logs', desc: 'You can\'t sim a Soulstone or a Windfury proc. My value is beyond meters.' },
+      { icon: '⚖️', val: 'both',         title: 'Both — high performance AND utility',    desc: 'I want to top charts AND bring something unique. Warrior, Mage, Shaman.' },
+      { icon: '🎭', val: 'just_enjoy',   title: 'Just enjoy the content — metrics are secondary', desc: 'I raid to see the content and hang with my guild. Parses don\'t define me.' },
+    ]
+  },
+  {
+    id: 'pvp_importance',
+    text: 'How important is PvP to your Classic experience?',
+    cols: 2,
+    opts: [
+      { icon: '🌍', val: 'world_pvp',    title: 'World PvP is essential',              desc: 'Crossroads defense, Southshore attacks, ganking in STV — the true Classic experience.' },
+      { icon: '🏆', val: 'rank_grind',   title: 'PvP rank titles and gear',            desc: 'Sergeant, Knight, High Warlord — I want the rank and the reward.' },
+      { icon: '⚔️', val: 'bg_only',     title: 'Battlegrounds — organized PvP only',  desc: 'WSG, AB, AV — structured and fair. I prefer lanes over ganking.' },
+      { icon: '🏰', val: 'pve_focus',   title: 'PvE only — PvP is a distraction',     desc: 'I\'m here for raids and dungeons. I\'ll avoid PvP servers if I can.' },
+    ]
+  },
+  {
+    id: 'consumes',
+    text: 'How serious are you about consumables and raid optimization?',
+    cols: 2,
+    opts: [
+      { icon: '⚗️', val: 'sweatlord',   title: 'Full sweatlord — flask and food always',desc: 'Elixir of the Mongoose, Juju Power, Firewater — every pull, no exceptions.' },
+      { icon: '📋', val: 'prog_only',   title: 'Progression and prog-kills only',      desc: 'Farm content? Bare. Progress night? Full consumable stack.' },
+      { icon: '🍖', val: 'well_fed',    title: 'Well Fed buff at minimum',             desc: 'I\'ll keep up with food buffs and maybe flasks on hard bosses.' },
+      { icon: '🎮', val: 'no_consumes', title: 'Casual — I\'ll get better gear instead', desc: 'I\'ll pass on consumables. Better gear can make up the gap.' },
+    ]
+  },
+  {
+    id: 'guild_vibe',
+    text: 'What guild atmosphere fits you best?',
+    cols: 2,
+    opts: [
+      { icon: '🔱', val: 'hardcore',    title: 'Hardcore progression — server rank matters', desc: '5 nights a week. World buff stacking. Server first mentality.' },
+      { icon: '⚔️', val: 'semi_hard',  title: 'Semi-hardcore — clear content efficiently', desc: '3 nights, all content cleared, no drama, good vibes.' },
+      { icon: '🎉', val: 'casual_raid', title: 'Casual raiding — fun over speed',          desc: 'We\'ll clear it eventually. We\'re here for the experience.' },
+      { icon: '🧍', val: 'pug_life',   title: 'Solo / PUG — no guild commitments',        desc: 'I prefer PUGging raids on my own schedule. No attendance requirements.' },
+    ]
+  },
+
+  // ── Section 5: Deep Cuts ───────────────────────────────────────────────
+  {
+    id: 'race_instinct',
+    text: 'Which race/faction instinctively appeals to you?',
+    cols: 3,
+    opts: [
+      { icon: '🌙', val: 'night_elf',    title: 'Night Elf',    desc: 'Shadowmeld, Dodge, Teldrassil' },
+      { icon: '☠️', val: 'undead_race',  title: 'Undead',       desc: 'Will of the Forsaken, Cannibalize' },
+      { icon: '🐃', val: 'tauren_race',  title: 'Tauren',       desc: 'War Stomp, +5% HP, nature' },
+      { icon: '⚙️', val: 'gnome_race',   title: 'Gnome',        desc: 'Escape Artist, +Intellect' },
+      { icon: '⚔️', val: 'human_race',  title: 'Human',        desc: 'Sword Spec, Spirit, Diplomacy' },
+      { icon: '🐗', val: 'orc_race',    title: 'Orc',          desc: 'Blood Fury, Axe Spec, Hardiness' },
+      { icon: '🎯', val: 'troll_race',   title: 'Troll',        desc: 'Berserking, Bow Spec, regeneration' },
+      { icon: '⛏️', val: 'dwarf_race',  title: 'Dwarf',        desc: 'Stoneform, Gun Spec, Find Treasure' },
+    ]
+  },
+  {
+    id: 'iconic_ability',
+    text: 'Which Classic ability have you always thought about the most?',
+    cols: 3,
+    opts: [
+      { icon: '🛡️', val: 'divine_shield_a',  title: 'Divine Shield',      desc: 'Total immunity — the Paladin Bubble' },
+      { icon: '👻', val: 'vanish_a',          title: 'Vanish',              desc: 'Instantly reset any fight from stealth' },
+      { icon: '💀', val: 'feign_death_a',     title: 'Feign Death',         desc: 'Pretend to die — your group wipes, you live' },
+      { icon: '🔮', val: 'portals_a',         title: 'Portals + Food',      desc: 'Teleport everyone + conjure free consumables' },
+      { icon: '🐾', val: 'pet_tame',          title: 'Tame Beast',          desc: 'Build a bond with any rare pet in the world' },
+      { icon: '💀', val: 'soul_utility_a',    title: 'Soulstone + Stone',   desc: 'Battle rez, free HP potions, group summoning' },
+      { icon: '🌿', val: 'shapeshift_a',      title: 'Shapeshifting',       desc: 'Bear, cat, moonkin, travel — true freedom' },
+      { icon: '⚡', val: 'windfury_a',        title: 'Windfury Totem',      desc: 'Give every melee extra attacks — insane buff' },
+      { icon: '✝️', val: 'shadowform_a',      title: 'Shadowform + MC',     desc: 'Mind Control enemies into fighting each other' },
+    ]
+  },
+  {
+    id: 'server_legacy',
+    text: 'How do you want to be remembered on your Classic server?',
+    cols: 2,
+    opts: [
+      { icon: '🏰', val: 'best_tank',    title: 'The best tank on the server',           desc: 'Every guild wants me. Main tanking in every progression guild.' },
+      { icon: '🗡️', val: 'gank_king',   title: 'The rogue who ganks everyone',          desc: 'My name in the kill feed becomes a server meme. Feared everywhere.' },
+      { icon: '🔮', val: 'mage_vip',    title: 'The mage giving portals in Ironforge',  desc: 'Public servant and AoE grind legend. Everyone knows me as "that mage".' },
+      { icon: '🌿', val: 'clutch_druid', title: 'The druid who battle-rezzed the raid', desc: 'The one Rebirth that saved the progression kill everyone will remember.' },
+    ]
+  },
+  {
+    id: 'future_proofing',
+    text: 'Do you care about how your class performs in future Classic phases?',
+    cols: 2,
+    opts: [
+      { icon: '📅', val: 'tbc_aware',    title: 'Yes — I want a class strong in TBC too',  desc: 'Paladin and Shaman explode in TBC. Thinking ahead matters.' },
+      { icon: '🏺', val: 'vanilla_only', title: 'No — I\'m here for Vanilla, full stop',   desc: 'I\'ll cross the TBC bridge if I get there. Enjoy today first.' },
+      { icon: '📊', val: 'clear_path',   title: 'Somewhat — I want a clear upgrade path',  desc: 'I want to know my class stays relevant as phases progress.' },
+      { icon: '❤️', val: 'fun_trumps',   title: 'Fun in Vanilla trumps all future planning',desc: 'If the class is miserable in Vanilla, who cares about TBC.' },
+    ]
+  },
+  {
+    id: 'gut_check',
+    text: 'Final gut check — the dungeon goes badly. What are you doing?',
+    cols: 2,
+    opts: [
+      { icon: '⚔️', val: 'shield_wall_g', title: 'Shield Wall — yell at healers to keep up', desc: 'I\'m not dying. We are getting through this together, now.' },
+      { icon: '🗡️', val: 'vanish_g',     title: 'Vanish — watch from the shadows',          desc: 'I\'ll come back and finish off the survivors when it\'s over.' },
+      { icon: '🧊', val: 'ice_block_g',  title: 'Ice Block — buy everyone time',             desc: 'Aggro resets, healer mana recovers, I come back and finish the fight.' },
+      { icon: '🐾', val: 'pet_taunt_g',  title: 'Send in the pet — it\'ll buy time',         desc: 'Feign Death, let the pet die heroically, then clean up the survivors.' },
+    ]
+  },
+];
+
+// ── Scoring ────────────────────────────────────────────────────────────────
+const SCORES = {
+  why_classic: {
+    nostalgia:   { warrior:1, rogue:1, mage:1, warlock:1, hunter:1, druid:1, shaman:1, paladin:1, priest:1 },
+    deliberate:  { warrior:1, paladin:1, druid:1 },
+    community:   { warrior:2, rogue:2, mage:1 },
+    challenge:   { warrior:3, paladin:1 },
+  },
+  investment: {
+    casual_dip:  { hunter:2, mage:1 },
+    full_60:     { rogue:1, druid:1, priest:1 },
+    raid_tier:   { warrior:2, rogue:2, mage:2 },
+    long_haul:   { warrior:2, rogue:2, paladin:1, shaman:1 },
+  },
+  zone_feel: {
+    nelf_forest: { druid:3, hunter:2, priest:1 },
+    undead_dark: { warlock:3, rogue:2, priest:2 },
+    horde_plains:{ shaman:3, warrior:1, hunter:1 },
+    alliance_maj:{ paladin:3, warrior:2, mage:1 },
+  },
+  social_style: {
+    solo_at_heart:{ hunter:2, warlock:2, mage:1 },
+    love_groups:  { paladin:2, druid:2, priest:1 },
+    server_famous:{ warrior:2, rogue:3, mage:1 },
+    min_maxer:    { warrior:2, rogue:2, mage:2 },
+  },
+  meta_stance: {
+    play_strong: { warrior:3, rogue:2, mage:1 },
+    fun_first:   { hunter:2, druid:2, shaman:1 },
+    flavor:      { warlock:2, paladin:2, druid:1 },
+    off_meta:    { priest:3, druid:2, hunter:1 },
+  },
+  leveling_speed: {
+    race_to_60:  { mage:3, hunter:2, rogue:1 },
+    enjoy_it:    { paladin:2, druid:2, priest:1 },
+    level_group: { paladin:2, priest:2, druid:1 },
+    grind_gold:  { mage:2, rogue:2, warlock:1 },
+  },
+  struggle: {
+    embrace_pain: { warrior:3 },
+    self_suff:    { hunter:3, warlock:3 },
+    efficient:    { mage:3, rogue:2 },
+    moderate_hard:{ druid:2, shaman:2, priest:2 },
+  },
+  downtime: {
+    hate_downtime:{ mage:2, rogue:1 },
+    fine_with_it: { warrior:2, paladin:2 },
+    pet_tanks:    { hunter:3, warlock:2 },
+    life_tap:     { warlock:3 },
+  },
+  gold_farming: {
+    heavy_farmer: { mage:3, rogue:2 },
+    average_gold: { warrior:1, paladin:1, priest:1 },
+    service_sell: { mage:3, rogue:2 },
+    ignore_gold:  { hunter:1, druid:1 },
+  },
+  zone_grind: {
+    stv:          { rogue:3, hunter:2, warrior:1 },
+    winterspring: { mage:3 },
+    barrens:      { shaman:2, warrior:1, hunter:1 },
+    alliance_zones:{ paladin:2, warrior:1, priest:1 },
+  },
+  combat_rhythm: {
+    burst_stealth:{ rogue:3 },
+    dot_drain:    { warlock:3, priest:2 },
+    spell_nuke:   { mage:3 },
+    melee_rage:   { warrior:3, paladin:1, shaman:1 },
+  },
+  resource: {
+    rage_resource:{ warrior:3 },
+    no_resource:  { hunter:3 },
+    mana_complex: { mage:3, priest:2, paladin:1 },
+    hp_as_mana:   { warlock:3 },
+  },
+  cc_style: {
+    cc_king:      { mage:3, rogue:2 },
+    kill_fast:    { warrior:2, hunter:1 },
+    utility_cc:   { druid:2, priest:2, paladin:1 },
+    passive_cc:   { shaman:2, paladin:2 },
+  },
+  danger_response: {
+    vanish_reset: { rogue:3 },
+    feign_death:  { hunter:3 },
+    immune_button:{ paladin:3, mage:2 },
+    voidwalker:   { warlock:3 },
+  },
+  rotation_complexity: {
+    simple:       { hunter:2, warrior:2 },
+    moderate:     { rogue:2, shaman:2, druid:1 },
+    complex:      { mage:3, rogue:2 },
+    situational:  { druid:3, priest:2 },
+  },
+  raid_role: {
+    main_tank_r:  { warrior:3 },
+    top_dps:      { rogue:3, warrior:2, mage:2 },
+    support_dps:  { shaman:3, paladin:2, warlock:2, mage:1 },
+    dedicated_heal:{ paladin:2, priest:3, shaman:1, druid:1 },
+  },
+  utility_vs_perf: {
+    pure_perf:    { rogue:3, warrior:2, mage:1 },
+    utility_king: { shaman:3, paladin:2, warlock:2 },
+    both:         { mage:2, warrior:2, shaman:1 },
+    just_enjoy:   { hunter:2, druid:2 },
+  },
+  pvp_importance: {
+    world_pvp:    { rogue:3, warrior:2, hunter:1 },
+    rank_grind:   { warrior:2, rogue:2, paladin:1, priest:1 },
+    bg_only:      { shaman:2, mage:2, warlock:1 },
+    pve_focus:    { warrior:1, hunter:1, mage:1 },
+  },
+  consumes: {
+    sweatlord:    { warrior:3, rogue:2, mage:2 },
+    prog_only:    { warrior:1, rogue:1, mage:1 },
+    well_fed:     { paladin:1, druid:1, priest:1 },
+    no_consumes:  { hunter:2, warlock:1 },
+  },
+  guild_vibe: {
+    hardcore:     { warrior:3, rogue:2 },
+    semi_hard:    { mage:2, rogue:2, warrior:1 },
+    casual_raid:  { druid:2, hunter:2, paladin:1 },
+    pug_life:     { hunter:2, mage:2, warlock:1 },
+  },
+  race_instinct: {
+    night_elf:   { druid:3, hunter:2, rogue:1, priest:1, warrior:1 },
+    undead_race: { warlock:3, rogue:2, priest:2, mage:1, warrior:1 },
+    tauren_race: { druid:3, shaman:2, warrior:1 },
+    gnome_race:  { mage:3, rogue:2, warrior:1 },
+    human_race:  { warrior:2, paladin:2, rogue:1, mage:1, priest:1 },
+    orc_race:    { warrior:2, rogue:2, shaman:2, hunter:1, warlock:1 },
+    troll_race:  { warrior:1, rogue:1, mage:1, shaman:2, hunter:1, priest:1 },
+    dwarf_race:  { warrior:2, rogue:1, paladin:2, priest:2, hunter:1 },
+  },
+  iconic_ability: {
+    divine_shield_a: { paladin:3 },
+    vanish_a:        { rogue:3 },
+    feign_death_a:   { hunter:3 },
+    portals_a:       { mage:3 },
+    pet_tame:        { hunter:3 },
+    soul_utility_a:  { warlock:3 },
+    shapeshift_a:    { druid:3 },
+    windfury_a:      { shaman:3 },
+    shadowform_a:    { priest:3 },
+  },
+  server_legacy: {
+    best_tank:    { warrior:3 },
+    gank_king:    { rogue:3 },
+    mage_vip:     { mage:3 },
+    clutch_druid: { druid:3, shaman:1, paladin:1 },
+  },
+  future_proofing: {
+    tbc_aware:    { paladin:2, shaman:2, druid:1 },
+    vanilla_only: { warrior:1, rogue:1, mage:1, hunter:1 },
+    clear_path:   { warrior:1, druid:1, paladin:1 },
+    fun_trumps:   { warlock:1, priest:1, druid:1 },
+  },
+  gut_check: {
+    shield_wall_g:{ warrior:3 },
+    vanish_g:     { rogue:3 },
+    ice_block_g:  { mage:3 },
+    pet_taunt_g:  { hunter:3 },
+  },
+};
+
+// ── Class Data ─────────────────────────────────────────────────────────────
+const CLASSES = {
+  warrior: {
+    name:'Warrior', icon:'⚔️', faction:'both',
+    archetype: 'The Iron Warlord',
+    factionKey: 'b',
+    roles: { tank:true, dps:true, healer:false },
+    summary: "Warrior is Classic WoW's most revered class — and its most demanding. The main tank role in every progression raid belongs to a geared Warrior, and Fury Warrior in full BiS gear is one of the strongest DPS specs in the game. You will suffer through the worst leveling experience in Classic (truly, genuinely rough), but the payoff is arriving at 60 as the most in-demand, most respected archetype on any server.",
+    levelingEase:1, endgamePower:5, pvpPower:3, utilityRating:2,
+    pvp: { oneVOne:3, bg:4, worldPvp:4, summary:'Strong in group fights and world PvP but gets kited hard by ranged. Execute range makes 1v1s explosive.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Stack Cloth gear for armor, use Defensive Stance to survive until Berserker Rage opens up options. Find a healer friend if you can.' },
+      { range:'20–40', tip:'Fury build starts paying off here. Two-Hand Fury is a significant DPS improvement over Arms at this bracket. Prioritize weapon upgrades above everything.' },
+      { range:'40–60', tip:'Prioritize Whirlwind Axe quest at 40 — it\'s the best leveling weapon in the game for a very long time. Group up for elite quests you\'d otherwise skip.' },
+      { range:'55–60', tip:'Start farming world buffs: Rend\'s head, Ony buff, Songflower. Pre-raid BIS list preparation. Get your resist gear for MC.' },
+    ],
+    bestRaces: [
+      { name:'Orc (Horde)', why:'Blood Fury provides burst damage, Hardiness reduces stun duration in PvP, and Axe Specialization makes early BiS weapons shine.' },
+      { name:'Human (Alliance)', why:'Sword Specialization is invaluable — most BiS weapons are swords. Every Man for Himself-feel diplomacy rep gains help with gear grinds.' },
+      { name:'Night Elf (Alliance)', why:'Quickness dodge passive helps in tanking scenarios. Shadowmeld has niche PvP uses on a PvP server.' },
+    ],
+    abilities: [
+      { name:'Charge + Intercept', why:'Instantly close any gap — you are literally never kited when you have both on cooldown. The feeling of landing a Charge is never old.' },
+      { name:'Shield Wall',        why:'75% damage reduction. The original last-resort tank cooldown. Nothing in Classic matches this for pure survival value.' },
+      { name:'Execute',            why:'Under 20%, the fight flips completely in your favor. Watching a boss go from threatening to dead in seconds is endlessly satisfying.' },
+      { name:'Whirlwind',          why:'Your AoE and your core Fury DPS ability — the satisfying center of the Fury DPS rotation in raids.' },
+    ],
+    pros:['Undisputed best main tank — period','Fury DPS is S-tier in full BIS gear','Charge is one of the most satisfying abilities in WoW history','Highest skill ceiling for tanking of any Classic class'],
+    cons:['Worst leveling experience in Classic — genuinely brutal','Completely gear-dependent — weak early, unstoppable late','Needs a dedicated healer to level effectively','Rage generation requires getting hit — bad early gear means bad rage'],
+    journey: '<strong>Your Classic journey as a Warrior:</strong> The first 40 levels will test your patience. You will eat, drink, and question your life choices. Around 40, the Whirlwind Axe drops and suddenly you feel powerful. At 60, geared, you become a different player — one of the most sought-after characters on any server. The suffering is the point. Warriors who make it through to progression gear know they earned every bit of it.',
+  },
+  rogue: {
+    name:'Rogue', icon:'🗡️', faction:'both',
+    archetype: 'The Shadow Sovereign',
+    factionKey: 'b',
+    roles: { tank:false, dps:true, healer:false },
+    summary: "Rogue is Classic WoW's definitive assassin class — and the king of PvP. Undead Rogue with Will of the Forsaken is arguably the strongest race/class combination for 1v1 PvP in the entire game. Stealth, Vanish, and burst combo windows make you terrifying in open-world encounters. In raids, Combat Rogue consistently delivers top-tier DPS. Pure DPS with no respec path — but nothing else does what Rogue does.",
+    levelingEase:3, endgamePower:4, pvpPower:5, utilityRating:2,
+    pvp: { oneVOne:5, bg:4, worldPvp:5, summary:'Best 1v1 class in Classic. Undead WotF + Kidney Shot + Vanish is the most feared PvP combination in vanilla.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Stealth past dangerous elites and groups you can\'t solo. Sap is online early and makes questing significantly smoother.' },
+      { range:'20–40', tip:'Cold Blood Assassination delivers massive burst. Sinister Strike builds are solid here. Pick up Improved Gouge for sustained CC.' },
+      { range:'40–60', tip:'Transition to Combat swords for raid prep. Dual-wield with the best one-handers you can find. Blade Flurry is your AoE option in group content.' },
+      { range:'55–60', tip:'Farm for pre-raid BIS (Brutality Blade if possible). Learn Expose Armor rotation for supporting Warrior tanks in dungeons.' },
+    ],
+    bestRaces: [
+      { name:'Undead (Horde)', why:'Will of the Forsaken is a trinket-level PvP ability that breaks fear, sleep, and charm. This makes Undead Rogue the single most feared PvP combination in Classic.' },
+      { name:'Human (Alliance)', why:'Sword Specialization pairs perfectly with most BiS weapon choices. Perception gives a temporary stealth detect burst for counter-ganking.' },
+      { name:'Night Elf (Alliance)', why:'Shadowmeld while stealthed for passive detection avoidance. Quickness adds a touch of dodge for survivability.' },
+    ],
+    abilities: [
+      { name:'Stealth + Vanish',  why:'Open from stealth on your terms, and if anything goes wrong — Vanish resets the entire encounter. You are never truly committed to a fight.' },
+      { name:'Kidney Shot',        why:'6-second incapacitate. The most powerful single CC ability in PvP. Used correctly, it ends 1v1 fights instantly.' },
+      { name:'Blade Flurry',       why:'Briefly attack two targets simultaneously — the Combat Rogue\'s AoE and a huge burst DPS cooldown in single-target fights.' },
+      { name:'Lockpicking',        why:'Passive utility that always has value. Opening lockboxes and chests earns gold and goodwill from everyone in your group.' },
+    ],
+    pros:['Best 1v1 PvP class in Classic — nothing touches it','Vanish is the ultimate safety net and escape tool','Stealth lets you bypass dangerous content while leveling','Consistent top-tier raid DPS in Combat spec'],
+    cons:['Pure DPS only — zero ability to tank or heal, ever','No AoE — kills one target methodically, one at a time','Very gear-dependent for max raid performance','Gets hard-kited by ranged and pet classes in extended fights'],
+    journey: '<strong>Your Classic journey as a Rogue:</strong> Leveling feels genuinely smooth once Stealth opens up early. You bypass difficult pulls, Sap patrol mobs, and burst down targets before they react. The PvP server experience is where you truly shine — the feeling of ganking someone from stealth, then Vanishing when things go south, never gets old. In raids, your job is to stay behind the boss and press buttons correctly. Simple role, but consistent results.',
+  },
+  mage: {
+    name:'Mage', icon:'🔮', faction:'both',
+    archetype: 'The Arcane VIP',
+    factionKey: 'b',
+    roles: { tank:false, dps:true, healer:false },
+    summary: "Mage is never not wanted in any group in Classic WoW — because beyond raw DPS, you provide portals to every major city, infinite free food and water for your entire party, and Polymorph, the definitive CC. Frost Mage is a leveling powerhouse through AoE grinding, and Fire Mage melts raid bosses once you have the gear. If you want to be the social glue of your group while also topping damage charts, Mage is the answer.",
+    levelingEase:4, endgamePower:4, pvpPower:4, utilityRating:5,
+    pvp: { oneVOne:4, bg:4, worldPvp:3, summary:'Ice Block and Cone of Cold make you slippery and dangerous. Frost is oppressive in 1v1 — kite, freeze, burst, repeat.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Frost Bolt is your best friend. Frost Nova + run back is your survival tool. Conjure Water at every level milestone — never pay for food again.' },
+      { range:'20–40', tip:'Learn the Frost AoE grind: Frost Nova → Cone of Cold → Blizzard. This is the fastest leveling method in Classic at the right density spots.' },
+      { range:'40–58', tip:'Keep AoE grinding — Azshara, Felwood, Winterspring are your spots. You\'ll outlevel zones because AoE grinding XP is broken-efficient.' },
+      { range:'58–60', tip:'Transition to Fire for raid prep if your gear supports it. Master food and water conjuring — this is your social currency in every raid.' },
+    ],
+    bestRaces: [
+      { name:'Gnome (Alliance)', why:'Intellect racial gives you a larger mana pool — critical for long fights. Escape Artist breaks roots and slows, making you nearly impossible to CC in PvP.' },
+      { name:'Troll (Horde)', why:'Berserking provides an on-demand cast speed increase that boosts DPS in burst windows. Most consistent Horde Mage race for raiding.' },
+      { name:'Undead (Horde)', why:'Will of the Forsaken is the best PvP racial in the game. Undead Mage with WotF + Ice Block is nearly impossible to keep CCed.' },
+    ],
+    abilities: [
+      { name:'Portals + Teleport', why:'The single most quality-of-life ability in Classic WoW. You can send any group member to any capital city instantly. You are always wanted.' },
+      { name:'Conjure Food & Water', why:'Free consumables for your entire group at every rank. In a game where mana classes drink constantly, this is genuine value on every pull.' },
+      { name:'Polymorph',          why:'The definitive CC. Sheep a target indefinitely with refreshes — makes any difficult pull manageable for the entire group.' },
+      { name:'Ice Block',          why:'Full immunity for 10 seconds with a long cooldown. One of the best panic buttons in Classic — and it fully resets threat.' },
+    ],
+    pros:['Always in demand — portals and conjured goods make you essential anywhere','Frost AoE grinding is literally the fastest leveling method in the game','Ice Block is the ultimate panic button in any dangerous situation','Multiple strong endgame specs — Frost, Fire, and niche Arcane builds'],
+    cons:['Cloth armor means you die extremely fast when something goes wrong','Very mana-hungry on long fights without Innervate support','No off-spec — you are always a DPS class with no backup role','Polymorph is your only CC — losing it breaks your group\'s pull plan'],
+    journey: '<strong>Your Classic journey as a Mage:</strong> Your leveling experience is one of the smoothest in the game — AoE grinding at 20+ makes XP flow fast, and you never spend gold on food. You become the group\'s utility VIP early: "Can you make water?" follows you everywhere. In raids, you toggle between Frost (if frost-immune bosses aren\'t blocking you) and Fire, managing your mana carefully and delivering consistent top-5 damage. You are the perfect blend of performance and social utility.',
+  },
+  warlock: {
+    name:'Warlock', icon:'💀', faction:'both',
+    archetype: 'The Dark Engine',
+    factionKey: 'b',
+    roles: { tank:false, dps:true, healer:false },
+    summary: "Warlock is the most self-sufficient leveling class in Classic WoW — arguably of any WoW version. Your Voidwalker tanks while you DoT, Fear, and drain life back. You never truly run out of mana thanks to Life Tap, and your Soulstone provides a free combat resurrection. In raids, Warlock brings Healthstones, Soulstones, Summoning, and Curse of Elements — making you genuinely irreplaceable beyond just DPS numbers.",
+    levelingEase:5, endgamePower:4, pvpPower:4, utilityRating:5,
+    pvp: { oneVOne:4, bg:3, worldPvp:4, summary:'Extremely durable. Fear + DoT + Drain strategy makes Warlocks nearly impossible to kill in sustained fights. Burst classes can be trouble.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Get the Imp immediately — free HP stones. At level 10 get the Voidwalker and never look back. It tanks everything. Your job is to DoT and drain.' },
+      { range:'20–40', tip:'Drain Tanking: DoT everything, let VW hold aggro, drain life back faster than you take damage. This is the Warlock self-perpetuating engine.' },
+      { range:'40–60', tip:'Felguard isn\'t in Classic, but your existing demons scale well. Corruption + Curse of Agony + Drain Soul for efficiency. Consider Affliction for max sustain.' },
+      { range:'55–60', tip:'Learn Destruction spec elements for raid parsing. Soulstone your main healer as a habit. Summon stones save raid leaders enormous time at summoning.' },
+    ],
+    bestRaces: [
+      { name:'Gnome (Alliance)', why:'Escape Artist breaks Warlock weaknesses — roots and snares. Intellect racial boosts your mana pool for more Drain Life casts.' },
+      { name:'Orc (Horde)', why:'Blood Fury boosts spell power (yes, it works for spells in Classic). Hardiness reduces stun duration — crucial for surviving burst burst windows in PvP.' },
+      { name:'Undead (Horde)', why:'Will of the Forsaken counters fear and charm effects — ironic for a class that fears others. Makes Undead Warlock a PvP powerhouse.' },
+    ],
+    abilities: [
+      { name:'Voidwalker Tanking',  why:'Your personal tank that levels alongside you. This single ability makes Warlock the easiest leveling class in Classic — nothing can kill you.' },
+      { name:'Life Tap + Drain Life',why:'Convert HP to mana, drain life back from enemies. An engine that sustains itself indefinitely — you never stop. You never run dry.' },
+      { name:'Soulstone',           why:'Battle rez mechanic — place it on your healer before a pull so they can self-resurrect if the raid wipes. Saves progression pulls.' },
+      { name:'Healthstone + Summon',why:'Free on-demand HP stones for every raid member, plus remote summoning to the raid entrance. Class utility that makes guild leaders love you.' },
+    ],
+    pros:['Easiest leveling class in Classic — Voidwalker makes you nearly unkillable','Life Tap + Drain Life creates a self-perpetuating resource engine','Healthstones and Soulstones make you invaluable in every raid','Strong PvP through DoT + Fear + Drain sustained fights'],
+    cons:['Cloth armor — dies fast when anything goes seriously wrong','Shadow Resistance gear on some Classic bosses cuts your damage significantly','No off-spec — always a DPS class with no tanking or healing option','DoT-based gameplay can feel slow and methodical — not everyone\'s pace'],
+    journey: '<strong>Your Classic journey as a Warlock:</strong> You will coast through leveling while other classes eat and drink between every pull. Your Voidwalker makes nearly every encounter trivial, and Life Tap means you\'re always topped up on mana. In raids, you set up Soulstones on key healers, hand out Healthstones like candy, and then deal solid DoT damage on bosses. Curse of Elements amplifies everyone\'s fire and shadow damage — your presence makes the whole raid perform better.',
+  },
+  hunter: {
+    name:'Hunter', icon:'🏹', faction:'both',
+    archetype: 'The Wild Ranger',
+    factionKey: 'b',
+    roles: { tank:false, dps:true, healer:false },
+    summary: "Hunter is one of the most self-sufficient classes in Classic WoW — your pet tanks while you attack from range, and Feign Death lets you escape any situation you can't handle. Taming rare and unique pets from across the world is one of Classic's most memorable side adventures. In raids, Hunter provides solid ranged DPS, Aspect of the Hawk, and the ability to trap-kite adds in progression content. And unlike the later game, Hunter ammo in Classic makes you genuinely resource-engaged.",
+    levelingEase:5, endgamePower:3, pvpPower:3, utilityRating:3,
+    pvp: { oneVOne:3, bg:3, worldPvp:3, summary:'Excellent kiting in open world. Feign Death is a unique escape. Struggles vs. Rogues and burst in close quarters, but excellent at controlling range.' },
+    levelingSteps: [
+      { range:'1–10',  tip:'Your pet becomes available at level 10 — the entire class changes at this point. Get your pet immediately and name it something good.' },
+      { range:'10–40', tip:'Steady Shot rotation + pet tanking is the core loop. Keep your pet\'s level close to yours. Upgrade to better pet families as you discover them (Ravager, Cat, Wind Serpent).' },
+      { range:'40–60', tip:'Marksmanship build for raid prep. Aimed Shot becomes extremely powerful with high Attack Power gear. Start thinking about rare pet options — Broken Tooth, Snarler, etc.' },
+      { range:'55–60', tip:'Farm Rhok\'delar legendary bow quest — it\'s Hunter\'s most iconic progression item. Stack Agility and Attack Power. Learn Aimed Shot + Multi-Shot rotations for raids.' },
+    ],
+    bestRaces: [
+      { name:'Night Elf (Alliance)', why:'Shadowmeld lets you set up Aimed Shot from pseudo-stealth on PvP servers. Quickness dodge adds mild survivability. Only Alliance Hunter choice with real benefits.' },
+      { name:'Orc (Horde)', why:'Blood Fury boosts Attack Power for big Aimed Shot crits. Axe Specialization applies to two-handed weapons — less relevant for ranged but helps on melee.' },
+      { name:'Troll (Horde)', why:'Berserking is an on-demand ranged attack speed buff — directly increases DPS output. Bow Specialization adds +1% crit with bows, which is Hunter\'s default weapon.' },
+    ],
+    abilities: [
+      { name:'Tame Beast',  why:'Binding yourself to a creature in the world is a Classic WoW fantasy unlike anything else. Rare pets become part of your identity on the server.' },
+      { name:'Feign Death', why:'Drop threat and fake-die in any situation. Your group wipes around you; you come back and finish the job. One of the most unique abilities in the game.' },
+      { name:'Trapping',    why:'Freeze Trap, Immolation Trap — add kiting in progression raids is a key Hunter job. The skill ceiling for trapping is genuinely high and satisfying to master.' },
+      { name:'Aspect of the Hawk',why:'Passive AP buff that you maintain 100% of the time in combat. Simple but defines your ranger identity as a sustained ranged damage dealer.' },
+    ],
+    pros:['Easiest leveling experience — pet tanks, you shoot from range, Feign Death escapes','Taming rare pets is one of Classic\'s most memorable activities','Feign Death drops threat and escapes any bad situation','Solid ranged DPS with strong add-control through trapping in raids'],
+    cons:['Melee deadzone (2–8 yards) in Classic — a ranged class that can\'t shoot up close','Weaker raid DPS ceiling than Warrior, Rogue, or Mage at equal gear','Pet management adds complexity — your pet dying mid-raid is your fault','Ammo cost is an ongoing real expense that adds up over time'],
+    journey: '<strong>Your Classic journey as a Hunter:</strong> Your pet arrives at level 10 and the game becomes significantly more fun. You quest efficiently, rarely die, and frequently pause to tame new pets you find across the world. The Rhok\'delar questline at 60 is one of Classic\'s most memorable solo adventures. In raids you trap, you multi-shot groups of adds, and you maintain consistent damage from range. An independent class for independent players.',
+  },
+  druid: {
+    name:'Druid', icon:'🌿', faction:'both',
+    archetype: 'The Verdant Shapeshifter',
+    factionKey: 'b',
+    roles: { tank:true, dps:true, healer:true },
+    summary: "Druid is Classic's ultimate flexible class — and the only class that can genuinely fill all three roles. Cat DPS, Bear tank, and Resto healing are all viable, and your two utility spells — Innervate and Rebirth (Battle Rez) — are the most uniquely powerful in the game. No other healer can battle rez mid-combat, and no other DPS can refill a healer's mana in a critical moment. Druid is brought for its irreplaceable utility as much as its performance.",
+    levelingEase:3, endgamePower:3, pvpPower:3, utilityRating:5,
+    pvp: { oneVOne:3, bg:3, worldPvp:3, summary:'Shapeshifting breaks roots and snares — extremely frustrating to pin down. Travel Form speed and instant-shift escapes make Druid a slippery target.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Balance (Moonfire spam) works here but is mana-inefficient. Feral is more sustainable. Get Cat Form at 20 and your damage improves immediately.' },
+      { range:'20–40', tip:'Feral leveling with Cat Form is the best path. Ravage from stealth, Ferocious Bite as a finisher. Bear Form for anything multi-mob.' },
+      { range:'40–60', tip:'Keep your Feral gear up to date. Dire Bear Form at 40 makes off-tanking 5-mans viable. Start collecting both Feral and Resto sets.' },
+      { range:'55–60', tip:'Decide: Feral or Resto for launch raids. Druid is often recruited as Resto for Innervate and Battle Rez. Collect pre-raid BIS for your chosen role.' },
+    ],
+    bestRaces: [
+      { name:'Night Elf (Alliance)', why:'The only Alliance Druid. Shadowmeld is strong on PvP servers — you can Shadowmeld in Moonkin form. Quickness adds dodge for Bear tanking.' },
+      { name:'Tauren (Horde)',       why:'The only Horde Druid. War Stomp is a free AoE interrupt/CC that pairs with your kit. +5% HP increases Bear Form durability significantly.' },
+    ],
+    abilities: [
+      { name:'Rebirth (Battle Rez)', why:'Bring a dead player back mid-combat once per fight. This single ability has saved more progression kills in Classic history than any other spell.' },
+      { name:'Innervate',            why:'Restore 4,400 mana to any party member over 20 seconds. On a healer going OOM mid-boss, this is a fight-saving cooldown nobody else has.' },
+      { name:'Shapeshifting',        why:'Bear → Cat → Moonkin → Caster → Travel Form. True role flexibility in one button press. Breaking roots and slows by shifting is a unique survival tool.' },
+      { name:'Travel Form',          why:'40% speed at level 30, requiring no mount — the fastest ground movement in Classic before getting an epic mount.' },
+    ],
+    pros:['Only class that can genuinely fill all three roles (tank/DPS/heal)','Battle Rez is irreplaceable — every serious raid group wants one','Innervate saves healer mana in critical moments — game-changing','Travel Form makes open-world movement faster than anyone else'],
+    cons:['No role excels at the very top — Warriors out-tank you, Rogues out-DPS you, Priests out-heal you','Cat DPS is significantly below Rogue and Warrior at equal gear','Often recruited to fill whatever role is missing, not necessarily what you prefer','Night Elf or Tauren only — no race variety'],
+    journey: '<strong>Your Classic journey as a Druid:</strong> Your leveling is solid but not exceptional — Feral is respectable, Moonkin is fun but mana-hungry. At 60, the guild conversation starts: "Can you go Resto? We really need your Innervate." Your Battle Rez becomes legendary in raid logs — you are the player who saved the progression kill. If you want to be remembered for utility rather than meters, Druid is the class for that story.',
+  },
+  shaman: {
+    name:'Shaman', icon:'⚡', faction:'horde',
+    archetype: 'The Totem Sovereign',
+    factionKey: 'h',
+    roles: { tank:false, dps:true, healer:true },
+    summary: "Shaman is Horde-exclusive and mandatory in every Horde raid — Windfury Totem alone makes you irreplaceable for any melee-heavy composition. You bring four distinct totems every two minutes: fire, earth, water, air — each one meaningfully improving your group. In PvE you can play Elemental DPS, Enhancement melee, or Resto healing. And Windfury procs from Enhancement are some of the most explosive moments in all of Classic WoW.",
+    levelingEase:4, endgamePower:3, pvpPower:3, utilityRating:5,
+    pvp: { oneVOne:3, bg:4, worldPvp:3, summary:'Windfury self-procs make Enhancement Shaman burst dangerous. Purge removes buffs from targets. Solid BG contributor through totems and Chain Heal.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Enhancement (melee) with Ghost Wolf is the smoothest leveling path. Rockbiter Weapon + two-hand melee is your core damage loop. Totems are your support every pull.' },
+      { range:'20–40', tip:'Stormstrike at 40 is a massive upgrade. Flame Shock + Earth Shock as openers. Keep all four totem families refreshed on every significant pull.' },
+      { range:'40–60', tip:'Decide between Enhancement and Elemental for endgame. Enhancement is more fun to level; Elemental scales better with gear later. Collect both gear sets.' },
+      { range:'55–60', tip:'Build your Resto set for raids — Grace of Air and Windfury Totems make you wanted in any melee group. Mana Tide Totem makes you wanted by every healer.' },
+    ],
+    bestRaces: [
+      { name:'Orc (Horde)', why:'Blood Fury boosts attack power for Enhancement DPS. Hardiness reduces stun duration — important in PvP and sticky raid situations. Axe Spec applies to melee Shaman BiS weapons.' },
+      { name:'Tauren (Horde)', why:'War Stomp gives you a free AoE CC that Shaman doesn\'t have natively — very strong for emergency crowd control. +5% HP makes you tankier in prolonged fights.' },
+      { name:'Troll (Horde)', why:'Berserking is excellent for Enhancement burst windows and for Elemental casting throughput. Useful for all three Shaman specs.' },
+    ],
+    abilities: [
+      { name:'Windfury Totem',    why:'Give every melee in your group extra attacks on every weapon swing. A single Windfury proc can double a Warrior\'s white damage. Non-negotiable in any Horde raid.' },
+      { name:'Mana Tide Totem',   why:'Restore mana to every party member over 12 seconds. This single totem has saved more Horde raid nights than any other ability.' },
+      { name:'Grace of Air Totem',why:'Agility buff for every melee and physical DPS in range — adds crit, dodge, and attack speed. Transparent value every single pull.' },
+      { name:'Chain Heal',        why:'Bounces between three targets, healing each one for substantial amounts. The most mana-efficient AoE heal in Classic WoW.' },
+    ],
+    pros:['Windfury Totem is mandatory — every Horde raid always needs a Shaman','Mana Tide Totem saves the healing team from going OOM in long fights','Explosive burst damage from Windfury self-procs in Enhancement spec','Can respec between DPS (Enhancement/Elemental) and healing (Resto) with gold'],
+    cons:['Horde only — Alliance players cannot access Shaman','Pure Elemental DPS is below Mage and Rogue at equal gear','Totem management adds significant complexity — 4 totems every 2 minutes','Enhancement melee has a narrow dead zone in PvP where you\'re vulnerable'],
+    journey: '<strong>Your Classic journey as a Shaman:</strong> You level through the beautiful Horde zones — Durotar, The Barrens, Stranglethorn — with Ghost Wolf making travel swift and Enhancement melee making combat satisfying. At 60, your totem drop ritual becomes second nature: Fire, Earth, Water, Air — every pull, every fight. Windfury procs from your own weapon in raids feel electric. Mana Tide at the critical moment of a long boss fight makes your healer love you forever.',
+  },
+  paladin: {
+    name:'Paladin', icon:'🛡️', faction:'alliance',
+    archetype: 'The Divine Bulwark',
+    factionKey: 'a',
+    roles: { tank:true, dps:false, healer:true },
+    summary: "Paladin is Alliance-exclusive and mandatory in every Alliance raid — because Blessings of Kings, Might, Wisdom, and Salvation permanently buff your entire party and cannot be replicated by any other class. Holy Paladin's Holy Light is the biggest single-target heal in Classic WoW, and Divine Shield (the Bubble) is the most iconic ability in the game's history. Protection Paladin is the best 5-man tank thanks to Consecration's effortless AoE threat. You are the Alliance's answer to Shaman.",
+    levelingEase:2, endgamePower:3, pvpPower:3, utilityRating:5,
+    pvp: { oneVOne:3, bg:3, worldPvp:2, summary:'Divine Shield makes you nearly unkillable in solo situations. Bubble + bandage is a legitimate 1v1 survival strategy. Limited offensive PvP presence.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Retribution with two-handed weapons is the only viable leveling spec. Holy damage is mana-inefficient for killing mobs. Focus on Strength and Stamina gear.' },
+      { range:'20–40', tip:'Seal of Command is your main damage proc — it fires on crits and is extremely satisfying. Sacred Shield and Consecration start becoming available.' },
+      { range:'40–60', tip:'Still Retribution. The Mount at 40 (free epic mount for Paladin at higher levels is Wrath, not Classic — save gold for regular mount). Focus on weapon upgrades above all.' },
+      { range:'55–60', tip:'Decide on Holy or Protection for raids. Holy is the most in-demand. Collect healing gear alongside your Ret pieces. Blessing rotation is your key social skill to learn.' },
+    ],
+    bestRaces: [
+      { name:'Human (Alliance)', why:'Sword and Mace Specialization applies to Paladin\'s main weapon options. Diplomacy passive speeds up Argent Dawn and other reputation grinds for consumable access.' },
+      { name:'Dwarf (Alliance)', why:'Stoneform removes bleed, poison, and disease effects — extremely strong in PvP and against certain boss mechanics. Mace Specialization adds to two-hand Paladin weapons.' },
+    ],
+    abilities: [
+      { name:'Divine Shield (Bubble)',why:'Complete immunity for 12 seconds. The most iconic ability in WoW history. Drops threat, makes you untouchable, allows emergency healing while invulnerable.' },
+      { name:'Lay on Hands',         why:'Sacrifice all your mana to instantly fully restore any player\'s HP. Available once every hour — but the one time you use it in a progression kill, it\'s everything.' },
+      { name:'Blessings',            why:'Kings, Might, Wisdom, Salvation — four permanent buffs that every player in your group benefits from. Running without Blessings is a significant disadvantage.' },
+      { name:'Consecration',         why:'Deal constant Holy damage in an area around you. For Protection Paladin, this means every mob in your vicinity has threat on you automatically.' },
+    ],
+    pros:['Blessings are mandatory — every Alliance raid always needs multiple Paladins','Divine Shield is the single most iconic panic button in Classic','Holy Paladin\'s Holy Light is the largest single-target heal in the game','Can respec Protection and be the best 5-man AoE tank in the game'],
+    cons:['Alliance only — Horde players cannot access Paladin','Retribution DPS is extremely weak — not viable for raid DPS','Holy Light spam can feel repetitive — you are always doing the same thing','No AoE healing — completely dependent on Priests and Shamans for raid-wide damage'],
+    journey: '<strong>Your Classic journey as a Paladin:</strong> Leveling is slow — Retribution does respectable damage but nothing explosive, and every kill ends with you drinking mana back. At 60, everything changes. Your Blessings make you wanted in every group immediately. Holy Paladin in raids means standing behind the main tank, casting Holy Light on cooldown, and praying the tank doesn\'t drop between casts. It\'s simple, focused, and extremely high-stakes.',
+  },
+  priest: {
+    name:'Priest', icon:'✝️', faction:'both',
+    archetype: 'The Sanctified Oracle',
+    factionKey: 'b',
+    roles: { tank:false, dps:true, healer:true },
+    summary: "Priest is Classic WoW's most complete and versatile support class. Holy Priest is the backbone of raid healing — Greater Heal on tanks, Prayer of Healing for the raid, and Dispel Magic to cleanse debuffs. Shadow Priest delivers legitimate DPS through Shadowform, Mind Flay, and Vampiric Embrace. Power Infusion makes you invaluable in any group. And Dwarf Priest's Fear Ward is arguably the single most powerful racial ability in the entire game for progression raiding.",
+    levelingEase:3, endgamePower:4, pvpPower:3, utilityRating:4,
+    pvp: { oneVOne:3, bg:3, worldPvp:3, summary:'Undead Devouring Plague is a unique racial that DoTs consistently. Mind Control in world PvP is chaotic and entertaining. Holy Fire burst is underrated.' },
+    levelingSteps: [
+      { range:'1–20',  tip:'Shadow spec immediately — Holy is not a leveling tree. Shadowform isn\'t available yet but Vampiric Embrace trickle healing keeps you healthy between pulls.' },
+      { range:'20–40', tip:'Shadow Weaving stacks at 30 — keep your DoTs rolling and use Mind Blast on cooldown. Wand usage between DoT ticks keeps your mana healthy.' },
+      { range:'40–60', tip:'Shadowform at 40 is a revelation — 15% shadow damage boost and 15% physical damage reduction. You feel like a different class immediately. Mind Flay becomes core.' },
+      { range:'55–60', tip:'Shadow Priest DPS is legitimate but below top classes. If the guild needs Holy, prepare to respec. Start collecting both Shadow and Holy gear sets for flexibility.' },
+    ],
+    bestRaces: [
+      { name:'Dwarf (Alliance)', why:'Fear Ward is the single most powerful Alliance raid-utility racial. Certain bosses in MC, BWL, and Naxx have fear effects — Fear Ward on the main tank changes fights entirely.' },
+      { name:'Undead (Horde)', why:'Devouring Plague is a unique Shadow DoT that no other Horde class can access. Combined with other DoTs, it makes Undead Priest significantly stronger for Shadow DPS.' },
+      { name:'Night Elf (Alliance)', why:'Elune\'s Grace reduces ranged attacks against you — helpful in PvP. Shadowmeld has niche use for a cloth-wearing class that dies fast when caught.' },
+    ],
+    abilities: [
+      { name:'Power Infusion',    why:'Give any player 20% haste and 20% reduced mana cost for 15 seconds. This is the best DPS external in Classic WoW. Every top DPS wants this cast on them.' },
+      { name:'Shadowform',        why:'15% shadow damage boost plus 15% physical damage reduction — and you turn black and radiant. Shadow Priest\'s defining moment at level 40.' },
+      { name:'Vampiric Embrace',  why:'While DoTs tick, nearby allies are healed for 15% of the damage dealt. Passive raid healing while you\'re doing DPS — your presence keeps the group healthier.' },
+      { name:'Dispel Magic',      why:'Remove up to 2 magic effects from any target. In progression raid content with heavy debuff mechanics, this is one of the most valuable utility spells available.' },
+    ],
+    pros:['Most complete healer in the game — tank healing, raid healing, and dispels','Power Infusion is the best DPS external in Classic','Shadow Priest can respec and deliver legitimate DPS when raids have enough healers','Dwarf Fear Ward is one of the most valuable racials for progression raids'],
+    cons:['No unique faction gimmick — strong and complete but less flashy than Shaman or Paladin','Mana-intensive in long fights — Spirit stacking requires gear investment','Overshadowed by Paladin for pure tank healing, Shaman for AoE raid healing','Shadow DPS is meaningful but not top-tier compared to Rogue or Warrior'],
+    journey: '<strong>Your Classic journey as a Priest:</strong> Shadow leveling is enjoyable and smooth — Shadowform at 40 is one of Classic\'s great character moments. In raids, you face the perennial Priest question: "Can you go Holy?" If you do, you become the raid\'s backbone — Greater Heal rotations on the tank, Prayer of Healing through heavy damage phases, Dispel to cleanse debuffs. Power Infusion on the top DPS every cooldown. An unsung MVP role that good guilds recognize and appreciate.',
+  },
+};
+
+// ── Quiz Engine ────────────────────────────────────────────────────────────
+let current = 0;
+const answers = {};
+
+function startQuiz() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const total = QUESTIONS.length;
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('qLabel').textContent = `Question ${current + 1} of ${total}`;
+  document.getElementById('qPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  // Section banner
+  const sectionEl = document.getElementById('sectionBanner');
+  const sec = SECTIONS.find((s, i) => {
+    const next = SECTIONS[i + 1];
+    return s.start === current || (s.start < current && (!next || next.start > current) && current === s.start);
+  });
+  const exactSec = SECTIONS.find(s => s.start === current);
+  sectionEl.innerHTML = exactSec ? `
+    <div class="section-divider">
+      <span class="s-icon">${exactSec.icon}</span>
+      <div><h3>Section ${SECTIONS.indexOf(exactSec) + 1}: ${exactSec.title}</h3><p>${exactSec.sub}</p></div>
+    </div>` : '';
+
+  const gridCls = q.cols === 3 ? 'options-grid cols-3' : q.cols === 1 ? 'options-grid cols-1' : 'options-grid';
+  const sel = answers[q.id];
+  document.getElementById('qContent').innerHTML = `
+    <div class="q-label">Question ${current + 1} of ${total}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="${gridCls}">
+      ${q.opts.map(o => `
+        <button class="opt${sel === o.val ? ' selected' : ''}" onclick="choose('${q.id}','${o.val}',this)">
+          <span class="opt-icon">${o.icon}</span>
+          <div class="opt-title">${o.title}</div>
+          <div class="opt-desc">${o.desc}</div>
+        </button>`).join('')}
+    </div>`;
+
+  document.getElementById('backBtn').disabled = current === 0;
+  const nb = document.getElementById('nextBtn');
+  nb.disabled = !sel;
+  nb.textContent = current === total - 1 ? 'See Results →' : 'Next →';
+}
+
+function choose(qId, val, el) {
+  answers[qId] = val;
+  el.closest('.options-grid').querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  const nb = document.getElementById('nextBtn');
+  nb.disabled = false;
+  nb.textContent = current === QUESTIONS.length - 1 ? 'See Results →' : 'Next →';
+}
+
+function goNext() {
+  if (!answers[QUESTIONS[current].id]) return;
+  if (current < QUESTIONS.length - 1) { current++; renderQuestion(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else showResults();
+}
+
+function goBack() {
+  if (current > 0) { current--; renderQuestion(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function showResults() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  const scores = { warrior:0, rogue:0, mage:0, warlock:0, hunter:0, druid:0, shaman:0, paladin:0, priest:0 };
+
+  for (const [qId, val] of Object.entries(answers)) {
+    const qScores = SCORES[qId]?.[val] || {};
+    for (const [cls, pts] of Object.entries(qScores)) {
+      if (scores[cls] !== undefined) scores[cls] += pts;
+    }
+  }
+
+  // Faction penalty: detect preference from race_instinct + zone_feel
+  const allianceRaces = ['night_elf','gnome_race','human_race','dwarf_race'];
+  const hordeRaces    = ['undead_race','tauren_race','orc_race','troll_race'];
+  const allianceZones = ['nelf_forest','alliance_maj','alliance_zones'];
+  const hordeZones    = ['undead_dark','horde_plains','barrens'];
+  let allianceSignals = 0, hordeSignals = 0;
+  if (allianceRaces.includes(answers.race_instinct)) allianceSignals += 2;
+  if (hordeRaces.includes(answers.race_instinct))    hordeSignals   += 2;
+  if (allianceZones.includes(answers.zone_feel))     allianceSignals++;
+  if (hordeZones.includes(answers.zone_feel))        hordeSignals++;
+  if (allianceSignals > hordeSignals)   { scores.shaman -= 5; }
+  else if (hordeSignals > allianceSignals) { scores.paladin -= 5; }
+
+  const ranked = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const maxScore = Math.max(...Object.values(scores));
+  document.getElementById('resultCards').innerHTML = ranked.map(([key, score], i) => buildCard(key, score, maxScore, i+1)).join('');
+  window.scrollTo({ top: document.getElementById('results').offsetTop - 70, behavior:'smooth' });
+}
+
+function stars(n, max=5) {
+  return '★'.repeat(n) + '☆'.repeat(max - n);
+}
+
+function ratingColor(n) {
+  if (n >= 4) return '#5aca80';
+  if (n === 3) return '#c89a30';
+  return '#e05858';
+}
+
+function buildCard(key, score, maxScore, rank) {
+  const c = CLASSES[key];
+  const matchPct = maxScore > 0 ? Math.max(5, Math.round((score / maxScore) * 100)) : 5;
+  const isTop = rank === 1;
+  const rankLabel = rank === 1 ? '🏆 Best Match' : rank === 2 ? '🥈 Strong Match' : rank === 3 ? '🥉 Good Match' : `#${rank}`;
+
+  const fBadge = c.faction === 'alliance'
+    ? '<span class="f-badge a">⚔️ Alliance Only</span>'
+    : c.faction === 'horde'
+    ? '<span class="f-badge h">🔥 Horde Only</span>'
+    : '<span class="f-badge b">🌍 Both Factions</span>';
+
+  const roles = [];
+  if (c.roles.tank)   roles.push('<span class="v-role full">🛡️ Tank</span>');
+  if (c.roles.dps)    roles.push('<span class="v-role yes">⚔️ DPS</span>');
+  if (c.roles.healer) roles.push('<span class="v-role yes">✨ Healer</span>');
+  if (!c.roles.tank)  roles.push('<span class="v-role no">🛡️ No Tank</span>');
+  if (!c.roles.healer)roles.push('<span class="v-role no">✨ No Heal</span>');
+
+  const ratings = [
+    { label:'Leveling Ease',    val: c.levelingEase,   color:'#c89a30' },
+    { label:'Endgame Power',    val: c.endgamePower,   color:'#3dc8a0' },
+    { label:'PvP Strength',     val: c.pvpPower,       color:'#6090e0' },
+    { label:'Utility Rating',   val: c.utilityRating,  color:'#d4903a' },
+  ];
+  const ratingsHtml = ratings.map(r => `
+    <div class="rating-item">
+      <span class="rating-label">${r.label}</span>
+      <div class="rating-bar"><div class="rating-fill" style="width:${r.val*20}%;background:${r.color}"></div></div>
+      <span class="rating-val" style="color:${ratingColor(r.val)}">${r.val}/5</span>
+    </div>`).join('');
+
+  const racesHtml = c.bestRaces.map(r => `
+    <div class="race-entry">
+      <span class="race-name">${r.name}</span>
+      <span class="race-why">${r.why}</span>
+    </div>`).join('');
+
+  const abilitiesHtml = c.abilities.map(a => `
+    <div class="ability-entry">
+      <div class="ability-name">${a.name}</div>
+      <div class="ability-why">${a.why}</div>
+    </div>`).join('');
+
+  const levelingHtml = c.levelingSteps.map(s => `
+    <div class="level-step">
+      <span class="level-range">${s.range}</span>
+      <span class="level-tip">${s.tip}</span>
+    </div>`).join('');
+
+  const pvpLabels = ['',' Poor',' Weak',' Solid',' Strong',' Dominant'];
+  const pvpHtml = `
+    <div class="pvp-item"><div class="pvp-cat">1v1</div><div class="pvp-stars">${stars(c.pvp.oneVOne)}</div><div class="pvp-note">${pvpLabels[c.pvp.oneVOne]}</div></div>
+    <div class="pvp-item"><div class="pvp-cat">Battlegrounds</div><div class="pvp-stars">${stars(c.pvp.bg)}</div><div class="pvp-note">${pvpLabels[c.pvp.bg]}</div></div>
+    <div class="pvp-item"><div class="pvp-cat">World PvP</div><div class="pvp-stars">${stars(c.pvp.worldPvp)}</div><div class="pvp-note">${pvpLabels[c.pvp.worldPvp]}</div></div>`;
+
+  const prosHtml = c.pros.map(p => `<div class="pc-item">${p}</div>`).join('');
+  const consHtml = c.cons.map(p => `<div class="pc-item">${p}</div>`).join('');
+
+  return `
+<div class="class-card${isTop ? ' top' : ''}">
+  <div class="card-header">
+    <div class="class-icon-lg">${c.icon}</div>
+    <div style="flex:1">
+      <div class="class-name">${c.name}${isTop ? '<span class="top-badge">Best Match</span>' : ''}</div>
+      <div class="archetype-tag">${c.archetype} · ${rankLabel}</div>
+      <div class="faction-row" style="margin-top:8px">${fBadge}</div>
+      <div class="match-row">
+        <div class="match-bar"><div class="match-fill" style="width:${matchPct}%"></div></div>
+        <div class="match-pct">${matchPct}%</div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p class="card-why">${c.summary}</p>
+
+    <div class="ins-label">Performance Overview</div>
+    <div class="ratings-grid">${ratingsHtml}</div>
+
+    <div class="ins-label">Role Versatility</div>
+    <div class="versatility-grid">${roles.join('')}</div>
+
+    <div class="ins-label">Leveling Roadmap — 1 to 60</div>
+    <div class="leveling-steps">${levelingHtml}</div>
+
+    <div class="ins-label">Best Race Picks</div>
+    <div class="race-picks">${racesHtml}</div>
+
+    <div class="ins-label">Iconic Abilities — Deep Dive</div>
+    <div class="ability-list">${abilitiesHtml}</div>
+
+    <div class="ins-label">PvP Power Breakdown</div>
+    <div class="pvp-grid">${pvpHtml}</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:22px;line-height:1.5">${c.pvp.summary}</p>
+
+    <div class="ins-label">Strengths & Weaknesses</div>
+    <div class="pros-cons">
+      <div class="pros"><div class="pc-label">Strengths</div>${prosHtml}</div>
+      <div class="cons"><div class="pc-label">Weaknesses</div>${consHtml}</div>
+    </div>
+
+    <div class="ins-label">Your Classic Journey</div>
+    <div class="journey-box"><p>${c.journey}</p></div>
+  </div>
+</div>`;
+}
+
+function restart() {
+  current = 0;
+  Object.keys(answers).forEach(k => delete answers[k]);
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Classic Tank Quiz — Which Tank Should You Play?</title>
+  <meta name="description" content="9 questions to find your perfect WoW Classic tank. Covers Warrior (main tank king), Druid Bear (off-tank), and Protection Paladin (Alliance 5-man specialist).">
+  <meta property="og:title" content="WoW Classic Tank Quiz — Find Your Tanking Destiny">
+  <meta property="og:description" content="Warrior, Druid, or Paladin? 9 questions covering tanking philosophy, faction, iconic abilities, and raid vs 5-man focus.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wowclassquiz.com/classic-quiz-tank.html">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0d0906;
+      --surf1:    #181008;
+      --surf2:    #211608;
+      --surf3:    #2c1e0a;
+      --border:   rgba(180,140,50,0.25);
+      --border2:  rgba(220,170,60,0.55);
+      --cgold:    #c89a30;
+      --cgold-lt: #e8b840;
+      --cgold-dk: #8a6818;
+      --cred:     #a02828;
+      --text:     #f0e8d0;
+      --text2:    #c0a060;
+      --text3:    #806030;
+      --green:    #5ab870;
+      --red:      #e05858;
+      --radius:   10px;
+      --radius-lg:14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; background: var(--surf1); z-index: 100; }
+    .logo { font-size: 15px; font-weight: 600; color: var(--cgold); letter-spacing: 0.03em; }
+    .logo span { color: var(--text2); font-weight: 400; }
+    .nav-links { display: flex; gap: 14px; align-items: center; }
+    .nav-link { font-size: 13px; color: var(--text2); text-decoration: none; padding: 5px 12px; border-radius: 99px; border: 1px solid transparent; transition: all 0.15s; }
+    .nav-link:hover { border-color: var(--border2); color: var(--cgold-lt); }
+    .nav-link.home { border-color: var(--cgold-dk); color: var(--cgold); }
+    .nav-link.home:hover { background: var(--cgold); color: #0a0600; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+    .hero { text-align: center; padding: 56px 0 32px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cgold); border: 1px solid var(--cgold-dk); border-radius: 99px; padding: 4px 14px; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(24px,5vw,38px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 em { color: var(--cgold-lt); font-style: normal; }
+    .hero p { font-size: 16px; color: var(--text2); max-width: 480px; margin: 0 auto 18px; }
+    .hero-meta { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
+    .hero-meta span { margin: 0 8px; }
+    .btn-start { display: inline-block; background: var(--cgold); color: #0a0600; font-size: 16px; font-weight: 700; padding: 13px 36px; border-radius: 99px; border: none; cursor: pointer; transition: background 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn-start:hover { background: var(--cgold-lt); transform: scale(1.02); }
+
+    .quiz-section { padding: 20px 0 60px; display: none; }
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .progress-bar { height: 3px; background: var(--surf3); border-radius: 2px; }
+    .progress-fill { height: 3px; background: var(--cgold); border-radius: 2px; transition: width 0.4s ease; }
+    .q-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cgold-dk); margin-bottom: 8px; }
+    .q-text { font-size: 21px; font-weight: 600; color: #fff; margin-bottom: 24px; line-height: 1.35; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 28px; }
+    .options-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .opt { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 15px 17px; cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s; text-align: left; }
+    .opt:hover { border-color: var(--border2); background: var(--surf3); transform: translateY(-1px); }
+    .opt.selected { border-color: var(--cgold); background: rgba(200,154,48,0.12); }
+    .opt-main { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+    .opt-sub { font-size: 12px; color: var(--text2); line-height: 1.4; }
+    .nav-row { display: flex; gap: 12px; align-items: center; }
+    .btn-nav { background: var(--surf2); border: 1px solid var(--border); color: var(--text2); font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 99px; cursor: pointer; transition: all 0.15s; }
+    .btn-nav:hover:not(:disabled) { border-color: var(--cgold); color: var(--cgold); }
+    .btn-nav:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-next { background: var(--cgold); color: #0a0600; font-size: 14px; font-weight: 700; padding: 10px 28px; border-radius: 99px; border: none; cursor: pointer; transition: background 0.15s; margin-left: auto; display: none; }
+    .btn-next:hover { background: var(--cgold-lt); }
+
+    /* Results */
+    .results-section { padding: 20px 0 60px; display: none; }
+    .results-header { text-align: center; margin-bottom: 32px; }
+    .results-header h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .results-header p { font-size: 15px; color: var(--text2); }
+    .result-cards { display: flex; flex-direction: column; gap: 20px; }
+    .result-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .result-card.rank-1 { border-color: var(--cgold); }
+    .result-card.rank-2 { border-color: rgba(180,140,50,0.45); }
+    .card-header { padding: 20px 24px 16px; display: flex; align-items: flex-start; gap: 16px; }
+    .card-rank { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text3); flex-shrink: 0; padding-top: 3px; }
+    .rank-1 .card-rank { color: var(--cgold); }
+    .rank-2 .card-rank { color: var(--cgold-dk); }
+    .card-icon { font-size: 36px; flex-shrink: 0; }
+    .card-main { flex: 1; }
+    .card-name { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .card-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+    .badge-alliance { background: rgba(60,120,220,0.2); color: #80b0f8; border: 1px solid rgba(60,120,220,0.35); }
+    .badge-horde { background: rgba(200,40,40,0.2); color: #f08080; border: 1px solid rgba(200,40,40,0.35); }
+    .badge-both { background: rgba(200,154,48,0.15); color: var(--cgold); border: 1px solid rgba(200,154,48,0.35); }
+    .badge-role { background: var(--surf3); color: var(--text2); border: 1px solid var(--border); }
+    .card-why { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+    .card-body { padding: 0 24px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+
+    /* Races */
+    .races-block { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .race-group { background: var(--surf3); border-radius: var(--radius); padding: 12px 14px; }
+    .race-group-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .race-group-label.a { color: #80b0f8; }
+    .race-group-label.h { color: #f08080; }
+    .race-tag { display: inline-block; font-size: 12px; background: var(--surf2); border: 1px solid var(--border); border-radius: 99px; padding: 2px 10px; margin: 2px 3px 2px 0; color: var(--text); }
+    .na-tag { font-size: 12px; color: var(--text3); font-style: italic; }
+
+    /* Abilities */
+    .abilities-block { grid-column: 1 / -1; }
+    .ability-list { display: flex; flex-direction: column; gap: 7px; }
+    .ability-item { display: flex; gap: 10px; align-items: flex-start; }
+    .ability-name { font-size: 12px; font-weight: 700; color: var(--cgold-lt); flex-shrink: 0; min-width: 160px; }
+    .ability-desc { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    /* Stat bars */
+    .stats-block { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat-item { }
+    .stat-label { font-size: 11px; color: var(--text3); margin-bottom: 5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+    .stat-bar { height: 5px; background: var(--surf3); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 5px; border-radius: 3px; transition: width 0.6s ease; }
+    .stat-val { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+    /* Pros/Cons */
+    .pros-cons { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .pros, .cons { background: var(--surf3); border-radius: var(--radius); padding: 13px 15px; }
+    .pros { border-top: 2px solid rgba(90,184,112,0.5); }
+    .cons { border-top: 2px solid rgba(224,88,88,0.5); }
+    .pc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .pros .pc-label { color: var(--green); }
+    .cons .pc-label { color: var(--red); }
+    .pc-item { font-size: 12px; color: var(--text2); padding: 4px 0; border-bottom: 1px solid var(--border); line-height: 1.45; }
+    .pc-item:last-child { border-bottom: none; }
+    .pros .pc-item::before { content: '✓ '; color: var(--green); font-weight: 700; }
+    .cons .pc-item::before { content: '✗ '; color: var(--red); font-weight: 700; }
+
+    .restart-row { text-align: center; margin-top: 32px; }
+    .btn-restart { background: var(--surf2); border: 1px solid var(--border); color: var(--text2); font-size: 14px; padding: 10px 28px; border-radius: 99px; cursor: pointer; transition: all 0.15s; }
+    .btn-restart:hover { border-color: var(--cgold); color: var(--cgold); }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; margin: 0 6px; }
+    .site-footer a:hover { color: var(--cgold); }
+
+    @media (max-width: 600px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .options-grid.cols-3 { grid-template-columns: 1fr; }
+      .card-body { grid-template-columns: 1fr; }
+      .races-block, .abilities-block, .stats-block, .pros-cons { grid-column: 1; }
+      .pros-cons { grid-template-columns: 1fr; }
+      .stats-block { grid-template-columns: 1fr 1fr; }
+      .races-block { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">WoW Class Quiz <span>· Classic Tank</span></div>
+  <div class="nav-links">
+    <a id="homeLink" href="index.html" class="nav-link home">← Home</a>
+    <a href="classic-quiz-free.html" class="nav-link">DPS</a>
+    <a href="classic-quiz-healer.html" class="nav-link">Healer</a>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-badge">🛡️ WoW Classic · Tank</div>
+    <h1>Which Classic tank is<br><em>your calling?</em></h1>
+    <p>9 questions covering tanking philosophy, faction, iconic abilities, and raid vs 5-man focus — built for Classic Vanilla.</p>
+    <div class="hero-meta">
+      <span>🛡️ 3 tank paths</span>
+      <span>·</span>
+      <span>📜 9 questions</span>
+      <span>·</span>
+      <span>⏱ ~2 min</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Find Your Tank →</button>
+  </div>
+</section>
+
+<section class="quiz-section container" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="qLabel">Question 1 of 9</span>
+      <span id="qPct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div id="qContent"></div>
+  <div class="nav-row">
+    <button class="btn-nav" id="backBtn" onclick="goBack()" disabled>← Back</button>
+    <button class="btn-next" id="nextBtn" onclick="goNext()">Next →</button>
+  </div>
+</section>
+
+<section class="results-section container" id="results">
+  <div class="results-header">
+    <h2>Your Classic Tank Matches</h2>
+    <p>Ranked by playstyle fit. Every tank has a role — the right one is the one you'll actually enjoy playing.</p>
+  </div>
+  <div class="result-cards" id="resultCards"></div>
+  <div class="restart-row">
+    <button class="btn-restart" onclick="restart()">↩ Retake Quiz</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>
+    <a href="index.html">Home</a>
+    <a href="classic-quiz-free.html">Classic DPS</a>
+    <a href="classic-quiz-healer.html">Classic Healer</a>
+    <a href="wow-quiz-tank.html">Midnight Tank</a>
+  </p>
+  <p style="margin-top:10px;">© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+// ── Questions ─────────────────────────────────────────────────────────────
+const QUESTIONS = [
+  {
+    id: 'role',
+    text: 'What kind of tank do you want to be in Classic WoW?',
+    cols: 2,
+    opts: [
+      { val: 'main_tank',    main: 'The undisputed Main Tank',           sub: 'First choice for every raid — the boss dies because of me' },
+      { val: 'off_tank',     main: 'Flexible off-tank and utility provider', sub: 'I support the MT, fill gaps, and do more than just tank' },
+      { val: 'five_man_king',main: 'The ultimate 5-man dungeon tank',    sub: 'Best AoE threat in the game — smooth heroics every time' },
+      { val: 'hybrid_dps',   main: 'Tank when needed, DPS otherwise',   sub: 'I want a tank off-spec but mostly want to do damage' },
+    ]
+  },
+  {
+    id: 'faction',
+    text: 'Do you have a faction preference?',
+    cols: 2,
+    opts: [
+      { val: 'alliance', main: '⚔️ Alliance',      sub: 'Paladin is Alliance-only — Bubble, Consecration, plate blessings' },
+      { val: 'horde',    main: '🔥 Horde',          sub: 'No Paladin, but Warrior and Druid have excellent Horde races' },
+      { val: 'any',      main: '🌍 No preference',  sub: "I'll go wherever my class fits best" },
+    ]
+  },
+  {
+    id: 'fantasy',
+    text: 'Which tank fantasy resonates most with you?',
+    cols: 2,
+    opts: [
+      { val: 'plate_fortress', main: '⚔️ Plate Fortress',     sub: 'Shield Wall, Last Stand, Shield Bash — an immovable wall of steel' },
+      { val: 'holy_guardian',  main: '🙏 Holy Guardian',       sub: 'Consecration, Bubble, Lay on Hands — divine and almost unkillable' },
+      { val: 'nature_bear',    main: '🐻 Nature\'s Guardian',  sub: 'Shapeshift into a bear, Frenzied Regeneration, then battle rez your healer' },
+    ]
+  },
+  {
+    id: 'threat',
+    text: 'How do you prefer to hold threat and control the fight?',
+    cols: 2,
+    opts: [
+      { val: 'sunder_rotation', main: 'Single-target mastery',       sub: 'Sunder Armor stacks, Heroic Strike, Devastate — surgical threat control' },
+      { val: 'aoe_consecrate',  main: 'AoE Consecration spam',        sub: 'Drop Consecration and everything around me stays on me automatically' },
+      { val: 'bear_swipe',      main: 'Swipe, Maul, Growl',           sub: 'Straightforward bear tanking — reliable and solid across the board' },
+      { val: 'taunt_positioning', main: 'Precise positioning and taunts', sub: 'I want to control where every mob stands and move them exactly where I want' },
+    ]
+  },
+  {
+    id: 'endgame',
+    text: 'What\'s your endgame tanking aspiration in Classic raids?',
+    cols: 2,
+    opts: [
+      { val: 'raid_mt',       main: 'Main tanking Ragnaros and Kel\'Thuzad', sub: 'Progression guild first-kills — I want to be there holding the boss' },
+      { val: 'ot_utility',    main: 'Off-tanking adds, providing utility',   sub: "I don't need to be the #1 tank — I want to be valuable and flexible" },
+      { val: 'five_man_farm', main: 'Farming dungeons with maximum speed',   sub: 'I love running 5-mans — being the best dungeon tank is enough for me' },
+      { val: 'dps_respec',    main: 'Tanking now, respeccing DPS later',     sub: 'I want to tank for gear access but transition to DPS in farm content' },
+    ]
+  },
+  {
+    id: 'pressure',
+    text: 'How do you feel about the responsibility of being the tank?',
+    cols: 2,
+    opts: [
+      { val: 'love_it',       main: 'I live for it — call pulls, set pace, lead', sub: 'The tank is the general. I want to be in command of every pull' },
+      { val: 'support_role',  main: 'Happy to tank but prefer a supporting role',  sub: 'Let the main tank shine — I\'m here to help, not spotlight myself' },
+      { val: 'dungeon_leader',main: 'Love leading 5-mans, not so much raids',      sub: 'Heroic runs where I\'m in charge feel great; raid tanking is stressful' },
+      { val: 'casual_tank',   main: 'I\'ll tank when the group needs it',          sub: 'I\'m not a dedicated tank — I just want to fill the role when required' },
+    ]
+  },
+  {
+    id: 'versatility',
+    text: 'How important is role versatility to you?',
+    cols: 2,
+    opts: [
+      { val: 'pure_tank',    main: 'Pure tank — I will tank forever',     sub: 'I chose a tank, I will tank. Never touch DPS or healing.' },
+      { val: 'dps_offspec',  main: 'Tank main, DPS off-spec',             sub: 'I want to respec DPS during farm when the raid is full on tanks' },
+      { val: 'heal_offspec', main: 'Tank main, healer off-spec',          sub: 'I want the option to go healer if the guild needs it' },
+      { val: 'all_three',    main: 'Full flexibility — all three roles',  sub: 'True hybrid. Tank, heal, or DPS — I can do it all' },
+    ]
+  },
+  {
+    id: 'iconic',
+    text: 'Which iconic Classic tank ability excites you most?',
+    cols: 3,
+    opts: [
+      { val: 'shield_wall',     main: '⚔️ Shield Wall',        sub: '75% damage reduction — true last resort survival cooldown' },
+      { val: 'last_stand',      main: '⚔️ Last Stand',          sub: '30% extra max HP for 20 seconds — clutch boss saves' },
+      { val: 'consecration',    main: '🙏 Consecration',         sub: 'Damage everything around you — passive AoE threat generation' },
+      { val: 'lay_on_hands',    main: '🙏 Lay on Hands',         sub: 'Sacrifice your mana to restore all of an ally\'s health instantly' },
+      { val: 'dire_bear',       main: '🐻 Dire Bear Form',       sub: 'Massive armor, Frenzied Regeneration, and true bear tankiness' },
+      { val: 'innervate',       main: '🐻 Innervate',            sub: 'Restore your healer\'s mana mid-fight — invaluable raid utility' },
+      { val: 'battle_rez',      main: '🐻 Battle Rez (Rebirth)', sub: 'Bring a dead player back mid-combat — the most powerful utility in Classic' },
+      { val: 'divine_shield',   main: '🙏 Divine Shield',        sub: 'Bubble — full immunity for 12 seconds, then go back to tanking' },
+      { val: 'execute',         main: '⚔️ Execute',              sub: 'Massive burst damage under 20% — turns near-dead bosses into corpses fast' },
+    ]
+  },
+  {
+    id: 'difficulty',
+    text: 'How do you feel about the tanking learning curve in Classic?',
+    cols: 2,
+    opts: [
+      { val: 'hardest',    main: 'Give me the hardest, most demanding tank',   sub: 'Warrior requires the most skill and rewards it with the most respect' },
+      { val: 'moderate',   main: 'Solid challenge, but not brutal',            sub: 'I can handle moderate difficulty — I just don\'t want to suffer while learning' },
+      { val: 'forgiving',  main: 'Forgiving and smooth — especially in 5-mans',sub: 'AoE-friendly tanking that doesn\'t require perfect rotations to succeed' },
+      { val: 'flexible',   main: 'Flexible enough to shift roles if needed',   sub: 'I want a tank I can swap out of when the guild is saturated' },
+    ]
+  },
+];
+
+// ── Scoring ───────────────────────────────────────────────────────────────
+const SCORES = {
+  role: {
+    main_tank:     { warrior:3, druid:1 },
+    off_tank:      { druid:3, warrior:1, paladin:1 },
+    five_man_king: { paladin:3, druid:1 },
+    hybrid_dps:    { druid:3, warrior:1 },
+  },
+  faction: {
+    alliance: { paladin:2, warrior:1, druid:1 },
+    horde:    { warrior:2, druid:2, paladin:-3 },
+    any:      { warrior:1, druid:1 },
+  },
+  fantasy: {
+    plate_fortress: { warrior:3 },
+    holy_guardian:  { paladin:3 },
+    nature_bear:    { druid:3 },
+  },
+  threat: {
+    sunder_rotation:    { warrior:3 },
+    aoe_consecrate:     { paladin:3 },
+    bear_swipe:         { druid:3 },
+    taunt_positioning:  { warrior:2, druid:1 },
+  },
+  endgame: {
+    raid_mt:       { warrior:3 },
+    ot_utility:    { druid:2, paladin:2 },
+    five_man_farm: { paladin:3 },
+    dps_respec:    { druid:3, warrior:1 },
+  },
+  pressure: {
+    love_it:        { warrior:3 },
+    support_role:   { druid:2, paladin:1 },
+    dungeon_leader: { paladin:3, druid:1 },
+    casual_tank:    { druid:2, paladin:1 },
+  },
+  versatility: {
+    pure_tank:    { warrior:3 },
+    dps_offspec:  { druid:3, warrior:1 },
+    heal_offspec: { paladin:2, druid:1 },
+    all_three:    { druid:3, paladin:1 },
+  },
+  iconic: {
+    shield_wall:    { warrior:3 },
+    last_stand:     { warrior:2 },
+    consecration:   { paladin:3 },
+    lay_on_hands:   { paladin:2 },
+    dire_bear:      { druid:3 },
+    innervate:      { druid:2 },
+    battle_rez:     { druid:3 },
+    divine_shield:  { paladin:3 },
+    execute:        { warrior:2 },
+  },
+  difficulty: {
+    hardest:   { warrior:3 },
+    moderate:  { druid:2, warrior:1 },
+    forgiving: { paladin:3 },
+    flexible:  { druid:3, paladin:1 },
+  },
+};
+
+// ── Class Data ────────────────────────────────────────────────────────────
+const CLASSES = {
+  warrior: {
+    name: 'Protection Warrior', icon: '⚔️', faction: 'both',
+    roles: ['Main Tank', 'Fury DPS'],
+    races: {
+      alliance: ['Human (Sword Spec — best MT)', 'Night Elf (Dodge for avoidance)', 'Dwarf (Stoneform for status effects)', 'Gnome (Escape Artist)'],
+      horde: ['Orc (Axe Spec + Blood Fury — top threat)', 'Tauren (War Stomp for AoE CC)', 'Troll (Berserking for burst)']
+    },
+    abilities: [
+      { name: 'Shield Wall',    desc: '75% damage reduction — the ultimate survival cooldown for hard boss enrages' },
+      { name: 'Last Stand',     desc: '30% bonus max HP for 20 seconds — keeps you alive when your healers are behind' },
+      { name: 'Charge / Intercept', desc: 'Instantly close any gap and generate rage — never get kited or reset' },
+      { name: 'Execute',        desc: 'Massive damage under 20% boss health — contributes real DPS in the kill phase' },
+    ],
+    raidMT: 5, dungeon: 3, flexibility: 2,
+    why: "Warrior is THE main tank of Classic WoW — period. Every progression raid needs a Protection Warrior as their first-choice tank. You will suffer through one of the worst leveling experiences in the game, but once you're geared at 60, you are the most respected and in-demand player in any server. Shield Wall and Last Stand are the original tank cooldowns, and Fury respec gives you a legitimate DPS path when the raid is full on tanks.",
+    pros: ['The only true progression raid main tank — tier after tier', 'Highest threat generation at high gear levels via Sunder Armor', 'Can respec Fury and be S-tier DPS in the same gear', 'Charge is one of the most satisfying abilities in the history of WoW'],
+    cons: ['Worst leveling experience in Classic — zero self-sustain before gear', 'Completely gear-dependent — weak at low ilvl, unstoppable at BiS', 'Needs a dedicated healer to level efficiently — painful solo', 'Pure tanking at endgame — Fury respec costs gold every time'],
+  },
+  paladin: {
+    name: 'Protection Paladin', icon: '🛡️', faction: 'alliance',
+    roles: ['Tank', 'Healer', 'DPS'],
+    races: {
+      alliance: ['Human (Holy spec synergy + Every Man for Himself feel)', 'Dwarf (Stoneform for PvP and status cleanse)'],
+      horde: null
+    },
+    abilities: [
+      { name: 'Consecration',  desc: 'Constant AoE damage around you — best multi-target threat in Classic, makes 5-mans smooth' },
+      { name: 'Divine Shield', desc: 'Full immunity for 12 seconds — survive anything, then go straight back to tanking' },
+      { name: 'Lay on Hands',  desc: 'Sacrifice all your mana to fully restore an ally\'s health — ultimate clutch save' },
+      { name: 'Blessings',     desc: 'Buff the entire group with Blessing of Kings, Might, Wisdom, or Salvation permanently' },
+    ],
+    raidMT: 2, dungeon: 5, flexibility: 4,
+    why: "Protection Paladin is the undisputed king of 5-man dungeons in Classic WoW. Consecration gives you effortless AoE threat — just stand in the middle of the pack and everything stays glued to you. You also bring Blessings that massively buff every member of your group. The tradeoff: you are Alliance-only, and progression raids in Classic don't use Paladin as a main tank. But for farming dungeons, leveling groups, and off-tank utility, no one compares.",
+    pros: ['Best AoE threat of any Classic tank — Consecration does the work', '5-man dungeon experience is smoother and faster than any other tank', 'Divine Shield gives you an unmatched panic button mid-fight', 'Can respec Holy and be one of the best healers in the game'],
+    cons: ['Alliance only — Horde players cannot play this class', 'Not viable as main tank for progression raid bosses (Naxx, Ragnaros)', 'Mana-dependent tanking — runs out in long pulls without Spiritual Attunement', 'Severely undertuned DPS spec — purely a tank/healer class'],
+  },
+  druid: {
+    name: 'Feral Druid (Bear)', icon: '🐻', faction: 'both',
+    roles: ['Tank', 'DPS', 'Healer'],
+    races: {
+      alliance: ['Night Elf (Shadowmeld for PvP, Quickness for dodge — only Alliance option)'],
+      horde: ['Tauren (War Stomp for AoE CC, +5% HP — only Horde option)']
+    },
+    abilities: [
+      { name: 'Dire Bear Form',       desc: 'Massive armor multiplier, Frenzied Regeneration, and genuine raid-viable off-tank capability' },
+      { name: 'Rebirth (Battle Rez)', desc: 'Bring a dead player back mid-combat — the single most powerful raid utility in Classic' },
+      { name: 'Innervate',            desc: 'Restore 4400 mana to any party member over 20 sec — save your healer from going OOM' },
+      { name: 'Shapeshifting',        desc: 'Cat, Bear, Moonkin, or Caster — true role versatility unmatched by any other class' },
+    ],
+    raidMT: 3, dungeon: 3, flexibility: 5,
+    why: "Feral Druid is Classic's ultimate flexible tank. You are never the first-choice main tank for progression, but you are always valuable: your Battle Rez is the single most powerful raid utility in the game, Innervate saves healers from going OOM, and you can genuinely off-tank raid content in Bear form. When the raid doesn't need you to tank, you can go Cat and push solid DPS. Druid is for the player who wants options.",
+    pros: ['Battle Rez is irreplaceable — every raid wants one', 'Innervate saves your healer in critical moments — raid game-changer', 'Can off-tank, Cat DPS, or even go Resto — the most flexible class in Classic', 'Travel Form makes getting around the world faster than anyone else'],
+    cons: ['Not a viable progression main tank — Warriors are strictly preferred', 'Cat DPS is significantly lower than Rogue or Warrior at equal gear', 'Night Elf (Alliance) or Tauren (Horde) only — no race variety', 'Jack of all trades means you\'ll often be asked to fill whatever role is missing'],
+  },
+};
+
+// ── Quiz State ────────────────────────────────────────────────────────────
+let current = 0;
+const answers = {};
+
+function startQuiz() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const total = QUESTIONS.length;
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('qLabel').textContent = `Question ${current + 1} of ${total}`;
+  document.getElementById('qPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  const gridClass = q.cols === 3 ? 'options-grid cols-3' : 'options-grid';
+  const selected = answers[q.id];
+  const html = `
+    <div class="q-label">Question ${current + 1}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="${gridClass}">
+      ${q.opts.map(o => `
+        <button class="opt${selected === o.val ? ' selected' : ''}" onclick="choose('${q.id}','${o.val}',this)">
+          <div class="opt-main">${o.main}</div>
+          <div class="opt-sub">${o.sub}</div>
+        </button>`).join('')}
+    </div>`;
+  document.getElementById('qContent').innerHTML = html;
+  document.getElementById('backBtn').disabled = current === 0;
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = selected !== undefined ? 'block' : 'none';
+  nextBtn.textContent = current === total - 1 ? 'See Results →' : 'Next →';
+}
+
+function choose(qId, val, el) {
+  answers[qId] = val;
+  el.closest('.options-grid').querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = current === QUESTIONS.length - 1 ? 'See Results →' : 'Next →';
+}
+
+function goNext() {
+  const q = QUESTIONS[current];
+  if (!answers[q.id]) return;
+  if (current < QUESTIONS.length - 1) { current++; renderQuestion(); }
+  else showResults();
+}
+
+function goBack() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+function showResults() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  const scores = { warrior: 0, paladin: 0, druid: 0 };
+
+  for (const [qId, val] of Object.entries(answers)) {
+    const qScores = SCORES[qId]?.[val] || {};
+    for (const [cls, pts] of Object.entries(qScores)) {
+      if (scores[cls] !== undefined) scores[cls] += pts;
+    }
+  }
+
+  const ranked = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const maxScore = ranked[0][1];
+  const container = document.getElementById('resultCards');
+  container.innerHTML = ranked.map(([key, score], i) => buildCard(key, score, maxScore, i+1)).join('');
+
+  window.scrollTo({ top: document.getElementById('results').offsetTop - 70, behavior: 'smooth' });
+}
+
+function buildCard(key, score, maxScore, rank) {
+  const c = CLASSES[key];
+  const pct = maxScore > 0 ? Math.max(8, Math.round((score / maxScore) * 100)) : 8;
+
+  const factionBadge = c.faction === 'alliance'
+    ? '<span class="badge badge-alliance">⚔️ Alliance Only</span>'
+    : c.faction === 'horde'
+    ? '<span class="badge badge-horde">🔥 Horde Only</span>'
+    : '<span class="badge badge-both">🌍 Both Factions</span>';
+
+  const roleBadges = c.roles.map(r => `<span class="badge badge-role">${r}</span>`).join('');
+
+  // Races
+  let racesHtml = '';
+  if (c.races.alliance) {
+    racesHtml += `<div class="race-group"><div class="race-group-label a">Alliance</div>${c.races.alliance.map(r=>`<span class="race-tag">${r}</span>`).join('')}</div>`;
+  }
+  if (c.races.horde) {
+    racesHtml += `<div class="race-group"><div class="race-group-label h">Horde</div>${c.races.horde.map(r=>`<span class="race-tag">${r}</span>`).join('')}</div>`;
+  } else if (c.faction === 'alliance') {
+    racesHtml += `<div class="race-group"><div class="race-group-label h">Horde</div><span class="na-tag">Not available — Alliance only</span></div>`;
+  }
+
+  const abilitiesHtml = c.abilities.map(a =>
+    `<div class="ability-item"><span class="ability-name">${a.name}</span><span class="ability-desc">${a.desc}</span></div>`
+  ).join('');
+
+  const statColors = ['#c89a30','#80b0f8','#5ab870'];
+  const stats = [
+    { label: 'Raid MT Viability', val: c.raidMT, max: 5 },
+    { label: '5-Man Strength',    val: c.dungeon, max: 5 },
+    { label: 'Role Flexibility',  val: c.flexibility, max: 5 },
+  ];
+  const statsHtml = stats.map((s,i) => {
+    const w = Math.round((s.val/s.max)*100);
+    const labels = ['Very Low','Low','Moderate','High','Best in Game'];
+    return `<div class="stat-item">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-bar"><div class="stat-fill" style="width:${w}%;background:${statColors[i]}"></div></div>
+      <div class="stat-val">${labels[s.val-1]}</div>
+    </div>`;
+  }).join('');
+
+  const prosHtml = c.pros.map(p=>`<div class="pc-item">${p}</div>`).join('');
+  const consHtml = c.cons.map(p=>`<div class="pc-item">${p}</div>`).join('');
+
+  const rankLabel = rank === 1 ? '🏆 Best Match' : rank === 2 ? '🥈 Strong Match' : '🥉 Worth Considering';
+
+  return `
+<div class="result-card rank-${Math.min(rank,3)}">
+  <div class="card-header">
+    <div class="card-rank">${rankLabel}</div>
+    <div class="card-icon">${c.icon}</div>
+    <div class="card-main">
+      <div class="card-name">${c.name}</div>
+      <div class="card-badges">${factionBadge}${roleBadges}</div>
+      <div class="card-why">${c.why}</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="races-block">
+      <div class="section-title" style="grid-column:1/-1">Best Races</div>
+      ${racesHtml}
+    </div>
+    <div class="abilities-block">
+      <div class="section-title">Iconic Tanking Abilities</div>
+      <div class="ability-list">${abilitiesHtml}</div>
+    </div>
+    <div class="stats-block">
+      <div class="section-title" style="grid-column:1/-1">Performance Overview</div>
+      ${statsHtml}
+    </div>
+    <div class="pros-cons">
+      <div class="pros"><div class="pc-label">Strengths</div>${prosHtml}</div>
+      <div class="cons"><div class="pc-label">Weaknesses</div>${consHtml}</div>
+    </div>
+  </div>
+</div>`;
+}
+
+function restart() {
+  current = 0;
+  Object.keys(answers).forEach(k => delete answers[k]);
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Smart home link — premium users go to hub
+(function() {
+  try {
+    const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || 'null');
+    if (d && d.word === 'MIDNIGHT2026') {
+      document.getElementById('homeLink').href = 'wow-quiz-premium-hub.html';
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

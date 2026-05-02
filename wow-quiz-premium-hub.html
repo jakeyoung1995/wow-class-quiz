@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Midnight Premium — All Quizzes Unlocked</title>
-  <meta name="description" content="Your premium WoW Midnight class quizzes — DPS, Tank, and Healer deep-dive analysis.">
+  <title>WoW Class Quiz — Premium Hub</title>
+  <meta name="description" content="All premium WoW class quizzes — WoW Midnight and WoW Classic. One purchase unlocks every deep-dive quiz across both games.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -12,222 +13,316 @@
       --surf1:     #171d28;
       --surf2:     #1e2636;
       --surf3:     #262f42;
-      --border:    rgba(180,150,70,0.22);
+      --surf4:     #2e3a50;
+      --border:    rgba(180,150,70,0.2);
+      --border2:   rgba(200,168,75,0.5);
+      /* Midnight */
+      --purple:    #9b8fe8;
+      --purple-lt: #c5bcf8;
+      --purple-dk: #6860c0;
+      --blue:      #6090d8;
+      --blue-lt:   #90b8f8;
+      --heal:      #58c878;
+      --heal-lt:   #90e8a8;
+      /* Classic */
+      --cgold:     #c89a30;
+      --cgold-lt:  #e8b840;
+      --cgold-dk:  #8a6818;
+      /* Shared */
       --gold:      #d4aa52;
       --gold-lt:   #f0cc70;
       --gold-dk:   #9a7830;
-      --purple:    #9b8fe8;
-      --purple-lt: #c5bcf8;
-      --dps-col:   #d4aa52;
-      --tank-col:  #6090d8;
-      --tank-lt:   #90b8f8;
-      --heal-col:  #58c878;
-      --heal-lt:   #90e8a8;
       --text:      #f2e8d5;
       --text2:     #c4a878;
       --text3:     #8a7860;
       --green:     #5aca80;
-      --radius:    12px;
-      --radius-lg: 16px;
+      --red:       #e05858;
+      --radius:    10px;
+      --radius-lg: 14px;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
 
-    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; }
+    /* Header */
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; }
     .logo { font-size: 15px; font-weight: 600; color: var(--gold); }
-    .logo span { color: var(--purple-lt); font-size: 12px; font-weight: 400; margin-left: 6px; border: 1px solid var(--purple); border-radius: 99px; padding: 2px 9px; }
+    .logo-badge { font-size: 11px; font-weight: 700; color: var(--gold-lt); background: rgba(212,170,82,0.12); border: 1px solid var(--gold-dk); border-radius: 99px; padding: 2px 10px; margin-left: 8px; letter-spacing: 0.04em; }
+    .nav-links { display: flex; gap: 16px; }
+    .nav-link { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.15s; }
+    .nav-link:hover { color: var(--text2); }
 
-    .container { max-width: 700px; margin: 0 auto; padding: 0 20px; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+    /* Gate wall */
+    #gateWall { display: none; text-align: center; padding: 80px 24px; }
+    .gate-icon { font-size: 48px; margin-bottom: 20px; }
+    .gate-title { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .gate-desc { font-size: 15px; color: var(--text2); max-width: 440px; margin: 0 auto 28px; line-height: 1.65; }
+    .gate-scope { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 32px; }
+    .scope-pill { font-size: 12px; padding: 5px 14px; border-radius: 99px; }
+    .scope-midnight { background: rgba(155,143,232,0.12); color: var(--purple-lt); border: 1px solid rgba(155,143,232,0.3); }
+    .scope-classic  { background: rgba(200,154,48,0.12); color: var(--cgold-lt); border: 1px solid rgba(200,154,48,0.3); }
+    .gate-price { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
+    .btn-buy { display: inline-block; background: var(--purple); color: #fff; font-size: 15px; font-weight: 700; padding: 14px 32px; border-radius: 99px; text-decoration: none; transition: background 0.15s, transform 0.1s; }
+    .btn-buy:hover { background: var(--purple-lt); color: #111; transform: scale(1.02); }
+    .gate-input-row { margin-top: 28px; }
+    .gate-input-row p { font-size: 13px; color: var(--text3); margin-bottom: 12px; }
+    .gate-input { padding: 10px 18px; border-radius: 99px; border: 1px solid var(--border2); background: var(--surf2); color: #fff; font-size: 14px; width: 220px; text-align: center; outline: none; }
+    .btn-unlock-sm { background: var(--gold); color: #0a0800; font-size: 13px; font-weight: 700; padding: 10px 20px; border-radius: 99px; border: none; cursor: pointer; margin-left: 8px; transition: background 0.15s; }
+    .btn-unlock-sm:hover { background: var(--gold-lt); }
+    #gateError { color: var(--red); font-size: 13px; margin-top: 10px; display: none; }
 
     /* Unlock banner */
-    .unlock-banner {
-      background: linear-gradient(135deg, rgba(88,200,120,0.12) 0%, rgba(139,125,216,0.08) 100%);
-      border: 1px solid rgba(88,200,120,0.35);
-      border-radius: var(--radius-lg);
-      padding: 28px 32px;
-      text-align: center;
-      margin: 40px 0 32px;
-    }
-    .unlock-icon { font-size: 48px; margin-bottom: 12px; }
-    .unlock-banner h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-    .unlock-banner p { font-size: 15px; color: var(--text2); line-height: 1.6; }
-    .unlock-check { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--green); background: rgba(88,200,120,0.1); border: 1px solid rgba(88,200,120,0.3); border-radius: 99px; padding: 6px 16px; }
+    .unlock-banner { background: linear-gradient(135deg, rgba(90,202,128,0.1) 0%, rgba(155,143,232,0.07) 100%); border: 1px solid rgba(90,202,128,0.3); border-radius: var(--radius-lg); padding: 26px 30px; display: flex; align-items: center; gap: 20px; margin: 40px 0 36px; }
+    .unlock-icon { font-size: 36px; flex-shrink: 0; }
+    .unlock-text h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .unlock-text p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .unlock-check { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--green); background: rgba(90,202,128,0.1); border: 1px solid rgba(90,202,128,0.25); border-radius: 99px; padding: 4px 12px; }
 
-    /* Locked state (if no valid token) */
-    .locked-banner {
-      background: rgba(224,88,88,0.08);
-      border: 1px solid rgba(224,88,88,0.3);
-      border-radius: var(--radius-lg);
-      padding: 28px 32px;
-      text-align: center;
-      margin: 40px 0 32px;
-      display: none;
-    }
-    .locked-banner h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-    .locked-banner p { font-size: 14px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
-    .btn-buy { display: inline-block; background: var(--purple); color: #fff; font-size: 15px; font-weight: 700; padding: 13px 28px; border-radius: 99px; text-decoration: none; transition: background 0.15s; }
-    .btn-buy:hover { background: var(--purple-lt); color: #111; }
+    /* Expansion sections */
+    .expansion-block { margin-bottom: 44px; }
+    .exp-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: var(--radius); margin-bottom: 14px; }
+    .exp-header.midnight { background: rgba(155,143,232,0.08); border: 1px solid rgba(155,143,232,0.2); }
+    .exp-header.classic  { background: rgba(200,154,48,0.06); border: 1px solid rgba(200,154,48,0.2); }
+    .exp-icon { font-size: 22px; }
+    .exp-name { font-size: 14px; font-weight: 700; letter-spacing: 0.03em; }
+    .exp-header.midnight .exp-name { color: var(--purple-lt); }
+    .exp-header.classic  .exp-name { color: var(--cgold-lt); }
+    .exp-desc { font-size: 12px; color: var(--text3); margin-left: auto; }
 
     /* Quiz cards */
-    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 16px; }
-    .quiz-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
-
-    .quiz-card {
-      background: var(--surf2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 22px 24px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      text-decoration: none;
-      transition: border-color 0.2s, background 0.15s, transform 0.12s;
-    }
+    .quiz-grid { display: flex; flex-direction: column; gap: 12px; }
+    .quiz-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; display: flex; align-items: center; gap: 18px; text-decoration: none; transition: border-color 0.2s, background 0.15s, transform 0.12s; }
     .quiz-card:hover { background: var(--surf3); transform: translateY(-2px); }
-    .quiz-card.dps:hover  { border-color: rgba(212,170,82,0.5); }
-    .quiz-card.tank:hover { border-color: rgba(96,144,216,0.5); }
-    .quiz-card.heal:hover { border-color: rgba(88,200,120,0.5); }
-
-    .quiz-icon { font-size: 36px; flex-shrink: 0; width: 52px; text-align: center; }
+    .quiz-card.m-dps:hover  { border-color: rgba(212,170,82,0.45); }
+    .quiz-card.m-tank:hover { border-color: rgba(96,144,216,0.45); }
+    .quiz-card.m-heal:hover { border-color: rgba(88,200,120,0.45); }
+    .quiz-card.c-class:hover{ border-color: rgba(200,154,48,0.5); }
+    .quiz-icon { font-size: 32px; flex-shrink: 0; width: 46px; text-align: center; }
     .quiz-info { flex: 1; }
-    .quiz-title { font-size: 18px; font-weight: 700; margin-bottom: 3px; }
-    .quiz-card.dps  .quiz-title { color: var(--dps-col); }
-    .quiz-card.tank .quiz-title { color: var(--tank-lt); }
-    .quiz-card.heal .quiz-title { color: var(--heal-lt); }
-    .quiz-sub { font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .quiz-title { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+    .m-dps  .quiz-title { color: var(--gold-lt); }
+    .m-tank .quiz-title { color: var(--blue-lt); }
+    .m-heal .quiz-title { color: var(--heal-lt); }
+    .c-class .quiz-title { color: var(--cgold-lt); }
+    .quiz-sub { font-size: 12px; color: var(--text2); margin-bottom: 8px; line-height: 1.45; }
     .quiz-pills { display: flex; gap: 6px; flex-wrap: wrap; }
     .quiz-pill { font-size: 11px; color: var(--text3); background: var(--surf3); border: 1px solid var(--border); border-radius: 99px; padding: 2px 9px; }
-    .quiz-arrow { font-size: 20px; color: var(--text3); flex-shrink: 0; transition: transform 0.15s; }
+    .quiz-arrow { font-size: 18px; color: var(--text3); flex-shrink: 0; transition: transform 0.15s, color 0.15s; }
     .quiz-card:hover .quiz-arrow { transform: translateX(4px); color: var(--text2); }
 
     /* What's included */
-    .included-box {
-      background: var(--surf2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 22px 24px;
-      margin-bottom: 40px;
-    }
-    .included-box h3 { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 14px; }
-    .included-list { display: flex; flex-direction: column; gap: 8px; }
-    .included-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text2); }
-    .included-item::before { content: '✦'; color: var(--purple-lt); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
+    .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; }
+    .inc-block { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; }
+    .inc-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 12px; }
+    .inc-block.midnight .inc-title { color: var(--purple-lt); }
+    .inc-block.classic  .inc-title { color: var(--cgold-lt); }
+    .inc-list { display: flex; flex-direction: column; gap: 7px; }
+    .inc-item { font-size: 12px; color: var(--text2); display: flex; gap: 8px; line-height: 1.45; }
+    .inc-item::before { content: '✦'; font-size: 10px; margin-top: 3px; flex-shrink: 0; }
+    .inc-block.midnight .inc-item::before { color: var(--purple-lt); }
+    .inc-block.classic  .inc-item::before { color: var(--cgold); }
+
+    /* One purchase note */
+    .one-purchase { background: rgba(212,170,82,0.07); border: 1px solid rgba(212,170,82,0.2); border-radius: var(--radius-lg); padding: 18px 22px; margin-bottom: 40px; display: flex; gap: 14px; align-items: flex-start; }
+    .one-purchase-icon { font-size: 24px; flex-shrink: 0; }
+    .one-purchase h3 { font-size: 14px; font-weight: 700; color: var(--gold-lt); margin-bottom: 4px; }
+    .one-purchase p { font-size: 13px; color: var(--text2); line-height: 1.6; }
 
     /* Device note */
-    .device-note { background: rgba(139,125,216,0.07); border: 1px solid rgba(139,125,216,0.2); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 40px; font-size: 13px; color: var(--text2); line-height: 1.6; }
+    .device-note { background: rgba(155,143,232,0.06); border: 1px solid rgba(155,143,232,0.18); border-radius: var(--radius); padding: 15px 20px; margin-bottom: 40px; font-size: 13px; color: var(--text2); line-height: 1.6; }
     .device-note strong { color: var(--purple-lt); }
 
     .site-footer { border-top: 1px solid var(--border); padding: 24px 20px; text-align: center; font-size: 12px; color: var(--text3); }
     .site-footer a { color: var(--text2); text-decoration: none; margin: 0 6px; }
     .site-footer a:hover { color: var(--gold); }
 
-    @media (max-width: 520px) {
+    @media (max-width: 540px) {
       .quiz-card { flex-wrap: wrap; }
-      .unlock-banner { padding: 22px 20px; }
+      .included-grid { grid-template-columns: 1fr; }
+      .unlock-banner { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="logo">WoW Class Quiz <span>Premium</span></div>
+  <div class="logo">WoW Class Quiz <span class="logo-badge">⭐ Premium</span></div>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link">Free Quizzes</a>
+    <a href="classic-hub.html" class="nav-link">Classic Hub</a>
+  </nav>
 </header>
 
+<!-- Gate wall (shown when not unlocked) -->
+<div id="gateWall">
+  <div class="container">
+    <div class="gate-icon">⭐</div>
+    <div class="gate-title">WoW Class Quiz Premium</div>
+    <div class="gate-desc">One purchase unlocks all deep-dive quizzes — across both WoW Midnight and WoW Classic. No subscription, no per-quiz fees.</div>
+    <div class="gate-scope">
+      <span class="scope-pill scope-midnight">🌌 WoW Midnight — DPS, Tank &amp; Healer</span>
+      <span class="scope-pill scope-classic">🏆 WoW Classic — Class Deep Dive</span>
+    </div>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="btn-buy" target="_blank" rel="noopener">Get Premium — $5 one-time →</a>
+    <p class="gate-price">One-time purchase · Saves to your browser · All future quizzes included</p>
+    <div class="gate-input-row">
+      <p>Already purchased? Enter your unlock word from your confirmation email:</p>
+      <input id="gateInput" type="text" class="gate-input" placeholder="Unlock word">
+      <button class="btn-unlock-sm" onclick="tryUnlock()">Unlock →</button>
+      <div id="gateError">Incorrect word — check your Gumroad confirmation email.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content (shown when unlocked) -->
+<div id="mainContent" style="display:none">
 <div class="container">
 
-  <!-- Unlocked state -->
-  <div class="unlock-banner" id="unlockedBanner">
+  <!-- Unlock banner -->
+  <div class="unlock-banner">
     <div class="unlock-icon">✦</div>
-    <h1>Premium Unlocked</h1>
-    <p>All three deep-dive quizzes are now available on this device. Pick your role below and start your analysis.</p>
-    <div class="unlock-check">✓ Access saved to this browser</div>
+    <div class="unlock-text">
+      <h2>All Premium Quizzes Unlocked</h2>
+      <p>Both WoW Midnight and WoW Classic deep dives are available on this device. Pick your game and role below.</p>
+      <span class="unlock-check">✓ Access saved to this browser</span>
+    </div>
   </div>
 
-  <!-- Locked state (shown if no valid token) -->
-  <div class="locked-banner" id="lockedBanner">
-    <h1>Premium Access Required</h1>
-    <p>Purchase the premium quiz to unlock all three deep-dive quizzes — DPS, Tank, and Healer — with full tier ratings, fit analysis, and learning roadmaps.</p>
-    <a href="https://jynova2.gumroad.com/l/yejhos" class="btn-buy" target="_blank" rel="noopener">Get Premium — $5 one-time →</a>
+  <!-- WoW Midnight Section -->
+  <div class="expansion-block">
+    <div class="exp-header midnight">
+      <span class="exp-icon">🌌</span>
+      <span class="exp-name">WoW Midnight</span>
+      <span class="exp-desc">20 questions · 3 quizzes</span>
+    </div>
+    <div class="quiz-grid">
+
+      <a href="wow-quiz-premium.html" class="quiz-card m-dps">
+        <div class="quiz-icon">⚔️</div>
+        <div class="quiz-info">
+          <div class="quiz-title">DPS Deep Dive</div>
+          <div class="quiz-sub">All 12 damage dealer specs — Mythic raid tier, M+ tier, rotation complexity, and your learning roadmap</div>
+          <div class="quiz-pills">
+            <span class="quiz-pill">12 specs</span>
+            <span class="quiz-pill">20 questions</span>
+            <span class="quiz-pill">Mythic + M+ tiers</span>
+            <span class="quiz-pill">Roadmap</span>
+          </div>
+        </div>
+        <div class="quiz-arrow">→</div>
+      </a>
+
+      <a href="wow-quiz-premium-tank.html" class="quiz-card m-tank">
+        <div class="quiz-icon">🛡️</div>
+        <div class="quiz-info">
+          <div class="quiz-title">Tank Deep Dive</div>
+          <div class="quiz-sub">6 tank specs — self-sufficiency, M+ routing style, raid vs dungeon fit, tanking philosophy match</div>
+          <div class="quiz-pills">
+            <span class="quiz-pill">6 specs</span>
+            <span class="quiz-pill">20 questions</span>
+            <span class="quiz-pill">Mythic + M+ tiers</span>
+            <span class="quiz-pill">Roadmap</span>
+          </div>
+        </div>
+        <div class="quiz-arrow">→</div>
+      </a>
+
+      <a href="wow-quiz-premium-healer.html" class="quiz-card m-heal">
+        <div class="quiz-icon">💚</div>
+        <div class="quiz-info">
+          <div class="quiz-title">Healer Deep Dive</div>
+          <div class="quiz-sub">7 healer specs — from Disc's Atonement to Resto Shaman's Spirit Link, find your healing identity</div>
+          <div class="quiz-pills">
+            <span class="quiz-pill">7 specs</span>
+            <span class="quiz-pill">20 questions</span>
+            <span class="quiz-pill">Mythic + M+ tiers</span>
+            <span class="quiz-pill">Roadmap</span>
+          </div>
+        </div>
+        <div class="quiz-arrow">→</div>
+      </a>
+
+    </div>
   </div>
 
-  <!-- Quiz cards -->
-  <div class="section-label">Choose your role</div>
-  <div class="quiz-grid" id="quizGrid">
+  <!-- WoW Classic Section -->
+  <div class="expansion-block">
+    <div class="exp-header classic">
+      <span class="exp-icon">🏆</span>
+      <span class="exp-name">WoW Classic</span>
+      <span class="exp-desc">25 questions · 1 quiz</span>
+    </div>
+    <div class="quiz-grid">
 
-    <a href="wow-quiz-premium.html" class="quiz-card dps">
-      <div class="quiz-icon">⚔️</div>
-      <div class="quiz-info">
-        <div class="quiz-title">DPS Deep Dive</div>
-        <div class="quiz-sub">Find your perfect damage dealer from all 12 DPS classes</div>
-        <div class="quiz-pills">
-          <span class="quiz-pill">12 classes</span>
-          <span class="quiz-pill">20 questions</span>
-          <span class="quiz-pill">Mythic + M+ tiers</span>
-          <span class="quiz-pill">Roadmap</span>
+      <a href="classic-quiz-premium.html" class="quiz-card c-class">
+        <div class="quiz-icon">📜</div>
+        <div class="quiz-info">
+          <div class="quiz-title">Classic Class Deep Dive</div>
+          <div class="quiz-sub">All 9 Vanilla classes — leveling roadmap (1–60), race picks, PvP breakdown, role versatility, and your Classic journey forecast</div>
+          <div class="quiz-pills">
+            <span class="quiz-pill">9 classes</span>
+            <span class="quiz-pill">25 questions</span>
+            <span class="quiz-pill">Leveling roadmap</span>
+            <span class="quiz-pill">Race analysis</span>
+            <span class="quiz-pill">PvP breakdown</span>
+          </div>
         </div>
-      </div>
-      <div class="quiz-arrow">→</div>
-    </a>
+        <div class="quiz-arrow">→</div>
+      </a>
 
-    <a href="wow-quiz-premium-tank.html" class="quiz-card tank">
-      <div class="quiz-icon">🛡️</div>
-      <div class="quiz-info">
-        <div class="quiz-title">Tank Deep Dive</div>
-        <div class="quiz-sub">Match your tanking philosophy to one of 6 tank specs</div>
-        <div class="quiz-pills">
-          <span class="quiz-pill">6 specs</span>
-          <span class="quiz-pill">20 questions</span>
-          <span class="quiz-pill">Mythic + M+ tiers</span>
-          <span class="quiz-pill">Roadmap</span>
-        </div>
-      </div>
-      <div class="quiz-arrow">→</div>
-    </a>
-
-    <a href="wow-quiz-premium-healer.html" class="quiz-card heal">
-      <div class="quiz-icon">💚</div>
-      <div class="quiz-info">
-        <div class="quiz-title">Healer Deep Dive</div>
-        <div class="quiz-sub">From Disc's Atonement to Resto Shaman's Spirit Link — find your healing identity</div>
-        <div class="quiz-pills">
-          <span class="quiz-pill">7 specs</span>
-          <span class="quiz-pill">20 questions</span>
-          <span class="quiz-pill">Mythic + M+ tiers</span>
-          <span class="quiz-pill">Roadmap</span>
-        </div>
-      </div>
-      <div class="quiz-arrow">→</div>
-    </a>
-
+    </div>
   </div>
 
-  <!-- What's included -->
-  <div class="included-box">
-    <h3>✦ What's included in every premium quiz</h3>
-    <div class="included-list">
-      <div class="included-item">20 questions covering playstyle, rotation feel, content focus, meta awareness, and mastery goals</div>
-      <div class="included-item">Per-spec Mythic raid tier rating (S / A / B / C) based on Midnight Season 1 tuning</div>
-      <div class="included-item">Per-spec Mythic+ tier rating — rated separately from raid performance</div>
-      <div class="included-item">Complexity, mobility, and role-specific scores (self-sufficiency for tanks, mana efficiency for healers)</div>
-      <div class="included-item">✓ / ✗ fit analysis — exactly where each spec excels and where it struggles for your playstyle</div>
-      <div class="included-item">5-step learning roadmap from fresh to progression-ready for your top match</div>
-      <div class="included-item">Essential addon list curated for each spec</div>
+  <!-- One purchase note -->
+  <div class="one-purchase">
+    <span class="one-purchase-icon">🔑</span>
+    <div>
+      <h3>One purchase — everything, forever</h3>
+      <p>Your unlock code activates all current quizzes across both WoW Midnight and WoW Classic. Any new quizzes added to either game are included automatically — no additional purchase required.</p>
+    </div>
+  </div>
+
+  <!-- What's included grid -->
+  <div class="included-grid">
+    <div class="inc-block midnight">
+      <div class="inc-title">🌌 Midnight Premium includes</div>
+      <div class="inc-list">
+        <div class="inc-item">20 questions per role across playstyle, rotation feel, content focus, and meta awareness</div>
+        <div class="inc-item">Per-spec Mythic raid tier (S / A / B / C) for Midnight Season 1</div>
+        <div class="inc-item">Separate M+ tier rating — often differs from raid performance</div>
+        <div class="inc-item">Complexity, mobility, and role-specific scores</div>
+        <div class="inc-item">5-step progression roadmap for your top match</div>
+        <div class="inc-item">Essential addon list per spec</div>
+      </div>
+    </div>
+    <div class="inc-block classic">
+      <div class="inc-title">🏆 Classic Premium includes</div>
+      <div class="inc-list">
+        <div class="inc-item">25 questions across 5 sections: identity, leveling, combat, endgame, and deep cuts</div>
+        <div class="inc-item">Level-by-level leveling roadmap — 1 to 60 — for your matched class</div>
+        <div class="inc-item">Race picks with detailed reasoning per faction</div>
+        <div class="inc-item">PvP breakdown — 1v1, Battlegrounds, and World PvP rated separately</div>
+        <div class="inc-item">Role versatility grid — tank / DPS / healer capability</div>
+        <div class="inc-item">Your Classic journey forecast — what to expect from 1 to 60 and beyond</div>
+      </div>
     </div>
   </div>
 
   <!-- Device note -->
   <div class="device-note">
-    <strong>Using a different device?</strong> Your access is saved to this browser. To unlock on another device, open the confirmation email from Gumroad and click the product link — it will unlock automatically on that device too.
+    <strong>Using a different device?</strong> Your access is saved to this browser. To unlock on another device, enter your unlock word in the box on the gate screen — or re-open the link from your Gumroad confirmation email on that device.
   </div>
 
 </div>
+</div><!-- /mainContent -->
 
 <footer class="site-footer">
   <p>
-    <a href="index.html">All Roles</a>
+    <a href="index.html">Free Quizzes</a>
+    <a href="classic-hub.html">Classic Hub</a>
     <a href="wow-quiz-free.html">Free DPS</a>
-    <a href="wow-quiz-tank.html">Free Tank</a>
-    <a href="wow-quiz-healer.html">Free Healer</a>
+    <a href="classic-quiz-free.html">Free Classic</a>
   </p>
   <p style="margin-top:10px;">© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
 </footer>
@@ -240,58 +335,49 @@ function saveAccess() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       unlocked: true,
+      word: UNLOCK_WORD,
       expiry: Date.now() + 365 * 24 * 60 * 60 * 1000
     }));
   } catch(e) {}
 }
 
-function hasStoredAccess() {
+function hasAccess() {
+  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') return true;
   try {
     const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     return !!(d.unlocked && d.expiry > Date.now());
   } catch(e) { return false; }
 }
 
-(function checkAccess() {
-  // Dev bypass
-  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') {
-    showUnlocked(); return;
+function tryUnlock() {
+  const val = document.getElementById('gateInput').value.trim().toUpperCase();
+  if (val === UNLOCK_WORD) {
+    saveAccess();
+    document.getElementById('gateWall').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    document.getElementById('gateError').style.display = 'block';
   }
+}
 
-  // Check URL param — Gumroad redirect lands here
+document.getElementById('gateInput')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryUnlock();
+});
+
+// Check on load
+(function() {
   const params = new URLSearchParams(window.location.search);
   if (params.get('unlock') === UNLOCK_WORD) {
     saveAccess();
     history.replaceState({}, '', window.location.pathname);
-    showUnlocked(); return;
   }
-
-  // Returning buyer
-  if (hasStoredAccess()) {
-    showUnlocked(); return;
+  if (hasAccess()) {
+    document.getElementById('mainContent').style.display = 'block';
+  } else {
+    document.getElementById('gateWall').style.display = 'block';
   }
-
-  // Not purchased
-  showLocked();
 })();
-
-function showUnlocked() {
-  document.getElementById('unlockedBanner').style.display = 'block';
-  document.getElementById('lockedBanner').style.display = 'none';
-  // Quiz cards stay visible and clickable
-}
-
-function showLocked() {
-  document.getElementById('unlockedBanner').style.display = 'none';
-  document.getElementById('lockedBanner').style.display = 'block';
-  // Disable quiz card links
-  document.querySelectorAll('.quiz-card').forEach(card => {
-    card.style.opacity = '0.4';
-    card.style.pointerEvents = 'none';
-    card.style.cursor = 'default';
-    card.style.transform = 'none';
-  });
-}
 </script>
 </body>
 </html>

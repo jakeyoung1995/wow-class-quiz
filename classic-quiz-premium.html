@@ -204,7 +204,7 @@
 
 <header class="site-header">
   <div class="logo">WoW Class Quiz <span>⭐ Classic Premium</span></div>
-  <a id="homeLink" href="classic-hub.html" class="back-link">← Classic Hub</a>
+  <a id="homeLink" href="wow-quiz-premium-hub.html" class="back-link">← Premium Hub</a>
 </header>
 
 <!-- Gate check -->
@@ -275,7 +275,7 @@
     <a href="classic-hub.html">Classic Hub</a>
     <a href="classic-quiz-free.html">Free Classic Quiz</a>
     <a href="index.html">Home</a>
-    <a href="wow-quiz-premium-hub.html">Midnight Premium</a>
+    <a href="wow-quiz-premium-hub.html">Premium Hub</a>
   </p>
   <p style="margin-top:10px;">© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
 </footer>
@@ -285,8 +285,7 @@
 (function() {
   try {
     const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || 'null');
-    if (d && d.word === 'MIDNIGHT2026') {
-      document.getElementById('homeLink').href = 'classic-hub.html';
+    if (d && d.unlocked && d.expiry > Date.now()) {
       return;
     }
   } catch(e) {}
@@ -297,7 +296,7 @@
 function tryUnlock() {
   const val = document.getElementById('gateInput').value.trim().toUpperCase();
   if (val === 'MIDNIGHT2026') {
-    localStorage.setItem('wowquiz_premium_v1', JSON.stringify({ word: val, ts: Date.now() }));
+    localStorage.setItem('wowquiz_premium_v1', JSON.stringify({ unlocked: true, word: val, expiry: Date.now() + 365*24*60*60*1000 }));
     document.getElementById('gateWall').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
   } else {

@@ -306,6 +306,110 @@
     }
     .spec-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
 
+    /* ── Feedback Widget ─────────────────────────── */
+    .feedback-widget {
+      margin: 0 0 28px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .feedback-heading {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 14px;
+      letter-spacing: 0.03em;
+    }
+    .feedback-label {
+      font-size: 12px;
+      color: var(--text3);
+      margin-bottom: 8px;
+    }
+    .star-row { display: flex; gap: 6px; margin-bottom: 0; }
+    .star-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 26px;
+      color: #333;
+      padding: 0 2px;
+      line-height: 1;
+      transition: color 0.1s, transform 0.1s;
+    }
+    .star-btn:hover, .star-btn.lit { color: #d4a030; transform: scale(1.15); }
+    .feedback-q { margin-top: 16px; }
+    .yn-row { display: flex; gap: 10px; margin-top: 8px; }
+    .yn-btn {
+      padding: 7px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text2);
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .yn-btn:hover { border-color: rgba(212,160,48,0.5); color: #fff; }
+    .yn-btn.selected { border-color: #d4a030; background: rgba(212,160,48,0.12); color: #d4a030; font-weight: 600; }
+    .feedback-comment {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13px;
+      resize: vertical;
+      min-height: 70px;
+      font-family: inherit;
+    }
+    .feedback-comment:focus { outline: none; border-color: rgba(212,160,48,0.4); }
+    .feedback-comment::placeholder { color: var(--text3); }
+    .feedback-submit {
+      margin-top: 12px;
+      padding: 9px 22px;
+      border-radius: 8px;
+      border: 1px solid rgba(212,160,48,0.5);
+      background: rgba(212,160,48,0.1);
+      color: #d4a030;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .feedback-submit:hover { background: rgba(212,160,48,0.2); border-color: #d4a030; }
+    .feedback-thanks {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      color: #78c878;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 4px 0;
+    }
+    .feedback-thanks-icon { font-size: 20px; }
+
+    /* ── Meta Tier Badge ──────────────────────────── */
+    .meta-tier-badge {
+      margin-top: 10px;
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--text3);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .meta-tier-badge .meta-patch { color: var(--text3); opacity: 0.6; }
+    .meta-tier-badge .meta-sep { opacity: 0.3; }
+    .meta-tier-badge b { font-weight: 700; }
+
     /* ── Premium CTA ──────────────────────────────── */
     .premium-cta {
       background: linear-gradient(135deg, #1a1530 0%, #0e1020 100%);
@@ -497,6 +601,36 @@
   <div class="results-header">
     <h2>Your class recommendations</h2>
     <p>Ranked by playstyle match — based on your 9 answers</p>
+  </div>
+
+  <!-- Feedback Widget -->
+  <div class="feedback-widget" id="feedbackWidget">
+    <div class="feedback-heading">Quick feedback</div>
+    <div id="fbQ1">
+      <div class="feedback-label">How accurate was your result?</div>
+      <div class="star-row" id="starRow">
+        <button class="star-btn" data-v="1" aria-label="1 star">★</button>
+        <button class="star-btn" data-v="2" aria-label="2 stars">★</button>
+        <button class="star-btn" data-v="3" aria-label="3 stars">★</button>
+        <button class="star-btn" data-v="4" aria-label="4 stars">★</button>
+        <button class="star-btn" data-v="5" aria-label="5 stars">★</button>
+      </div>
+    </div>
+    <div class="feedback-q" id="fbQ2" style="display:none">
+      <div class="feedback-label">Would you recommend this quiz to a friend?</div>
+      <div class="yn-row">
+        <button class="yn-btn" id="fbYes">👍  Yes</button>
+        <button class="yn-btn" id="fbNo">👎  No</button>
+      </div>
+    </div>
+    <div class="feedback-q" id="fbQ3" style="display:none">
+      <textarea class="feedback-comment" id="fbComment" placeholder="Any other thoughts? (optional)"></textarea>
+      <button class="feedback-submit" id="fbSubmit">Submit →</button>
+    </div>
+    <div class="feedback-thanks" id="fbThanks">
+      <span class="feedback-thanks-icon">✓</span>
+      <span>Thanks for the feedback!</span>
+    </div>
   </div>
 
   <div id="classCards"></div>
@@ -801,13 +935,13 @@ function renderQuestion() {
   document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'See results →' : 'Next →';
 }
 
+
 function selectOpt(value, title) {
   answers[questions[current].id] = value;
-  document.querySelectorAll('.opt').forEach(el => {
-    el.classList.toggle('selected', el.querySelector('.opt-title').textContent === title);
-  });
-  document.getElementById('nextBtn').disabled = false;
+  renderQuestion();
 }
+
+function goBack() { if (current > 0) { current--; renderQuestion(); } }
 
 function goNext() {
   if (current === questions.length - 1) { showResults(); return; }
@@ -815,25 +949,21 @@ function goNext() {
   renderQuestion();
 }
 
-function goBack() {
-  if (current > 0) { current--; renderQuestion(); }
-}
-
 // ──────────────────────────────────────────────────────
 // SCORING
 // ──────────────────────────────────────────────────────
 function calcScores() {
   return classes.map(cls => {
-    let score = 0, maxPossible = 0;
-    Object.entries(answers).forEach(([qid, val]) => {
-      const qScores = cls.scores[qid];
-      if (!qScores) return;
-      const maxQ = Math.max(...Object.values(qScores));
-      maxPossible += maxQ;
-      score += qScores[val] || 0;
+    let total = 0, possible = 0;
+    questions.forEach(q => {
+      const map = cls.scores[q.id];
+      if (!map) return;
+      const ans = answers[q.id];
+      if (ans !== undefined && map[ans] !== undefined) total += map[ans];
+      possible += Math.max(...Object.values(map));
     });
-    const pct = maxPossible > 0 ? Math.round((score / maxPossible) * 100) : 0;
-    return { ...cls, score, pct };
+    const pct = possible > 0 ? Math.round((total / possible) * 100) : 0;
+    return { ...cls, pct };
   }).sort((a, b) => b.pct - a.pct);
 }
 
@@ -846,6 +976,8 @@ function showResults() {
 
   const ranked = calcScores();
   const top3 = ranked.slice(0, 3);
+  window._quizTopResult = top3[0].name;
+
   const cards = document.getElementById('classCards');
   cards.innerHTML = '';
 
@@ -890,9 +1022,116 @@ function showResults() {
   document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Class Quiz — Find your perfect DPS class (free)')}`;
   document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
 
+  injectMetaTiers('dps');
+  initFeedbackWidget('dps-free', topClass);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function restart() {
+  current = 0;
+  answers = {};
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+// ── Meta tier badges ───────────────────────────────────────────────────────
+function tierColor(t) {
+  return {S:'#ff8c00', A:'#78c878', B:'#6aabdb', C:'#888888', '?':'#444444'}[t] || '#444444';
+}
+
+async function injectMetaTiers(role) {
+  try {
+    const resp = await fetch('/wow-patch-data.json');
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (!data._meta || data._meta.needs_refresh) return;
+    const patch = data._meta.patch;
+    const roleData = data[role];
+    if (!roleData) return;
+    document.querySelectorAll('.class-card').forEach(card => {
+      const className = card.querySelector('.class-name')?.textContent?.trim();
+      if (!className || !roleData[className]) return;
+      const meta = roleData[className];
+      if (meta.mplus === '?' && meta.raid === '?') return;
+      const badge = document.createElement('div');
+      badge.className = 'meta-tier-badge';
+      badge.innerHTML = `
+        <span class="meta-patch">Patch ${patch}</span>
+        <span class="meta-sep">·</span>
+        <span style="color:${tierColor(meta.mplus)}"><b>${meta.mplus}</b> M+</span>
+        <span class="meta-sep">·</span>
+        <span style="color:${tierColor(meta.raid)}"><b>${meta.raid}</b> Raid</span>
+      `;
+      const specDesc = card.querySelector('.spec-desc');
+      if (specDesc) specDesc.after(badge);
+      else card.appendChild(badge);
+    });
+  } catch(e) {}
+}
+
+// ── Feedback widget ────────────────────────────────────────────────────────
+// After deploying your Apps Script, replace the placeholder URL below:
+var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+
+function initFeedbackWidget(quizType, topClass) {
+  var stars = 0, recommend = null;
+  var starBtns = document.querySelectorAll('.star-btn');
+
+  function litStars(n) {
+    starBtns.forEach(function(b) {
+      b.classList.toggle('lit', parseInt(b.dataset.v) <= n);
+    });
+  }
+
+  starBtns.forEach(function(btn) {
+    btn.addEventListener('mouseover', function() { litStars(parseInt(btn.dataset.v)); });
+    btn.addEventListener('mouseout', function() { litStars(stars); });
+    btn.addEventListener('click', function() {
+      stars = parseInt(btn.dataset.v);
+      litStars(stars);
+      document.getElementById('fbQ2').style.display = 'block';
+    });
+  });
+
+  function setYN(v) {
+    document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
+    document.getElementById('fbNo').classList.toggle('selected', v === 'no');
+  }
+
+  document.getElementById('fbYes').addEventListener('click', function() {
+    recommend = 'yes'; setYN('yes');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
+  document.getElementById('fbNo').addEventListener('click', function() {
+    recommend = 'no'; setYN('no');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
+
+  document.getElementById('fbSubmit').addEventListener('click', function() {
+    var payload = {
+      quiz_type: quizType,
+      top_class: topClass,
+      stars: stars,
+      recommend: recommend,
+      comment: document.getElementById('fbComment').value.trim()
+    };
+    if (FEEDBACK_ENDPOINT && FEEDBACK_ENDPOINT !== 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec') {
+      fetch(FEEDBACK_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(payload)
+      });
+    }
+    document.getElementById('fbQ1').style.display = 'none';
+    document.getElementById('fbQ2').style.display = 'none';
+    document.getElementById('fbQ3').style.display = 'none';
+    var t = document.getElementById('fbThanks');
+    t.style.display = 'flex';
+  });
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────
 function copyLink(e) {
   e.preventDefault();
   navigator.clipboard.writeText(window.location.href).then(() => {
@@ -901,25 +1140,6 @@ function copyLink(e) {
     setTimeout(() => { confirm.style.display = 'none'; }, 3000);
   });
 }
-
-function restart() {
-  current = 0;
-  answers = {};
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('hero').style.display = 'block';
-  document.getElementById('ad-hero').style.display = 'flex';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Smart home link: premium buyers go to hub, others go to index
-(function() {
-  try {
-    const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || '{}');
-    if (d.unlocked && d.expiry > Date.now()) {
-      document.getElementById('homeLink').href = 'wow-quiz-premium-hub.html';
-    }
-  } catch(e) {}
-})();
 </script>
 </body>
 </html>

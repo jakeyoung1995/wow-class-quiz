@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "patch": "12.0.5",
+    "season": "Midnight Season 1",
+    "last_updated": "2026-05-03",
+    "needs_refresh": true,
+    "note": "Initial seed — tier data not yet populated. Set needs_refresh to false after first automated update."
+  },
+  "dps": {
+    "Rogue": {"mplus": "?", "raid": "?", "best_spec": "Subtlety"},
+    "Mage": {"mplus": "?", "raid": "?", "best_spec": "Fire"},
+    "Warlock": {"mplus": "?", "raid": "?", "best_spec": "Affliction"},
+    "Death Knight": {"mplus": "?", "raid": "?", "best_spec": "Unholy"},
+    "Hunter": {"mplus": "?", "raid": "?", "best_spec": "Beast Mastery"},
+    "Demon Hunter": {"mplus": "?", "raid": "?", "best_spec": "Havoc"},
+    "Shaman": {"mplus": "?", "raid": "?", "best_spec": "Enhancement"},
+    "Druid": {"mplus": "?", "raid": "?", "best_spec": "Balance"},
+    "Monk": {"mplus": "?", "raid": "?", "best_spec": "Windwalker"},
+    "Warrior": {"mplus": "?", "raid": "?", "best_spec": "Arms"},
+    "Paladin": {"mplus": "?", "raid": "?", "best_spec": "Retribution"},
+    "Evoker": {"mplus": "?", "raid": "?", "best_spec": "Devastation"}
+  },
+  "tank": {
+    "Blood Death Knight": {"mplus": "?", "raid": "?"},
+    "Vengeance Demon Hunter": {"mplus": "?", "raid": "?"},
+    "Guardian Druid": {"mplus": "?", "raid": "?"},
+    "Brewmaster Monk": {"mplus": "?", "raid": "?"},
+    "Protection Paladin": {"mplus": "?", "raid": "?"},
+    "Protection Warrior": {"mplus": "?", "raid": "?"}
+  },
+  "healer": {
+    "Restoration Druid": {"mplus": "?", "raid": "?"},
+    "Preservation Evoker": {"mplus": "?", "raid": "?"},
+    "Mistweaver Monk": {"mplus": "?", "raid": "?"},
+    "Holy Paladin": {"mplus": "?", "raid": "?"},
+    "Holy Priest": {"mplus": "?", "raid": "?"},
+    "Discipline Priest": {"mplus": "?", "raid": "?"},
+    "Restoration Shaman": {"mplus": "?", "raid": "?"}
+  },
+  "major_changes_pending": [],
+  "changelog": []
+}

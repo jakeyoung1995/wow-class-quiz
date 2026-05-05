@@ -281,6 +281,8 @@
 </footer>
 
 <script>
+const UNLOCK_WORD = 'MIDNIGHT2026'; // change here only if you update Gumroad redirect
+
 // ── Gate ──────────────────────────────────────────────────────────────────
 (function() {
   try {
@@ -295,7 +297,7 @@
 
 function tryUnlock() {
   const val = document.getElementById('gateInput').value.trim().toUpperCase();
-  if (val === 'MIDNIGHT2026') {
+  if (val === UNLOCK_WORD) {
     localStorage.setItem('wowquiz_premium_v1', JSON.stringify({ unlocked: true, word: val, expiry: Date.now() + 365*24*60*60*1000 }));
     document.getElementById('gateWall').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';

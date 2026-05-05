@@ -1116,10 +1116,11 @@ function initFeedbackWidget(quizType, topClass) {
       recommend: recommend,
       comment: document.getElementById('fbComment').value.trim()
     };
-    if (FEEDBACK_ENDPOINT && FEEDBACK_ENDPOINT !== 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec') {
+    if (FEEDBACK_ENDPOINT) {
       fetch(FEEDBACK_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       });
     }

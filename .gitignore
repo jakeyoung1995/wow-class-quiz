@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local dev / marketing assets (not part of the live site)
+gumroad-cover.html
+gumroad-cover-1280x720.html
+gumroad-thumb-600x600.html
+gumroad-cover.png
+gumroad-cover.svg
+gumroad-thumbnail.png
+gumroad-thumbnail.svg
+tiktok-demo.html
+reddit-posts.md
+LAUNCH-CHECKLIST.md
+
+# Legacy hosting config (no longer used)
+netlify.toml
+
+# OS
+.DS_Store
+Thumbs.db

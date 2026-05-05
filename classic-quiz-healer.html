@@ -222,6 +222,8 @@
 </footer>
 
 <script>
+const UNLOCK_WORD = 'MIDNIGHT2026'; // change here only if you update Gumroad redirect
+
 // ── Questions ─────────────────────────────────────────────────────────────
 const QUESTIONS = [
   {
@@ -639,7 +641,7 @@ function restart() {
 (function() {
   try {
     const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || 'null');
-    if (d && d.word === 'MIDNIGHT2026') {
+    if (d && d.word === UNLOCK_WORD) {
       document.getElementById('homeLink').href = 'wow-quiz-premium-hub.html';
     }
   } catch(e) {}

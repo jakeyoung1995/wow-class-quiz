@@ -657,13 +657,40 @@ function initFeedbackWidget(quizType, topClass) {
     });
   });
   function setYN(v) {
-    document.getElementById('fbYes').classList.toggle('selected', v==='yes');
-    document.getElementById('fbNo').classList.toggle('selected', v==='no');
+    document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
+    document.getElementById('fbNo').classList.toggle('selected', v === 'no');
   }
   document.getElementById('fbYes').addEventListener('click', function() {
-    recommend='yes'; setYN('yes');
-    document.getElementById('fbQ3').style.display='block';
+    recommend = 'yes'; setYN('yes');
+    document.getElementById('fbQ3').style.display = 'block';
   });
   document.getElementById('fbNo').addEventListener('click', function() {
-    recommend='no'; setYN('no');
-    document.getElementById('fbQ3').style.display='block';
+    recommend = 'no'; setYN('no');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
+  document.getElementById('fbSubmit').addEventListener('click', function() {
+    var payload = {
+      quiz_type: quizType,
+      top_class: topClass,
+      stars: stars,
+      recommend: recommend,
+      comment: document.getElementById('fbComment').value.trim()
+    };
+    if (FEEDBACK_ENDPOINT) {
+      fetch(FEEDBACK_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
+    }
+    document.getElementById('fbQ1').style.display = 'none';
+    document.getElementById('fbQ2').style.display = 'none';
+    document.getElementById('fbQ3').style.display = 'none';
+    var t = document.getElementById('fbThanks');
+    t.style.display = 'flex';
+  });
+}
+</script>
+</body>
+</html>

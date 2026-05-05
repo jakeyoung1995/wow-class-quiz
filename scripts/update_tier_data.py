@@ -385,7 +385,7 @@ def main():
                 lines.append(f"  {e}")
             lines.append("")
 
-        lines.append("Site: https://wow-class.netlify.app")
+        lines.append("Site: https://wowclassquiz.com")
         lines.append("Repo: https://github.com/jakeyoung1995/wow-class-quiz")
 
         subject = f"[WoW Class Quiz] Tier update — {len(all_tier_changes)} change(s), {len(all_structural)} structural"

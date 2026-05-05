@@ -32,8 +32,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4 lxml
+        run: pip install requests beautifulsoup4 lxml
 
       - name: Run tier update script
         env:
@@ -52,11 +51,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to wow-patch-data.json — nothing to commit."
           else
-            CHANGED=$(git diff --cached --name-only | tr '\n' ' ')
-            git commit -m "chore: weekly tier update $(date +%Y-%m-%d) [skip ci]
-
-Automated update from Icy Veins tier lists.
-Files changed: $CHANGED"
+            git commit -m "chore: weekly tier update $(date +%Y-%m-%d) [skip ci]"
             git push
             echo "Committed and pushed tier data update."
           fi

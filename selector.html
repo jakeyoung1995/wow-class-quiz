@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Class Selector — Pick Your Perfect WoW Midnight Class (2026)</title>
+  <meta name="description" content="Use our WoW class selector to find your perfect WoW Midnight class. Browse all 13 classes by role, playstyle, and complexity — then take the quiz to get your personal match.">
+  <link rel="canonical" href="https://wowclassquiz.com/selector.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:title" content="WoW Class Selector — Pick Your Perfect WoW Midnight Class">
+  <meta property="og:description" content="Browse all WoW Midnight classes by role and playstyle, then take the quiz to find your perfect match.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wowclassquiz.com/selector.html">
+  <meta name="keywords" content="wow class selector, wow class picker, what class to play wow midnight, wow midnight class guide, choose wow class, wow class chooser 2026">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I choose a WoW class in Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The best way to choose a WoW class is to match it to your playstyle rather than the current meta. Consider: do you want to DPS, tank, or heal? Do you prefer simple or complex rotations? Do you like mobility or staying in place? Our class selector quiz asks these questions and matches you to the best class for your preferences."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the easiest class to play in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Beast Mastery Hunter, Destruction Warlock, and Havoc Demon Hunter are consistently the most beginner-friendly DPS classes in WoW Midnight. For tanking, Protection Warrior is straightforward and durable. For healing, Holy Paladin offers simple mechanics with strong output."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which WoW class is best for solo play in Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Demonology Warlock, Beast Mastery Hunter, and Unholy Death Knight are top picks for solo play in WoW Midnight. They have strong self-sustain, pets or minions to tank, and high survivability for open-world content."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I change class in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can create multiple characters and level any class. Some players also use the in-game Class Trial system to try a class at max level before committing. Choosing the right class from the start saves time, which is why a class selector quiz is a useful first step."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What WoW class should I play if I want to do Mythic+ dungeons?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For Mythic+ in WoW Midnight, classes with strong utility and AoE are highly valued. Top M+ DPS picks include Demonology Warlock, Arcane Mage, and Outlaw Rogue. For tanks, Blood Death Knight and Brewmaster Monk offer strong self-sustain. Our quiz helps you find the M+ class that fits your playstyle specifically."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YMTTK4WJ3F');
+  </script>
+
+  <style>
+    :root {
+      --bg:     #0a0800;
+      --surf1:  #110f08;
+      --surf2:  #1a1810;
+      --surf3:  #222018;
+      --border: #2e2a1e;
+      --gold:   #d4aa52;
+      --gold-lt:#f0cc70;
+      --gold-dk:#8a6e28;
+      --text:   #f0e8d8;
+      --text2:  #b0a080;
+      --text3:  #6a5a40;
+      --dps:    #d4aa52;
+      --tank:   #6090d8;
+      --heal:   #58c878;
+      --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; margin: 0; }
+
+    /* Header */
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; justify-content: space-between; }
+    .logo { font-size: 16px; font-weight: 700; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--text2); font-size: 13px; font-weight: 400; }
+    .header-nav { display: flex; align-items: center; gap: 4px; }
+    .nav-link { font-size: 13px; color: var(--text2); text-decoration: none; padding: 5px 12px; border-radius: 99px; border: 1px solid transparent; transition: all 0.15s; }
+    .nav-link:hover { color: var(--text); border-color: var(--border); background: var(--surf2); }
+    .nav-link.active { color: var(--gold-lt); border-color: rgba(212,170,82,0.3); }
+    .nav-link.alt { color: var(--gold-lt); border-color: rgba(212,160,48,0.3); background: rgba(212,160,48,0.06); }
+    .nav-link.alt:hover { background: rgba(212,160,48,0.14); border-color: var(--gold-lt); }
+    @media (max-width: 600px) { .header-nav { display: none; } }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 56px 0 36px; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 44px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+    .hero h1 em { color: var(--gold-lt); font-style: normal; }
+    .hero p { font-size: 17px; color: var(--text2); max-width: 560px; margin: 0 auto 32px; }
+    .hero-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary { display: inline-block; background: var(--gold); color: #0a0800; font-size: 15px; font-weight: 700; padding: 13px 28px; border-radius: 99px; text-decoration: none; transition: background 0.15s; }
+    .btn-primary:hover { background: var(--gold-lt); }
+    .btn-ghost { display: inline-block; background: transparent; color: var(--text2); font-size: 15px; font-weight: 600; padding: 13px 28px; border-radius: 99px; text-decoration: none; border: 1px solid var(--border); transition: all 0.15s; }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text2); }
+
+    /* Filter bar */
+    .filter-bar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 40px 0 28px; }
+    .filter-btn { background: var(--surf2); border: 1px solid var(--border); border-radius: 99px; padding: 7px 18px; font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold-lt); background: rgba(212,170,82,0.1); }
+    .filter-btn[data-role="tank"].active { border-color: var(--tank); color: var(--tank); background: rgba(96,144,216,0.1); }
+    .filter-btn[data-role="heal"].active { border-color: var(--heal); color: var(--heal); background: rgba(88,200,120,0.1); }
+
+    /* Class grid */
+    .class-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 56px; }
+    .class-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: border-color 0.2s, transform 0.15s; cursor: default; }
+    .class-card:hover { transform: translateY(-2px); }
+    .class-card[data-role="dps"]:hover { border-color: var(--dps); }
+    .class-card[data-role="tank"]:hover { border-color: var(--tank); }
+    .class-card[data-role="heal"]:hover { border-color: var(--heal); }
+    .class-card[data-role="multi"]:hover { border-color: var(--gold); }
+    .class-card.hidden { display: none; }
+
+    .class-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .class-roles { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+    .role-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; }
+    .role-tag.dps  { background: rgba(212,170,82,0.15); color: var(--dps); border: 1px solid rgba(212,170,82,0.3); }
+    .role-tag.tank { background: rgba(96,144,216,0.15); color: var(--tank); border: 1px solid rgba(96,144,216,0.3); }
+    .role-tag.heal { background: rgba(88,200,120,0.15); color: var(--heal); border: 1px solid rgba(88,200,120,0.3); }
+    .class-desc { font-size: 13px; color: var(--text2); line-height: 1.55; margin-bottom: 12px; }
+    .class-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+    .class-tag { font-size: 11px; color: var(--text3); background: var(--surf3); border: 1px solid var(--border); border-radius: 99px; padding: 2px 8px; }
+    .class-complexity { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+    .complexity-dots { display: flex; gap: 3px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+    .dot.filled { background: var(--gold); }
+
+    /* Quiz CTA section */
+    .quiz-cta { background: linear-gradient(135deg, #14120a 0%, #1a1810 100%); border: 1px solid rgba(212,170,82,0.25); border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 56px; }
+    .quiz-cta h2 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .quiz-cta p { font-size: 15px; color: var(--text2); margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .quiz-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-role { display: inline-block; padding: 11px 22px; border-radius: 99px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+    .btn-dps  { background: rgba(212,170,82,0.15); color: var(--dps); border: 1px solid rgba(212,170,82,0.4); }
+    .btn-dps:hover  { background: var(--dps); color: #0a0800; }
+    .btn-tank { background: rgba(96,144,216,0.15); color: var(--tank); border: 1px solid rgba(96,144,216,0.4); }
+    .btn-tank:hover { background: var(--tank); color: #fff; }
+    .btn-heal { background: rgba(88,200,120,0.15); color: var(--heal); border: 1px solid rgba(88,200,120,0.4); }
+    .btn-heal:hover { background: var(--heal); color: #0a1808; }
+
+    /* FAQ */
+    .faq-section { margin-bottom: 56px; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; cursor: pointer; background: var(--surf2); font-size: 15px; font-weight: 600; color: var(--text); gap: 12px; }
+    .faq-q:hover { background: var(--surf3); }
+    .faq-icon { color: var(--gold); font-size: 20px; flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { display: none; padding: 0 20px 16px; font-size: 14px; color: var(--text2); line-height: 1.65; background: var(--surf2); }
+    .faq-item.open .faq-a { display: block; }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; margin: 0 8px; }
+    .site-footer a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="/">
+    <svg width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <rect width="64" height="64" rx="13" fill="#0a0600"/>
+      <line x1="10" y1="10" x2="54" y2="54" stroke="#d4a030" stroke-width="4" stroke-linecap="round"/>
+      <line x1="54" y1="10" x2="10" y2="54" stroke="#d4a030" stroke-width="4" stroke-linecap="round"/>
+      <line x1="10" y1="22" x2="22" y2="10" stroke="#f8dc80" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="42" y1="10" x2="54" y2="22" stroke="#f8dc80" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="3.5" fill="#f8dc80" opacity="0.9"/>
+    </svg>
+    WoW Class Quiz <span>Midnight Edition</span>
+  </a>
+  <nav class="header-nav">
+    <a href="wow-quiz-free.html" class="nav-link">DPS</a>
+    <a href="wow-quiz-tank.html" class="nav-link">Tank</a>
+    <a href="wow-quiz-healer.html" class="nav-link">Healer</a>
+    <a href="classic-hub.html" class="nav-link">Classic</a>
+    <a href="selector.html" class="nav-link active">Selector</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="nav-link alt" target="_blank">✦ Premium — $1.99</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <p class="hero-eyebrow">WoW Midnight · Season 1 · 2026</p>
+    <h1>WoW Class <em>Selector</em><br>Find Your Perfect Class</h1>
+    <p>Browse all 13 WoW Midnight classes, filter by role, and take the quiz to get your personal class match — no tier list bias, just your playstyle.</p>
+    <div class="hero-cta">
+      <a href="wow-quiz-free.html" class="btn-primary">⚔️ Take the DPS Quiz</a>
+      <a href="#classes" class="btn-ghost">Browse All Classes ↓</a>
+    </div>
+  </section>
+
+  <!-- Filter -->
+  <div class="filter-bar" id="classes">
+    <button class="filter-btn active" data-role="all" onclick="filterClasses('all', this)">All Classes</button>
+    <button class="filter-btn" data-role="dps" onclick="filterClasses('dps', this)">⚔️ DPS</button>
+    <button class="filter-btn" data-role="tank" onclick="filterClasses('tank', this)">🛡️ Tank</button>
+    <button class="filter-btn" data-role="heal" onclick="filterClasses('heal', this)">💚 Healer</button>
+  </div>
+
+  <!-- Class Grid -->
+  <div class="class-grid">
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Death Knight</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag tank">Tank</span>
+      </div>
+      <p class="class-desc">A plate-armored powerhouse fueled by dark magic and undeath. Frost and Unholy for DPS; Blood for tanking with exceptional self-healing.</p>
+      <div class="class-tags">
+        <span class="class-tag">Plate Armor</span>
+        <span class="class-tag">Self-Sustain</span>
+        <span class="class-tag">High Damage</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="dps">
+      <div class="class-name">Demon Hunter</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag tank">Tank</span>
+      </div>
+      <p class="class-desc">Agile, mobile, and visually spectacular. Havoc delivers blazing single-target and AoE; Vengeance turns massive damage intake into healing.</p>
+      <div class="class-tags">
+        <span class="class-tag">High Mobility</span>
+        <span class="class-tag">Leather Armor</span>
+        <span class="class-tag">Beginner-Friendly</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Druid</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag tank">Tank</span>
+        <span class="role-tag heal">Healer</span>
+      </div>
+      <p class="class-desc">The most versatile class in the game — shapeshifts between bear (tank), cat (melee DPS), moonkin (ranged DPS), and tree (healer).</p>
+      <div class="class-tags">
+        <span class="class-tag">Shapeshifter</span>
+        <span class="class-tag">Leather Armor</span>
+        <span class="class-tag">Most Flexible</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Evoker</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag heal">Healer</span>
+      </div>
+      <p class="class-desc">Dracthyr-only class with unique empowered spells. Devastation and Augmentation for DPS; Preservation for reactive, mobile healing.</p>
+      <div class="class-tags">
+        <span class="class-tag">Ranged DPS</span>
+        <span class="class-tag">Group Buffs</span>
+        <span class="class-tag">Unique Mechanics</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="dps">
+      <div class="class-name">Hunter</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+      </div>
+      <p class="class-desc">Ranged or melee master of nature and beasts. Beast Mastery is one of the most forgiving specs in the game; Marksmanship rewards precise positioning.</p>
+      <div class="class-tags">
+        <span class="class-tag">Pet Class</span>
+        <span class="class-tag">Mail Armor</span>
+        <span class="class-tag">Great for Solo</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="dps">
+      <div class="class-name">Mage</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+      </div>
+      <p class="class-desc">Pure spellcaster with three completely different playstyles — Arcane (burst/combos), Fire (proc-heavy), and Frost (control/sustained). Arcane is top-tier in Midnight.</p>
+      <div class="class-tags">
+        <span class="class-tag">Cloth Armor</span>
+        <span class="class-tag">Burst Damage</span>
+        <span class="class-tag">Group Utility</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Monk</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag tank">Tank</span>
+        <span class="role-tag heal">Healer</span>
+      </div>
+      <p class="class-desc">Fast, fluid, and deeply satisfying to master. Windwalker excels at mobile melee DPS; Brewmaster tanks by staggering damage; Mistweaver heals through combat.</p>
+      <div class="class-tags">
+        <span class="class-tag">Leather Armor</span>
+        <span class="class-tag">High APM</span>
+        <span class="class-tag">All Roles</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Paladin</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag tank">Tank</span>
+        <span class="role-tag heal">Healer</span>
+      </div>
+      <p class="class-desc">Holy warrior in plate armor. Retribution DPS is powerful and approachable; Protection is one of the best beginner tanks; Holy heals with strong throughput.</p>
+      <div class="class-tags">
+        <span class="class-tag">Plate Armor</span>
+        <span class="class-tag">All Roles</span>
+        <span class="class-tag">Self-Sustain</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Priest</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag heal">Healer</span>
+      </div>
+      <p class="class-desc">The quintessential healer class, with two healing specs (Holy and Discipline) and one of the most distinctive DPS specs — Shadow, which uses its own resource and Void form.</p>
+      <div class="class-tags">
+        <span class="class-tag">Cloth Armor</span>
+        <span class="class-tag">Void Powers</span>
+        <span class="class-tag">Two Healer Specs</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="dps">
+      <div class="class-name">Rogue</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+      </div>
+      <p class="class-desc">Melee DPS specialist built around Energy and combo points. Outlaw is fun and M+-dominant; Subtlety rewards planning with explosive finishers; Assassination is sustained poison damage.</p>
+      <div class="class-tags">
+        <span class="class-tag">Leather Armor</span>
+        <span class="class-tag">Stealth</span>
+        <span class="class-tag">High Burst</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Shaman</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag heal">Healer</span>
+      </div>
+      <p class="class-desc">Elemental (ranged DPS), Enhancement (melee DPS), and Restoration (healer). Beloved for raid utility — Bloodlust/Heroism, totems, and strong off-healing.</p>
+      <div class="class-tags">
+        <span class="class-tag">Mail Armor</span>
+        <span class="class-tag">Bloodlust</span>
+        <span class="class-tag">Group Utility</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="dps">
+      <div class="class-name">Warlock</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+      </div>
+      <p class="class-desc">Dark summoner with three distinct playstyles. Demonology is S-tier in Midnight with pet-army burst; Affliction plays a long DoT game; Destruction is beginner-friendly with big chaos bolts.</p>
+      <div class="class-tags">
+        <span class="class-tag">Cloth Armor</span>
+        <span class="class-tag">Pet Class</span>
+        <span class="class-tag">Solo-Friendly</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+    <div class="class-card" data-role="multi">
+      <div class="class-name">Warrior</div>
+      <div class="class-roles">
+        <span class="role-tag dps">DPS</span>
+        <span class="role-tag tank">Tank</span>
+      </div>
+      <p class="class-desc">Pure melee fury in plate armor. Arms excels at cleave and burst windows; Fury is relentless sustained damage; Protection is one of the most durable and beginner-friendly tanks.</p>
+      <div class="class-tags">
+        <span class="class-tag">Plate Armor</span>
+        <span class="class-tag">High Mobility</span>
+        <span class="class-tag">Strong Defensives</span>
+      </div>
+      <div class="class-complexity"><span>Complexity:</span><div class="complexity-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+
+  </div><!-- /class-grid -->
+
+  <!-- Quiz CTA -->
+  <div class="quiz-cta">
+    <h2>Not sure which fits you best?</h2>
+    <p>Our class quiz asks about your playstyle — rotation feel, mobility, fantasy, complexity — and matches you to the perfect class. Takes 2 minutes.</p>
+    <div class="quiz-cta-btns">
+      <a href="wow-quiz-free.html" class="btn-role btn-dps">⚔️ DPS Quiz</a>
+      <a href="wow-quiz-tank.html" class="btn-role btn-tank">🛡️ Tank Quiz</a>
+      <a href="wow-quiz-healer.html" class="btn-role btn-heal">💚 Healer Quiz</a>
+    </div>
+    <p style="margin-top:20px; font-size:13px; color: var(--text3);">Want deeper insights? <a href="https://jynova2.gumroad.com/l/yejhos" style="color:var(--gold-lt);text-decoration:none;" target="_blank">Premium bundle — 30 questions, per-spec tier ratings → $1.99</a></p>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>WoW Class Selector — Common Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        How do I choose a WoW class in Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">The best way to choose a WoW class is to match it to your playstyle rather than the current meta. Consider: do you want to DPS, tank, or heal? Do you prefer simple or complex rotations? Do you like mobility or staying in place? Our class selector quiz asks these questions and matches you to the best class for your preferences — in about 2 minutes.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What is the easiest class to play in WoW Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Beast Mastery Hunter, Destruction Warlock, and Havoc Demon Hunter are consistently the most beginner-friendly DPS classes in WoW Midnight. For tanking, Protection Warrior is durable and straightforward. For healing, Holy Paladin offers simple mechanics with strong output.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Which WoW class is best for solo play in Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Demonology Warlock, Beast Mastery Hunter, and Unholy Death Knight are top picks for solo play in WoW Midnight. They have strong self-sustain, pets or minions to absorb damage, and excellent survivability for open-world content and delves.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What WoW class should I play for Mythic+ dungeons?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">For Mythic+ in WoW Midnight, classes with strong utility and AoE damage are highly valued. Top M+ DPS picks include Demonology Warlock, Arcane Mage, and Outlaw Rogue. For tanks, Blood Death Knight and Brewmaster Monk offer exceptional self-sustain. Take our quiz for a personalized recommendation based on your playstyle.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Can I change my WoW class after choosing one?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Yes — you can create multiple characters and level any class. WoW also offers Class Trials so you can test a class at max level before committing. That said, spending time on the wrong class can cost weeks. A class selector quiz is a useful first step to narrow down your choice before you invest.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Is there a difference between this selector and the quiz?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Yes. This page is a browseable reference — you can filter and read about each class to get a sense of what's available. The quiz is interactive: it asks about your personal playstyle preferences and gives you a ranked list of best class matches. For a serious class decision, do both — browse here first, then confirm with the quiz.</div>
+    </div>
+
+  </section>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+  <div>
+    <a href="/">Home</a>
+    <a href="wow-quiz-free.html">DPS Quiz</a>
+    <a href="wow-quiz-tank.html">Tank Quiz</a>
+    <a href="wow-quiz-healer.html">Healer Quiz</a>
+    <a href="classic-hub.html">Classic</a>
+    <a href="tier-list.html">Tier List</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" target="_blank">Premium</a>
+  </div>
+  <p style="margin-top:12px;">© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+  function filterClasses(role, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.class-card').forEach(card => {
+      if (role === 'all') {
+        card.classList.remove('hidden');
+      } else {
+        const cardRole = card.dataset.role;
+        card.classList.toggle('hidden', cardRole !== role && cardRole !== 'multi');
+      }
+    });
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>

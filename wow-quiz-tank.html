@@ -121,6 +121,10 @@
       border-radius: 12px;
       padding: 22px 24px;
     }
+    .feedback-sub {
+      font-size: 12px; color: var(--text3); line-height: 1.55;
+      margin: 4px 0 14px; font-style: italic;
+    }
     .feedback-heading {
       font-size: 13px;
       font-weight: 600;
@@ -218,7 +222,15 @@
       .card-top { flex-direction: column; gap: 10px; }
       .share-btns { flex-direction: column; align-items: center; }
     }
-  </style>
+      .premium-bullets { list-style: none; padding: 0; margin: 0 0 20px; text-align: left; display: inline-block; max-width: 420px; }
+    .premium-bullets li { font-size: 13px; color: #9090b0; padding: 5px 0 5px 4px; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .premium-bullets li:last-child { border-bottom: none; }
+    .premium-bullets li strong { color: #e0e0f0; }
+    .free-vs-premium { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .fvp-pill { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 99px; }
+    .fvp-free { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #606080; text-decoration: line-through; }
+    .fvp-premium { border: 1px solid; }
+</style>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
   <script>
@@ -300,7 +312,8 @@
 
   <!-- Feedback Widget -->
   <div class="feedback-widget" id="feedbackWidget">
-    <div class="feedback-heading">Quick feedback</div>
+    <div class="feedback-heading">Help us improve</div>
+    <div class="feedback-sub">I made this for my own use, but I want it to work well for everyone. With your help, we can make this a quiz people rely on for every new expansion. &#9825; Jake</div>
     <div id="fbQ1">
       <div class="feedback-label">How accurate was your result?</div>
       <div class="star-row" id="starRow">
@@ -324,7 +337,7 @@
     </div>
     <div class="feedback-thanks" id="fbThanks">
       <span class="feedback-thanks-icon">&#10003;</span>
-      <span>Thanks for the feedback!</span>
+      <span>Thanks so much — it really helps! &#9825;</span>
     </div>
   </div>
 
@@ -341,18 +354,19 @@
   </div>
 
   <div class="premium-cta">
-    <div class="tag">✦ Premium Tank Analysis</div>
-    <h3>Get the deep-dive: spec ratings, M+ vs Raid tiers, and your learning roadmap.</h3>
-    <p>The premium quiz doubles the questions and gives you per-spec Mythic/M+ tier ratings, defensives breakdown, cooldown complexity scores, "perfect for you if / avoid if" analysis, and a step-by-step roadmap to your first Cutting Edge.</p>
-    <div class="premium-features">
-      <span class="feature-pill">20 questions</span>
-      <span class="feature-pill">Mythic + M+ tier per spec</span>
-      <span class="feature-pill">Defensives breakdown</span>
-      <span class="feature-pill">✓ / ✗ fit analysis</span>
-      <span class="feature-pill">Learning roadmap</span>
-    </div>
-    <a href="wow-quiz-premium-tank.html" class="btn-premium">Get Premium Tank Quiz — $5 →</a>
-    <div class="premium-note">One-time · Instant access · No account needed</div>
+    <div class="tag">✦ Unlock Premium Tank</div>
+    <h3>You got a match. The premium quiz tells you <em>exactly</em> why — and how to master it.</h3>
+    <p>The free quiz found your top tanks. The 30-question premium goes 3× deeper:</p>
+    <ul class="premium-bullets">
+      <li>⚔️ <strong>Per-spec Mythic &amp; M+ tier ratings</strong> — know where each tank stands this patch</li>
+      <li>⚔️ <strong>Defensives &amp; cooldown breakdown</strong> — mitigation style, active vs passive, self-sustain ratings</li>
+      <li>⚔️ <strong>"Perfect tank if / avoid if" for every spec</strong> — honest fit analysis for your exact playstyle</li>
+      <li>⚔️ <strong>Pull style &amp; M+ complexity scores</strong> — know what tanking actually feels like at high keys</li>
+      <li>⚔️ <strong>Personalized 5-step roadmap to Cutting Edge</strong> — tank-specific progression milestones</li>
+      <li>⚔️ <strong>10 extra Section 3 questions</strong> — damage output, kiting comfort, interrupt role, recovery ability</li>
+    </ul>
+    <a href="wow-quiz-premium-tank.html" class="btn-premium">Get Premium Tank Quiz — $1.99 →</a>
+    <div class="premium-note">One-time purchase · Instant access · No account needed</div>
   </div>
 
   <div class="share-section">

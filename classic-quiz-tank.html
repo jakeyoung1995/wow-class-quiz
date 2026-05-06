@@ -156,7 +156,26 @@
       .stats-block { grid-template-columns: 1fr 1fr; }
       .races-block { grid-template-columns: 1fr; }
     }
-  </style>
+      .feedback-widget { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px 24px; margin: 28px 0; }
+    .feedback-heading { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .feedback-sub { font-size: 13px; color: var(--text2); margin-bottom: 14px; line-height: 1.55; }
+    .feedback-label { font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+    .star-row { display: flex; gap: 6px; }
+    .star-btn { background: none; border: none; font-size: 24px; color: var(--text3); cursor: pointer; padding: 2px; transition: color 0.1s, transform 0.1s; }
+    .star-btn:hover, .star-btn.lit { color: #d4a030; transform: scale(1.15); }
+    .feedback-q { margin-top: 16px; }
+    .yn-row { display: flex; gap: 10px; }
+    .yn-btn { background: var(--surf3); border: 1px solid var(--border); color: var(--text2); font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 99px; cursor: pointer; transition: all 0.15s; }
+    .yn-btn:hover { border-color: rgba(212,160,48,0.5); color: #fff; }
+    .yn-btn.selected { border-color: #d4a030; background: rgba(212,160,48,0.12); color: #d4a030; font-weight: 600; }
+    .feedback-comment { width: 100%; box-sizing: border-box; background: var(--surf3); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 13px; padding: 10px 12px; resize: vertical; min-height: 70px; margin-top: 10px; font-family: inherit; }
+    .feedback-comment:focus { outline: none; border-color: rgba(212,160,48,0.4); }
+    .feedback-comment::placeholder { color: var(--text3); }
+    .feedback-submit { margin-top: 10px; background: none; border: 1px solid rgba(212,160,48,0.4); color: #d4a030; font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 99px; cursor: pointer; transition: all 0.15s; }
+    .feedback-submit:hover { background: rgba(212,160,48,0.2); border-color: #d4a030; }
+    .feedback-thanks { display: none; align-items: center; gap: 10px; font-size: 14px; color: var(--text2); padding: 8px 0; }
+    .feedback-thanks-icon { font-size: 20px; }
+    </style>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
   <script>
@@ -213,6 +232,36 @@
     <h2>Your Classic Tank Matches</h2>
     <p>Ranked by playstyle fit. Every tank has a role — the right one is the one you'll actually enjoy playing.</p>
   </div>
+  <div class="feedback-widget" id="feedbackWidget">
+    <div class="feedback-heading">Help us improve</div>
+    <div class="feedback-sub">I made this for my own use, but I want it to work well for everyone. With your help, we can make this a quiz people rely on for every new expansion. ♥ Jake</div>
+    <div id="fbQ1">
+      <div class="feedback-label">How accurate was your result?</div>
+      <div class="star-row" id="starRow">
+        <button class="star-btn" data-v="1" aria-label="1 star">★</button>
+        <button class="star-btn" data-v="2" aria-label="2 stars">★</button>
+        <button class="star-btn" data-v="3" aria-label="3 stars">★</button>
+        <button class="star-btn" data-v="4" aria-label="4 stars">★</button>
+        <button class="star-btn" data-v="5" aria-label="5 stars">★</button>
+      </div>
+    </div>
+    <div class="feedback-q" id="fbQ2" style="display:none">
+      <div class="feedback-label">Would you recommend this quiz to a friend?</div>
+      <div class="yn-row">
+        <button class="yn-btn" id="fbYes">👍  Yes</button>
+        <button class="yn-btn" id="fbNo">👎  No</button>
+      </div>
+    </div>
+    <div class="feedback-q" id="fbQ3" style="display:none">
+      <textarea class="feedback-comment" id="fbComment" placeholder="Any other thoughts? (optional)"></textarea>
+      <button class="feedback-submit" id="fbSubmit">Submit →</button>
+    </div>
+    <div class="feedback-thanks" id="fbThanks">
+      <span class="feedback-thanks-icon">✓</span>
+      <span>Thanks so much — it really helps! ♥</span>
+    </div>
+  </div>
+
   <div class="result-cards" id="resultCards"></div>
   <div class="restart-row">
     <button class="btn-restart" onclick="restart()">↩ Retake Quiz</button>
@@ -516,10 +565,7 @@ function goBack() {
 
 function showResults() {
   // GA4 — quiz completion
-  if (typeof gtag !== 'undefined') {
-    var _topClass = (typeof ranked !== 'undefined' && ranked[0]) ? ranked[0].name :
-                    (typeof results !== 'undefined' && results[0]) ? results[0].name : 'unknown';
-    gtag('event', 'quiz_complete', { quiz_type: 'classic_tank_free', top_class: _topClass });
+  );
   }
   document.getElementById('quiz').style.display = 'none';
   document.getElementById('results').style.display = 'block';
@@ -534,10 +580,12 @@ function showResults() {
   }
 
   const ranked = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  if (typeof gtag !== 'undefined') { try { gtag('event', 'quiz_complete', { quiz_type: 'tank_free_classic', top_class: ranked && ranked[0] ? ranked[0].name : 'unknown' }); } catch(e) {} }
   const maxScore = ranked[0][1];
   const container = document.getElementById('resultCards');
   container.innerHTML = ranked.map(([key, score], i) => buildCard(key, score, maxScore, i+1)).join('');
 
+  initFeedbackWidget('tank_free_classic', 'unknown');
   window.scrollTo({ top: document.getElementById('results').offsetTop - 70, behavior: 'smooth' });
 }
 
@@ -639,6 +687,39 @@ function restart() {
     }
   } catch(e) {}
 })();
+
+var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+
+function initFeedbackWidget(quizType, topClass) {
+  var stars = 0, recommend = null;
+  var starBtns = document.querySelectorAll('.star-btn');
+  function litStars(n) { starBtns.forEach(function(b) { b.classList.toggle('lit', parseInt(b.dataset.v) <= n); }); }
+  starBtns.forEach(function(btn) {
+    btn.addEventListener('mouseover', function() { litStars(parseInt(btn.dataset.v)); });
+    btn.addEventListener('mouseout', function() { litStars(stars); });
+    btn.addEventListener('click', function() {
+      stars = parseInt(btn.dataset.v); litStars(stars);
+      document.getElementById('fbQ2').style.display = 'block';
+    });
+  });
+  function setYN(v) {
+    document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
+    document.getElementById('fbNo').classList.toggle('selected', v === 'no');
+  }
+  document.getElementById('fbYes').addEventListener('click', function() { recommend = 'yes'; setYN('yes'); document.getElementById('fbQ3').style.display = 'block'; });
+  document.getElementById('fbNo').addEventListener('click', function() { recommend = 'no'; setYN('no'); document.getElementById('fbQ3').style.display = 'block'; });
+  document.getElementById('fbSubmit').addEventListener('click', function() {
+    var payload = { quiz_type: quizType, top_class: topClass, stars: stars, recommend: recommend, comment: document.getElementById('fbComment').value.trim() };
+    if (FEEDBACK_ENDPOINT) {
+      fetch(FEEDBACK_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) });
+    }
+    document.getElementById('fbQ1').style.display = 'none';
+    document.getElementById('fbQ2').style.display = 'none';
+    document.getElementById('fbQ3').style.display = 'none';
+    document.getElementById('fbThanks').style.display = 'flex';
+  });
+}
+
 </script>
 </body>
 </html>

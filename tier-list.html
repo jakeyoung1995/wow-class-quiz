@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Midnight Class Tier List — Best DPS, Tank & Healer (Season 1, 2026)</title>
+  <meta name="description" content="WoW Midnight class tier list for Season 1. See the best DPS, Tank, and Healer specs for raiding and Mythic+ — then take the quiz to find which top-tier class fits YOUR playstyle.">
+  <link rel="canonical" href="https://wowclassquiz.com/tier-list.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:title" content="WoW Midnight Class Tier List — Best DPS, Tank & Healer (Season 1 2026)">
+  <meta property="og:description" content="WoW Midnight tier list for Season 1. Best DPS, Tank, and Healer specs ranked for raid and M+. Find which top-tier class suits your playstyle.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://wowclassquiz.com/tier-list.html">
+  <meta name="keywords" content="wow midnight class tier list, wow tier list 2026, best wow class midnight, wow midnight best dps, wow midnight best healer, wow midnight best tank, wow class rankings season 1">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best DPS class in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In WoW Midnight Season 1, Demonology Warlock, Arcane Mage, and Unholy Death Knight are considered S-tier DPS. Augmentation Evoker provides unmatched group utility alongside strong personal DPS. These rankings shift with patches, so checking current logs on Warcraftlogs.com is always recommended."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best tank in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Blood Death Knight and Brewmaster Monk are top-tier tanks in WoW Midnight for Mythic+ due to their exceptional self-sustain. Protection Paladin leads in raid due to strong cooldowns and utility. For beginners, Protection Warrior is durable and straightforward."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best healer in WoW Midnight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Preservation Evoker and Restoration Druid are top-tier healers in WoW Midnight. Preservation Evoker excels in Mythic+ with mobile, reactive healing. Discipline Priest offers unique utility through Atonement healing. Holy Paladin is the most beginner-friendly healer with strong numbers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I pick a class based on the tier list?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not necessarily. Tier lists show what performs best in the current patch, but specs rotate in and out of the meta with every balance update. For casual to heroic raiding, any class can clear content. For Mythic progression, playing a class you enjoy and know deeply will outperform a tier list pick you struggle to execute. Use the tier list to shortlist candidates, then pick based on playstyle fit."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YMTTK4WJ3F');
+  </script>
+
+  <style>
+    :root {
+      --bg:     #0a0800;
+      --surf1:  #110f08;
+      --surf2:  #1a1810;
+      --surf3:  #222018;
+      --border: #2e2a1e;
+      --gold:   #d4aa52;
+      --gold-lt:#f0cc70;
+      --gold-dk:#8a6e28;
+      --text:   #f0e8d8;
+      --text2:  #b0a080;
+      --text3:  #6a5a40;
+      --dps:    #d4aa52;
+      --tank:   #6090d8;
+      --heal:   #58c878;
+      --s-tier: #ff6b35;
+      --a-tier: #d4aa52;
+      --b-tier: #6090d8;
+      --c-tier: #888;
+      --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; margin: 0; }
+
+    /* Header */
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; justify-content: space-between; }
+    .logo { font-size: 16px; font-weight: 700; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--text2); font-size: 13px; font-weight: 400; }
+    .header-nav { display: flex; align-items: center; gap: 4px; }
+    .nav-link { font-size: 13px; color: var(--text2); text-decoration: none; padding: 5px 12px; border-radius: 99px; border: 1px solid transparent; transition: all 0.15s; }
+    .nav-link:hover { color: var(--text); border-color: var(--border); background: var(--surf2); }
+    .nav-link.active { color: var(--gold-lt); border-color: rgba(212,170,82,0.3); }
+    .nav-link.alt { color: var(--gold-lt); border-color: rgba(212,160,48,0.3); background: rgba(212,160,48,0.06); }
+    .nav-link.alt:hover { background: rgba(212,160,48,0.14); border-color: var(--gold-lt); }
+    @media (max-width: 600px) { .header-nav { display: none; } }
+
+    .container { max-width: 820px; margin: 0 auto; padding: 0 20px; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 52px 0 36px; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .hero h1 { font-size: clamp(24px, 4.5vw, 42px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 em { color: var(--gold-lt); font-style: normal; }
+    .hero p { font-size: 16px; color: var(--text2); max-width: 540px; margin: 0 auto 12px; }
+    .freshness-note { display: inline-flex; align-items: center; gap: 6px; background: var(--surf2); border: 1px solid var(--border); border-radius: 99px; padding: 5px 14px; font-size: 12px; color: var(--text3); margin-bottom: 32px; }
+    .freshness-dot { width: 7px; height: 7px; border-radius: 50%; background: #58c878; flex-shrink: 0; }
+
+    /* Role tabs */
+    .role-tabs { display: flex; gap: 0; background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; margin: 0 auto 36px; max-width: 480px; }
+    .rtab { flex: 1; background: none; border: none; border-radius: 8px; padding: 9px 16px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text2); transition: all 0.2s; }
+    .rtab.active { background: var(--surf3); }
+    .rtab[data-role="dps"].active  { color: var(--dps); }
+    .rtab[data-role="tank"].active { color: var(--tank); }
+    .rtab[data-role="heal"].active { color: var(--heal); }
+
+    /* Tier section */
+    .role-section { display: none; }
+    .role-section.active { display: block; }
+
+    .tier-block { margin-bottom: 10px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+    .tier-header { display: flex; align-items: center; gap: 14px; padding: 12px 18px; background: var(--surf2); }
+    .tier-label { font-size: 22px; font-weight: 800; width: 28px; text-align: center; flex-shrink: 0; }
+    .tier-label.s { color: var(--s-tier); }
+    .tier-label.a { color: var(--a-tier); }
+    .tier-label.b { color: var(--b-tier); }
+    .tier-label.c { color: var(--c-tier); }
+    .tier-desc { font-size: 12px; color: var(--text3); }
+    .tier-specs { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px; background: var(--surf1); }
+    .spec-pill { display: flex; align-items: center; gap: 7px; background: var(--surf2); border: 1px solid var(--border); border-radius: 99px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--text); transition: border-color 0.15s; }
+    .spec-pill:hover { border-color: var(--gold); }
+    .spec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* Class colour dots */
+    .dk    { background: #c41e3a; }
+    .dh    { background: #a330c9; }
+    .druid { background: #ff7c0a; }
+    .evoker{ background: #33937f; }
+    .hunter{ background: #aad372; }
+    .mage  { background: #3fc7eb; }
+    .monk  { background: #00ff98; }
+    .pala  { background: #f48cba; }
+    .priest{ background: #fff; }
+    .rogue { background: #fff468; }
+    .shaman{ background: #0070dd; }
+    .lock  { background: #8788ee; }
+    .warrior{background: #c69b3a; }
+
+    /* Callout */
+    .callout { background: rgba(212,170,82,0.08); border: 1px solid rgba(212,170,82,0.25); border-radius: var(--radius); padding: 16px 20px; font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 32px; }
+    .callout strong { color: var(--gold-lt); }
+
+    /* Quiz CTA */
+    .quiz-cta { background: linear-gradient(135deg, #14120a 0%, #1a1810 100%); border: 1px solid rgba(212,170,82,0.25); border-radius: 16px; padding: 36px; text-align: center; margin: 40px 0 56px; }
+    .quiz-cta h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .quiz-cta p { font-size: 15px; color: var(--text2); margin-bottom: 24px; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .quiz-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-role { display: inline-block; padding: 11px 22px; border-radius: 99px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+    .btn-dps  { background: rgba(212,170,82,0.15); color: var(--dps); border: 1px solid rgba(212,170,82,0.4); }
+    .btn-dps:hover  { background: var(--dps); color: #0a0800; }
+    .btn-tank { background: rgba(96,144,216,0.15); color: var(--tank); border: 1px solid rgba(96,144,216,0.4); }
+    .btn-tank:hover { background: var(--tank); color: #fff; }
+    .btn-heal { background: rgba(88,200,120,0.15); color: var(--heal); border: 1px solid rgba(88,200,120,0.4); }
+    .btn-heal:hover { background: var(--heal); color: #0a1808; }
+
+    /* FAQ */
+    .faq-section { margin-bottom: 56px; }
+    .faq-section h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 18px; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 15px 18px; cursor: pointer; background: var(--surf2); font-size: 14px; font-weight: 600; color: var(--text); gap: 12px; }
+    .faq-q:hover { background: var(--surf3); }
+    .faq-icon { color: var(--gold); font-size: 20px; flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { display: none; padding: 0 18px 14px; font-size: 14px; color: var(--text2); line-height: 1.65; background: var(--surf2); }
+    .faq-item.open .faq-a { display: block; }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; margin: 0 8px; }
+    .site-footer a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="/">
+    <svg width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <rect width="64" height="64" rx="13" fill="#0a0600"/>
+      <line x1="10" y1="10" x2="54" y2="54" stroke="#d4a030" stroke-width="4" stroke-linecap="round"/>
+      <line x1="54" y1="10" x2="10" y2="54" stroke="#d4a030" stroke-width="4" stroke-linecap="round"/>
+      <line x1="10" y1="22" x2="22" y2="10" stroke="#f8dc80" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="42" y1="10" x2="54" y2="22" stroke="#f8dc80" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="3.5" fill="#f8dc80" opacity="0.9"/>
+    </svg>
+    WoW Class Quiz <span>Midnight Edition</span>
+  </a>
+  <nav class="header-nav">
+    <a href="wow-quiz-free.html" class="nav-link">DPS</a>
+    <a href="wow-quiz-tank.html" class="nav-link">Tank</a>
+    <a href="wow-quiz-healer.html" class="nav-link">Healer</a>
+    <a href="classic-hub.html" class="nav-link">Classic</a>
+    <a href="tier-list.html" class="nav-link active">Tier List</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="nav-link alt" target="_blank">✦ Premium — $1.99</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <p class="hero-eyebrow">WoW Midnight · Season 1 · Patch 12.0</p>
+    <h1>WoW Midnight<br><em>Class Tier List</em></h1>
+    <p>Best DPS, Tank, and Healer specs for Raid and Mythic+ — Season 1 rankings based on current performance data.</p>
+    <div class="freshness-note">
+      <div class="freshness-dot"></div>
+      Updated May 2026 · Patch 12.0 · Data: Warcraftlogs &amp; M+ rankings
+    </div>
+  </section>
+
+  <div class="callout">
+    <strong>Tier lists are a starting point, not a sentence.</strong> Rankings shift every patch. More importantly, a S-tier class you dislike will underperform a B-tier class you've mastered. Use this list to shortlist candidates — then <a href="wow-quiz-free.html" style="color:var(--gold-lt);text-decoration:none;">take the quiz</a> to confirm which top-tier class actually fits how you play.
+  </div>
+
+  <!-- Role Tabs -->
+  <div class="role-tabs">
+    <button class="rtab active" data-role="dps" onclick="switchRole('dps', this)">⚔️ DPS</button>
+    <button class="rtab" data-role="tank" onclick="switchRole('tank', this)">🛡️ Tank</button>
+    <button class="rtab" data-role="heal" onclick="switchRole('heal', this)">💚 Healer</button>
+  </div>
+
+  <!-- DPS Tier List -->
+  <div class="role-section active" id="section-dps">
+    <div id="dps-tiers"><p style="color:var(--text3);font-size:14px;">Loading tier data…</p></div>
+  </div>
+
+  <!-- Tank Tier List -->
+  <div class="role-section" id="section-tank">
+    <div id="tank-tiers"><p style="color:var(--text3);font-size:14px;">Loading tier data…</p></div>
+    <p style="font-size:13px;color:var(--text3);margin-top:16px;">Tank rankings are closer together than DPS — every tank can clear all content. Playstyle preference matters far more here. <a href="wow-quiz-tank.html" style="color:var(--gold-lt);text-decoration:none;">Take the tank quiz →</a></p>
+  </div>
+
+  <!-- Healer Tier List -->
+  <div class="role-section" id="section-heal">
+    <div id="heal-tiers"><p style="color:var(--text3);font-size:14px;">Loading tier data…</p></div>
+    <p style="font-size:13px;color:var(--text3);margin-top:16px;">Healer rankings vary heavily between raid and M+. Preservation Evoker leads in M+; Restoration Druid leads in raid. <a href="wow-quiz-healer.html" style="color:var(--gold-lt);text-decoration:none;">Take the healer quiz →</a></p>
+  </div>
+
+  <!-- Quiz CTA -->
+  <div class="quiz-cta">
+    <h2>Know which tier you want to play?<br>Find the one that fits <em style="color:var(--gold-lt);font-style:normal;">you</em>.</h2>
+    <p>The tier list shows what's strong. The quiz shows what's right for your playstyle. Takes 2 minutes — no account required.</p>
+    <div class="quiz-cta-btns">
+      <a href="wow-quiz-free.html" class="btn-role btn-dps">⚔️ DPS Quiz</a>
+      <a href="wow-quiz-tank.html" class="btn-role btn-tank">🛡️ Tank Quiz</a>
+      <a href="wow-quiz-healer.html" class="btn-role btn-heal">💚 Healer Quiz</a>
+    </div>
+    <p style="margin-top:18px; font-size:13px; color: var(--text3);">Want per-spec M+ and raid tier ratings in your results? <a href="https://jynova2.gumroad.com/l/yejhos" style="color:var(--gold-lt);text-decoration:none;" target="_blank">Premium — 30 questions, deep-dive analysis → $1.99</a></p>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>WoW Midnight Tier List — Common Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What is the best DPS class in WoW Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">In WoW Midnight Season 1, Demonology Warlock, Arcane Mage, and Unholy Death Knight are considered S-tier DPS. Augmentation Evoker provides unmatched group utility alongside strong personal DPS. These rankings shift with patches, so checking current logs on Warcraftlogs.com is always recommended.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What is the best tank in WoW Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Blood Death Knight and Brewmaster Monk are top-tier tanks in WoW Midnight for Mythic+. Protection Paladin leads in raid due to strong cooldowns and utility. For beginners, Protection Warrior is the most durable and straightforward option.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What is the best healer in WoW Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Preservation Evoker and Restoration Druid are top-tier healers in WoW Midnight. Preservation Evoker excels in Mythic+ with mobile, reactive healing. Restoration Druid leads in raid throughput. Holy Paladin is the most beginner-friendly healer with strong numbers across both environments.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Should I pick a class based on the tier list?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Not exclusively. Tier lists show what's strongest in the current patch, but specs rotate in and out of the meta with every balance update. For casual to heroic raiding, any class can clear content. For Mythic progression, playing a class you genuinely enjoy and have mastered will outperform a tier list pick you struggle to execute. Use the tier list to shortlist, then pick based on playstyle fit.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        How often does the tier list change in WoW Midnight?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Major patches (x.0, x.1, x.2) typically bring significant class tuning. Hotfix patches can shift rankings within weeks. For the most current data, check Warcraftlogs.com for raid rankings and Raider.io for M+ rankings. We update this page with each major patch.</div>
+    </div>
+
+  </section>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+  <div>
+    <a href="/">Home</a>
+    <a href="wow-quiz-free.html">DPS Quiz</a>
+    <a href="wow-quiz-tank.html">Tank Quiz</a>
+    <a href="wow-quiz-healer.html">Healer Quiz</a>
+    <a href="selector.html">Class Selector</a>
+    <a href="classic-hub.html">Classic</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" target="_blank">Premium</a>
+  </div>
+  <p style="margin-top:12px;">© 2026 WoW Class Quiz · Data sourced from Warcraftlogs &amp; community rankings · Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+  const TIER_DESCS = {
+    dps:  { S: 'Best in slot — dominant in both raid and M+', A: 'Strong performers — competitive in any group', B: 'Solid — viable for all content, slightly behind meta', C: 'Can clear all content — may struggle for mythic raid spots' },
+    tank: { S: 'Top-tier survivability and utility', A: 'Strong raid and M+ presence', B: 'Capable — excellent in the right hands' },
+    heal: { S: 'Dominant throughput and utility', A: 'Strong in raid and M+ environments', B: 'Viable — unique utility in certain comps' }
+  };
+
+  function buildTierBlocks(specs, role) {
+    const grouped = { S: [], A: [], B: [], C: [] };
+    Object.entries(specs).forEach(([name, data]) => {
+      const t = data.tier;
+      if (grouped[t]) grouped[t].push({ name, color: data.color || '#888' });
+    });
+    let html = '';
+    ['S','A','B','C'].forEach(tier => {
+      const items = grouped[tier];
+      if (!items || !items.length) return;
+      const desc = (TIER_DESCS[role] || {})[tier] || '';
+      html += `<div class="tier-block">
+        <div class="tier-header">
+          <div class="tier-label ${tier.toLowerCase()}">${tier}</div>
+          <div class="tier-desc">${desc}</div>
+        </div>
+        <div class="tier-specs">
+          ${items.map(s => `<div class="spec-pill"><div class="spec-dot" style="background:${s.color}"></div>${s.name}</div>`).join('')}
+        </div>
+      </div>`;
+    });
+    return html;
+  }
+
+  function buildSimpleTierBlocks(specs, role) {
+    // For tank/healer: specs is { "Blood Death Knight": { mplus, raid }, ... }
+    const grouped = { S: [], A: [], B: [], C: [] };
+    Object.entries(specs).forEach(([name, data]) => {
+      const t = data.mplus || '?';
+      if (grouped[t]) grouped[t].push(name);
+    });
+    let html = '';
+    ['S','A','B','C'].forEach(tier => {
+      const items = grouped[tier];
+      if (!items || !items.length) return;
+      const desc = (TIER_DESCS[role] || {})[tier] || '';
+      html += `<div class="tier-block">
+        <div class="tier-header">
+          <div class="tier-label ${tier.toLowerCase()}">${tier}</div>
+          <div class="tier-desc">${desc}</div>
+        </div>
+        <div class="tier-specs">
+          ${items.map(n => `<div class="spec-pill"><div class="spec-dot" style="background:#888"></div>${n}</div>`).join('')}
+        </div>
+      </div>`;
+    });
+    return html;
+  }
+
+  async function loadTierData() {
+    try {
+      const res = await fetch('/wow-patch-data.json?v=' + Date.now());
+      const data = await res.json();
+
+      // Update freshness note
+      const updated = data._meta && data._meta.last_updated;
+      const patch   = data._meta && data._meta.patch;
+      if (updated) {
+        const note = document.querySelector('.freshness-note');
+        if (note) note.innerHTML = `<div class="freshness-dot"></div>Updated ${updated} · Patch ${patch || ''} · Data: Warcraftlogs &amp; M+ rankings`;
+      }
+
+      // DPS — spec-level
+      if (data.dps_specs) {
+        document.getElementById('dps-tiers').innerHTML = buildTierBlocks(data.dps_specs, 'dps');
+      }
+
+      // Tank — class-level
+      if (data.tank) {
+        document.getElementById('tank-tiers').innerHTML = buildSimpleTierBlocks(data.tank, 'tank');
+      }
+
+      // Healer — class-level
+      if (data.healer) {
+        document.getElementById('heal-tiers').innerHTML = buildSimpleTierBlocks(data.healer, 'heal');
+      }
+
+    } catch (e) {
+      ['dps-tiers','tank-tiers','heal-tiers'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.textContent.includes('Loading')) {
+          el.innerHTML = '<p style="color:var(--text3);font-size:13px;">Could not load live data. Please refresh.</p>';
+        }
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadTierData);
+
+  function switchRole(role, btn) {
+    document.querySelectorAll('.rtab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.role-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + role).classList.add('active');
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>

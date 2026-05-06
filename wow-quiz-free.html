@@ -647,7 +647,6 @@
   </div>
 
   <div id="classCards"></div>
-
   <!-- Ad: Results rectangle -->
   <div class="ad-section">
     <div class="ad-slot ad-rectangle">
@@ -985,15 +984,13 @@ function calcScores() {
 // ──────────────────────────────────────────────────────
 function showResults() {
   // GA4 — quiz completion
-  if (typeof gtag !== 'undefined') {
-    var _topClass = (typeof ranked !== 'undefined' && ranked[0]) ? ranked[0].name :
-                    (typeof results !== 'undefined' && results[0]) ? results[0].name : 'unknown';
-    gtag('event', 'quiz_complete', { quiz_type: 'dps_free', top_class: _topClass });
+  );
   }
   document.getElementById('quiz').style.display = 'none';
   document.getElementById('results').style.display = 'block';
 
   const ranked = calcScores();
+  if (typeof gtag !== 'undefined') { try { gtag('event', 'quiz_complete', { quiz_type: 'dps_free', top_class: ranked && ranked[0] ? ranked[0].name : 'unknown' }); } catch(e) {} }
   const top3 = ranked.slice(0, 3);
   window._quizTopResult = top3[0].name;
 

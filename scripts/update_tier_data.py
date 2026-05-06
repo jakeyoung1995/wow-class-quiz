@@ -33,7 +33,7 @@ from html.parser import HTMLParser
 # ---------------------------------------------------------------------------
 DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "wow-patch-data.json")
 NOTIFY_EMAIL = "jy.220529@gmail.com"
-FROM_EMAIL = "rottout.tv@gmail.com"
+FROM_EMAIL = "jy.220529@gmail.com"
 
 # Icy Veins tier list URLs (one per role)
 ICYVEINS_URLS = {

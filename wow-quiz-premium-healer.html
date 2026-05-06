@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Midnight Premium Healer Quiz — Deep Dive (20 Questions)</title>
-  <meta name="description" content="20-question deep-dive healer quiz for WoW Midnight. Per-spec Mythic & M+ tier ratings, complexity scores, fit analysis, and a personalized roadmap for all 7 healer specs.">
+  <title>WoW Midnight Premium Healer Quiz — Deep Dive (30 Questions)</title>
+  <meta name="description" content="30-question deep-dive healer quiz for WoW Midnight. Per-spec Mythic & M+ tier ratings, complexity scores, fit analysis, and a personalized roadmap for all 7 healer specs.">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -184,15 +184,15 @@
   <div class="gate-card">
     <div class="gate-icon">💚</div>
     <h2>Premium Healer Access Required</h2>
-    <p>Get the 20-question deep-analysis healer quiz with spec-by-spec Mythic &amp; M+ tier ratings and your personalized healing roadmap.</p>
+    <p>Get the 30-question deep-analysis healer quiz with spec-by-spec Mythic &amp; M+ tier ratings and your personalized healing roadmap.</p>
     <div class="gate-features">
-      <div class="gate-feat">20 questions — double the depth of the free quiz</div>
+      <div class="gate-feat">30 questions — triple the depth of the free quiz</div>
       <div class="gate-feat">Per-spec Mythic &amp; M+ tier ratings (S/A/B/C)</div>
       <div class="gate-feat">Complexity, mobility &amp; mana management scores</div>
       <div class="gate-feat">✓ / ✗ fit analysis for every healer spec</div>
       <div class="gate-feat">Step-by-step learning roadmap to progression healing</div>
     </div>
-    <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $5 one-time →</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $1.99 →</a>
     <div class="gate-restore">Already purchased? <a onclick="restoreAccess()">Click here after buying</a> — works instantly from the link in your confirmation email.</div>
   </div>
 </div>
@@ -206,7 +206,7 @@
   <div class="container">
     <div class="premium-badge">💚 Premium · 20 Questions · Healer Deep Analysis</div>
     <h1>Find your <em>perfect</em> WoW Midnight healer.</h1>
-    <p>20 questions. Spec-by-spec tier ratings for all 7 healers. A personalized roadmap to progression healing. This is the analysis the free quiz doesn't give you.</p>
+    <p>30 questions. Spec-by-spec tier ratings for all 7 healers. A personalized roadmap to progression healing. This is the analysis the free quiz doesn't give you.</p>
     <div class="feature-grid">
       <span class="feat"><strong>20</strong> questions</span>
       <span class="feat"><strong>Mythic + M+</strong> tier ratings per spec</span>
@@ -446,7 +446,78 @@ const questions = [
       {icon:'🧙',title:'The puzzle solver',      desc:'Atonement ramps and Empowered windows — I love optimizing the hardest kit', val:'puzzle'},
       {icon:'🌊',title:'The tide-turner',        desc:'Spirit Link at the perfect moment, chain heals bouncing — I change the fight\'s course', val:'tide'},
     ]
+,
+  { id:'tank_focus', cat:'Section 3: Advanced Fit', text:'Do you prefer healing the tank or the whole raid?', cols:3,
+    options:[
+      {icon:'🛡️',title:'Tank-focused healer',    desc:'I want one target who must not die — mastering tank healing is its own art', val:'tank_focus'},
+      {icon:'🌊',title:'Raid healer through & through', desc:'I thrive on spreading heals across 20 people — monitoring the whole raid is my thing', val:'raid_spread'},
+      {icon:'⚖️',title:'True hybrid',            desc:'I want to seamlessly switch between tank and raid healing based on what the moment demands', val:'blend'},
+    ]
   },
+  { id:'externals', cat:'Section 3: Advanced Fit', text:'How important are powerful cooldowns you can share with teammates?', cols:3,
+    options:[
+      {icon:'🎁',title:'Love giving externals',  desc:'Handing a Power Infusion to the right DPS or Spirit Linking at the right time is incredibly satisfying', val:'love_externals'},
+      {icon:'🤷',title:'Externals are a bonus',  desc:'Nice to have, but not a core reason I choose a healer — I care more about self-kit depth', val:'neutral_externals'},
+      {icon:'🔮',title:'Keep the power inward',  desc:'I\'d rather have powerful personal tools — externals feel less exciting to me', val:'self_focus'},
+    ]
+  },
+  { id:'shields', cat:'Section 3: Advanced Fit', text:'How do you feel about proactive shielding as a primary healing style?', cols:3,
+    options:[
+      {icon:'🔵',title:'Shield everything',      desc:'Pre-shielding before damage hits feels amazing — prevention is better than cure', val:'love_shields'},
+      {icon:'⚗️',title:'Shields plus heals',     desc:'A mix of reactive heals and proactive shields is ideal — best of both worlds', val:'some_shields'},
+      {icon:'💚',title:'Pure reactive heals',    desc:'I prefer casting heals in response to damage — shields feel passive and indirect', val:'no_shields'},
+    ]
+  },
+  { id:'dispels', cat:'Section 3: Advanced Fit', text:'How do you feel about managing dispels in raids and M+?', cols:3,
+    options:[
+      {icon:'🧹',title:'Dispel machine',         desc:'I\'m happy to track and clear debuffs immediately — it\'s an important part of healing', val:'love_dispels'},
+      {icon:'📋',title:'Dispels are just part of it', desc:'I\'ll handle them without thinking twice — it\'s just part of being a healer', val:'neutral_dispels'},
+      {icon:'😤',title:'Prefer to focus on healing', desc:'Heavy dispel responsibilities pull my attention away from healing — I\'d rather have fewer', val:'dislike_dispels'},
+    ]
+  },
+  { id:'spec_depth_h', cat:'Section 3: Advanced Fit', text:'How much does a mechanically complex kit appeal to you?', cols:3,
+    options:[
+      {icon:'✅',title:'Simple and clean',       desc:'I want a readable, straightforward kit — complexity is stress, not fun', val:'simple_is_good'},
+      {icon:'🔧',title:'Moderate depth',         desc:'Some layered mechanics are great — I like feeling skillful without needing a spreadsheet', val:'moderate_depth'},
+      {icon:'🧩',title:'The deeper, the better', desc:'If it has 5 interacting systems and takes months to master, I\'m immediately interested', val:'love_depth'},
+    ]
+  },
+  { id:'clutch', cat:'Section 3: Advanced Fit', text:'How important is having one massive \"clutch save\" cooldown?', cols:3,
+    options:[
+      {icon:'🦸',title:'Give me the big save',   desc:'Rewind, Guardian Spirit, BoP — a cooldown that single-handedly prevents wipes is everything', val:'love_clutch'},
+      {icon:'📈',title:'Sustained output wins',  desc:'I\'d rather have steady throughput than one flashy save button — consistency matters more', val:'prefer_sustained'},
+      {icon:'🎲',title:'Either works for me',    desc:'I\'m comfortable with both styles — just give me a complete kit and I\'ll adapt', val:'both_fine'},
+    ]
+  },
+  { id:'positioning', cat:'Section 3: Advanced Fit', text:'How do you feel about strict positioning requirements?', cols:3,
+    options:[
+      {icon:'🦅',title:'Total freedom',          desc:'I want to be anywhere on the field — positioning restrictions feel like a cage', val:'free_movement'},
+      {icon:'📍',title:'Some structure is fine', desc:'Mild positioning requirements give me purpose — I adapt without it bothering me', val:'some_rules'},
+      {icon:'🏰',title:'Happy in a fixed spot',  desc:'I\'m comfortable staying in a defined area if it means my kit is stronger there', val:'tight_position'},
+    ]
+  },
+  { id:'party_size', cat:'Section 3: Advanced Fit', text:'Do you prefer healing 5-player parties or 20-player raids?', cols:3,
+    options:[
+      {icon:'🤺',title:'5-man M+ focus',         desc:'I love knowing every person I\'m healing — the intimacy of a 5-man where every heal is felt', val:'party_love'},
+      {icon:'⚔️',title:'20-man raid focus',      desc:'The scale of raid healing excites me — managing a full group through a complex boss encounter', val:'raid_love'},
+      {icon:'🌍',title:'Love both equally',      desc:'I want to be elite in M+ AND raid — I\'ll master both environments', val:'both_love'},
+    ]
+  },
+  { id:'throughput_h', cat:'Section 3: Advanced Fit', text:'What\'s your preferred healing output pattern?', cols:3,
+    options:[
+      {icon:'🔄',title:'Always casting',         desc:'I want a constant stream of heals — downtime feels wrong and wasted', val:'constant_output'},
+      {icon:'💥',title:'Big burst windows',      desc:'Ramp up, unleash, recover — I love the rhythm of building to peak healing moments', val:'burst_windows'},
+      {icon:'♟️',title:'Efficient precision',    desc:'I cast only when needed and maximize every GCD — efficiency over volume', val:'efficient_cast'},
+    ]
+  },
+  { id:'healer_fantasy', cat:'Section 3: Advanced Fit', text:'What fundamentally draws you to healing in WoW?', cols:2,
+    options:[
+      {icon:'💖',title:'Saving lives',           desc:'That moment when someone would have died and you prevented it — it never gets old', val:'saving_lives'},
+      {icon:'📊',title:'Big healing numbers',    desc:'Topping the healing meters, seeing the massive crits — I want my output to be undeniable', val:'big_numbers'},
+      {icon:'🧠',title:'The responsibility',     desc:'The group depends on you in a way DPS never experiences — I want that pressure', val:'responsibility'},
+      {icon:'🔬',title:'Kit mastery',            desc:'Healing is the most complex role — perfectly executing a difficult kit is deeply satisfying', val:'mastery'},
+    ]
+  }
 ];
 
 const healers = [
@@ -466,7 +537,7 @@ const healers = [
       { n:5, text: '<strong>Experiment with Convoke builds</strong> — Convoke the Spirits burst windows can turn losing moments into victories with the right talent setup' },
     ],
     addons: ['Resto Druid WeakAuras (HoT tracker)', 'VuhDo or Grid2', 'Details!', 'MythicDungeonTools'],
-    scores: { philosophy:{proactive:3,ramp:1}, fantasy:{nature:3}, dps:{pure:2,some:1}, mobility:{mobile:3,balanced:2}, healing_type:{hots:3,aoe:2}, complexity:{simple:2,medium:2}, cooldowns:{massive:2,frequent:1}, content:{raid:2,mplus:3,both:2}, unique:{druid_hots:3}, meta:{flex:2,love:2}, mana:{neutral:2,love_mana:1}, group_role:{throughput:2,cd_coord:1}, aoe_vs_st:{aoe:2,both:2}, ramp_vs_react:{planner:2,blend:2}, utility:{high:2,medium:2}, mplus_carry:{carry:3,support:2}, spec_uniqueness:{unique:1,fresh:2,best:2}, learning_curve:{medium:2,high:1}, progression:{mplus:3,mythic:2,ce:2}, vibe:{lifegiver:3,tide:1} }
+    scores: { philosophy:{proactive:3,ramp:1}, fantasy:{nature:3}, dps:{pure:2,some:1}, mobility:{mobile:3,balanced:2}, healing_type:{hots:3,aoe:2}, complexity:{simple:2,medium:2}, cooldowns:{massive:2,frequent:1}, content:{raid:2,mplus:3,both:2}, unique:{druid_hots:3}, meta:{flex:2,love:2}, mana:{neutral:2,love_mana:1}, group_role:{throughput:2,cd_coord:1}, aoe_vs_st:{aoe:2,both:2}, ramp_vs_react:{planner:2,blend:2}, utility:{high:2,medium:2}, mplus_carry:{carry:3,support:2}, spec_uniqueness:{unique:1,fresh:2,best:2}, learning_curve:{medium:2,high:1}, progression:{mplus:3,mythic:2,ce:2}, vibe:{lifegiver:3,tide:1} , tank_focus:{raid_spread:3,blend:1}, externals:{love_externals:3,neutral_externals:1}, shields:{no_shields:2,some_shields:1}, dispels:{neutral_dispels:2,love_dispels:1}, spec_depth_h:{moderate_depth:2,simple_is_good:1}, clutch:{prefer_sustained:3,both_fine:1}, positioning:{free_movement:3,some_rules:2}, party_size:{raid_love:2,both_love:2}, throughput_h:{constant_output:3,efficient_cast:1}, healer_fantasy:{responsibility:2,mastery:2}}
   },
   {
     name: 'Preservation Evoker',
@@ -484,7 +555,7 @@ const healers = [
       { n:5, text: '<strong>Experiment with Stasis</strong> — storing HoTs and then bursting them back out is one of Evoker\'s highest skill-expression moments' },
     ],
     addons: ['Preservation Evoker WeakAuras', 'VuhDo', 'Details!', 'DBM or BigWigs'],
-    scores: { philosophy:{proactive:3,reactive:2,ramp:2}, fantasy:{dragon:3}, dps:{some:2,pure:1}, mobility:{balanced:2,mobile:1}, healing_type:{absorbs:2,direct:2,hots:1}, complexity:{medium:2,complex:3}, cooldowns:{ramp:3,massive:2}, content:{raid:3,both:2}, unique:{evoker_empow:3}, meta:{meta:2,flex:2}, mana:{neutral:2,love_mana:2}, group_role:{prev:2,clutch:2}, aoe_vs_st:{both:2,st:1}, ramp_vs_react:{planner:3,blend:1}, utility:{medium:2,high:1}, mplus_carry:{support:2,steady:2}, spec_uniqueness:{unique:3}, learning_curve:{high:3,medium:1}, progression:{ce:3,mythic:2}, vibe:{puzzle:3,clutch:2} }
+    scores: { philosophy:{proactive:3,reactive:2,ramp:2}, fantasy:{dragon:3}, dps:{some:2,pure:1}, mobility:{balanced:2,mobile:1}, healing_type:{absorbs:2,direct:2,hots:1}, complexity:{medium:2,complex:3}, cooldowns:{ramp:3,massive:2}, content:{raid:3,both:2}, unique:{evoker_empow:3}, meta:{meta:2,flex:2}, mana:{neutral:2,love_mana:2}, group_role:{prev:2,clutch:2}, aoe_vs_st:{both:2,st:1}, ramp_vs_react:{planner:3,blend:1}, utility:{medium:2,high:1}, mplus_carry:{support:2,steady:2}, spec_uniqueness:{unique:3}, learning_curve:{high:3,medium:1}, progression:{ce:3,mythic:2}, vibe:{puzzle:3,clutch:2} , tank_focus:{blend:2,raid_spread:2}, externals:{neutral_externals:2,love_externals:1}, shields:{love_shields:2,some_shields:2}, dispels:{neutral_dispels:2}, spec_depth_h:{love_depth:3,moderate_depth:1}, clutch:{love_clutch:3,both_fine:1}, positioning:{some_rules:3,tight_position:1}, party_size:{both_love:2,raid_love:2}, throughput_h:{burst_windows:3,constant_output:1}, healer_fantasy:{saving_lives:3,mastery:2}}
   },
   {
     name: 'Mistweaver Monk',
@@ -502,7 +573,7 @@ const healers = [
       { n:5, text: '<strong>Study Revival usage</strong> — its 3-minute cooldown is short enough to use twice per boss; plan when each usage will have maximum impact' },
     ],
     addons: ['Mistweaver WeakAuras', 'VuhDo', 'Details!', 'GTFO'],
-    scores: { philosophy:{atonement:2,reactive:2,proactive:1}, fantasy:{monk:3}, dps:{heavy:2,some:2}, mobility:{mobile:3,balanced:1}, healing_type:{direct:2,hots:2,aoe:2}, complexity:{complex:3,medium:1}, cooldowns:{massive:2,frequent:2}, content:{mplus:3,both:2,raid:2}, unique:{monk_fist:3}, meta:{flex:2,love:2}, mana:{love_mana:2,neutral:2}, group_role:{clutch:2,throughput:2}, aoe_vs_st:{both:3}, ramp_vs_react:{reactor:2,blend:2}, utility:{medium:2,high:1}, mplus_carry:{carry:2,support:2}, spec_uniqueness:{unique:3}, learning_curve:{high:3}, progression:{highkeys:2,mythic:2}, vibe:{puzzle:3,lifegiver:1} }
+    scores: { philosophy:{atonement:2,reactive:2,proactive:1}, fantasy:{monk:3}, dps:{heavy:2,some:2}, mobility:{mobile:3,balanced:1}, healing_type:{direct:2,hots:2,aoe:2}, complexity:{complex:3,medium:1}, cooldowns:{massive:2,frequent:2}, content:{mplus:3,both:2,raid:2}, unique:{monk_fist:3}, meta:{flex:2,love:2}, mana:{love_mana:2,neutral:2}, group_role:{clutch:2,throughput:2}, aoe_vs_st:{both:3}, ramp_vs_react:{reactor:2,blend:2}, utility:{medium:2,high:1}, mplus_carry:{carry:2,support:2}, spec_uniqueness:{unique:3}, learning_curve:{high:3}, progression:{highkeys:2,mythic:2}, vibe:{puzzle:3,lifegiver:1} , tank_focus:{blend:2,tank_focus:2}, externals:{neutral_externals:2,self_focus:1}, shields:{some_shields:1,no_shields:1}, dispels:{love_dispels:2,neutral_dispels:1}, spec_depth_h:{moderate_depth:2,love_depth:2}, clutch:{both_fine:2,prefer_sustained:1}, positioning:{free_movement:3,some_rules:1}, party_size:{party_love:3,both_love:1}, throughput_h:{constant_output:2,burst_windows:2}, healer_fantasy:{responsibility:2,mastery:2}}
   },
   {
     name: 'Holy Paladin',
@@ -520,7 +591,7 @@ const healers = [
       { n:5, text: '<strong>Learn Lay on Hands timing</strong> — its 10-minute cooldown means once per boss; save it for the moment that would otherwise be a wipe' },
     ],
     addons: ['Holy Paladin WeakAuras', 'VuhDo', 'Exorsus Raid Tools', 'Details!'],
-    scores: { philosophy:{reactive:3,proactive:1}, fantasy:{holy:3}, dps:{some:1,pure:2}, mobility:{stationary:2,balanced:1}, healing_type:{direct:3,absorbs:1}, complexity:{simple:2,medium:2}, cooldowns:{massive:3,frequent:2}, content:{raid:3,both:2}, unique:{pala_beacon:3}, meta:{meta:2,flex:2}, mana:{neutral:2,free:1}, group_role:{clutch:3,cd_coord:2}, aoe_vs_st:{st:3,both:1}, ramp_vs_react:{reactor:3,blend:1}, utility:{high:3,medium:1}, mplus_carry:{support:2,steady:2}, spec_uniqueness:{best:3,fresh:1}, learning_curve:{medium:3,high:1}, progression:{ce:3,mythic:3}, vibe:{clutch:3,tide:1} }
+    scores: { philosophy:{reactive:3,proactive:1}, fantasy:{holy:3}, dps:{some:1,pure:2}, mobility:{stationary:2,balanced:1}, healing_type:{direct:3,absorbs:1}, complexity:{simple:2,medium:2}, cooldowns:{massive:3,frequent:2}, content:{raid:3,both:2}, unique:{pala_beacon:3}, meta:{meta:2,flex:2}, mana:{neutral:2,free:1}, group_role:{clutch:3,cd_coord:2}, aoe_vs_st:{st:3,both:1}, ramp_vs_react:{reactor:3,blend:1}, utility:{high:3,medium:1}, mplus_carry:{support:2,steady:2}, spec_uniqueness:{best:3,fresh:1}, learning_curve:{medium:3,high:1}, progression:{ce:3,mythic:3}, vibe:{clutch:3,tide:1} , tank_focus:{tank_focus:3,blend:2}, externals:{love_externals:3,neutral_externals:1}, shields:{love_shields:2,some_shields:2}, dispels:{neutral_dispels:2,love_dispels:1}, spec_depth_h:{moderate_depth:2,simple_is_good:1}, clutch:{love_clutch:3,both_fine:1}, positioning:{some_rules:2,free_movement:1}, party_size:{both_love:2,party_love:2}, throughput_h:{burst_windows:2,efficient_cast:2}, healer_fantasy:{saving_lives:2,responsibility:3}}
   },
   {
     name: 'Holy Priest',
@@ -538,7 +609,7 @@ const healers = [
       { n:5, text: '<strong>Develop Circle of Healing discipline</strong> — use it every cooldown on groups of 4+; the smart-heal component makes it one of the most efficient heals in the game' },
     ],
     addons: ['Holy Priest WeakAuras', 'VuhDo or Grid2', 'Details!', 'DBM or BigWigs'],
-    scores: { philosophy:{reactive:2,proactive:2}, fantasy:{priest:3}, dps:{pure:3,some:1}, mobility:{stationary:2,balanced:2}, healing_type:{direct:3,aoe:2}, complexity:{simple:3,medium:1}, cooldowns:{massive:2,frequent:2}, content:{raid:3,both:2}, unique:{pala_beacon:1,druid_hots:1}, meta:{flex:2,love:2}, mana:{free:3,neutral:1}, group_role:{throughput:3,cd_coord:1}, aoe_vs_st:{both:2,aoe:2}, ramp_vs_react:{blend:2,reactor:2}, utility:{low:2,medium:2}, mplus_carry:{steady:3,support:2}, spec_uniqueness:{fresh:2,best:1}, learning_curve:{low:3,medium:1}, progression:{mythic:2,ce:1}, vibe:{lifegiver:3,tide:1} }
+    scores: { philosophy:{reactive:2,proactive:2}, fantasy:{priest:3}, dps:{pure:3,some:1}, mobility:{stationary:2,balanced:2}, healing_type:{direct:3,aoe:2}, complexity:{simple:3,medium:1}, cooldowns:{massive:2,frequent:2}, content:{raid:3,both:2}, unique:{pala_beacon:1,druid_hots:1}, meta:{flex:2,love:2}, mana:{free:3,neutral:1}, group_role:{throughput:3,cd_coord:1}, aoe_vs_st:{both:2,aoe:2}, ramp_vs_react:{blend:2,reactor:2}, utility:{low:2,medium:2}, mplus_carry:{steady:3,support:2}, spec_uniqueness:{fresh:2,best:1}, learning_curve:{low:3,medium:1}, progression:{mythic:2,ce:1}, vibe:{lifegiver:3,tide:1} , tank_focus:{blend:2,raid_spread:2}, externals:{love_externals:2,neutral_externals:2}, shields:{some_shields:2,love_shields:1}, dispels:{love_dispels:2,neutral_dispels:1}, spec_depth_h:{simple_is_good:2,moderate_depth:2}, clutch:{both_fine:2,prefer_sustained:1}, positioning:{free_movement:2,some_rules:2}, party_size:{both_love:2,raid_love:2}, throughput_h:{constant_output:2,efficient_cast:2}, healer_fantasy:{responsibility:2,big_numbers:2}}
   },
   {
     name: 'Discipline Priest',
@@ -556,7 +627,7 @@ const healers = [
       { n:5, text: '<strong>Watch high-level Disc POV content</strong> — no other spec benefits more from studying world-class players; their ramp sequences, Evangelism timing, and cooldown management is a masterclass' },
     ],
     addons: ['Discipline Priest WeakAuras (Atonement tracker)', 'VuhDo', 'Exorsus Raid Tools', 'Details!'],
-    scores: { philosophy:{atonement:3,proactive:2,ramp:3}, fantasy:{shadow:3,priest:2}, dps:{heavy:3,some:1}, mobility:{stationary:2,balanced:1}, healing_type:{absorbs:3,direct:1}, complexity:{complex:3,medium:1}, cooldowns:{ramp:3,frequent:1}, content:{raid:3,both:1}, unique:{disc_atonement:3}, meta:{meta:2,flex:1}, mana:{love_mana:2,neutral:2}, group_role:{prev:3,cd_coord:2}, aoe_vs_st:{aoe:2,both:2}, ramp_vs_react:{planner:3,blend:1}, utility:{high:2,medium:1}, mplus_carry:{support:2,steady:1}, spec_uniqueness:{unique:3}, learning_curve:{high:3}, progression:{ce:3,mythic:2}, vibe:{puzzle:3,tide:2} }
+    scores: { philosophy:{atonement:3,proactive:2,ramp:3}, fantasy:{shadow:3,priest:2}, dps:{heavy:3,some:1}, mobility:{stationary:2,balanced:1}, healing_type:{absorbs:3,direct:1}, complexity:{complex:3,medium:1}, cooldowns:{ramp:3,frequent:1}, content:{raid:3,both:1}, unique:{disc_atonement:3}, meta:{meta:2,flex:1}, mana:{love_mana:2,neutral:2}, group_role:{prev:3,cd_coord:2}, aoe_vs_st:{aoe:2,both:2}, ramp_vs_react:{planner:3,blend:1}, utility:{high:2,medium:1}, mplus_carry:{support:2,steady:1}, spec_uniqueness:{unique:3}, learning_curve:{high:3}, progression:{ce:3,mythic:2}, vibe:{puzzle:3,tide:2} , tank_focus:{raid_spread:2,blend:2}, externals:{love_externals:2,neutral_externals:1}, shields:{love_shields:3,some_shields:1}, dispels:{neutral_dispels:2,love_dispels:1}, spec_depth_h:{love_depth:3,moderate_depth:1}, clutch:{both_fine:2,love_clutch:1}, positioning:{some_rules:2,free_movement:1}, party_size:{raid_love:2,party_love:2}, throughput_h:{burst_windows:3,constant_output:1}, healer_fantasy:{mastery:3,responsibility:2}}
   },
   {
     name: 'Restoration Shaman',
@@ -574,7 +645,7 @@ const healers = [
       { n:5, text: '<strong>Master Wind Rush Totem timing</strong> — on movement-heavy mechanics, a perfectly timed Wind Rush Totem saves several players who would have been hit' },
     ],
     addons: ['Resto Shaman WeakAuras (totem tracker)', 'VuhDo', 'Exorsus Raid Tools', 'Details!'],
-    scores: { philosophy:{reactive:2,proactive:2,ramp:1}, fantasy:{shaman:3}, dps:{some:2,pure:1}, mobility:{stationary:2,balanced:1}, healing_type:{aoe:3,direct:2}, complexity:{medium:2,simple:1}, cooldowns:{massive:3,frequent:2}, content:{raid:3,both:2}, unique:{shaman_chain:3}, meta:{meta:2,flex:2}, mana:{neutral:2,free:1}, group_role:{cd_coord:3,tide:2}, aoe_vs_st:{aoe:3,both:2}, ramp_vs_react:{planner:2,blend:2}, utility:{high:3,medium:1}, mplus_carry:{support:2,steady:2}, spec_uniqueness:{best:3,fresh:1}, learning_curve:{medium:3,high:1}, progression:{ce:3,mythic:3}, vibe:{tide:3,clutch:2} }
+    scores: { philosophy:{reactive:2,proactive:2,ramp:1}, fantasy:{shaman:3}, dps:{some:2,pure:1}, mobility:{stationary:2,balanced:1}, healing_type:{aoe:3,direct:2}, complexity:{medium:2,simple:1}, cooldowns:{massive:3,frequent:2}, content:{raid:3,both:2}, unique:{shaman_chain:3}, meta:{meta:2,flex:2}, mana:{neutral:2,free:1}, group_role:{cd_coord:3,tide:2}, aoe_vs_st:{aoe:3,both:2}, ramp_vs_react:{planner:2,blend:2}, utility:{high:3,medium:1}, mplus_carry:{support:2,steady:2}, spec_uniqueness:{best:3,fresh:1}, learning_curve:{medium:3,high:1}, progression:{ce:3,mythic:3}, vibe:{tide:3,clutch:2} , tank_focus:{blend:2,raid_spread:2}, externals:{love_externals:2,neutral_externals:2}, shields:{no_shields:2,some_shields:1}, dispels:{love_dispels:3,neutral_dispels:1}, spec_depth_h:{moderate_depth:2,simple_is_good:1}, clutch:{love_clutch:2,both_fine:2}, positioning:{some_rules:2,free_movement:2}, party_size:{both_love:2,raid_love:2}, throughput_h:{burst_windows:2,constant_output:2}, healer_fantasy:{responsibility:2,saving_lives:2}}
   },
 ];
 

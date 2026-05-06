@@ -2,41 +2,76 @@
   "_meta": {
     "patch": "12.0.5",
     "season": "Midnight Season 1",
-    "last_updated": "2026-05-03",
-    "needs_refresh": true,
-    "note": "Initial seed — tier data not yet populated. Set needs_refresh to false after first automated update."
+    "last_updated": "2026-05-06",
+    "needs_refresh": false,
+    "note": "Seeded from Warcraftlogs / Icy Veins / Skycoach rankings May 2026. Auto-updated weekly by GitHub Actions."
   },
   "dps": {
-    "Rogue": {"mplus": "?", "raid": "?", "best_spec": "Subtlety"},
-    "Mage": {"mplus": "?", "raid": "?", "best_spec": "Fire"},
-    "Warlock": {"mplus": "?", "raid": "?", "best_spec": "Affliction"},
-    "Death Knight": {"mplus": "?", "raid": "?", "best_spec": "Unholy"},
-    "Hunter": {"mplus": "?", "raid": "?", "best_spec": "Beast Mastery"},
-    "Demon Hunter": {"mplus": "?", "raid": "?", "best_spec": "Havoc"},
-    "Shaman": {"mplus": "?", "raid": "?", "best_spec": "Enhancement"},
-    "Druid": {"mplus": "?", "raid": "?", "best_spec": "Balance"},
-    "Monk": {"mplus": "?", "raid": "?", "best_spec": "Windwalker"},
-    "Warrior": {"mplus": "?", "raid": "?", "best_spec": "Arms"},
-    "Paladin": {"mplus": "?", "raid": "?", "best_spec": "Retribution"},
-    "Evoker": {"mplus": "?", "raid": "?", "best_spec": "Devastation"}
+    "Rogue":        {"mplus": "A", "raid": "A", "best_spec": "Outlaw"},
+    "Mage":         {"mplus": "S", "raid": "S", "best_spec": "Arcane"},
+    "Warlock":      {"mplus": "S", "raid": "S", "best_spec": "Demonology"},
+    "Death Knight": {"mplus": "S", "raid": "S", "best_spec": "Unholy"},
+    "Hunter":       {"mplus": "B", "raid": "B", "best_spec": "Beast Mastery"},
+    "Demon Hunter": {"mplus": "A", "raid": "A", "best_spec": "Havoc"},
+    "Shaman":       {"mplus": "A", "raid": "A", "best_spec": "Enhancement"},
+    "Druid":        {"mplus": "A", "raid": "A", "best_spec": "Feral"},
+    "Monk":         {"mplus": "B", "raid": "B", "best_spec": "Windwalker"},
+    "Warrior":      {"mplus": "A", "raid": "A", "best_spec": "Arms"},
+    "Paladin":      {"mplus": "B", "raid": "B", "best_spec": "Retribution"},
+    "Evoker":       {"mplus": "S", "raid": "S", "best_spec": "Augmentation"},
+    "Priest":       {"mplus": "C", "raid": "C", "best_spec": "Shadow"}
+  },
+  "dps_specs": {
+    "Demonology Warlock":   {"tier": "S", "class": "Warlock",      "color": "#8788ee"},
+    "Arcane Mage":          {"tier": "S", "class": "Mage",         "color": "#3fc7eb"},
+    "Unholy Death Knight":  {"tier": "S", "class": "Death Knight", "color": "#c41e3a"},
+    "Augmentation Evoker":  {"tier": "S", "class": "Evoker",       "color": "#33937f"},
+    "Outlaw Rogue":         {"tier": "A", "class": "Rogue",        "color": "#fff468"},
+    "Arms Warrior":         {"tier": "A", "class": "Warrior",      "color": "#c69b3a"},
+    "Havoc Demon Hunter":   {"tier": "A", "class": "Demon Hunter", "color": "#a330c9"},
+    "Feral Druid":          {"tier": "A", "class": "Druid",        "color": "#ff7c0a"},
+    "Enhancement Shaman":   {"tier": "A", "class": "Shaman",       "color": "#0070dd"},
+    "Frost Death Knight":   {"tier": "A", "class": "Death Knight", "color": "#c41e3a"},
+    "Beast Mastery Hunter": {"tier": "B", "class": "Hunter",       "color": "#aad372"},
+    "Destruction Warlock":  {"tier": "B", "class": "Warlock",      "color": "#8788ee"},
+    "Fire Mage":            {"tier": "B", "class": "Mage",         "color": "#3fc7eb"},
+    "Windwalker Monk":      {"tier": "B", "class": "Monk",         "color": "#00ff98"},
+    "Retribution Paladin":  {"tier": "B", "class": "Paladin",      "color": "#f48cba"},
+    "Elemental Shaman":     {"tier": "B", "class": "Shaman",       "color": "#0070dd"},
+    "Subtlety Rogue":       {"tier": "B", "class": "Rogue",        "color": "#fff468"},
+    "Balance Druid":        {"tier": "B", "class": "Druid",        "color": "#ff7c0a"},
+    "Shadow Priest":        {"tier": "C", "class": "Priest",       "color": "#ffffff"},
+    "Marksmanship Hunter":  {"tier": "C", "class": "Hunter",       "color": "#aad372"},
+    "Fury Warrior":         {"tier": "C", "class": "Warrior",      "color": "#c69b3a"},
+    "Affliction Warlock":   {"tier": "C", "class": "Warlock",      "color": "#8788ee"},
+    "Frost Mage":           {"tier": "C", "class": "Mage",         "color": "#3fc7eb"},
+    "Survival Hunter":      {"tier": "C", "class": "Hunter",       "color": "#aad372"},
+    "Assassination Rogue":  {"tier": "C", "class": "Rogue",        "color": "#fff468"},
+    "Devastation Evoker":   {"tier": "C", "class": "Evoker",       "color": "#33937f"}
   },
   "tank": {
-    "Blood Death Knight": {"mplus": "?", "raid": "?"},
-    "Vengeance Demon Hunter": {"mplus": "?", "raid": "?"},
-    "Guardian Druid": {"mplus": "?", "raid": "?"},
-    "Brewmaster Monk": {"mplus": "?", "raid": "?"},
-    "Protection Paladin": {"mplus": "?", "raid": "?"},
-    "Protection Warrior": {"mplus": "?", "raid": "?"}
+    "Blood Death Knight":     {"mplus": "S", "raid": "S"},
+    "Vengeance Demon Hunter": {"mplus": "B", "raid": "B"},
+    "Guardian Druid":         {"mplus": "B", "raid": "B"},
+    "Brewmaster Monk":        {"mplus": "S", "raid": "S"},
+    "Protection Paladin":     {"mplus": "A", "raid": "A"},
+    "Protection Warrior":     {"mplus": "A", "raid": "A"}
   },
   "healer": {
-    "Restoration Druid": {"mplus": "?", "raid": "?"},
-    "Preservation Evoker": {"mplus": "?", "raid": "?"},
-    "Mistweaver Monk": {"mplus": "?", "raid": "?"},
-    "Holy Paladin": {"mplus": "?", "raid": "?"},
-    "Holy Priest": {"mplus": "?", "raid": "?"},
-    "Discipline Priest": {"mplus": "?", "raid": "?"},
-    "Restoration Shaman": {"mplus": "?", "raid": "?"}
+    "Restoration Druid":  {"mplus": "S", "raid": "S"},
+    "Preservation Evoker":{"mplus": "S", "raid": "S"},
+    "Mistweaver Monk":    {"mplus": "A", "raid": "A"},
+    "Holy Paladin":       {"mplus": "A", "raid": "A"},
+    "Holy Priest":        {"mplus": "B", "raid": "B"},
+    "Discipline Priest":  {"mplus": "B", "raid": "B"},
+    "Restoration Shaman": {"mplus": "A", "raid": "A"}
   },
   "major_changes_pending": [],
-  "changelog": []
+  "changelog": [
+    {
+      "date": "2026-05-06",
+      "patch": "12.0.5",
+      "changes": [{"note": "Initial data seed from Warcraftlogs / Icy Veins / Skycoach community rankings"}]
+    }
+  ]
 }

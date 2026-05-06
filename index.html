@@ -244,6 +244,14 @@
       .about-box { padding: 20px; }
     }
   </style>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YMTTK4WJ3F');
+  </script>
 </head>
 <body>
 
@@ -475,16 +483,4 @@
 function switchVersion(v) {
   document.getElementById('retail-content').style.display = v === 'retail' ? '' : 'none';
   document.getElementById('classic-content').style.display = v === 'classic' ? '' : 'none';
-  document.getElementById('tab-retail').classList.toggle('active', v === 'retail');
-  document.getElementById('tab-classic').classList.toggle('active', v === 'classic');
-}
-
-function toggleFaq(btn) {
-  const item = btn.closest('.faq-item');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-</script>
-</body>
-</html>
+  document.getEle

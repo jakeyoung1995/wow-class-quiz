@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Midnight Premium Class Quiz — Deep Dive (20 Questions)</title>
-  <meta name="description" content="20-question deep-dive class quiz for WoW Midnight. Per-spec tier ratings, M+ vs Mythic breakdown, complexity scores, and a personalized learning roadmap.">
+  <title>WoW Midnight Premium Class Quiz — Deep Dive (30 Questions)</title>
+  <meta name="description" content="30-question deep-dive class quiz for WoW Midnight. Per-spec tier ratings, M+ vs Mythic breakdown, complexity scores, and a personalized learning roadmap.">
   <meta property="og:title" content="WoW Midnight Premium Class Quiz — 20 Questions">
   <meta property="og:description" content="Deep-dive class analysis for WoW Midnight. Spec-by-spec ratings, difficulty, M+/Mythic tiers, and your personalized path to Cutting Edge.">
   <meta property="og:type" content="website">
@@ -350,15 +350,15 @@
   <div class="gate-card">
     <div class="gate-icon">✦</div>
     <h2>Premium Access Required</h2>
-    <p>Get the 20-question deep-analysis quiz with spec-by-spec Mythic &amp; M+ tier ratings and your personalized Cutting Edge roadmap.</p>
+    <p>Get the 30-question deep-analysis quiz with spec-by-spec Mythic &amp; M+ tier ratings and your personalized Cutting Edge roadmap.</p>
     <div class="gate-features">
-      <div class="gate-feat">20 questions — double the depth of the free quiz</div>
+      <div class="gate-feat">30 questions — double the depth of the free quiz</div>
       <div class="gate-feat">Per-spec Mythic &amp; M+ tier ratings (S/A/B/C)</div>
       <div class="gate-feat">Complexity, mobility &amp; self-sufficiency scores</div>
       <div class="gate-feat">✓ / ✗ fit analysis for every spec</div>
       <div class="gate-feat">Step-by-step learning roadmap to Cutting Edge</div>
     </div>
-    <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $5 one-time →</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $1.99 →</a>
     <div class="gate-restore">Already purchased? <a onclick="restoreAccess()">Click here after buying</a> — works instantly from the link in your confirmation email.</div>
   </div>
 </div>
@@ -373,7 +373,7 @@
   <div class="container">
     <div class="premium-badge">✦ Premium · 20 Questions · Deep Analysis</div>
     <h1>Find your <em>perfect</em> WoW Midnight class.</h1>
-    <p>20 questions. Spec-by-spec tier ratings. A personalized roadmap to Cutting Edge. This is the analysis the free quiz doesn't give you.</p>
+    <p>30 questions. Spec-by-spec tier ratings. A personalized roadmap to Cutting Edge. This is the analysis the free quiz doesn't give you.</p>
     <div class="feature-grid">
       <span class="feat"><strong>20</strong> questions</span>
       <span class="feat"><strong>Mythic + M+</strong> tier ratings per spec</span>
@@ -692,6 +692,79 @@ const questions = [
       {icon:'📖',title:'The class expert',       desc:'I want to be the guild\'s resource for my class knowledge',val:'expert'},
     ]
   },
+
+  // ── Section 3: Advanced Fit ──────────────────────────────────────────────
+  { id:'burst_type',    cat:'Damage Pattern',    text:'Which damage pattern fits your style best?', cols:2,
+    options:[
+      {icon:'💥',title:'Ramp & explode',       desc:'Build up resources, then unleash a massive burst window', val:'ramp'},
+      {icon:'⏳',title:'Sustained pressure',   desc:'Consistent output — no big windows, just relentless damage', val:'sustained'},
+      {icon:'☠️',title:'Execute phase king',   desc:'I want to hit hardest when enemies are nearly dead', val:'execute'},
+      {icon:'🎲',title:'Proc-driven burst',    desc:'React to procs for dynamic on-demand burst moments', val:'proc_burst'},
+    ]
+  },
+  { id:'cast_time',     cat:'Ability Style',     text:'How do you feel about cast-time abilities?', cols:3,
+    options:[
+      {icon:'🏃',title:'All instants',         desc:'I never want to stand still to cast — every ability fires instantly', val:'all_instant'},
+      {icon:'⚖️',title:'Mix is fine',          desc:'Some hard casts are OK if the payoff is worth standing still', val:'mixed_cast'},
+      {icon:'🧙',title:'Love casting',         desc:'Hard casts feel powerful and deliberate — I enjoy them', val:'love_cast'},
+    ]
+  },
+  { id:'spec_invest',   cat:'Spec Investment',   text:'How do you approach mastering multiple specs?', cols:3,
+    options:[
+      {icon:'🎯',title:'One and done',         desc:'Pick the strongest spec and master it completely', val:'one_spec'},
+      {icon:'🔄',title:'Two for flex',         desc:'Primary spec + situational off-spec for different fights', val:'two_spec'},
+      {icon:'🌍',title:'Master all three',     desc:'I want full command over every spec the class offers', val:'all_specs'},
+    ]
+  },
+  { id:'off_meta',      cat:'Meta Flexibility',  text:'If your favourite spec is off-meta this tier, you…', cols:3,
+    options:[
+      {icon:'📊',title:'Swap to meta',         desc:'Performance comes first — I will play whatever is strongest', val:'swap_meta'},
+      {icon:'💪',title:'Outplay the meta',     desc:'I will master my spec so deeply I compete regardless of tier ranking', val:'outplay'},
+      {icon:'❤️',title:'Stay loyal',           desc:'I would rather play my class at 95% than a meta class I do not enjoy', val:'loyal'},
+    ]
+  },
+  { id:'movement_cast', cat:'Mobile Casting',    text:'How much do you need to cast while moving?', cols:3,
+    options:[
+      {icon:'🚀',title:'Full mobility',        desc:'I want to deal damage while moving freely — no planting required', val:'full_move'},
+      {icon:'🎭',title:'Some is enough',       desc:'Occasional movement casts are fine — I plan my positioning', val:'some_move'},
+      {icon:'🏔️',title:'Standing still is fine',desc:'Good positioning beats mobility — I plant and maximize output', val:'stand_still'},
+    ]
+  },
+  { id:'lust_sync',     cat:'Burst Timing',      text:'How should your peak damage align with raid cooldowns?', cols:3,
+    options:[
+      {icon:'🚀',title:'Lust-synced everything',desc:'My biggest damage must align perfectly with Bloodlust and externals', val:'lust_dep'},
+      {icon:'⚙️',title:'Flexible cooldowns',   desc:'I want cooldowns usable on demand — not just locked to lust', val:'flex_timing'},
+      {icon:'⏳',title:'Consistent is best',   desc:'I prefer even damage across the fight — less timing dependency', val:'consistent'},
+    ]
+  },
+  { id:'prep_style',    cat:'Theorycraft Depth', text:'How do you approach prep and theory outside of playing?', cols:3,
+    options:[
+      {icon:'📊',title:'Deep diver',           desc:'Weekly sims, log reviews, BiS research — I love the homework', val:'deep_prep'},
+      {icon:'📖',title:'Guide follower',       desc:'I read a guide before a tier and check updates occasionally', val:'guide_prep'},
+      {icon:'🎮',title:'Learn by doing',       desc:'I figure it out in game — too much theory kills the fun for me', val:'play_prep'},
+    ]
+  },
+  { id:'class_lore',    cat:'Lore Weight',       text:'How much does class lore and story influence your pick?', cols:3,
+    options:[
+      {icon:'📜',title:'Lore is everything',   desc:'I need to love the narrative behind what I am playing', val:'lore_first'},
+      {icon:'⚖️',title:'Both matter',          desc:'Great lore is a bonus — gameplay and lore together seal the deal', val:'both_lore'},
+      {icon:'🎯',title:'Gameplay only',        desc:'I do not care about lore — kit and performance decide it for me', val:'gameplay_only'},
+    ]
+  },
+  { id:'downtime_use',  cat:'Downtime Habits',   text:'What do you do with downtime between target swaps?', cols:3,
+    options:[
+      {icon:'🔋',title:'Pool resources',       desc:'I save up and set up the perfect next burst window', val:'pool'},
+      {icon:'🌊',title:'Maintain pressure',    desc:'I keep sustained damage going — no wasted globals ever', val:'maintain'},
+      {icon:'🛠️',title:'Go utility mode',      desc:'Downtime is for interrupts, CC, positioning and helping the raid', val:'utility_down'},
+    ]
+  },
+  { id:'identity_src',  cat:'Class Identity',    text:'What defines your class identity most?', cols:3,
+    options:[
+      {icon:'⚙️',title:'Rotation mechanics',   desc:'The kit defines me — rotation depth and ability design matter most', val:'kit_identity'},
+      {icon:'🎨',title:'Visuals and fantasy',   desc:'How it looks and feels thematically is what I care about', val:'visual_identity'},
+      {icon:'📈',title:'Power and impact',      desc:'I want to feel the numbers — power fantasy and big hits drive me', val:'power_identity'},
+    ]
+  },
 ];
 
 // ──────────────────────────────────────────────────────
@@ -728,7 +801,8 @@ const classes = [
       rng:{love_rng:2,some_rng:2,no_rng:1}, cooldowns:{few:1,medium_cd:2,many:2,love_cd:3},
       pacing:{slow:2,medium_pace:2,fast:3}, utility_val:{dmg:2,both_util:2,util:1},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:3,medium_mastery:2,easy:1},
-      guild_value:{anchor:2,swiss:2,caller:1,expert:3}
+      guild_value:{anchor:2,swiss:2,caller:1,expert:3},
+      burst_type:{ramp:1,sustained:3,execute:1,proc_burst:3}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:2,two_spec:3,all_specs:2}, off_meta:{swap_meta:2,outplay:3,loyal:2}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:3,guide_prep:2,play_prep:1}, class_lore:{lore_first:1,both_lore:2,gameplay_only:3}, downtime_use:{pool:3,maintain:2,utility_down:2}, identity_src:{kit_identity:3,visual_identity:1,power_identity:2}
     }
   },
   {
@@ -762,7 +836,8 @@ const classes = [
       rng:{love_rng:2,some_rng:3,no_rng:1}, cooldowns:{few:2,medium_cd:3,many:1,love_cd:2},
       pacing:{slow:2,medium_pace:3,fast:1}, utility_val:{dmg:2,both_util:3,util:1},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:3,medium_mastery:2,easy:1},
-      guild_value:{anchor:3,swiss:2,caller:1,expert:2}
+      guild_value:{anchor:3,swiss:2,caller:1,expert:2},
+      burst_type:{ramp:3,sustained:1,execute:1,proc_burst:2}, cast_time:{all_instant:1,mixed_cast:2,love_cast:3}, spec_invest:{one_spec:3,two_spec:2,all_specs:2}, off_meta:{swap_meta:2,outplay:3,loyal:1}, movement_cast:{full_move:1,some_move:2,stand_still:3}, lust_sync:{lust_dep:3,flex_timing:2,consistent:1}, prep_style:{deep_prep:3,guide_prep:2,play_prep:1}, class_lore:{lore_first:2,both_lore:2,gameplay_only:2}, downtime_use:{pool:3,maintain:1,utility_down:2}, identity_src:{kit_identity:3,visual_identity:2,power_identity:2}
     }
   },
   {
@@ -797,7 +872,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:3},
       pacing:{slow:2,medium_pace:2,fast:2}, utility_val:{dmg:2,both_util:2,util:2},
       pets_feel:{love_pets:3,ok_pets:2,no_pets:1}, mastery:{deep:3,medium_mastery:2,easy:1},
-      guild_value:{anchor:2,swiss:3,caller:1,expert:2}
+      guild_value:{anchor:2,swiss:3,caller:1,expert:2},
+      burst_type:{ramp:3,sustained:3,execute:1,proc_burst:1}, cast_time:{all_instant:1,mixed_cast:2,love_cast:3}, spec_invest:{one_spec:1,two_spec:2,all_specs:3}, off_meta:{swap_meta:1,outplay:2,loyal:3}, movement_cast:{full_move:1,some_move:2,stand_still:3}, lust_sync:{lust_dep:3,flex_timing:1,consistent:3}, prep_style:{deep_prep:3,guide_prep:2,play_prep:1}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:3,maintain:2,utility_down:1}, identity_src:{kit_identity:3,visual_identity:2,power_identity:3}
     }
   },
   {
@@ -828,7 +904,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:3,many:2,love_cd:2},
       pacing:{slow:3,medium_pace:2,fast:1}, utility_val:{dmg:2,both_util:3,util:2},
       pets_feel:{love_pets:2,ok_pets:2,no_pets:1}, mastery:{deep:2,medium_mastery:3,easy:1},
-      guild_value:{anchor:2,swiss:3,caller:2,expert:2}
+      guild_value:{anchor:2,swiss:3,caller:2,expert:2},
+      burst_type:{ramp:2,sustained:2,execute:2,proc_burst:2}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:2,two_spec:3,all_specs:2}, off_meta:{swap_meta:1,outplay:2,loyal:3}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:2,guide_prep:3,play_prep:2}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:2,maintain:2,utility_down:2}, identity_src:{kit_identity:2,visual_identity:2,power_identity:3}
     }
   },
   {
@@ -863,7 +940,8 @@ const classes = [
       rng:{love_rng:2,some_rng:3,no_rng:2}, cooldowns:{few:2,medium_cd:2,many:2,love_cd:1},
       pacing:{slow:1,medium_pace:3,fast:2}, utility_val:{dmg:2,both_util:3,util:1},
       pets_feel:{love_pets:3,ok_pets:2,no_pets:1}, mastery:{deep:2,medium_mastery:3,easy:2},
-      guild_value:{anchor:2,swiss:2,caller:1,expert:2}
+      guild_value:{anchor:2,swiss:2,caller:1,expert:2},
+      burst_type:{ramp:2,sustained:2,execute:1,proc_burst:3}, cast_time:{all_instant:2,mixed_cast:3,love_cast:1}, spec_invest:{one_spec:1,two_spec:2,all_specs:3}, off_meta:{swap_meta:2,outplay:2,loyal:2}, movement_cast:{full_move:2,some_move:3,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:2,consistent:3}, prep_style:{deep_prep:1,guide_prep:2,play_prep:3}, class_lore:{lore_first:1,both_lore:3,gameplay_only:2}, downtime_use:{pool:2,maintain:2,utility_down:2}, identity_src:{kit_identity:2,visual_identity:2,power_identity:2}
     }
   },
   {
@@ -891,7 +969,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:3,medium_cd:2,many:1,love_cd:1},
       pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:3,both_util:2,util:1},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:2,medium_mastery:2,easy:2},
-      guild_value:{anchor:3,swiss:1,caller:2,expert:2}
+      guild_value:{anchor:3,swiss:1,caller:2,expert:2},
+      burst_type:{ramp:2,sustained:2,execute:1,proc_burst:3}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:3,two_spec:1,all_specs:1}, off_meta:{swap_meta:2,outplay:2,loyal:3}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:1,guide_prep:3,play_prep:3}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:2,maintain:2,utility_down:2}, identity_src:{kit_identity:2,visual_identity:3,power_identity:3}
     }
   },
   {
@@ -923,7 +1002,8 @@ const classes = [
       rng:{love_rng:2,some_rng:3,no_rng:1}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:3},
       pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:1,both_util:2,util:3},
       pets_feel:{love_pets:2,ok_pets:2,no_pets:1}, mastery:{deep:3,medium_mastery:2,easy:1},
-      guild_value:{anchor:1,swiss:3,caller:2,expert:2}
+      guild_value:{anchor:1,swiss:3,caller:2,expert:2},
+      burst_type:{ramp:2,sustained:2,execute:1,proc_burst:3}, cast_time:{all_instant:2,mixed_cast:3,love_cast:1}, spec_invest:{one_spec:1,two_spec:3,all_specs:2}, off_meta:{swap_meta:2,outplay:2,loyal:2}, movement_cast:{full_move:2,some_move:3,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:2,consistent:3}, prep_style:{deep_prep:2,guide_prep:3,play_prep:2}, class_lore:{lore_first:2,both_lore:3,gameplay_only:1}, downtime_use:{pool:2,maintain:2,utility_down:3}, identity_src:{kit_identity:2,visual_identity:2,power_identity:2}
     }
   },
   {
@@ -954,7 +1034,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:2},
       pacing:{slow:2,medium_pace:2,fast:3}, utility_val:{dmg:1,both_util:3,util:2},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:2}, mastery:{deep:3,medium_mastery:2,easy:1},
-      guild_value:{anchor:2,swiss:2,caller:1,expert:3}
+      guild_value:{anchor:2,swiss:2,caller:1,expert:3},
+      burst_type:{ramp:3,sustained:2,execute:1,proc_burst:2}, cast_time:{all_instant:2,mixed_cast:3,love_cast:1}, spec_invest:{one_spec:1,two_spec:2,all_specs:3}, off_meta:{swap_meta:2,outplay:2,loyal:3}, movement_cast:{full_move:2,some_move:3,stand_still:1}, lust_sync:{lust_dep:3,flex_timing:2,consistent:1}, prep_style:{deep_prep:2,guide_prep:3,play_prep:2}, class_lore:{lore_first:2,both_lore:3,gameplay_only:1}, downtime_use:{pool:3,maintain:2,utility_down:1}, identity_src:{kit_identity:2,visual_identity:3,power_identity:1}
     }
   },
   {
@@ -981,7 +1062,8 @@ const classes = [
       rng:{love_rng:1,some_rng:3,no_rng:2}, cooldowns:{few:1,medium_cd:3,many:2,love_cd:2},
       pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:2,both_util:3,util:2},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:2,medium_mastery:3,easy:1},
-      guild_value:{anchor:2,swiss:2,caller:2,expert:3}
+      guild_value:{anchor:2,swiss:2,caller:2,expert:3},
+      burst_type:{ramp:2,sustained:3,execute:1,proc_burst:2}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:3,two_spec:1,all_specs:1}, off_meta:{swap_meta:1,outplay:3,loyal:2}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:2,guide_prep:3,play_prep:2}, class_lore:{lore_first:1,both_lore:2,gameplay_only:3}, downtime_use:{pool:2,maintain:2,utility_down:3}, identity_src:{kit_identity:3,visual_identity:2,power_identity:2}
     }
   },
   {
@@ -1013,7 +1095,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:3}, cooldowns:{few:2,medium_cd:2,many:1,love_cd:1},
       pacing:{slow:2,medium_pace:3,fast:1}, utility_val:{dmg:3,both_util:2,util:1},
       pets_feel:{love_pets:1,ok_pets:1,no_pets:3}, mastery:{deep:2,medium_mastery:2,easy:2},
-      guild_value:{anchor:3,swiss:1,caller:2,expert:2}
+      guild_value:{anchor:3,swiss:1,caller:2,expert:2},
+      burst_type:{ramp:1,sustained:2,execute:3,proc_burst:2}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:2,two_spec:2,all_specs:3}, off_meta:{swap_meta:3,outplay:2,loyal:1}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:2,guide_prep:3,play_prep:2}, class_lore:{lore_first:1,both_lore:2,gameplay_only:3}, downtime_use:{pool:2,maintain:2,utility_down:2}, identity_src:{kit_identity:2,visual_identity:1,power_identity:3}
     }
   },
   {
@@ -1041,7 +1124,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:2,medium_cd:2,many:2,love_cd:1},
       pacing:{slow:2,medium_pace:3,fast:1}, utility_val:{dmg:1,both_util:2,util:3},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:1,medium_mastery:3,easy:2},
-      guild_value:{anchor:2,swiss:3,caller:2,expert:2}
+      guild_value:{anchor:2,swiss:3,caller:2,expert:2},
+      burst_type:{ramp:2,sustained:2,execute:3,proc_burst:1}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:2,two_spec:2,all_specs:2}, off_meta:{swap_meta:2,outplay:2,loyal:3}, movement_cast:{full_move:2,some_move:2,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:2,guide_prep:3,play_prep:2}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:2,maintain:2,utility_down:3}, identity_src:{kit_identity:2,visual_identity:3,power_identity:2}
     }
   },
   {
@@ -1075,7 +1159,8 @@ const classes = [
       rng:{love_rng:1,some_rng:2,no_rng:2}, cooldowns:{few:1,medium_cd:2,many:3,love_cd:3},
       pacing:{slow:1,medium_pace:3,fast:2}, utility_val:{dmg:1,both_util:2,util:3},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:2}, mastery:{deep:3,medium_mastery:2,easy:1},
-      guild_value:{anchor:2,swiss:2,caller:2,expert:3}
+      guild_value:{anchor:2,swiss:2,caller:2,expert:3},
+      burst_type:{ramp:3,sustained:2,execute:1,proc_burst:3}, cast_time:{all_instant:2,mixed_cast:3,love_cast:2}, spec_invest:{one_spec:2,two_spec:3,all_specs:1}, off_meta:{swap_meta:2,outplay:3,loyal:2}, movement_cast:{full_move:2,some_move:3,stand_still:1}, lust_sync:{lust_dep:3,flex_timing:2,consistent:2}, prep_style:{deep_prep:3,guide_prep:2,play_prep:1}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:3,maintain:2,utility_down:2}, identity_src:{kit_identity:3,visual_identity:3,power_identity:2}
     }
   }
 ];
@@ -1307,7 +1392,7 @@ function showResults() {
   const topClass = top3[0].name;
   const shareText = encodeURIComponent(`I got ${topClass} on the WoW Midnight Premium Class Quiz! Incredibly detailed results.`);
   const shareUrl = encodeURIComponent(window.location.href);
-  document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Class Quiz — Deep 20-question analysis')}`;
+  document.getElementById('shareReddit').href = `https://www.reddit.com/submit?url=${shareUrl}&title=${encodeURIComponent('WoW Midnight Class Quiz — Deep 30-question analysis')}`;
   document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
 
   window.scrollTo({ top: 0, behavior: 'smooth' });

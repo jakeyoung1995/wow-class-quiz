@@ -156,7 +156,17 @@
       .stats-block { grid-template-columns: 1fr 1fr; }
       .races-block { grid-template-columns: 1fr; }
     }
-  </style>
+      .premium-cta { background: linear-gradient(135deg, #1a1200 0%, #100c00 100%); border: 1px solid rgba(200,160,40,0.4); border-radius: 14px; padding: 28px; margin: 28px 0; text-align: center; }
+    .premium-cta .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cgold); margin-bottom: 10px; }
+    .premium-cta h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .premium-cta h3 em { color: var(--cgold); font-style: normal; }
+    .premium-cta p { font-size: 14px; color: #9090a0; margin-bottom: 16px; line-height: 1.6; }
+    .premium-bullets { list-style: none; padding: 0; margin: 0 0 20px; text-align: left; display: inline-block; max-width: 440px; }
+    .premium-bullets li { font-size: 13px; color: #9090a0; padding: 5px 0 5px 4px; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .premium-bullets li:last-child { border-bottom: none; }
+    .premium-bullets li strong { color: #f0e8c0; }
+    .premium-note { margin-top: 10px; font-size: 12px; color: #606040; }
+    </style>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
   <script>
@@ -214,6 +224,21 @@
     <p>Ranked by playstyle fit. Every class is worth playing — the best one is the one you'll actually enjoy.</p>
   </div>
   <div class="result-cards" id="resultCards"></div>
+  <div class="premium-cta" id="classicPremiumCta">
+    <div class="tag">✦ Unlock Premium Classic</div>
+    <h3>You got a match. The premium quiz maps your entire Classic journey — and backs every pick with data.</h3>
+    <p>The free quiz found your top classes. The 25-question premium goes far deeper:</p>
+    <ul class="premium-bullets">
+      <li>⚔️ <strong>Leveling speed &amp; solo viability scores</strong> — know exactly how painful (or painless) your 1–60 will be</li>
+      <li>⚔️ <strong>Race recommendations with reasoning</strong> — best race per faction per class, and why it matters</li>
+      <li>⚔️ <strong>PvP power breakdown</strong> — world PvP, battlegrounds, and dueling potential per spec</li>
+      <li>⚔️ <strong>Raid utility &amp; demand analysis</strong> — how in-demand your class is for guild raiding</li>
+      <li>⚔️ <strong>Full Classic journey roadmap</strong> — pre-raid BiS priorities, key talent milestones, phase goals</li>
+      <li>⚔️ <strong>25 deep questions</strong> — faction, gold farming, consumes mindset, server legacy, future-proofing</li>
+    </ul>
+    <a href="classic-quiz-premium.html" class="btn-premium" style="background:var(--cgold);color:#0a0600;">Get Premium Classic Quiz — $1.99 →</a>
+    <div class="premium-note">One-time purchase · Instant access · No account needed</div>
+  </div>
   <div class="restart-row">
     <button class="btn-restart" onclick="restart()">↩ Retake Quiz</button>
   </div>

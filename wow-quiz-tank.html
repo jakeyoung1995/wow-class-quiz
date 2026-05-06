@@ -219,6 +219,14 @@
       .share-btns { flex-direction: column; align-items: center; }
     }
   </style>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YMTTK4WJ3F');
+  </script>
 </head>
 <body>
 
@@ -558,6 +566,12 @@ function calcScores() {
 }
 
 function showResults() {
+  // GA4 — quiz completion
+  if (typeof gtag !== 'undefined') {
+    var _topClass = (typeof ranked !== 'undefined' && ranked[0]) ? ranked[0].name :
+                    (typeof results !== 'undefined' && results[0]) ? results[0].name : 'unknown';
+    gtag('event', 'quiz_complete', { quiz_type: 'tank_free', top_class: _topClass });
+  }
   document.getElementById('quiz').style.display = 'none';
   document.getElementById('results').style.display = 'block';
   const top3 = calcScores().slice(0,3);

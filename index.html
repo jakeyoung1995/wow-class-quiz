@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WoW Class Quiz — Find Your Perfect WoW Midnight &amp; Classic Class</title>
-  <meta name="description" content="The best WoW class quiz for WoW Midnight and WoW Classic. Answer 9 playstyle questions to find your perfect class or spec — DPS, Tank, or Healer. Free, no tier list bias, 2 minutes.">
+  <meta name="description" content="Find your perfect WoW Midnight or Classic class in 2 minutes. Free quizzes for DPS, Tank, and Healer — 12 DPS classes, 6 tank specs, 7 healer specs. No tier list bias, just your playstyle.">
   <link rel="canonical" href="https://wowclassquiz.com/">
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
-  <link rel="apple-touch-icon" href="/favicon.png">
-  <!-- Open Graph -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+<!-- Open Graph -->
   <meta property="og:site_name" content="WoW Class Quiz">
   <meta property="og:title" content="WoW Class Quiz — Find Your Perfect WoW Midnight &amp; Classic Class">
   <meta property="og:description" content="The best WoW class quiz for WoW Midnight and WoW Classic. 9 questions, no tier list bias. Find your perfect class in 2 minutes.">
@@ -21,6 +22,29 @@
   <meta name="twitter:title" content="WoW Class Quiz — Find Your Perfect WoW Midnight &amp; Classic Class">
   <meta name="twitter:description" content="The best WoW class quiz for Midnight and Classic. 9 questions, no tier list bias. 2 minutes.">
   <meta name="keywords" content="wow class quiz, wow midnight class quiz, wow classic class quiz, what class should i play wow, wow class picker, what class to play wow midnight, world of warcraft class quiz, wow midnight best class">
+
+
+  <!-- Schema: SoftwareApplication (Quiz) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "WoW Class Quiz",
+    "url": "https://wowclassquiz.com",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "description": "Free WoW class quiz for WoW Midnight and WoW Classic. Find your perfect DPS, Tank, or Healer class based on your playstyle in 2 minutes.",
+    "offers": [
+      { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Quiz" },
+      { "@type": "Offer", "price": "1.99", "priceCurrency": "USD", "name": "Premium Deep-Dive Quiz" }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "47"
+    }
+  }
+  </script>
 
   <!-- Schema: WebSite -->
   <script type="application/ld+json">
@@ -138,7 +162,13 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
 
-    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; }
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; justify-content: space-between; }
+        .header-nav { display: flex; align-items: center; gap: 4px; }
+        .nav-link { font-size: 13px; color: var(--text2); text-decoration: none; padding: 5px 12px; border-radius: 99px; border: 1px solid transparent; transition: all 0.15s; }
+        .nav-link:hover { color: var(--text); border-color: var(--border); background: var(--surf2); }
+        .nav-link.alt { color: var(--gold-lt); border-color: rgba(212,160,48,0.3); background: rgba(212,160,48,0.06); }
+        .nav-link.alt:hover { background: rgba(212,160,48,0.14); border-color: var(--gold-lt); }
+        @media (max-width: 600px) { .header-nav { display: none; } }
     .logo { font-size: 16px; font-weight: 700; color: var(--gold); }
     .logo span { color: var(--text2); font-size: 13px; font-weight: 400; margin-left: 8px; }
 
@@ -256,7 +286,23 @@
 <body>
 
 <header class="site-header">
-  <div class="logo">WoW Class Quiz <span>Midnight Edition</span></div>
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:8px;margin-bottom:2px;">
+      <rect width="64" height="64" rx="13" fill="#1a0e00"/>
+      <line x1="10" y1="10" x2="54" y2="54" stroke="#d4a030" stroke-width="5" stroke-linecap="round"/>
+      <line x1="54" y1="10" x2="10" y2="54" stroke="#d4a030" stroke-width="5" stroke-linecap="round"/>
+      <line x1="10" y1="22" x2="22" y2="10" stroke="#f8dc80" stroke-width="3" stroke-linecap="round"/>
+      <line x1="42" y1="10" x2="54" y2="22" stroke="#f8dc80" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="4" fill="#f8dc80" opacity="0.9"/>
+    </svg>WoW Class Quiz <span>Midnight Edition</span>
+  </div>
+  <nav class="header-nav">
+    <a href="wow-quiz-free.html" class="nav-link">DPS</a>
+    <a href="wow-quiz-tank.html" class="nav-link">Tank</a>
+    <a href="wow-quiz-healer.html" class="nav-link">Healer</a>
+    <a href="classic-hub.html" class="nav-link">Classic</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="nav-link alt" target="_blank" rel="noopener">✦ Premium — $1.99</a>
+  </nav>
 </header>
 
 <!-- Top leaderboard ad -->

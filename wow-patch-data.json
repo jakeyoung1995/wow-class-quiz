@@ -2,7 +2,7 @@
   "_meta": {
     "patch": "12.0.5",
     "season": "Midnight Season 1",
-    "last_updated": "2026-05-06",
+    "last_updated": "2026-05-11",
     "needs_refresh": false,
     "note": "Seeded from Warcraftlogs / Icy Veins / Skycoach rankings May 2026. Auto-updated weekly by GitHub Actions."
   },
@@ -50,10 +50,10 @@
     "Devastation Evoker":   {"tier": "C", "class": "Evoker",       "color": "#33937f"}
   },
   "tank": {
-    "Blood Death Knight":     {"mplus": "S", "raid": "S"},
+    "Blood Death Knight":     {"mplus": "B", "raid": "B"},
     "Vengeance Demon Hunter": {"mplus": "B", "raid": "B"},
-    "Guardian Druid":         {"mplus": "B", "raid": "B"},
-    "Brewmaster Monk":        {"mplus": "S", "raid": "S"},
+    "Guardian Druid":         {"mplus": "A", "raid": "S"},
+    "Brewmaster Monk":        {"mplus": "S", "raid": "A"},
     "Protection Paladin":     {"mplus": "A", "raid": "A"},
     "Protection Warrior":     {"mplus": "A", "raid": "A"}
   },
@@ -72,6 +72,14 @@
       "date": "2026-05-06",
       "patch": "12.0.5",
       "changes": [{"note": "Initial data seed from Warcraftlogs / Icy Veins / Skycoach community rankings"}]
+    },
+    {
+      "date": "2026-05-11",
+      "patch": "12.0.5",
+      "changes": [
+        {"note": "Fixed Icy Veins scraper URLs (old /dps-tier-list paths returned 404 after Midnight relaunch)"},
+        {"note": "Updated tank rankings: Brewmaster #1 M+, Guardian Druid #1 Raid, Blood DK dropped to B-tier per April 22 hotfixes"}
+      ]
     }
   ]
 }

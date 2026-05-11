@@ -36,10 +36,11 @@ NOTIFY_EMAIL = "jy.220529@gmail.com"
 FROM_EMAIL = "jy.220529@gmail.com"
 
 # Icy Veins tier list URLs (one per role)
+# Updated for WoW Midnight — old /wow/dps-tier-list etc. return 404
 ICYVEINS_URLS = {
-    "dps": "https://www.icy-veins.com/wow/dps-tier-list",
-    "tank": "https://www.icy-veins.com/wow/tank-tier-list",
-    "healer": "https://www.icy-veins.com/wow/healer-tier-list",
+    "dps":    "https://www.icy-veins.com/wow/mythic-dps-tier-list",
+    "tank":   "https://www.icy-veins.com/wow/mythic-tank-tier-list",
+    "healer": "https://www.icy-veins.com/wow/mythic-healer-tier-list",
 }
 
 # Map Icy Veins display names → our JSON keys

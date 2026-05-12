@@ -200,6 +200,23 @@
     .meta-tier-badge .meta-sep { opacity: 0.3; }
     .meta-tier-badge b { font-weight: 700; }
 
+    /* Tools section */
+    .tools-section { margin: 28px 0; }
+    .tools-section:empty { display: none; }
+    .tools-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; }
+    .tools-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .tools-card h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .tools-card > p.tools-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+    .tools-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tool-item { display: flex; gap: 12px; padding: 12px; background: var(--surf3); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; transition: border-color 0.15s, transform 0.1s; align-items: flex-start; }
+    .tool-item:hover { border-color: var(--gold-dk); transform: translateY(-1px); }
+    .tool-icon { font-size: 22px; flex-shrink: 0; padding-top: 2px; }
+    .tool-body { flex: 1; min-width: 0; }
+    .tool-name { font-size: 13px; font-weight: 700; color: var(--gold-lt); margin-bottom: 2px; }
+    .tool-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+    .tools-disclaimer { font-size: 11px; color: var(--text3); margin-top: 14px; text-align: center; }
+    @media (max-width: 560px) { .tools-list { grid-template-columns: 1fr; } }
+
     .premium-cta { background: linear-gradient(135deg, #0a1e0e 0%, #0a1408 100%); border: 1px solid rgba(72,184,104,0.4); border-radius: var(--radius-lg); padding: 28px; margin: 28px 0; text-align: center; }
     .premium-cta .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-lt); margin-bottom: 10px; }
     .premium-cta h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
@@ -316,9 +333,46 @@
     <h2>Your healer recommendations</h2>
     <p>Ranked by playstyle match — based on your 9 answers</p>
   </div>
-  <!-- Feedback Widget -->
+  <div id="classCards"></div>
+
+  <div class="premium-cta">
+    <div class="tag">✦ Unlock Premium Healer</div>
+    <h3>You got a match. The premium quiz tells you <em>exactly</em> why — and how to master it.</h3>
+    <p>The free quiz found your top healers. The 30-question premium goes 3× deeper:</p>
+    <ul class="premium-bullets">
+      <li>⚔️ <strong>Per-spec Mythic &amp; M+ tier ratings</strong> — know where each healer stands this patch</li>
+      <li>⚔️ <strong>Throughput vs utility breakdown</strong> — HPS ceiling, mana efficiency, cooldown potency per spec</li>
+      <li>⚔️ <strong>"Perfect healer if / avoid if" for every spec</strong> — honest fit analysis for your style</li>
+      <li>⚔️ <strong>Ramp vs reactive analysis</strong> — proactive planers vs clutch reactors, mapped to every spec</li>
+      <li>⚔️ <strong>Personalized 5-step roadmap to Cutting Edge</strong> — healer-specific progression milestones</li>
+      <li>⚔️ <strong>30 questions vs 9</strong> — shielding style, clutch save needs, tank vs raid focus</li>
+    </ul>
+    <a href="wow-quiz-premium-healer.html" class="btn-premium">Get Premium Healer Quiz — $1.99 →</a>
+    <div class="premium-note">One-time purchase · Instant access · No account needed</div>
+  </div>
+
+  <div class="share-section">
+    <div class="share-label">Help your raid team find their healer — share the quiz</div>
+    <div class="share-btns">
+      <a class="share-btn reddit" id="shareReddit" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="#FF4500"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.93 10.36c.03.22.05.45.05.68 0 3.44-4 6.23-8.98 6.23S2 14.48 2 11.04c0-.23.02-.46.05-.68a1.5 1.5 0 10-1.44-2.59A8.93 8.93 0 012 5.96a1.5 1.5 0 102.76-1.16c1.3-.93 2.9-1.48 4.64-1.52l.87-4.1.1-.01 2.83.6a1.5 1.5 0 101.47-1.27l-3.16-.66-.12.56-.73 3.42c1.76.03 3.38.58 4.69 1.52A1.5 1.5 0 1016.5 5.1c.33.53.5 1.13.5 1.74 0 .26-.03.51-.07.76a1.5 1.5 0 10-1 2.76zM7 11.5a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm-1.18 2.5c-.46.46-1.17.68-2.32.68s-1.86-.22-2.32-.68a.5.5 0 01.7-.7c.29.28.82.44 1.62.44s1.33-.16 1.62-.44a.5.5 0 01.7.7z"/></svg>
+        Reddit
+      </a>
+      <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Twitter / X
+      </a>
+      <a class="share-btn" href="#" onclick="copyLink(event)">📋 Copy link</a>
+    </div>
+    <div class="copy-confirm" id="copyConfirm">✓ Link copied!</div>
+  </div>
+
+  <!-- Tools we recommend -->
+  <div class="tools-section" id="toolsSection"></div>
+
+  <!-- Feedback Widget (moved to bottom — ask after value delivered) -->
   <div class="feedback-widget" id="feedbackWidget">
-    <div class="feedback-heading">Help us improve</div>
+    <div class="feedback-heading">Help me improve this quiz</div>
     <div class="feedback-sub">I made this for my own use, but I want it to work well for everyone. With your help, we can make this a quiz people rely on for every new expansion. &#9825; Jake</div>
     <div id="fbQ1">
       <div class="feedback-label">How accurate was your result?</div>
@@ -347,57 +401,12 @@
     </div>
   </div>
 
-  <div id="classCards"></div>
-  <div class="ad-section">
-    <div class="ad-slot ad-rectangle">
-      <!-- AdSense rectangle
-      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      -->
-      Advertisement
-    </div>
-  </div>
-
-  <div class="premium-cta">
-    <div class="tag">✦ Unlock Premium Healer</div>
-    <h3>You got a match. The premium quiz tells you <em>exactly</em> why — and how to master it.</h3>
-    <p>The free quiz found your top healers. The 30-question premium goes 3× deeper:</p>
-    <ul class="premium-bullets">
-      <li>⚔️ <strong>Per-spec Mythic &amp; M+ tier ratings</strong> — know where each healer stands this patch</li>
-      <li>⚔️ <strong>Throughput vs utility breakdown</strong> — HPS ceiling, mana efficiency, cooldown potency per spec</li>
-      <li>⚔️ <strong>"Perfect healer if / avoid if" for every spec</strong> — honest fit analysis for your style</li>
-      <li>⚔️ <strong>Ramp vs reactive analysis</strong> — proactive planers vs clutch reactors, mapped to every spec</li>
-      <li>⚔️ <strong>Personalized 5-step roadmap to Cutting Edge</strong> — healer-specific progression milestones</li>
-      <li>⚔️ <strong>10 extra Section 3 questions</strong> — shielding style, clutch save needs, tank vs raid focus</li>
-    </ul>
-    <a href="wow-quiz-premium-healer.html" class="btn-premium">Get Premium Healer Quiz — $1.99 →</a>
-    <div class="premium-note">One-time purchase · Instant access · No account needed</div>
-  </div>
-
-  <div class="share-section">
-    <div class="share-label">Help your raid team find their healer — share the quiz</div>
-    <div class="share-btns">
-      <a class="share-btn reddit" id="shareReddit" href="#" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="#FF4500"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.93 10.36c.03.22.05.45.05.68 0 3.44-4 6.23-8.98 6.23S2 14.48 2 11.04c0-.23.02-.46.05-.68a1.5 1.5 0 10-1.44-2.59A8.93 8.93 0 012 5.96a1.5 1.5 0 102.76-1.16c1.3-.93 2.9-1.48 4.64-1.52l.87-4.1.1-.01 2.83.6a1.5 1.5 0 101.47-1.27l-3.16-.66-.12.56-.73 3.42c1.76.03 3.38.58 4.69 1.52A1.5 1.5 0 1016.5 5.1c.33.53.5 1.13.5 1.74 0 .26-.03.51-.07.76a1.5 1.5 0 10-1 2.76zM7 11.5a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm-1.18 2.5c-.46.46-1.17.68-2.32.68s-1.86-.22-2.32-.68a.5.5 0 01.7-.7c.29.28.82.44 1.62.44s1.33-.16 1.62-.44a.5.5 0 01.7.7z"/></svg>
-        Reddit
-      </a>
-      <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        Twitter / X
-      </a>
-      <a class="share-btn" href="#" onclick="copyLink(event)">📋 Copy link</a>
-    </div>
-    <div class="copy-confirm" id="copyConfirm">✓ Link copied!</div>
-  </div>
-
-  <div class="ad-section">
-    <div class="ad-slot ad-rectangle">Advertisement</div>
-  </div>
-
   <div class="restart-row">
     <button class="btn-restart" onclick="restart()">↺ Retake quiz</button>
   </div>
 </section>
+
+<script src="/scripts/affiliate-tools.js"></script>
 
 <footer class="site-footer">
   <p>© 2026 WoW Class Quiz &nbsp;·&nbsp; Not affiliated with Blizzard Entertainment &nbsp;·&nbsp; <a href="index.html">All Roles</a> &nbsp;·&nbsp; <a href="https://jynova2.gumroad.com/l/yejhos">Premium</a></p>
@@ -585,15 +594,15 @@ function calcScores() {
 }
 
 function showResults() {
-  // GA4 — quiz completion
+  const ranked = calcScores();
+  const top3 = ranked.slice(0,3);
+  // GA4 — quiz completion (must run AFTER calcScores so ranked is defined)
   if (typeof gtag !== 'undefined') {
-    var _topClass = (typeof ranked !== 'undefined' && ranked[0]) ? ranked[0].name :
-                    (typeof results !== 'undefined' && results[0]) ? results[0].name : 'unknown';
+    const _topClass = (ranked[0] && ranked[0].name) || 'unknown';
     gtag('event', 'quiz_complete', { quiz_type: 'healer_free', top_class: _topClass });
   }
   document.getElementById('quiz').style.display = 'none';
   document.getElementById('results').style.display = 'block';
-  const top3=calcScores().slice(0,3);
   const cards=document.getElementById('classCards');
   cards.innerHTML='';
   top3.forEach((cls,i)=>{
@@ -631,6 +640,7 @@ function showResults() {
   document.getElementById('shareTwitter').href=`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
   injectMetaTiers('healer');
   initFeedbackWidget('healer-free', top3[0].name);
+  if (window.renderAffiliateTools) window.renderAffiliateTools('toolsSection', { role: 'healer', topClass: top3[0].name });
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -673,6 +683,8 @@ async function injectMetaTiers(role) {
 // ── Feedback widget ────────────────────────────────────────────────────────
 var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
 
+var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+
 function initFeedbackWidget(quizType, topClass) {
   var stars = 0, recommend = null;
   var starBtns = document.querySelectorAll('.star-btn');
@@ -690,48 +702,48 @@ function initFeedbackWidget(quizType, topClass) {
     });
   });
   function setYN(v) {
-    document.getElementById('fbYes').classList.toggle('selected', v==='yes');
-    document.getElementById('fbNo').classList.toggle('selected', v==='no');
+    document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
+    document.getElementById('fbNo').classList.toggle('selected', v === 'no');
   }
   document.getElementById('fbYes').addEventListener('click', function() {
-    recommend='yes'; setYN('yes');
-    document.getElementById('fbQ3').style.display='block';
+    recommend = 'yes'; setYN('yes');
+    document.getElementById('fbQ3').style.display = 'block';
   });
   document.getElementById('fbNo').addEventListener('click', function() {
-    recommend='no'; setYN('no');
-    document.getElementById('fbQ3').style.display='block';
+    recommend = 'no'; setYN('no');
+    document.getElementById('fbQ3').style.display = 'block';
   });
   document.getElementById('fbSubmit').addEventListener('click', function() {
     var payload = {
-      quiz_type: quizType, top_class: topClass,
-      stars: stars, recommend: recommend,
+      quiz_type: quizType,
+      top_class: topClass,
+      stars: stars,
+      recommend: recommend,
       comment: document.getElementById('fbComment').value.trim()
     };
     if (FEEDBACK_ENDPOINT) {
-      fetch(FEEDBACK_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload) });
+      fetch(FEEDBACK_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
     }
-    document.getElementById('fbQ1').style.display='none';
-    document.getElementById('fbQ2').style.display='none';
-    document.getElementById('fbQ3').style.display='none';
-    document.getElementById('fbThanks').style.display='flex';
+    document.getElementById('fbQ1').style.display = 'none';
+    document.getElementById('fbQ2').style.display = 'none';
+    document.getElementById('fbQ3').style.display = 'none';
+    var t = document.getElementById('fbThanks');
+    t.style.display = 'flex';
   });
 }
 
-// ── Utilities ─────────────────────────────────────────────────────────────
 function copyLink(e) {
-  e.preventDefault();
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const c = document.getElementById('copyConfirm');
-    c.style.display='block';
-    setTimeout(()=>{c.style.display='none';},3000);
+  if (e) e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var c = document.getElementById('copyConfirm');
+    if (c) { c.style.opacity = '1'; setTimeout(function(){ c.style.opacity = '0'; }, 2000); }
   });
-}
-
-function restart() {
-  current=0; answers={};
-  document.getElementById('results').style.display='none';
-  document.getElementById('quiz').style.display='block';
-  renderQuestion();
+  return false;
 }
 </script>
 </body>

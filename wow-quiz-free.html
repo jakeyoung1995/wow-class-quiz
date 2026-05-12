@@ -420,6 +420,23 @@
     .meta-tier-badge .meta-sep { opacity: 0.3; }
     .meta-tier-badge b { font-weight: 700; }
 
+    /* ── Tools / Affiliate section ────────────────── */
+    .tools-section { margin: 28px 0; }
+    .tools-section:empty { display: none; }
+    .tools-card { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px 22px; }
+    .tools-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .tools-card h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .tools-card > p.tools-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+    .tools-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tool-item { display: flex; gap: 12px; padding: 12px; background: var(--surf3); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; transition: border-color 0.15s, transform 0.1s; align-items: flex-start; }
+    .tool-item:hover { border-color: var(--gold-dk); transform: translateY(-1px); }
+    .tool-icon { font-size: 22px; flex-shrink: 0; line-height: 1; padding-top: 2px; }
+    .tool-body { flex: 1; min-width: 0; }
+    .tool-name { font-size: 13px; font-weight: 700; color: var(--gold-lt); margin-bottom: 2px; }
+    .tool-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+    .tools-disclaimer { font-size: 11px; color: var(--text3); margin-top: 14px; text-align: center; }
+    @media (max-width: 560px) { .tools-list { grid-template-columns: 1fr; } }
+
     /* ── Premium CTA ──────────────────────────────── */
     .premium-cta {
       background: linear-gradient(135deg, #1a1530 0%, #0e1020 100%);
@@ -621,9 +638,61 @@
     <p>Ranked by playstyle match — based on your 9 answers</p>
   </div>
 
-  <!-- Feedback Widget -->
+  <div id="classCards"></div>
+  <!-- Ad: Results rectangle -->
+  <div class="ad-section">
+    <div class="ad-slot ad-rectangle">
+      <!-- Google AdSense: replace with your ad unit code
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX" data-ad-format="rectangle"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+      Advertisement
+    </div>
+  </div>
+
+  <!-- Premium Upsell -->
+  <div class="premium-cta">
+    <div class="tag">✦ Unlock Premium DPS</div>
+    <h3>You got a match. The premium quiz tells you <em>exactly</em> why — and how to master it.</h3>
+    <p>The free quiz found your top classes. The 30-question premium goes 3× deeper:</p>
+    <ul class="premium-bullets">
+      <li>⚔️ <strong>Per-spec Mythic &amp; M+ tier ratings</strong> — know where your class stands this patch before you commit</li>
+      <li>⚔️ <strong>"Perfect for you if / avoid if" for every spec</strong> — honest fit analysis, not just hype</li>
+      <li>⚔️ <strong>Complexity &amp; skill ceiling scores</strong> — so you know exactly what you're signing up for</li>
+      <li>⚔️ <strong>Personalized 5-step learning roadmap</strong> — from fresh re-roll to Cutting Edge, step by step</li>
+      <li>⚔️ <strong>Spec-specific addon recommendations</strong> — the exact setup top players use</li>
+      <li>⚔️ <strong>30 questions vs. 9</strong> — 3× the depth, covering identity, lore, and long-term enjoyment</li>
+    </ul>
+    <a href="wow-quiz-premium.html" class="btn-premium">Get Premium DPS Quiz — $1.99 →</a>
+    <div class="premium-note">One-time purchase · Instant access · No account needed</div>
+  </div>
+
+  <!-- Share -->
+  <div class="share-section">
+    <div class="share-label">Share your results or help a friend pick their class</div>
+    <div class="share-btns">
+      <a class="share-btn reddit" id="shareReddit" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="#FF4500"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.93 10.36c.03.22.05.45.05.68 0 3.44-4 6.23-8.98 6.23S2 14.48 2 11.04c0-.23.02-.46.05-.68a1.5 1.5 0 10-1.44-2.59A8.93 8.93 0 012 5.96a1.5 1.5 0 102.76-1.16c1.3-.93 2.9-1.48 4.64-1.52l.87-4.1.1-.01 2.83.6a1.5 1.5 0 101.47-1.27l-3.16-.66-.12.56-.73 3.42c1.76.03 3.38.58 4.69 1.52A1.5 1.5 0 1016.5 5.1c.33.53.5 1.13.5 1.74 0 .26-.03.51-.07.76a1.5 1.5 0 10-1 2.76zM7 11.5a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm-1.18 2.5c-.46.46-1.17.68-2.32.68s-1.86-.22-2.32-.68a.5.5 0 01.7-.7c.29.28.82.44 1.62.44s1.33-.16 1.62-.44a.5.5 0 01.7.7z"/></svg>
+        Reddit
+      </a>
+      <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Twitter / X
+      </a>
+      <a class="share-btn discord" id="shareDiscord" href="#" onclick="copyLink(event)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+        Copy link
+      </a>
+    </div>
+    <div class="copy-confirm" id="copyConfirm">✓ Link copied to clipboard!</div>
+  </div>
+
+  <!-- Tools we recommend (dynamic — top class drives recommendations) -->
+  <div class="tools-section" id="toolsSection"></div>
+
+  <!-- Feedback Widget (moved to bottom — ask after the user has gotten value) -->
   <div class="feedback-widget" id="feedbackWidget">
-    <div class="feedback-heading">Help us improve</div>
+    <div class="feedback-heading">Help me improve this quiz</div>
     <div class="feedback-sub">I made this for my own use, but I want it to work well for everyone. With your help, we can make this a quiz people rely on for every new expansion. ♥ Jake</div>
     <div id="fbQ1">
       <div class="feedback-label">How accurate was your result?</div>
@@ -652,70 +721,13 @@
     </div>
   </div>
 
-  <div id="classCards"></div>
-  <!-- Ad: Results rectangle -->
-  <div class="ad-section">
-    <div class="ad-slot ad-rectangle">
-      <!-- Google AdSense: replace with your ad unit code
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX" data-ad-format="rectangle"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      -->
-      Advertisement
-    </div>
-  </div>
-
-  <!-- Premium Upsell -->
-  <div class="premium-cta">
-    <div class="tag">✦ Unlock Premium DPS</div>
-    <h3>You got a match. The premium quiz tells you <em>exactly</em> why — and how to master it.</h3>
-    <p>The free quiz found your top classes. The 30-question premium goes 3× deeper:</p>
-    <ul class="premium-bullets">
-      <li>⚔️ <strong>Per-spec Mythic &amp; M+ tier ratings</strong> — know where your class stands this patch before you commit</li>
-      <li>⚔️ <strong>"Perfect for you if / avoid if" for every spec</strong> — honest fit analysis, not just hype</li>
-      <li>⚔️ <strong>Complexity &amp; skill ceiling scores</strong> — so you know exactly what you're signing up for</li>
-      <li>⚔️ <strong>Personalized 5-step learning roadmap</strong> — from fresh re-roll to Cutting Edge, step by step</li>
-      <li>⚔️ <strong>Spec-specific addon recommendations</strong> — the exact setup top players use</li>
-      <li>⚔️ <strong>10 extra Section 3 questions</strong> — burst type, off-meta tolerance, lust sync, identity deep-dive</li>
-    </ul>
-    <a href="wow-quiz-premium.html" class="btn-premium">Get Premium DPS Quiz — $1.99 →</a>
-    <div class="premium-note">One-time purchase · Instant access · No account needed</div>
-  </div>
-
-  <!-- Share -->
-  <div class="share-section">
-    <div class="share-label">Share your results or help a friend pick their class</div>
-    <div class="share-btns">
-      <a class="share-btn reddit" id="shareReddit" href="#" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="#FF4500"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.93 10.36c.03.22.05.45.05.68 0 3.44-4 6.23-8.98 6.23S2 14.48 2 11.04c0-.23.02-.46.05-.68a1.5 1.5 0 10-1.44-2.59A8.93 8.93 0 012 5.96a1.5 1.5 0 102.76-1.16c1.3-.93 2.9-1.48 4.64-1.52l.87-4.1.1-.01 2.83.6a1.5 1.5 0 101.47-1.27l-3.16-.66-.12.56-.73 3.42c1.76.03 3.38.58 4.69 1.52A1.5 1.5 0 1016.5 5.1c.33.53.5 1.13.5 1.74 0 .26-.03.51-.07.76a1.5 1.5 0 10-1 2.76zM7 11.5a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm-1.18 2.5c-.46.46-1.17.68-2.32.68s-1.86-.22-2.32-.68a.5.5 0 01.7-.7c.29.28.82.44 1.62.44s1.33-.16 1.62-.44a.5.5 0 01.7.7z"/></svg>
-        Reddit
-      </a>
-      <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        Twitter / X
-      </a>
-      <a class="share-btn discord" id="shareDiscord" href="#" onclick="copyLink(event)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
-        Copy link
-      </a>
-    </div>
-    <div class="copy-confirm" id="copyConfirm">✓ Link copied to clipboard!</div>
-  </div>
-
-  <!-- Ad: second results rectangle -->
-  <div class="ad-section">
-    <div class="ad-slot ad-rectangle">
-      <!-- Google AdSense: replace with your ad unit code
-      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      -->
-      Advertisement
-    </div>
-  </div>
-
   <div class="restart-row">
     <button class="btn-restart" onclick="restart()">↺ Retake quiz</button>
   </div>
 </section>
+
+<!-- Shared affiliate-tools renderer -->
+<script src="/scripts/affiliate-tools.js"></script>
 
 <!-- ── Footer ────────────────────────────────────────── -->
 <footer class="site-footer">
@@ -734,7 +746,7 @@ const questions = [
     options: [
       { icon: '⚔️', title: 'In their face', desc: 'Melee — up close, in the action, feel every hit', value: 'melee' },
       { icon: '🏹', title: 'At a safe distance', desc: 'Ranged — controlling the battlefield from afar', value: 'ranged' },
-      { icon: '🤷', title: 'Either works for me', desc: 'I care more about how it feels than where I stand', value: 'any' },
+      { icon: '🎯', title: 'Flexible — show me both', desc: 'Range doesn\'t matter; I care more about how the spec feels', value: 'any' },
     ]
   },
   {
@@ -904,9 +916,16 @@ const classes = [
   {
     name: 'Evoker', icon: '🐉', bg: 'rgba(60,220,180,0.1)', border: 'rgba(60,220,180,0.25)',
     specs: ['Devastation', 'Augmentation'],
-    specDesc: 'Devastation: empowered spell charging with mid-range dragon breath attacks. Augmentation: the only true support DPS in the game.',
-    why: 'WoW\'s newest class with a wholly unique dragon-humanoid fantasy. Devastation\'s empowered spells — charged by holding them — are mechanically unlike anything else. Augmentation is the only pure support DPS spec in WoW: your job is to amplify your best teammates, with completely different log interpretation. If you want to stand apart from the crowd, Evoker is it.',
+    specDesc: 'Devastation: empowered spell charging with mid-range dragon breath. Augmentation: support DPS — your job is to buff your teammates, not top the meter.',
+    why: 'WoW\'s newest class with a wholly unique dragon-humanoid fantasy. Devastation\'s empowered spells — charged by holding them — are mechanically unlike anything else. Augmentation is the only pure support DPS spec in WoW: you amplify your two best teammates rather than topping the damage meter. Aug is required in nearly every high-end M+ key right now — but if you want to "do the most damage," Aug is the wrong pick. Pick Devastation for traditional DPS, Aug for support gameplay.',
     scores: { range:{ranged:2,any:2}, complexity:{planned:3,complex:2}, fantasy:{arcane:2,elemental:2}, resource:{cooldown:3,builder:2}, mobility:{mobile:2,balanced:2}, visual:{epic:3,flashy:2}, spec_variety:{huge:3,moderate:1}, raid_role:{support:3,pure:2}, vibe:{cool:3,perfect:2,chaos:1} }
+  },
+  {
+    name: 'Priest', icon: '👁️', bg: 'rgba(220,220,240,0.08)', border: 'rgba(220,220,240,0.22)',
+    specs: ['Shadow'],
+    specDesc: 'Shadow: Void-themed ranged caster. Build Insanity by casting filler shadow spells, then unleash Voidform for explosive damage windows.',
+    why: 'Shadow is WoW\'s ranged Void caster — equal parts cosmic horror and resource ramp. You weave DoTs (Vampiric Touch, Shadow Word: Pain) into a builder-spender rotation that culminates in Voidform / Mind Blast burst windows. Mass Dispel and Power Word: Fortitude make you a niche utility pick. Currently C-tier in Midnight Season 1, but the Shadow fantasy is unmatched if Lovecraftian horror is your thing and the spec rewards mastery over meta-chasing.',
+    scores: { range:{ranged:3,any:1}, complexity:{complex:2,planned:2,reactive:1}, fantasy:{death:2,arcane:2}, resource:{builder:3,dots:2,cooldown:2}, mobility:{turret:2,balanced:1}, visual:{epic:2,flashy:1}, spec_variety:{focused:3}, raid_role:{pure:2,utility:1}, vibe:{cool:2,chaos:2,perfect:1} }
   }
 ];
 
@@ -1043,6 +1062,7 @@ function showResults() {
 
   injectMetaTiers('dps');
   initFeedbackWidget('dps-free', topClass);
+  if (window.renderAffiliateTools) window.renderAffiliateTools('toolsSection', { role: 'dps', topClass: topClass });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1088,36 +1108,29 @@ async function injectMetaTiers(role) {
     });
   } catch(e) {}
 }
-
 // ── Feedback widget ────────────────────────────────────────────────────────
-// After deploying your Apps Script, replace the placeholder URL below:
 var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
 
 function initFeedbackWidget(quizType, topClass) {
   var stars = 0, recommend = null;
   var starBtns = document.querySelectorAll('.star-btn');
-
   function litStars(n) {
     starBtns.forEach(function(b) {
       b.classList.toggle('lit', parseInt(b.dataset.v) <= n);
     });
   }
-
   starBtns.forEach(function(btn) {
     btn.addEventListener('mouseover', function() { litStars(parseInt(btn.dataset.v)); });
     btn.addEventListener('mouseout', function() { litStars(stars); });
     btn.addEventListener('click', function() {
-      stars = parseInt(btn.dataset.v);
-      litStars(stars);
+      stars = parseInt(btn.dataset.v); litStars(stars);
       document.getElementById('fbQ2').style.display = 'block';
     });
   });
-
   function setYN(v) {
     document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
     document.getElementById('fbNo').classList.toggle('selected', v === 'no');
   }
-
   document.getElementById('fbYes').addEventListener('click', function() {
     recommend = 'yes'; setYN('yes');
     document.getElementById('fbQ3').style.display = 'block';
@@ -1126,7 +1139,6 @@ function initFeedbackWidget(quizType, topClass) {
     recommend = 'no'; setYN('no');
     document.getElementById('fbQ3').style.display = 'block';
   });
-
   document.getElementById('fbSubmit').addEventListener('click', function() {
     var payload = {
       quiz_type: quizType,
@@ -1151,14 +1163,13 @@ function initFeedbackWidget(quizType, topClass) {
   });
 }
 
-// ── Utilities ─────────────────────────────────────────────────────────────
 function copyLink(e) {
-  e.preventDefault();
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const confirm = document.getElementById('copyConfirm');
-    confirm.style.display = 'block';
-    setTimeout(() => { confirm.style.display = 'none'; }, 3000);
+  if (e) e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var c = document.getElementById('copyConfirm');
+    if (c) { c.style.opacity = '1'; setTimeout(function(){ c.style.opacity = '0'; }, 2000); }
   });
+  return false;
 }
 </script>
 </body>

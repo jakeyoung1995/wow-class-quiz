@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Midnight M+ Team Comp Builder — Score Your Group</title>
+  <meta name="description" content="Build a Mythic+ team comp for WoW Midnight Season 1. Score your group on tier, utility, bloodlust, battle rez, and interrupts. Free tool — auto-updated weekly.">
+  <link rel="canonical" href="https://wowclassquiz.com/team-comp-builder.html">
+  <meta name="keywords" content="wow team comp builder, wow mythic plus comp builder, m+ comp builder, wow midnight team comp, wow group composition tool">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta property="og:title" content="WoW M+ Team Comp Builder — Score Your Group">
+  <meta property="og:description" content="Build a Mythic+ team and instantly see its tier score, utility gaps, and suggested swaps. Updated weekly.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://wowclassquiz.com/og-main.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"WebApplication",
+    "name":"WoW M+ Team Comp Builder","url":"https://wowclassquiz.com/team-comp-builder.html",
+    "applicationCategory":"GameApplication","operatingSystem":"Web",
+    "description":"Build a Mythic+ team comp for WoW Midnight. Auto-scores utility, tier ratings, bloodlust, battle rez, and interrupts.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0800; --surf1:#110f08; --surf2:#1a1810; --surf3:#222018;
+      --border:rgba(160,140,80,0.2); --border2:rgba(200,180,100,0.4);
+      --gold:#d4aa52; --gold-lt:#f0cc70; --gold-dk:#8a6e28;
+      --text:#f0e8d8; --text2:#b0a080; --text3:#6a5a40;
+      --tank:#6090d8; --heal:#58c878; --dps:#d4aa52;
+      --good:#58c878; --warn:#d4903a; --bad:#e05858;
+      --radius:12px; --radius-lg:16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 56px; background: var(--surf1); position: sticky; top: 0; z-index: 100; justify-content: space-between; }
+    .header-nav { display: flex; align-items: center; gap: 4px; }
+    .nav-link { font-size: 13px; color: var(--text2); text-decoration: none; padding: 5px 12px; border-radius: 99px; border: 1px solid transparent; }
+    .nav-link:hover { color: var(--text); border-color: var(--border); background: var(--surf2); }
+    .nav-link.alt { color: var(--gold-lt); border-color: rgba(212,160,48,0.3); background: rgba(212,160,48,0.06); }
+    @media (max-width: 600px) { .header-nav { display: none; } }
+    .logo { font-size: 16px; font-weight: 700; color: var(--gold); }
+    .logo span { color: var(--text2); font-size: 13px; font-weight: 400; margin-left: 8px; }
+
+    .container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+    .hero { text-align: center; padding: 56px 0 32px; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .hero h1 { font-size: clamp(28px,4.5vw,40px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 em { color: var(--gold-lt); font-style: normal; }
+    .hero p { font-size: 16px; color: var(--text2); max-width: 580px; margin: 0 auto 12px; }
+    .live-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gold); margin-top: 4px; }
+    .live-dot { width: 7px; height: 7px; background: var(--good); border-radius: 50%; box-shadow: 0 0 8px var(--good); }
+
+    .slots-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+    @media (max-width: 760px) { .slots-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 460px) { .slots-grid { grid-template-columns: 1fr; } }
+
+    .slot { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; min-height: 170px; display: flex; flex-direction: column; }
+    .slot.role-tank { border-top: 3px solid var(--tank); }
+    .slot.role-heal { border-top: 3px solid var(--heal); }
+    .slot.role-dps  { border-top: 3px solid var(--dps); }
+    .slot-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+    .slot.role-tank .slot-label { color: var(--tank); }
+    .slot.role-heal .slot-label { color: var(--heal); }
+    .slot.role-dps  .slot-label { color: var(--gold); }
+    .slot select { width: 100%; background: var(--surf3); border: 1px solid var(--border); color: var(--text); padding: 9px 10px; border-radius: 8px; font-size: 13px; font-family: inherit; margin-bottom: 8px; cursor: pointer; }
+    .slot select:focus { outline: 1px solid var(--gold-dk); }
+    .slot-tier { font-size: 11px; color: var(--text3); margin-top: auto; }
+    .slot-tier .tier-pill { display: inline-block; padding: 1px 8px; border-radius: 99px; font-weight: 700; font-size: 11px; }
+    .tier-pill.s { background: rgba(255,80,80,0.15); color: #ff6b6b; }
+    .tier-pill.a { background: rgba(212,170,82,0.15); color: var(--gold-lt); }
+    .tier-pill.b { background: rgba(96,144,216,0.15); color: var(--tank); }
+    .tier-pill.c { background: rgba(120,120,120,0.15); color: #999; }
+
+    .score-card { background: linear-gradient(135deg, #14120a 0%, #1a1810 100%); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 24px; }
+    .score-top { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+    .score-letter-wrap { text-align: center; min-width: 110px; }
+    .score-letter { font-size: 64px; font-weight: 800; line-height: 1; color: var(--gold); }
+    .score-letter.s { color: #ff6b6b; }
+    .score-letter.a { color: var(--gold-lt); }
+    .score-letter.b { color: var(--tank); }
+    .score-letter.c { color: #999; }
+    .score-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
+    .score-summary { flex: 1; min-width: 220px; }
+    .score-summary h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .score-summary p { font-size: 14px; color: var(--text2); }
+
+    .utility-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    @media (max-width: 720px) { .utility-grid { grid-template-columns: 1fr 1fr; } }
+    .util-item { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
+    .util-icon { font-size: 22px; margin-bottom: 6px; }
+    .util-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .util-value { font-size: 14px; font-weight: 700; color: var(--text); }
+    .util-item.ok { border-color: rgba(88,200,120,0.4); }
+    .util-item.ok .util-value { color: var(--good); }
+    .util-item.miss { border-color: rgba(224,88,88,0.4); }
+    .util-item.miss .util-value { color: var(--bad); }
+    .util-item.warn .util-value { color: var(--warn); }
+
+    .suggestions { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 32px; }
+    .suggestions h3 { font-size: 16px; font-weight: 700; color: var(--gold-lt); margin-bottom: 12px; }
+    .suggestions ul { list-style: none; padding: 0; }
+    .suggestions li { font-size: 14px; color: var(--text2); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-start; }
+    .suggestions li:last-child { border-bottom: 0; }
+    .suggestions li .sug-icon { flex-shrink: 0; }
+    .suggestions li.empty { color: var(--good); justify-content: center; padding: 16px; text-align: center; }
+
+    .actions-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 20px 0 40px; }
+    .btn { padding: 10px 22px; border-radius: 99px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid var(--border); background: var(--surf2); color: var(--text2); transition: all 0.15s; }
+    .btn:hover { border-color: var(--border2); color: var(--text); background: var(--surf3); }
+    .btn.primary { background: var(--gold); color: #0a0800; border-color: var(--gold); }
+    .btn.primary:hover { background: var(--gold-lt); }
+
+    .faq-section { margin: 40px 0 56px; }
+    .faq-section h2 { font-size: 20px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 18px; }
+    .faq-item { background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .faq-q { width: 100%; padding: 14px 18px; background: none; border: none; text-align: left; cursor: pointer; color: #fff; font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; }
+    .faq-q:hover { background: var(--surf3); }
+    .faq-a { display: none; padding: 0 18px 14px; font-size: 14px; color: var(--text2); line-height: 1.7; }
+    .faq-item.open .faq-a { display: block; }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; font-size: 12px; color: var(--text3); }
+    .site-footer a { color: var(--text2); text-decoration: none; margin: 0 8px; }
+    .site-footer a:hover { color: var(--gold); }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YMTTK4WJ3F');
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:8px;margin-bottom:2px;">
+      <rect width="64" height="64" rx="13" fill="#1a0e00"/>
+      <line x1="10" y1="10" x2="54" y2="54" stroke="#d4a030" stroke-width="5" stroke-linecap="round"/>
+      <line x1="54" y1="10" x2="10" y2="54" stroke="#d4a030" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="4" fill="#f8dc80" opacity="0.9"/>
+    </svg><a href="/" style="color:inherit;text-decoration:none;">WoW Class Quiz</a> <span>Team Comp Builder</span>
+  </div>
+  <nav class="header-nav">
+    <a href="wow-quiz-free.html" class="nav-link">DPS</a>
+    <a href="wow-quiz-tank.html" class="nav-link">Tank</a>
+    <a href="wow-quiz-healer.html" class="nav-link">Healer</a>
+    <a href="tier-list.html" class="nav-link">Tier List</a>
+    <a href="classic-hub.html" class="nav-link">Classic</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="nav-link alt" target="_blank" rel="noopener">✦ Premium</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Free · WoW Midnight · Season 1</div>
+    <h1>WoW Midnight<br><em>M+ Team Comp Builder</em></h1>
+    <p>Build your 5-player group, instantly see its tier rating, utility gaps, and suggested swaps. Tier data updates weekly from current Mythic+ rankings.</p>
+    <div class="live-tag"><span class="live-dot"></span><span id="liveTag">Loading current patch…</span></div>
+  </div>
+</section>
+
+<main class="container">
+
+  <!-- 5 role slots -->
+  <div class="slots-grid">
+    <div class="slot role-tank">
+      <div class="slot-label">🛡️ Tank</div>
+      <select id="slot-tank" data-role="tank" onchange="rescoreComp()"><option value="">— Pick a tank —</option></select>
+      <div class="slot-tier" id="tier-tank"></div>
+    </div>
+    <div class="slot role-heal">
+      <div class="slot-label">💚 Healer</div>
+      <select id="slot-heal" data-role="heal" onchange="rescoreComp()"><option value="">— Pick a healer —</option></select>
+      <div class="slot-tier" id="tier-heal"></div>
+    </div>
+    <div class="slot role-dps">
+      <div class="slot-label">⚔️ DPS 1</div>
+      <select id="slot-dps1" data-role="dps" onchange="rescoreComp()"><option value="">— Pick DPS —</option></select>
+      <div class="slot-tier" id="tier-dps1"></div>
+    </div>
+    <div class="slot role-dps">
+      <div class="slot-label">⚔️ DPS 2</div>
+      <select id="slot-dps2" data-role="dps" onchange="rescoreComp()"><option value="">— Pick DPS —</option></select>
+      <div class="slot-tier" id="tier-dps2"></div>
+    </div>
+    <div class="slot role-dps">
+      <div class="slot-label">⚔️ DPS 3</div>
+      <select id="slot-dps3" data-role="dps" onchange="rescoreComp()"><option value="">— Pick DPS —</option></select>
+      <div class="slot-tier" id="tier-dps3"></div>
+    </div>
+  </div>
+
+  <!-- Score card -->
+  <section class="score-card" id="scoreCard" style="display:none;">
+    <div class="score-top">
+      <div class="score-letter-wrap">
+        <div class="score-letter" id="scoreLetter">—</div>
+        <div class="score-label">Comp Score</div>
+      </div>
+      <div class="score-summary">
+        <h2 id="scoreHeadline">Build your comp →</h2>
+        <p id="scoreDetail">Pick a tank, healer, and three DPS specs above to see your group's M+ comp score and utility coverage.</p>
+      </div>
+    </div>
+
+    <div class="utility-grid">
+      <div class="util-item" id="util-lust">
+        <div class="util-icon">🌀</div>
+        <div class="util-label">Bloodlust / Hero</div>
+        <div class="util-value" id="val-lust">—</div>
+      </div>
+      <div class="util-item" id="util-br">
+        <div class="util-icon">⚰️</div>
+        <div class="util-label">Battle Rez</div>
+        <div class="util-value" id="val-br">—</div>
+      </div>
+      <div class="util-item" id="util-md">
+        <div class="util-icon">✨</div>
+        <div class="util-label">Mass Dispel</div>
+        <div class="util-value" id="val-md">—</div>
+      </div>
+      <div class="util-item" id="util-interrupt">
+        <div class="util-icon">🚫</div>
+        <div class="util-label">Interrupts</div>
+        <div class="util-value" id="val-interrupt">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Suggestions -->
+  <section class="suggestions" id="suggestionsBox" style="display:none;">
+    <h3>💡 Suggestions</h3>
+    <ul id="suggestionsList"></ul>
+  </section>
+
+  <div class="actions-row">
+    <button class="btn primary" onclick="copyShareLink()" id="copyBtn">📋 Copy comp share link</button>
+    <button class="btn" onclick="resetComp()">↺ Reset comp</button>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>How this scoring works</h2>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How is the comp score calculated? <span>▼</span></button>
+      <div class="faq-a">Each of the five specs contributes a tier value (S=4, A=3, B=2, C=1) based on its current Mythic+ ranking. The average becomes your letter grade. Required utilities (Bloodlust, Battle Rez, Mass Dispel) penalize the score when missing — because they matter more than raw DPS at high keys.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Why does Bloodlust matter so much? <span>▼</span></button>
+      <div class="faq-a">Bloodlust (Hero / Time Warp / Primal Rage / Fury of the Aspects) gives the entire party 30% haste for 40 seconds, used twice per dungeon. Without it, you're roughly 15% slower overall — meaning more boss enrages, more affix complications, and longer keys. Bring a Mage, Shaman, Hunter, or Evoker, or use a Drums of Fury consumable.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is Battle Rez optional in M+? <span>▼</span></button>
+      <div class="faq-a">In M+ keys at +12 and below, yes — most groups can recover from a death without it. At higher keys, a missing Battle Rez often ends the run. Druid, Death Knight, Warlock, and Beast Mastery Hunter all provide one. We flag this as a warning rather than a hard penalty.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Where does the tier data come from? <span>▼</span></button>
+      <div class="faq-a">Pulled from <code>wow-patch-data.json</code>, which is auto-updated weekly by our GitHub Action scraping Icy Veins' current Mythic+ tier list. The tier letter on each spec reflects this week's M+ data.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I share my comp? <span>▼</span></button>
+      <div class="faq-a">Yes — hit "Copy comp share link" and the URL encodes your picks. Send it to your group and they'll see the same scored comp when they open it.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>
+    <a href="wow-quiz-free.html">DPS Quiz</a>
+    <a href="wow-quiz-tank.html">Tank Quiz</a>
+    <a href="wow-quiz-healer.html">Healer Quiz</a>
+    <a href="tier-list.html">Tier List</a>
+    <a href="selector.html">Class Selector</a>
+    <a href="classic-hub.html">Classic</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos">Premium</a>
+  </p>
+  <p style="margin-top:12px;">© 2026 WoW Class Quiz &nbsp;·&nbsp; Not affiliated with Blizzard Entertainment</p>
+</footer>
+
+<script>
+// ── Utility lookups ──────────────────────────────────────
+// Source: in-game tooltips, Wowhead, current Midnight tuning
+const BLOODLUST_CLASSES = ['Mage', 'Shaman', 'Hunter', 'Evoker'];
+const BATTLE_REZ_CLASSES = {
+  'Druid': true,         // Rebirth — all specs
+  'Death Knight': true,  // Raise Ally — all specs
+  'Warlock': true,       // Soulstone — all specs
+  'Hunter': 'BM_ONLY',   // Eternal Guardian — BM only
+};
+const MASS_DISPEL_CLASSES = ['Priest'];
+
+// Per-spec info: name → { class, role }
+// We seed roles + class from the JSON's tier sections so this stays consistent.
+const TIER_VALUE = { 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
+
+// State
+let PATCH_DATA = null;
+let SPECS = { tank: [], heal: [], dps: [] };
+
+async function loadData() {
+  try {
+    const res = await fetch('/wow-patch-data.json?v=' + Date.now());
+    PATCH_DATA = await res.json();
+
+    // Tank specs (class-level data with full spec names like "Brewmaster Monk")
+    SPECS.tank = Object.entries(PATCH_DATA.tank || {}).map(([name, d]) => ({
+      name, classKey: classFromSpecName(name), mplus: d.mplus, raid: d.raid
+    }));
+
+    // Healer specs (similar)
+    SPECS.heal = Object.entries(PATCH_DATA.healer || {}).map(([name, d]) => ({
+      name, classKey: classFromSpecName(name), mplus: d.mplus, raid: d.raid
+    }));
+
+    // DPS specs — use dps_specs (has all individual specs)
+    SPECS.dps = Object.entries(PATCH_DATA.dps_specs || {}).map(([name, d]) => ({
+      name, classKey: d.class, mplus: d.tier, raid: d.tier
+    }));
+
+    populateDropdowns();
+
+    const meta = PATCH_DATA._meta || {};
+    document.getElementById('liveTag').textContent =
+      'Patch ' + (meta.patch || '12.0') + ' · ' + (meta.season || 'Season 1') + ' · Updated ' + (meta.last_updated || 'recently');
+
+    // Hydrate from URL params if user shared a comp
+    hydrateFromUrl();
+  } catch (e) {
+    console.error('Failed to load tier data', e);
+    document.getElementById('liveTag').textContent = 'Tier data unavailable — refresh to retry';
+  }
+}
+
+function classFromSpecName(specName) {
+  // "Brewmaster Monk" → "Monk", "Restoration Druid" → "Druid"
+  const parts = specName.split(' ');
+  // Multi-word classes
+  if (specName.endsWith('Death Knight')) return 'Death Knight';
+  if (specName.endsWith('Demon Hunter')) return 'Demon Hunter';
+  return parts[parts.length - 1];
+}
+
+function populateDropdowns() {
+  fillSelect('slot-tank', SPECS.tank);
+  fillSelect('slot-heal', SPECS.heal);
+  fillSelect('slot-dps1', SPECS.dps);
+  fillSelect('slot-dps2', SPECS.dps);
+  fillSelect('slot-dps3', SPECS.dps);
+}
+
+function fillSelect(id, list) {
+  const sel = document.getElementById(id);
+  const cur = sel.value;
+  const placeholder = sel.options[0].cloneNode(true);
+  sel.innerHTML = '';
+  sel.appendChild(placeholder);
+  list
+    .slice()
+    .sort((a, b) => (TIER_VALUE[b.mplus] || 0) - (TIER_VALUE[a.mplus] || 0) || a.name.localeCompare(b.name))
+    .forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.name;
+      opt.textContent = s.name + ' (' + s.mplus + ')';
+      sel.appendChild(opt);
+    });
+  if (cur) sel.value = cur;
+}
+
+function getSlot(id) {
+  const sel = document.getElementById(id);
+  const name = sel.value;
+  if (!name) return null;
+  const role = sel.dataset.role;
+  const pool = SPECS[role] || [];
+  return pool.find(s => s.name === name) || null;
+}
+
+function rescoreComp() {
+  const tank = getSlot('slot-tank');
+  const heal = getSlot('slot-heal');
+  const dps1 = getSlot('slot-dps1');
+  const dps2 = getSlot('slot-dps2');
+  const dps3 = getSlot('slot-dps3');
+  const picks = [tank, heal, dps1, dps2, dps3];
+
+  // Per-slot tier pills
+  setTierPill('tier-tank', tank);
+  setTierPill('tier-heal', heal);
+  setTierPill('tier-dps1', dps1);
+  setTierPill('tier-dps2', dps2);
+  setTierPill('tier-dps3', dps3);
+
+  const filled = picks.filter(Boolean);
+  if (filled.length === 0) {
+    document.getElementById('scoreCard').style.display = 'none';
+    document.getElementById('suggestionsBox').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('scoreCard').style.display = 'block';
+
+  // ── Tier average ──
+  const totalVal = filled.reduce((sum, s) => sum + (TIER_VALUE[s.mplus] || 1), 0);
+  const avg = totalVal / filled.length;
+
+  // ── Utility checks ──
+  const classes = filled.map(s => s.classKey);
+  const fullSpecNames = filled.map(s => s.name);
+
+  const hasLust = classes.some(c => BLOODLUST_CLASSES.indexOf(c) >= 0);
+
+  const hasBR = fullSpecNames.some(spec => {
+    const cls = classFromSpecName(spec);
+    const rule = BATTLE_REZ_CLASSES[cls];
+    if (rule === true) return true;
+    if (rule === 'BM_ONLY' && spec === 'Beast Mastery Hunter') return true;
+    return false;
+  });
+
+  const hasMD = fullSpecNames.some(spec => MASS_DISPEL_CLASSES.indexOf(classFromSpecName(spec)) >= 0);
+
+  // Interrupts: assume tank + most DPS bring an interrupt (rough estimate based on count of melee/relevant ranged)
+  const interruptCount = filled.length; // generous — most specs have one
+
+  // ── Score letter (penalize missing required utility) ──
+  let score = avg;
+  if (filled.length === 5) {
+    if (!hasLust) score -= 0.6;
+    if (!hasBR)   score -= 0.3;
+    // Mass dispel is meta-dependent — only mild penalty
+    if (!hasMD)   score -= 0.1;
+  }
+  const letter = score >= 3.5 ? 'S' : score >= 2.7 ? 'A' : score >= 1.9 ? 'B' : 'C';
+
+  const letterEl = document.getElementById('scoreLetter');
+  letterEl.textContent = letter;
+  letterEl.className = 'score-letter ' + letter.toLowerCase();
+
+  // ── Headline copy ──
+  const incomplete = filled.length < 5;
+  let headline, detail;
+  if (incomplete) {
+    headline = `${filled.length}/5 picks so far`;
+    detail = 'Keep filling slots above. Your score will lock in once all five seats are picked.';
+  } else if (letter === 'S') {
+    headline = 'Top-tier comp 🔥';
+    detail = 'Multiple S/A-tier picks plus required utility — this comp will hold up at the highest keys.';
+  } else if (letter === 'A') {
+    headline = 'Solid M+ comp';
+    detail = 'Strong tier picks with most utility covered. Comfortable up through +15 keys.';
+  } else if (letter === 'B') {
+    headline = 'Workable but flawed';
+    detail = 'You can clear keys with this, but you\'re fighting the tuning. Check the suggestions below.';
+  } else {
+    headline = 'Off-meta comp';
+    detail = 'Strong friendship comp, but you\'ll outperform the meta only by playing very well. Pick what you enjoy.';
+  }
+  document.getElementById('scoreHeadline').textContent = headline;
+  document.getElementById('scoreDetail').textContent = detail;
+
+  // ── Utility tiles ──
+  setUtil('util-lust', 'val-lust', hasLust, hasLust ? 'Covered ✓' : 'Missing ✗');
+  setUtil('util-br',   'val-br',   hasBR,   hasBR   ? 'Covered ✓' : 'Missing ✗', !hasBR && filled.length === 5 ? 'warn' : null);
+  setUtil('util-md',   'val-md',   hasMD,   hasMD   ? 'Covered ✓' : 'Optional',  !hasMD ? 'warn' : null);
+  setUtil('util-interrupt', 'val-interrupt', true, interruptCount + ' / 5 specs');
+
+  // ── Suggestions ──
+  buildSuggestions({ tank, heal, dps1, dps2, dps3, hasLust, hasBR, hasMD, avg, letter });
+}
+
+function setTierPill(id, slot) {
+  const el = document.getElementById(id);
+  if (!slot) { el.innerHTML = '<span style="color:var(--text3);">Empty</span>'; return; }
+  const t = (slot.mplus || '?').toLowerCase();
+  el.innerHTML = `<span class="tier-pill ${t}">${slot.mplus}</span> <span style="color:var(--text3);">M+ tier</span>`;
+}
+
+function setUtil(boxId, valId, ok, text, override) {
+  const box = document.getElementById(boxId);
+  box.className = 'util-item ' + (override || (ok ? 'ok' : 'miss'));
+  document.getElementById(valId).textContent = text;
+}
+
+function buildSuggestions(ctx) {
+  const list = document.getElementById('suggestionsList');
+  const box = document.getElementById('suggestionsBox');
+  const tips = [];
+
+  if (!ctx.hasLust) {
+    tips.push({
+      icon: '🌀',
+      text: 'Add a Bloodlust spec — Mage, Shaman, Hunter, or Evoker — or carry Drums of Fury as a consumable backup.'
+    });
+  }
+  if (!ctx.hasBR && (ctx.tank && ctx.heal && ctx.dps1 && ctx.dps2 && ctx.dps3)) {
+    tips.push({
+      icon: '⚰️',
+      text: 'No Battle Rez. Druid, DK, Warlock (any spec) or BM Hunter all bring one — strongly recommended at +14+ keys.'
+    });
+  }
+  if (!ctx.hasMD) {
+    tips.push({
+      icon: '✨',
+      text: 'No Mass Dispel — only matters on specific dungeons. Slot a Priest if your weekly affix penalizes magic debuffs.'
+    });
+  }
+
+  // Highlight obviously weak picks
+  const filled = [ctx.tank, ctx.heal, ctx.dps1, ctx.dps2, ctx.dps3].filter(Boolean);
+  const cTier = filled.filter(s => s.mplus === 'C');
+  if (cTier.length > 0) {
+    cTier.forEach(s => {
+      tips.push({
+        icon: '⚠️',
+        text: `${s.name} is currently C-tier in M+ — consider swapping unless you really love this spec. Take the quiz to find a higher-tier alternative that fits your playstyle.`
+      });
+    });
+  }
+
+  // Augmentation note
+  if (filled.some(s => s.name === 'Augmentation Evoker')) {
+    tips.push({
+      icon: '💡',
+      text: 'Augmentation is support DPS — it buffs your top two damage dealers rather than topping the meter itself. Make sure your other DPS are spec\'d to capitalize.'
+    });
+  }
+
+  if (tips.length === 0 && filled.length === 5) {
+    list.innerHTML = '<li class="empty">✓ No obvious issues — your comp is balanced and meta-ready.</li>';
+  } else {
+    list.innerHTML = tips.map(t => `<li><span class="sug-icon">${t.icon}</span><span>${t.text}</span></li>`).join('');
+  }
+  box.style.display = tips.length > 0 || filled.length === 5 ? 'block' : 'none';
+}
+
+function resetComp() {
+  ['slot-tank','slot-heal','slot-dps1','slot-dps2','slot-dps3'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  rescoreComp();
+  history.replaceState({}, '', window.location.pathname);
+}
+
+function copyShareLink() {
+  const params = new URLSearchParams();
+  ['slot-tank','slot-heal','slot-dps1','slot-dps2','slot-dps3'].forEach((id, i) => {
+    const v = document.getElementById(id).value;
+    if (v) params.set(['tank','heal','dps1','dps2','dps3'][i], v);
+  });
+  const url = window.location.origin + window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 1600);
+    if (typeof gtag !== 'undefined') gtag('event', 'share_comp', { method: 'copy' });
+  });
+}
+
+function hydrateFromUrl() {
+  const p = new URLSearchParams(window.location.search);
+  const map = { tank: 'slot-tank', heal: 'slot-heal', dps1: 'slot-dps1', dps2: 'slot-dps2', dps3: 'slot-dps3' };
+  let any = false;
+  Object.entries(map).forEach(([k, id]) => {
+    const v = p.get(k);
+    if (v) {
+      const sel = document.getElementById(id);
+      if (Array.from(sel.options).some(o => o.value === v)) {
+        sel.value = v;
+        any = true;
+      }
+    }
+  });
+  if (any) rescoreComp();
+}
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
+</body>
+</html>

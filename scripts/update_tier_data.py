@@ -35,13 +35,67 @@ DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "wow-patch-data.json")
 NOTIFY_EMAIL = "jy.220529@gmail.com"
 FROM_EMAIL = "jy.220529@gmail.com"
 
-# Icy Veins tier list URLs (one per role)
-# Updated for WoW Midnight — old /wow/dps-tier-list etc. return 404
-ICYVEINS_URLS = {
+# Icy Veins hub page — used to dynamically discover current tier list URLs.
+# If the hub scrape fails, these fallback URLs are used instead.
+ICYVEINS_HUB = "https://www.icy-veins.com/wow/tier-lists"
+ICYVEINS_FALLBACK_URLS = {
     "dps":    "https://www.icy-veins.com/wow/mythic-dps-tier-list",
     "tank":   "https://www.icy-veins.com/wow/mythic-tank-tier-list",
     "healer": "https://www.icy-veins.com/wow/mythic-healer-tier-list",
 }
+
+# Keywords used to identify the right link on the hub page for each role
+ICYVEINS_HUB_KEYWORDS = {
+    "dps":    ["mythic", "dps", "ranking"],
+    "tank":   ["mythic", "tank", "ranking"],
+    "healer": ["mythic", "healer", "ranking"],
+}
+
+
+def discover_icyveins_urls() -> dict:
+    """
+    Scrape the Icy Veins tier-lists hub page to find the current M+ tier list URLs
+    for DPS, Tank, and Healer. Falls back to ICYVEINS_FALLBACK_URLS if scraping fails
+    or a URL can't be found.
+
+    This makes the script resilient to Icy Veins renaming their URL slugs between
+    expansions (e.g. /dps-tier-list → /mythic-dps-tier-list).
+    """
+    discovered = {}
+    try:
+        html = fetch_tier_page(ICYVEINS_HUB)
+        # Find all href="/wow/..." links on the hub page
+        links = re.findall(r'href="(https?://www\.icy-veins\.com/wow/[^"]+)"[^>]*>([^<]+)<', html)
+        # Also catch relative links
+        rel_links = re.findall(r'href="(/wow/[^"]+)"[^>]*>([^<]+)<', html)
+        all_links = links + [("https://www.icy-veins.com" + p, t) for p, t in rel_links]
+
+        for role, keywords in ICYVEINS_HUB_KEYWORDS.items():
+            best_url = None
+            best_score = 0
+            for url, text in all_links:
+                combined = (url + " " + text).lower()
+                score = sum(1 for kw in keywords if kw in combined)
+                # Prefer URLs that contain all keywords and are actual tier list pages
+                if score > best_score and "tier-list" in url or "ranking" in url:
+                    best_score = score
+                    best_url = url
+            if best_url and best_score >= 2:
+                discovered[role] = best_url
+                print(f"  Discovered {role} URL: {best_url}")
+            else:
+                discovered[role] = ICYVEINS_FALLBACK_URLS[role]
+                print(f"  Could not discover {role} URL from hub — using fallback: {ICYVEINS_FALLBACK_URLS[role]}")
+    except Exception as e:
+        print(f"  WARNING: Hub page scrape failed ({e}) — using all fallback URLs")
+        return dict(ICYVEINS_FALLBACK_URLS)
+
+    # Fill any missing roles with fallbacks
+    for role, url in ICYVEINS_FALLBACK_URLS.items():
+        if role not in discovered:
+            discovered[role] = url
+
+    return discovered
 
 # Map Icy Veins display names → our JSON keys
 # Update this dict if Icy Veins changes their display names.
@@ -303,7 +357,10 @@ def main():
     print(f"WoW Class Quiz — Tier Update Run ({today}, patch {patch})")
     print("=" * 60)
 
-    for role, url in ICYVEINS_URLS.items():
+    print("\nDiscovering current Icy Veins tier list URLs...")
+    icyveins_urls = discover_icyveins_urls()
+
+    for role, url in icyveins_urls.items():
         print(f"\nFetching {role} tier list from {url} ...")
         try:
             html = fetch_tier_page(url)

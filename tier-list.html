@@ -215,12 +215,12 @@
 <div class="container">
 
   <section class="hero">
-    <p class="hero-eyebrow">WoW Midnight · Season 1 · Patch 12.0</p>
+    <p class="hero-eyebrow" id="heroEyebrow">WoW Midnight · Season 1 · Patch</p>
     <h1>WoW Midnight<br><em>Class Tier List</em></h1>
     <p>Best DPS, Tank, and Healer specs for Raid and Mythic+ — Season 1 rankings based on current performance data.</p>
-    <div class="freshness-note">
+    <div class="freshness-note" id="freshnessNote">
       <div class="freshness-dot"></div>
-      Updated May 2026 · Patch 12.0 · Data: Warcraftlogs &amp; M+ rankings
+      Loading current patch data…
     </div>
   </section>
 
@@ -242,14 +242,29 @@
 
   <!-- Tank Tier List -->
   <div class="role-section" id="section-tank">
+    <div id="tank-dim-toggle"></div>
     <div id="tank-tiers"><p style="color:var(--text3);font-size:14px;">Loading tier data…</p></div>
-    <p style="font-size:13px;color:var(--text3);margin-top:16px;">Tank rankings are closer together than DPS — every tank can clear all content. Playstyle preference matters far more here. <a href="wow-quiz-tank.html" style="color:var(--gold-lt);text-decoration:none;">Take the tank quiz →</a></p>
+    <p style="font-size:13px;color:var(--text3);margin-top:16px;">Tank rankings are closer together than DPS — every tank can clear all content. Toggle Mythic+ vs Raid above: Brewmaster leads M+, Guardian leads Raid. <a href="wow-quiz-tank.html" style="color:var(--gold-lt);text-decoration:none;">Take the tank quiz →</a></p>
   </div>
 
   <!-- Healer Tier List -->
   <div class="role-section" id="section-heal">
+    <div id="heal-dim-toggle"></div>
     <div id="heal-tiers"><p style="color:var(--text3);font-size:14px;">Loading tier data…</p></div>
-    <p style="font-size:13px;color:var(--text3);margin-top:16px;">Healer rankings vary heavily between raid and M+. Preservation Evoker leads in M+; Restoration Druid leads in raid. <a href="wow-quiz-healer.html" style="color:var(--gold-lt);text-decoration:none;">Take the healer quiz →</a></p>
+    <p style="font-size:13px;color:var(--text3);margin-top:16px;">Healer rankings vary heavily between raid and M+ — toggle above to compare. Resto Druid and Preservation Evoker top both. <a href="wow-quiz-healer.html" style="color:var(--gold-lt);text-decoration:none;">Take the healer quiz →</a></p>
+  </div>
+
+  <!-- Email signup — tier shift alerts -->
+  <div id="emailSignup" style="background:linear-gradient(135deg,#10141c 0%,#14180e 100%);border:1px solid rgba(212,170,82,0.3);border-radius:16px;padding:32px 28px;margin:32px 0;text-align:center;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Tier Shift Alerts · Free</div>
+    <h2 style="font-size:22px;font-weight:700;color:#fff;margin-bottom:10px;">Get notified when this tier list changes</h2>
+    <p style="font-size:14px;color:var(--text2);max-width:480px;margin:0 auto 22px;">Blizzard hotfixes specs every 1–2 weeks. We'll email you when your class's tier ranking shifts — no spam, no other content. One email per patch change.</p>
+    <form id="emailForm" onsubmit="return submitEmail(event)" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:440px;margin:0 auto;">
+      <input id="emailInput" type="email" required placeholder="you@example.com" style="flex:1;min-width:220px;background:#1a1810;border:1px solid var(--border);color:#fff;padding:11px 16px;border-radius:99px;font-size:14px;font-family:inherit;outline:none;">
+      <button type="submit" style="background:var(--gold);color:#0a0800;border:none;padding:11px 22px;border-radius:99px;font-weight:700;font-size:14px;cursor:pointer;">Notify me →</button>
+    </form>
+    <div id="emailMsg" style="margin-top:12px;font-size:13px;color:var(--gold-lt);display:none;">✓ You're on the list. Next tier shift, we'll email you.</div>
+    <div id="emailErr" style="margin-top:12px;font-size:13px;color:#e05858;display:none;">Hmm — that didn't work. Try again in a minute or check your email.</div>
   </div>
 
   <!-- Quiz CTA -->
@@ -356,11 +371,13 @@
     return html;
   }
 
-  function buildSimpleTierBlocks(specs, role) {
+  function buildSimpleTierBlocks(specs, role, dimension) {
     // For tank/healer: specs is { "Blood Death Knight": { mplus, raid }, ... }
+    // dimension: 'mplus' (default) or 'raid'
+    dimension = dimension || 'mplus';
     const grouped = { S: [], A: [], B: [], C: [] };
     Object.entries(specs).forEach(([name, data]) => {
-      const t = data.mplus || '?';
+      const t = data[dimension] || data.mplus || '?';
       if (grouped[t]) grouped[t].push(name);
     });
     let html = '';
@@ -381,16 +398,43 @@
     return html;
   }
 
+  function buildDimensionToggle(role) {
+    return `<div class="dim-toggle" style="display:flex;gap:6px;margin-bottom:18px;background:var(--surf2);border:1px solid var(--border);border-radius:99px;padding:4px;max-width:280px;">
+      <button class="dim-btn active" data-dim="mplus" onclick="switchDim('${role}','mplus',this)" style="flex:1;background:var(--surf3);border:none;color:var(--gold-lt);padding:7px 12px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;">Mythic+</button>
+      <button class="dim-btn" data-dim="raid" onclick="switchDim('${role}','raid',this)" style="flex:1;background:transparent;border:none;color:var(--text2);padding:7px 12px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;">Raid</button>
+    </div>`;
+  }
+
+  // Holds the latest spec data for re-rendering on dim toggle
+  const ROLE_DATA = {};
+
+  function switchDim(role, dim, btn) {
+    const container = btn.closest('.role-section').querySelector('.dim-toggle');
+    container.querySelectorAll('.dim-btn').forEach(b => {
+      const active = b.dataset.dim === dim;
+      b.classList.toggle('active', active);
+      b.style.background = active ? 'var(--surf3)' : 'transparent';
+      b.style.color = active ? 'var(--gold-lt)' : 'var(--text2)';
+    });
+    const target = document.getElementById((role === 'heal' ? 'heal' : role) + '-tiers');
+    if (target && ROLE_DATA[role]) {
+      target.innerHTML = buildSimpleTierBlocks(ROLE_DATA[role], role, dim);
+    }
+  }
+
   async function loadTierData() {
     try {
       const res = await fetch('/wow-patch-data.json?v=' + Date.now());
       const data = await res.json();
 
-      // Update freshness note
+      // Update freshness note + hero eyebrow with live patch from JSON
       const updated = data._meta && data._meta.last_updated;
       const patch   = data._meta && data._meta.patch;
+      const season  = (data._meta && data._meta.season) || 'Season 1';
+      const eyebrow = document.getElementById('heroEyebrow');
+      if (eyebrow && patch) eyebrow.textContent = `WoW Midnight · ${season} · Patch ${patch}`;
       if (updated) {
-        const note = document.querySelector('.freshness-note');
+        const note = document.getElementById('freshnessNote');
         if (note) note.innerHTML = `<div class="freshness-dot"></div>Updated ${updated} · Patch ${patch || ''} · Data: Warcraftlogs &amp; M+ rankings`;
       }
 
@@ -399,14 +443,20 @@
         document.getElementById('dps-tiers').innerHTML = buildTierBlocks(data.dps_specs, 'dps');
       }
 
-      // Tank — class-level
+      // Tank — class-level (with M+/Raid dimension toggle)
       if (data.tank) {
-        document.getElementById('tank-tiers').innerHTML = buildSimpleTierBlocks(data.tank, 'tank');
+        ROLE_DATA.tank = data.tank;
+        const tankToggle = document.getElementById('tank-dim-toggle');
+        if (tankToggle) tankToggle.innerHTML = buildDimensionToggle('tank');
+        document.getElementById('tank-tiers').innerHTML = buildSimpleTierBlocks(data.tank, 'tank', 'mplus');
       }
 
-      // Healer — class-level
+      // Healer — class-level (with M+/Raid dimension toggle)
       if (data.healer) {
-        document.getElementById('heal-tiers').innerHTML = buildSimpleTierBlocks(data.healer, 'heal');
+        ROLE_DATA.heal = data.healer;
+        const healToggle = document.getElementById('heal-dim-toggle');
+        if (healToggle) healToggle.innerHTML = buildDimensionToggle('heal');
+        document.getElementById('heal-tiers').innerHTML = buildSimpleTierBlocks(data.healer, 'heal', 'mplus');
       }
 
     } catch (e) {
@@ -433,6 +483,32 @@
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Email signup for tier-shift alerts ─────────────────
+  const FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+  function submitEmail(e) {
+    e.preventDefault();
+    const email = (document.getElementById('emailInput').value || '').trim().toLowerCase();
+    const okEl = document.getElementById('emailMsg');
+    const errEl = document.getElementById('emailErr');
+    okEl.style.display = 'none';
+    errEl.style.display = 'none';
+    if (!email || email.indexOf('@') === -1) { errEl.style.display = 'block'; return false; }
+    try {
+      fetch(FEEDBACK_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ type: 'subscribe', email: email, source: 'tier-list', ts: new Date().toISOString() })
+      });
+      if (typeof gtag !== 'undefined') gtag('event', 'subscribe_tier_alerts', { source: 'tier-list' });
+      okEl.style.display = 'block';
+      document.getElementById('emailForm').reset();
+    } catch (err) {
+      errEl.style.display = 'block';
+    }
+    return false;
   }
 </script>
 

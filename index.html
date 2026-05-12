@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WoW Class Quiz — Find Your Perfect Class (2026)</title>
-  <meta name="description" content="Find your perfect WoW Midnight or Classic class in 2 minutes. Free quizzes for DPS, Tank, and Healer — 12 DPS classes, 6 tank specs, 7 healer specs. No tier list bias, just your playstyle.">
+  <meta name="description" content="Find your perfect WoW Midnight or Classic class in 2 minutes. Free quizzes for DPS, Tank, and Healer — 13 DPS classes, 6 tank specs, 7 healer specs. No tier list bias, just your playstyle.">
   <link rel="canonical" href="https://wowclassquiz.com/">
   <meta name="application-name" content="WoW Class Quiz">
   <!-- Favicon -->
@@ -41,12 +41,7 @@
     "offers": [
       { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Quiz" },
       { "@type": "Offer", "price": "1.99", "priceCurrency": "USD", "name": "Premium Deep-Dive Quiz" }
-    ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "47"
-    }
+    ]
   }
   </script>
 
@@ -93,7 +88,7 @@
         "name": "Which WoW Midnight classes are covered?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The DPS quiz covers all 12 DPS classes in WoW Midnight. The Tank quiz covers all 6 tank specs (Blood DK, Vengeance DH, Guardian Druid, Brewmaster Monk, Protection Paladin, Protection Warrior). The Healer quiz covers all 7 healer specs (Resto Druid, Preservation Evoker, Mistweaver Monk, Holy Paladin, Holy Priest, Discipline Priest, Resto Shaman)."
+          "text": "The DPS quiz covers all 13 DPS classes in WoW Midnight (including Shadow Priest). The Tank quiz covers all 6 tank specs (Blood DK, Vengeance DH, Guardian Druid, Brewmaster Monk, Protection Paladin, Protection Warrior). The Healer quiz covers all 7 healer specs (Resto Druid, Preservation Evoker, Mistweaver Monk, Holy Paladin, Holy Priest, Discipline Priest, Resto Shaman)."
         }
       },
       {
@@ -187,7 +182,18 @@
     .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
     .hero h1 { font-size: clamp(28px,5vw,46px); font-weight: 700; color: #fff; line-height: 1.18; margin-bottom: 18px; }
     .hero h1 em { color: var(--gold-lt); font-style: normal; }
-    .hero p { font-size: 18px; color: var(--text2); max-width: 540px; margin: 0 auto 40px; line-height: 1.6; }
+    .hero p { font-size: 18px; color: var(--text2); max-width: 540px; margin: 0 auto 28px; line-height: 1.6; }
+    .hero-cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+    .hero-cta-primary { display: inline-block; padding: 15px 32px; background: var(--gold); color: #0a0800; font-size: 16px; font-weight: 700; border-radius: 99px; text-decoration: none; transition: transform 0.15s, background 0.15s; box-shadow: 0 4px 18px rgba(212,170,82,0.25); }
+    .hero-cta-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .hero-cta-secondary { display: inline-block; padding: 14px 24px; color: var(--text2); font-size: 14px; font-weight: 600; border: 1px solid var(--border); border-radius: 99px; text-decoration: none; transition: all 0.15s; }
+    .hero-cta-secondary:hover { color: var(--text); border-color: var(--border2); }
+    .hero-trust { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; font-size: 12px; color: var(--text3); }
+    .hero-trust span { white-space: nowrap; }
+    @media (max-width: 540px) {
+      .hero-cta-primary { padding: 14px 28px; font-size: 15px; }
+      .hero-trust { gap: 10px; font-size: 11px; }
+    }
 
     .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 48px; }
 
@@ -224,6 +230,14 @@
     .premium-price span { font-size: 14px; font-weight: 400; color: #9090b0; display: block; }
     .btn-premium-main { display: inline-block; margin-top: 12px; background: #8b7dd8; color: #fff; font-size: 14px; font-weight: 700; padding: 11px 24px; border-radius: 99px; text-decoration: none; border: none; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
     .btn-premium-main:hover { background: #b0a5e8; color: #111; }
+
+    .more-tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .more-tool-card { display: block; background: var(--surf2); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; text-decoration: none; transition: transform 0.15s, border-color 0.2s, background 0.2s; }
+    .more-tool-card:hover { transform: translateY(-2px); border-color: var(--gold-dk); background: var(--surf3); }
+    .more-tool-icon { font-size: 28px; margin-bottom: 10px; }
+    .more-tool-title { font-size: 15px; font-weight: 700; color: var(--gold-lt); margin-bottom: 6px; }
+    .more-tool-sub { font-size: 13px; color: var(--text2); line-height: 1.5; }
+    @media (max-width: 680px) { .more-tools-grid { grid-template-columns: 1fr; } }
 
     .how-section { margin-bottom: 48px; }
     .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-align: center; margin-bottom: 24px; }
@@ -304,8 +318,10 @@
     <a href="wow-quiz-free.html" class="nav-link">DPS</a>
     <a href="wow-quiz-tank.html" class="nav-link">Tank</a>
     <a href="wow-quiz-healer.html" class="nav-link">Healer</a>
+    <a href="tier-list.html" class="nav-link">Tier List</a>
+    <a href="team-comp-builder.html" class="nav-link">Team Comp</a>
     <a href="classic-hub.html" class="nav-link">Classic</a>
-    <a href="https://jynova2.gumroad.com/l/yejhos" class="nav-link alt" target="_blank" rel="noopener">✦ Premium — $1.99</a>
+    <a href="https://jynova2.gumroad.com/l/yejhos" class="nav-link alt" target="_blank" rel="noopener">✦ Premium</a>
   </nav>
 </header>
 
@@ -326,6 +342,16 @@
     <div class="hero-eyebrow">Free · WoW Midnight · All Roles</div>
     <h1>WoW Class Quiz — Find your perfect class<br>for <em>WoW Midnight</em> &amp; Classic</h1>
     <p>Pick your role, answer 9 playstyle questions, get your perfect class match — no tier list bias, no spreadsheets required.</p>
+    <div class="hero-cta-row">
+      <a href="wow-quiz-free.html" class="hero-cta-primary">Start the Free Quiz →</a>
+      <a href="#role-picker" class="hero-cta-secondary">Pick a different role</a>
+    </div>
+    <div class="hero-trust">
+      <span>✓ 13 DPS classes</span>
+      <span>✓ 6 tank specs</span>
+      <span>✓ 7 healer specs</span>
+      <span>✓ Tier data updated weekly</span>
+    </div>
   </div>
 </section>
 
@@ -347,15 +373,15 @@
 
 <!-- Retail: Role picker -->
 <div id="retail-content">
-<section class="container">
+<section class="container" id="role-picker">
   <div class="role-grid">
 
     <div class="role-card dps">
       <div class="role-icon">⚔️</div>
       <div class="role-title">DPS</div>
-      <div class="role-sub">Find your perfect damage dealer from all 12 DPS classes in Midnight</div>
+      <div class="role-sub">Find your perfect damage dealer from all 13 DPS classes in Midnight</div>
       <div class="role-stats">
-        <span class="role-stat">12 classes</span>
+        <span class="role-stat">13 classes</span>
         <span class="role-stat">9 questions</span>
         <span class="role-stat">~2 min</span>
       </div>
@@ -411,37 +437,25 @@
 </section>
 </div><!-- /classic-content -->
 
-<!-- Mid-page ad -->
-<div class="ad-section">
-  <div class="ad-slot ad-rectangle">
-    <!-- AdSense rectangle
-    <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    -->
-    Advertisement
-  </div>
-</div>
-
-<!-- Premium section -->
+<!-- More tools row (replaces homepage premium banner — premium is now pitched on results pages) -->
 <section class="container premium-section">
-  <div class="premium-banner">
-    <div class="premium-text">
-      <div class="premium-tag">✦ Premium Deep Analysis</div>
-      <h2>30 questions. Spec-by-spec tier ratings. Your personal roadmap to Cutting Edge.</h2>
-      <p>The premium quizzes go 3× deeper than the free versions — available for all three Midnight roles and Classic WoW:</p>
-      <ul style="list-style:none;padding:0;margin:10px 0 0;text-align:left;">
-        <li style="font-size:13px;color:#9090b0;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);">⚔️ <strong style="color:#e0e0f0;">Per-spec Mythic &amp; M+ tier ratings</strong> — know where your class stands this patch</li>
-        <li style="font-size:13px;color:#9090b0;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);">⚔️ <strong style="color:#e0e0f0;">"Perfect for you if / avoid if"</strong> — honest fit analysis for every spec</li>
-        <li style="font-size:13px;color:#9090b0;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);">⚔️ <strong style="color:#e0e0f0;">Complexity &amp; skill ceiling scores</strong> — know what you're signing up for</li>
-        <li style="font-size:13px;color:#9090b0;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);">⚔️ <strong style="color:#e0e0f0;">Personalized 5-step learning roadmap</strong> — from re-roll to Cutting Edge</li>
-        <li style="font-size:13px;color:#9090b0;padding:4px 0;">⚔️ <strong style="color:#e0e0f0;">Classic: leveling roadmaps, race picks, PvP &amp; raid utility breakdowns</strong></li>
-      </ul>
-    </div>
-    <div class="premium-right">
-      <div class="premium-price">$1.99 <span>one-time</span></div>
-      <a href="https://jynova2.gumroad.com/l/yejhos" class="btn-premium-main" target="_blank" rel="noopener">Get Premium — $1.99 →</a>
-      <div style="margin-top:10px;font-size:12px;color:#6a5a80;">Already purchased? <a href="wow-quiz-premium-hub.html" style="color:#b0a5e8;text-decoration:underline;">Access all quizzes here</a></div>
-    </div>
+  <div class="section-label">More tools</div>
+  <div class="more-tools-grid">
+    <a href="tier-list.html" class="more-tool-card">
+      <div class="more-tool-icon">📊</div>
+      <div class="more-tool-title">Midnight Tier List</div>
+      <div class="more-tool-sub">Live S/A/B/C rankings for every spec — auto-updated weekly from Icy Veins.</div>
+    </a>
+    <a href="team-comp-builder.html" class="more-tool-card">
+      <div class="more-tool-icon">🧩</div>
+      <div class="more-tool-title">M+ Team Comp Builder</div>
+      <div class="more-tool-sub">Build a 5-player M+ group, score the comp, get suggested swaps.</div>
+    </a>
+    <a href="selector.html" class="more-tool-card">
+      <div class="more-tool-icon">🔍</div>
+      <div class="more-tool-title">Class Selector</div>
+      <div class="more-tool-sub">Browse every class side-by-side. Filter by role, complexity, fantasy.</div>
+    </a>
   </div>
 </section>
 
@@ -531,6 +545,10 @@
     <a href="wow-quiz-free.html">DPS Quiz</a>
     <a href="wow-quiz-tank.html">Tank Quiz</a>
     <a href="wow-quiz-healer.html">Healer Quiz</a>
+    <a href="tier-list.html">Tier List</a>
+    <a href="team-comp-builder.html">Team Comp Builder</a>
+    <a href="selector.html">Class Selector</a>
+    <a href="classic-hub.html">Classic</a>
     <a href="https://jynova2.gumroad.com/l/yejhos">Premium</a>
   </p>
   <p style="margin-top:12px;">© 2026 WoW Class Quiz &nbsp;·&nbsp; Not affiliated with Blizzard Entertainment</p>

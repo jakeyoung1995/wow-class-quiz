@@ -217,7 +217,14 @@
       <div class="gate-feat">Step-by-step learning roadmap to progression healing</div>
     </div>
     <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $1.99 →</a>
-    <div class="gate-restore">Already purchased? <a onclick="restoreAccess()">Click here after buying</a> — works instantly from the link in your confirmation email.</div>
+    <div class="gate-restore">
+      <div style="margin-top:14px;">Already purchased? Enter your unlock word:</div>
+      <div style="display:flex;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap;">
+        <input id="unlockInput" type="text" placeholder="Unlock word" style="background:#1e2636;border:1px solid rgba(180,150,70,0.4);color:#f2e8d5;padding:8px 14px;border-radius:99px;font-size:13px;font-family:inherit;min-width:160px;" autocomplete="off">
+        <button onclick="unlockWithWord()" style="background:#58c878;color:#0a1808;border:none;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13px;cursor:pointer;">Unlock →</button>
+      </div>
+      <div id="unlockErr" style="color:#e05858;font-size:12px;margin-top:8px;display:none;">That doesn't look right — check your Gumroad email for the word.</div>
+    </div>
   </div>
 </div>
 
@@ -334,8 +341,19 @@ function hasStoredAccess() {
 }
 function restoreAccess() {
   if (hasStoredAccess()) { dismissGate(); }
-  else { alert('No purchase found on this browser.\n\nOpen the confirmation email from Gumroad and click the product link — it will unlock access on this device automatically.'); }
+  else { alert('No purchase found on this browser.\n\nOpen the confirmation email from Gumroad and click the product link — or enter the unlock word manually below.'); }
 }
+function unlockWithWord() {
+  const input = document.getElementById('unlockInput');
+  const err = document.getElementById('unlockErr');
+  const val = (input && input.value || '').trim().toUpperCase();
+  if (val === UNLOCK_WORD) { saveAccess(); dismissGate(); }
+  else { if (err) err.style.display = 'block'; if (input) input.focus(); }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const i = document.getElementById('unlockInput');
+  if (i) i.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); unlockWithWord(); } });
+});
 (function checkAccess() {
   if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') { dismissGate(); return; }
   const params = new URLSearchParams(window.location.search);
@@ -894,10 +912,16 @@ function restart() {
 
 var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
 
+var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+
 function initFeedbackWidget(quizType, topClass) {
   var stars = 0, recommend = null;
   var starBtns = document.querySelectorAll('.star-btn');
-  function litStars(n) { starBtns.forEach(function(b) { b.classList.toggle('lit', parseInt(b.dataset.v) <= n); }); }
+  function litStars(n) {
+    starBtns.forEach(function(b) {
+      b.classList.toggle('lit', parseInt(b.dataset.v) <= n);
+    });
+  }
   starBtns.forEach(function(btn) {
     btn.addEventListener('mouseover', function() { litStars(parseInt(btn.dataset.v)); });
     btn.addEventListener('mouseout', function() { litStars(stars); });
@@ -910,20 +934,46 @@ function initFeedbackWidget(quizType, topClass) {
     document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
     document.getElementById('fbNo').classList.toggle('selected', v === 'no');
   }
-  document.getElementById('fbYes').addEventListener('click', function() { recommend = 'yes'; setYN('yes'); document.getElementById('fbQ3').style.display = 'block'; });
-  document.getElementById('fbNo').addEventListener('click', function() { recommend = 'no'; setYN('no'); document.getElementById('fbQ3').style.display = 'block'; });
+  document.getElementById('fbYes').addEventListener('click', function() {
+    recommend = 'yes'; setYN('yes');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
+  document.getElementById('fbNo').addEventListener('click', function() {
+    recommend = 'no'; setYN('no');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
   document.getElementById('fbSubmit').addEventListener('click', function() {
-    var payload = { quiz_type: quizType, top_class: topClass, stars: stars, recommend: recommend, comment: document.getElementById('fbComment').value.trim() };
+    var payload = {
+      quiz_type: quizType,
+      top_class: topClass,
+      stars: stars,
+      recommend: recommend,
+      comment: document.getElementById('fbComment').value.trim()
+    };
     if (FEEDBACK_ENDPOINT) {
-      fetch(FEEDBACK_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) });
+      fetch(FEEDBACK_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
     }
     document.getElementById('fbQ1').style.display = 'none';
     document.getElementById('fbQ2').style.display = 'none';
     document.getElementById('fbQ3').style.display = 'none';
-    document.getElementById('fbThanks').style.display = 'flex';
+    var t = document.getElementById('fbThanks');
+    t.style.display = 'flex';
   });
 }
 
+function copyLink(e) {
+  if (e) e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var c = document.getElementById('copyConfirm');
+    if (c) { c.style.opacity = '1'; setTimeout(function(){ c.style.opacity = '0'; }, 2000); }
+  });
+  return false;
+}
 </script>
 </body>
 </html>

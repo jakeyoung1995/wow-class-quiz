@@ -6,15 +6,19 @@ Weekly automated tier list updater for WoW Class Quiz.
 
 Run by GitHub Actions every Monday. Fetches current tier data from Icy Veins,
 compares to wow-patch-data.json, and:
-  - For tier-only changes: updates the JSON and commits to main (auto-deploys via Netlify)
+  - For tier-only changes: updates the JSON and commits to main (auto-deploys via GitHub Pages)
   - For structural changes (new specs, removed specs, new classes): opens a GitHub Issue
     for manual review instead of auto-merging.
-  - Sends an email to jy.220529@gmail.com summarising what was done.
+  - Sends an admin email to NOTIFY_EMAIL summarising what was done.
+  - For tier changes, ALSO fetches the email subscriber list from the Apps Script endpoint
+    and sends each subscriber a "tier shift" notification.
 
 Environment variables (set as GitHub Secrets):
-  GMAIL_APP_PASSWORD   — 16-char Google App Password for rottout.tv@gmail.com
-  GITHUB_TOKEN         — automatically provided by GitHub Actions
-  GITHUB_REPOSITORY    — automatically provided by GitHub Actions (owner/repo)
+  GMAIL_APP_PASSWORD     — 16-char Google App Password for jy.220529@gmail.com
+  GITHUB_TOKEN           — automatically provided by GitHub Actions
+  GITHUB_REPOSITORY      — automatically provided by GitHub Actions (owner/repo)
+  SUBSCRIBER_FETCH_URL   — (optional) Google Apps Script endpoint that returns JSON list of subscriber emails
+  SUBSCRIBER_FETCH_KEY   — (optional) shared secret appended as ?key=… to SUBSCRIBER_FETCH_URL
 """
 
 import json
@@ -77,7 +81,7 @@ def discover_icyveins_urls() -> dict:
                 combined = (url + " " + text).lower()
                 score = sum(1 for kw in keywords if kw in combined)
                 # Prefer URLs that contain all keywords and are actual tier list pages
-                if score > best_score and "tier-list" in url or "ranking" in url:
+                if score > best_score and ("tier-list" in url or "ranking" in url):
                     best_score = score
                     best_url = url
             if best_url and best_score >= 2:
@@ -318,25 +322,157 @@ def create_github_issue(title: str, body: str):
 # ---------------------------------------------------------------------------
 # Email notification
 # ---------------------------------------------------------------------------
-def send_email(subject: str, body: str):
-    """Send a plain-text notification email via Gmail SMTP."""
+def send_email(subject: str, body: str, to_email: str = None, html_body: str = None):
+    """
+    Send an email via Gmail SMTP.
+      - to_email: recipient (defaults to admin NOTIFY_EMAIL).
+      - html_body: optional HTML alternative for prettier subscriber emails.
+    """
     password = os.environ.get("GMAIL_APP_PASSWORD", "")
     if not password:
         print("WARNING: GMAIL_APP_PASSWORD not set — skipping email")
-        return
+        return False
 
-    msg = MIMEText(body, "plain")
+    to_email = to_email or NOTIFY_EMAIL
+
+    if html_body:
+        from email.mime.multipart import MIMEMultipart
+        msg = MIMEMultipart("alternative")
+        msg.attach(MIMEText(body, "plain"))
+        msg.attach(MIMEText(html_body, "html"))
+    else:
+        msg = MIMEText(body, "plain")
+
     msg["Subject"] = subject
-    msg["From"] = FROM_EMAIL
-    msg["To"] = NOTIFY_EMAIL
+    msg["From"] = f"WoW Class Quiz <{FROM_EMAIL}>"
+    msg["To"] = to_email
 
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(FROM_EMAIL, password)
-            server.sendmail(FROM_EMAIL, [NOTIFY_EMAIL], msg.as_string())
-        print(f"Email sent to {NOTIFY_EMAIL}")
+            server.sendmail(FROM_EMAIL, [to_email], msg.as_string())
+        return True
     except Exception as e:
-        print(f"Failed to send email: {e}")
+        print(f"Failed to send email to {to_email}: {e}")
+        return False
+
+
+def fetch_subscribers() -> list:
+    """
+    Fetch the email subscriber list from the Apps Script endpoint.
+    Expects the endpoint to return a JSON array of email strings (or {emails: [...]}) .
+    Returns [] if not configured or on error.
+    """
+    fetch_url = os.environ.get("SUBSCRIBER_FETCH_URL", "")
+    fetch_key = os.environ.get("SUBSCRIBER_FETCH_KEY", "")
+    if not fetch_url:
+        print("  (no SUBSCRIBER_FETCH_URL set — skipping subscriber emails)")
+        return []
+    url = fetch_url
+    if fetch_key:
+        sep = "&" if "?" in url else "?"
+        url = f"{url}{sep}key={fetch_key}"
+    try:
+        req_obj = urllib.request.Request(url, headers={"User-Agent": "wowclassquiz-tier-bot"})
+        with urllib.request.urlopen(req_obj, timeout=20) as resp:
+            data = json.loads(resp.read().decode("utf-8", errors="replace"))
+        if isinstance(data, list):
+            emails = data
+        elif isinstance(data, dict):
+            emails = data.get("emails") or data.get("subscribers") or []
+        else:
+            emails = []
+        # Dedupe + light validation
+        cleaned = sorted({e.strip().lower() for e in emails if isinstance(e, str) and "@" in e})
+        print(f"  Fetched {len(cleaned)} subscribers")
+        return cleaned
+    except Exception as e:
+        print(f"  Failed to fetch subscribers: {e}")
+        return []
+
+
+def build_tier_shift_email(all_tier_changes, patch):
+    """Build a friendly subscriber email about tier changes this week."""
+    if not all_tier_changes:
+        return None, None, None
+
+    role_labels = {"dps": "DPS", "tank": "Tank", "healer": "Healer"}
+    arrow_color = {
+        # going up = green, going down = grey
+        ("S", "A"): "#b0a080", ("S", "B"): "#b0a080", ("S", "C"): "#b0a080",
+        ("A", "B"): "#b0a080", ("A", "C"): "#b0a080",
+        ("B", "C"): "#b0a080",
+        ("A", "S"): "#58c878", ("B", "S"): "#58c878", ("C", "S"): "#58c878",
+        ("B", "A"): "#58c878", ("C", "A"): "#58c878",
+        ("C", "B"): "#58c878",
+    }
+
+    subject = f"Tier shift this week — {len(all_tier_changes)} change(s) in patch {patch}"
+
+    plain_lines = [
+        f"Hey — tier rankings just shifted for patch {patch}.",
+        "",
+        "What changed this week:",
+    ]
+    html_rows = []
+    for role, key, old_t, new_t in all_tier_changes:
+        plain_lines.append(f"  • [{role_labels.get(role, role)}] {key}: {old_t} → {new_t}")
+        color = arrow_color.get((old_t, new_t), "#d4aa52")
+        html_rows.append(
+            f'<tr><td style="padding:6px 14px;color:#b0a080;font-size:13px;">{role_labels.get(role, role)}</td>'
+            f'<td style="padding:6px 14px;color:#f0e8d8;font-weight:600;">{key}</td>'
+            f'<td style="padding:6px 14px;color:#b0a080;">{old_t} <span style="color:{color}">→</span> '
+            f'<span style="color:{color};font-weight:700">{new_t}</span></td></tr>'
+        )
+    plain_lines += [
+        "",
+        "See the full updated tier list: https://wowclassquiz.com/tier-list.html",
+        "Re-take the quiz with the new data: https://wowclassquiz.com/",
+        "",
+        "— Jake (WoW Class Quiz)",
+        "",
+        "You're getting this because you signed up for tier shift alerts at wowclassquiz.com.",
+        "Reply 'unsubscribe' and I'll take you off the list.",
+    ]
+    plain = "\n".join(plain_lines)
+
+    html = f"""<!DOCTYPE html>
+<html><body style="margin:0;padding:0;background:#0a0800;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#f0e8d8;">
+  <div style="max-width:600px;margin:0 auto;padding:32px 24px;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:13px;letter-spacing:2px;color:#d4aa52;text-transform:uppercase;">WoW Class Quiz</div>
+      <h1 style="font-size:24px;margin:8px 0 4px 0;color:#f0cc70;">Tier shift this week</h1>
+      <div style="color:#b0a080;font-size:14px;">Patch {patch}</div>
+    </div>
+    <div style="background:#110f08;border:1px solid #2e2a1e;border-radius:12px;padding:8px 0;">
+      <table style="width:100%;border-collapse:collapse;">{''.join(html_rows)}</table>
+    </div>
+    <div style="text-align:center;margin-top:28px;">
+      <a href="https://wowclassquiz.com/tier-list.html" style="display:inline-block;background:#d4aa52;color:#0a0800;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">View full tier list →</a>
+    </div>
+    <div style="text-align:center;margin-top:32px;color:#6a5a40;font-size:12px;">
+      You're getting this because you signed up for tier alerts at <a href="https://wowclassquiz.com" style="color:#b0a080;">wowclassquiz.com</a>.<br>
+      Reply <em>unsubscribe</em> and I'll remove you.
+    </div>
+  </div>
+</body></html>"""
+    return subject, plain, html
+
+
+def notify_subscribers(all_tier_changes, patch):
+    """Send the tier-shift email to every subscriber."""
+    if not all_tier_changes:
+        print("  No tier changes — not emailing subscribers.")
+        return
+    subscribers = fetch_subscribers()
+    if not subscribers:
+        return
+    subject, plain, html = build_tier_shift_email(all_tier_changes, patch)
+    sent = 0
+    for email in subscribers:
+        if send_email(subject, plain, to_email=email, html_body=html):
+            sent += 1
+    print(f"  Tier-shift email: {sent}/{len(subscribers)} delivered.")
 
 
 # ---------------------------------------------------------------------------
@@ -449,8 +585,15 @@ def main():
         subject = f"[WoW Class Quiz] Tier update — {len(all_tier_changes)} change(s), {len(all_structural)} structural"
         body = "\n".join(lines)
 
-    print(f"\n--- Email ---\nSubject: {subject}\n{body}\n---")
+    print(f"\n--- Admin Email ---\nSubject: {subject}\n{body}\n---")
     send_email(subject, body)
+
+    # -----------------------------------------------------------------------
+    # Notify email subscribers about tier shifts
+    # -----------------------------------------------------------------------
+    if all_tier_changes:
+        print("\nNotifying email subscribers about tier shifts…")
+        notify_subscribers(all_tier_changes, patch)
 
     # -----------------------------------------------------------------------
     # Create GitHub Issues for structural changes

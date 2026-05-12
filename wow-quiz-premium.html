@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WoW Midnight Premium Class Quiz — Deep Dive (30 Questions)</title>
   <meta name="description" content="30-question deep-dive class quiz for WoW Midnight. Per-spec tier ratings, M+ vs Mythic breakdown, complexity scores, and a personalized learning roadmap.">
-  <meta property="og:title" content="WoW Midnight Premium Class Quiz — 20 Questions">
+  <meta property="og:title" content="WoW Midnight Premium Class Quiz — 30 Questions">
   <meta property="og:description" content="Deep-dive class analysis for WoW Midnight. Spec-by-spec ratings, difficulty, M+/Mythic tiers, and your personalized path to Cutting Edge.">
   <meta property="og:type" content="website">
 
@@ -383,7 +383,15 @@
       <div class="gate-feat">Step-by-step learning roadmap to Cutting Edge</div>
     </div>
     <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $1.99 →</a>
-    <div class="gate-restore">Already purchased? <a onclick="restoreAccess()">Click here after buying</a> — works instantly from the link in your confirmation email.</div>
+    <div class="gate-restore">
+      <div style="margin-top:18px;">Already purchased? Enter your unlock word:</div>
+      <div style="display:flex;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap;">
+        <input id="unlockInput" type="text" placeholder="Unlock word" style="background:#1e2636;border:1px solid rgba(180,150,70,0.4);color:#f2e8d5;padding:8px 14px;border-radius:99px;font-size:13px;font-family:inherit;min-width:160px;" autocomplete="off">
+        <button onclick="unlockWithWord()" style="background:#9b8fe8;color:#fff;border:none;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13px;cursor:pointer;">Unlock →</button>
+      </div>
+      <div id="unlockErr" style="color:#e05858;font-size:12px;margin-top:8px;display:none;">That doesn't look right — check your Gumroad email for the word.</div>
+      <div style="margin-top:10px;font-size:12px;color:#8a7860;">Or use the direct link from your Gumroad email.</div>
+    </div>
   </div>
 </div>
 
@@ -395,11 +403,11 @@
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="container">
-    <div class="premium-badge">✦ Premium · 20 Questions · Deep Analysis</div>
+    <div class="premium-badge">✦ Premium · 30 Questions · Deep Analysis</div>
     <h1>Find your <em>perfect</em> WoW Midnight class.</h1>
     <p>30 questions. Spec-by-spec tier ratings. A personalized roadmap to Cutting Edge. This is the analysis the free quiz doesn't give you.</p>
     <div class="feature-grid">
-      <span class="feat"><strong>20</strong> questions</span>
+      <span class="feat"><strong>30</strong> questions</span>
       <span class="feat"><strong>Mythic + M+</strong> tier ratings per spec</span>
       <span class="feat"><strong>Complexity</strong> score</span>
       <span class="feat"><strong>✓ / ✗</strong> fit analysis</span>
@@ -407,7 +415,7 @@
       <span class="feat"><strong>Essential addons</strong> list</span>
     </div>
     <button class="btn-start" onclick="startQuiz()">Start Deep Analysis →</button>
-    <div class="hero-sub">All 12 DPS classes · ~5 minutes · No account needed</div>
+    <div class="hero-sub">All 13 DPS classes · ~5 minutes · No account needed</div>
   </div>
 </section>
 
@@ -415,10 +423,10 @@
 <section class="quiz-section container" id="quiz">
   <div class="progress-wrap">
     <div class="progress-top">
-      <span id="qLabel">Question 1 of 20</span>
-      <span id="qCounter">1 / 20</span>
+      <span id="qLabel">Question 1 of 30</span>
+      <span id="qCounter">1 / 30</span>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:3.33%"></div></div>
   </div>
 
   <div id="sectionDivider" style="display:none" class="section-divider">
@@ -548,10 +556,30 @@ function restoreAccess() {
     alert(
       'No purchase found on this browser.\n\n' +
       'Open the confirmation email from Gumroad and click the product link — ' +
-      'it will unlock access on this device automatically.'
+      'it will unlock access on this device automatically. Or enter the unlock word manually below.'
     );
   }
 }
+
+function unlockWithWord() {
+  const input = document.getElementById('unlockInput');
+  const err = document.getElementById('unlockErr');
+  const val = (input && input.value || '').trim().toUpperCase();
+  if (val === UNLOCK_WORD) {
+    saveAccess();
+    dismissGate();
+  } else {
+    if (err) err.style.display = 'block';
+    if (input) input.focus();
+  }
+}
+// Submit on Enter key
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('unlockInput');
+  if (input) input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); unlockWithWord(); }
+  });
+});
 
 // Run on page load
 (function checkAccess() {
@@ -581,11 +609,12 @@ function restoreAccess() {
 })();
 
 // ──────────────────────────────────────────────────────
-// QUESTIONS (20)
+// QUESTIONS (30)
 // ──────────────────────────────────────────────────────
 const SECTIONS = [
   { at: 0,  icon: '⚔️', title: 'Section 1: Core Playstyle', desc: 'Questions 1–9 cover your fundamental preferences.' },
   { at: 9,  icon: '🏆', title: 'Section 2: Advanced Preferences', desc: 'Questions 10–20 go deeper into raid environment, pacing, and mastery goals.' },
+  { at: 20, icon: '✦',  title: 'Section 3: Identity & Lore', desc: 'Questions 21–30 nail the deep fit — lore, aesthetic, long-term enjoyment.' },
 ];
 
 const questions = [
@@ -1468,10 +1497,16 @@ function restart() {
 
 var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
 
+var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+
 function initFeedbackWidget(quizType, topClass) {
   var stars = 0, recommend = null;
   var starBtns = document.querySelectorAll('.star-btn');
-  function litStars(n) { starBtns.forEach(function(b) { b.classList.toggle('lit', parseInt(b.dataset.v) <= n); }); }
+  function litStars(n) {
+    starBtns.forEach(function(b) {
+      b.classList.toggle('lit', parseInt(b.dataset.v) <= n);
+    });
+  }
   starBtns.forEach(function(btn) {
     btn.addEventListener('mouseover', function() { litStars(parseInt(btn.dataset.v)); });
     btn.addEventListener('mouseout', function() { litStars(stars); });
@@ -1484,20 +1519,46 @@ function initFeedbackWidget(quizType, topClass) {
     document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
     document.getElementById('fbNo').classList.toggle('selected', v === 'no');
   }
-  document.getElementById('fbYes').addEventListener('click', function() { recommend = 'yes'; setYN('yes'); document.getElementById('fbQ3').style.display = 'block'; });
-  document.getElementById('fbNo').addEventListener('click', function() { recommend = 'no'; setYN('no'); document.getElementById('fbQ3').style.display = 'block'; });
+  document.getElementById('fbYes').addEventListener('click', function() {
+    recommend = 'yes'; setYN('yes');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
+  document.getElementById('fbNo').addEventListener('click', function() {
+    recommend = 'no'; setYN('no');
+    document.getElementById('fbQ3').style.display = 'block';
+  });
   document.getElementById('fbSubmit').addEventListener('click', function() {
-    var payload = { quiz_type: quizType, top_class: topClass, stars: stars, recommend: recommend, comment: document.getElementById('fbComment').value.trim() };
+    var payload = {
+      quiz_type: quizType,
+      top_class: topClass,
+      stars: stars,
+      recommend: recommend,
+      comment: document.getElementById('fbComment').value.trim()
+    };
     if (FEEDBACK_ENDPOINT) {
-      fetch(FEEDBACK_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) });
+      fetch(FEEDBACK_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
     }
     document.getElementById('fbQ1').style.display = 'none';
     document.getElementById('fbQ2').style.display = 'none';
     document.getElementById('fbQ3').style.display = 'none';
-    document.getElementById('fbThanks').style.display = 'flex';
+    var t = document.getElementById('fbThanks');
+    t.style.display = 'flex';
   });
 }
 
+function copyLink(e) {
+  if (e) e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var c = document.getElementById('copyConfirm');
+    if (c) { c.style.opacity = '1'; setTimeout(function(){ c.style.opacity = '0'; }, 2000); }
+  });
+  return false;
+}
 </script>
 </body>
 </html>

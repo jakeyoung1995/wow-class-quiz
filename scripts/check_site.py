@@ -226,6 +226,41 @@ def check_external_links():
                 err(f"{name} has a target=_blank link without rel=noopener")
 
 
+def check_data_contract():
+    """
+    Every `data.<key>` a page reads must exist in wow-patch-data.json.
+
+    This exists because the scraper wrote class-level "dps" while
+    tier-list.html rendered spec-level "dps_specs", so a successful scrape
+    updated the file without changing anything a visitor could see. The two
+    sides drifted silently because nothing tied them together.
+    """
+    path = os.path.join(REPO, "wow-patch-data.json")
+    if not os.path.exists(path):
+        return
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except json.JSONDecodeError:
+        return  # check_json already reported this
+
+    # JS locals and unrelated identifiers, not JSON sections.
+    ignore = {"json", "color", "mplus", "tier", "raid", "length", "forEach", "map"}
+
+    for name in html_files():
+        if name in NOT_A_PAGE:
+            continue
+        body = read(name)
+        if "wow-patch-data.json" not in body:
+            continue
+        for key in sorted(set(re.findall(r"\bdata\.([A-Za-z_][A-Za-z0-9_]*)", body))):
+            if not key or key in ignore:
+                continue
+            if key not in data:
+                err(f"{name} reads data.{key} but wow-patch-data.json has no "
+                    f"'{key}' key — the page will render nothing for it")
+
+
 def check_gitignore_conflicts():
     """A file that is both tracked and gitignored is a trap: the ignore rule
     does nothing, and the next person assumes it does."""
@@ -260,6 +295,7 @@ def main():
         check_canonicals,
         check_social_tags,
         check_external_links,
+        check_data_contract,
         check_gitignore_conflicts,
     ):
         check()

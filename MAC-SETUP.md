@@ -53,12 +53,17 @@ revoke either machine independently. Second token is the better habit.
 Save the file as plain UTF-8. `deploy.py` strips a BOM defensively, but a BOM is
 still the most common reason it reports "GH_TOKEN not set".
 
-### `deploy.py` (required for deploying)
+### `deploy.py` and `publish-docs.py` (required for deploying)
 
-`deploy.py` is not tracked in this repo. Copy it across from the Windows machine
-(iCloud, AirDrop, a USB stick, or paste it into a new file). Without it you can
-still push with plain `git push`, which works fine, since GitHub Pages builds
-from `main` either way.
+Neither script is tracked in this repo. Copy both across from the Windows
+machine (iCloud, AirDrop, a USB stick, or paste them into new files), along with
+the `docs-public/` folder that `publish-docs.py` reads.
+
+`publish-docs.py` is kept out of the repo on purpose: its secret scanner spells
+out the exact strings that must stay private, so publishing it would leak them.
+
+Without `deploy.py` you can still push with plain `git push`, which works fine,
+since GitHub Pages builds from `main` either way.
 
 ### Marketing assets
 

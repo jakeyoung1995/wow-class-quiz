@@ -45,14 +45,24 @@ jobs:
           DRY_RUN: ${{ inputs.dry_run }}
         run: python scripts/update_tier_data.py
 
+      # The scraper writes the JSON, but titles, Schema.org blocks and the
+      # premium quizzes' tier letters are stamped from it. Committing the JSON
+      # alone leaves those stale — and since that drift is now a check_site
+      # error, the next PR would fail with an error nobody caused.
+      - name: Restamp copy derived from the tier data
+        if: ${{ !inputs.dry_run }}
+        run: |
+          python3 scripts/stamp_patch_copy.py
+          python3 scripts/check_site.py
+
       - name: Commit updated tier data
         if: ${{ !inputs.dry_run }}
         run: |
           git config --global user.name "wow-class-quiz-bot"
           git config --global user.email "actions@github.com"
-          git add wow-patch-data.json
+          git add wow-patch-data.json *.html
           if git diff --cached --quiet; then
-            echo "No changes to wow-patch-data.json -- nothing to commit."
+            echo "No changes to tier data or stamped copy -- nothing to commit."
           else
             git commit -m "chore: weekly tier update $(date +%Y-%m-%d) [skip ci]"
             git push

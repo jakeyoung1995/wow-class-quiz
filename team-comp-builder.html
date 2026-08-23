@@ -333,7 +333,9 @@ async function loadData() {
 
     // DPS specs — use dps_specs (has all individual specs)
     SPECS.dps = Object.entries(PATCH_DATA.dps_specs || {}).map(([name, d]) => ({
-      name, classKey: d.class, mplus: d.tier, raid: d.tier
+      // dps_specs.tier is the M+ letter; raid is a separate scraped field.
+      // Falls back to tier for older data that predates the raid scrape.
+      name, classKey: d.class, mplus: d.tier, raid: d.raid || d.tier
     }));
 
     populateDropdowns();

@@ -2,136 +2,715 @@
   "_meta": {
     "patch": "12.0.5",
     "season": "Midnight Season 1",
-    "last_updated": "2026-05-12",
+    "last_updated": "2026-08-23",
     "needs_refresh": false,
     "note": "Seeded from Warcraftlogs / Icy Veins / Skycoach rankings May 2026. Auto-updated weekly by GitHub Actions."
   },
   "dps": {
-    "Rogue":        {"mplus": "A", "raid": "A", "best_spec": "Outlaw"},
-    "Mage":         {"mplus": "S", "raid": "S", "best_spec": "Arcane"},
-    "Warlock":      {"mplus": "S", "raid": "S", "best_spec": "Demonology"},
-    "Death Knight": {"mplus": "S", "raid": "S", "best_spec": "Unholy"},
-    "Hunter":       {"mplus": "B", "raid": "B", "best_spec": "Beast Mastery"},
-    "Demon Hunter": {"mplus": "A", "raid": "A", "best_spec": "Havoc"},
-    "Shaman":       {"mplus": "A", "raid": "A", "best_spec": "Enhancement"},
-    "Druid":        {"mplus": "A", "raid": "A", "best_spec": "Feral"},
-    "Monk":         {"mplus": "B", "raid": "B", "best_spec": "Windwalker"},
-    "Warrior":      {"mplus": "A", "raid": "A", "best_spec": "Arms"},
-    "Paladin":      {"mplus": "B", "raid": "B", "best_spec": "Retribution"},
-    "Evoker":       {"mplus": "S", "raid": "S", "best_spec": "Augmentation"},
-    "Priest":       {"mplus": "C", "raid": "C", "best_spec": "Shadow"}
+    "Rogue": {
+      "mplus": "S",
+      "raid": "A",
+      "best_spec": "Outlaw"
+    },
+    "Mage": {
+      "mplus": "S",
+      "raid": "S",
+      "best_spec": "Arcane"
+    },
+    "Warlock": {
+      "mplus": "A",
+      "raid": "S",
+      "best_spec": "Demonology"
+    },
+    "Death Knight": {
+      "mplus": "A",
+      "raid": "S",
+      "best_spec": "Unholy"
+    },
+    "Hunter": {
+      "mplus": "B",
+      "raid": "B",
+      "best_spec": "Beast Mastery"
+    },
+    "Demon Hunter": {
+      "mplus": "A",
+      "raid": "A",
+      "best_spec": "Havoc"
+    },
+    "Shaman": {
+      "mplus": "A",
+      "raid": "A",
+      "best_spec": "Enhancement"
+    },
+    "Druid": {
+      "mplus": "A",
+      "raid": "A",
+      "best_spec": "Feral"
+    },
+    "Monk": {
+      "mplus": "S",
+      "raid": "B",
+      "best_spec": "Windwalker"
+    },
+    "Warrior": {
+      "mplus": "S",
+      "raid": "A",
+      "best_spec": "Arms"
+    },
+    "Paladin": {
+      "mplus": "A",
+      "raid": "B",
+      "best_spec": "Retribution"
+    },
+    "Evoker": {
+      "mplus": "A",
+      "raid": "S",
+      "best_spec": "Augmentation"
+    },
+    "Priest": {
+      "mplus": "A",
+      "raid": "C",
+      "best_spec": "Shadow"
+    }
   },
   "dps_specs": {
-    "Demonology Warlock":   {"tier": "S", "class": "Warlock",      "color": "#8788ee"},
-    "Arcane Mage":          {"tier": "S", "class": "Mage",         "color": "#3fc7eb"},
-    "Unholy Death Knight":  {"tier": "S", "class": "Death Knight", "color": "#c41e3a"},
-    "Augmentation Evoker":  {"tier": "S", "class": "Evoker",       "color": "#33937f"},
-    "Outlaw Rogue":         {"tier": "A", "class": "Rogue",        "color": "#fff468"},
-    "Arms Warrior":         {"tier": "A", "class": "Warrior",      "color": "#c69b3a"},
-    "Havoc Demon Hunter":   {"tier": "A", "class": "Demon Hunter", "color": "#a330c9"},
-    "Feral Druid":          {"tier": "A", "class": "Druid",        "color": "#ff7c0a"},
-    "Enhancement Shaman":   {"tier": "A", "class": "Shaman",       "color": "#0070dd"},
-    "Frost Death Knight":   {"tier": "A", "class": "Death Knight", "color": "#c41e3a"},
-    "Beast Mastery Hunter": {"tier": "B", "class": "Hunter",       "color": "#aad372"},
-    "Destruction Warlock":  {"tier": "B", "class": "Warlock",      "color": "#8788ee"},
-    "Fire Mage":            {"tier": "B", "class": "Mage",         "color": "#3fc7eb"},
-    "Windwalker Monk":      {"tier": "B", "class": "Monk",         "color": "#00ff98"},
-    "Retribution Paladin":  {"tier": "B", "class": "Paladin",      "color": "#f48cba"},
-    "Elemental Shaman":     {"tier": "B", "class": "Shaman",       "color": "#0070dd"},
-    "Subtlety Rogue":       {"tier": "B", "class": "Rogue",        "color": "#fff468"},
-    "Balance Druid":        {"tier": "B", "class": "Druid",        "color": "#ff7c0a"},
-    "Shadow Priest":        {"tier": "C", "class": "Priest",       "color": "#ffffff"},
-    "Marksmanship Hunter":  {"tier": "C", "class": "Hunter",       "color": "#aad372"},
-    "Fury Warrior":         {"tier": "C", "class": "Warrior",      "color": "#c69b3a"},
-    "Affliction Warlock":   {"tier": "C", "class": "Warlock",      "color": "#8788ee"},
-    "Frost Mage":           {"tier": "C", "class": "Mage",         "color": "#3fc7eb"},
-    "Survival Hunter":      {"tier": "C", "class": "Hunter",       "color": "#aad372"},
-    "Assassination Rogue":  {"tier": "C", "class": "Rogue",        "color": "#fff468"},
-    "Devastation Evoker":   {"tier": "C", "class": "Evoker",       "color": "#33937f"}
+    "Demonology Warlock": {
+      "tier": "S",
+      "class": "Warlock",
+      "color": "#8788ee"
+    },
+    "Arcane Mage": {
+      "tier": "S",
+      "class": "Mage",
+      "color": "#3fc7eb"
+    },
+    "Unholy Death Knight": {
+      "tier": "S",
+      "class": "Death Knight",
+      "color": "#c41e3a"
+    },
+    "Augmentation Evoker": {
+      "tier": "S",
+      "class": "Evoker",
+      "color": "#33937f"
+    },
+    "Outlaw Rogue": {
+      "tier": "A",
+      "class": "Rogue",
+      "color": "#fff468"
+    },
+    "Arms Warrior": {
+      "tier": "A",
+      "class": "Warrior",
+      "color": "#c69b3a"
+    },
+    "Havoc Demon Hunter": {
+      "tier": "A",
+      "class": "Demon Hunter",
+      "color": "#a330c9"
+    },
+    "Feral Druid": {
+      "tier": "A",
+      "class": "Druid",
+      "color": "#ff7c0a"
+    },
+    "Enhancement Shaman": {
+      "tier": "A",
+      "class": "Shaman",
+      "color": "#0070dd"
+    },
+    "Frost Death Knight": {
+      "tier": "A",
+      "class": "Death Knight",
+      "color": "#c41e3a"
+    },
+    "Beast Mastery Hunter": {
+      "tier": "B",
+      "class": "Hunter",
+      "color": "#aad372"
+    },
+    "Destruction Warlock": {
+      "tier": "B",
+      "class": "Warlock",
+      "color": "#8788ee"
+    },
+    "Fire Mage": {
+      "tier": "B",
+      "class": "Mage",
+      "color": "#3fc7eb"
+    },
+    "Windwalker Monk": {
+      "tier": "B",
+      "class": "Monk",
+      "color": "#00ff98"
+    },
+    "Retribution Paladin": {
+      "tier": "B",
+      "class": "Paladin",
+      "color": "#f48cba"
+    },
+    "Elemental Shaman": {
+      "tier": "B",
+      "class": "Shaman",
+      "color": "#0070dd"
+    },
+    "Subtlety Rogue": {
+      "tier": "B",
+      "class": "Rogue",
+      "color": "#fff468"
+    },
+    "Balance Druid": {
+      "tier": "B",
+      "class": "Druid",
+      "color": "#ff7c0a"
+    },
+    "Shadow Priest": {
+      "tier": "C",
+      "class": "Priest",
+      "color": "#ffffff"
+    },
+    "Marksmanship Hunter": {
+      "tier": "C",
+      "class": "Hunter",
+      "color": "#aad372"
+    },
+    "Fury Warrior": {
+      "tier": "C",
+      "class": "Warrior",
+      "color": "#c69b3a"
+    },
+    "Affliction Warlock": {
+      "tier": "C",
+      "class": "Warlock",
+      "color": "#8788ee"
+    },
+    "Frost Mage": {
+      "tier": "C",
+      "class": "Mage",
+      "color": "#3fc7eb"
+    },
+    "Survival Hunter": {
+      "tier": "C",
+      "class": "Hunter",
+      "color": "#aad372"
+    },
+    "Assassination Rogue": {
+      "tier": "C",
+      "class": "Rogue",
+      "color": "#fff468"
+    },
+    "Devastation Evoker": {
+      "tier": "C",
+      "class": "Evoker",
+      "color": "#33937f"
+    }
   },
   "tank": {
-    "Blood Death Knight":     {"mplus": "B", "raid": "B"},
-    "Vengeance Demon Hunter": {"mplus": "A", "raid": "A"},
-    "Guardian Druid":         {"mplus": "A", "raid": "S"},
-    "Brewmaster Monk":        {"mplus": "S", "raid": "A"},
-    "Protection Paladin":     {"mplus": "A", "raid": "A"},
-    "Protection Warrior":     {"mplus": "A", "raid": "A"}
+    "Blood Death Knight": {
+      "mplus": "S",
+      "raid": "B"
+    },
+    "Vengeance Demon Hunter": {
+      "mplus": "A",
+      "raid": "A"
+    },
+    "Guardian Druid": {
+      "mplus": "A",
+      "raid": "S"
+    },
+    "Brewmaster Monk": {
+      "mplus": "B",
+      "raid": "A"
+    },
+    "Protection Paladin": {
+      "mplus": "A",
+      "raid": "A"
+    },
+    "Protection Warrior": {
+      "mplus": "A",
+      "raid": "A"
+    }
   },
   "healer": {
-    "Restoration Druid":  {"mplus": "S", "raid": "S"},
-    "Preservation Evoker":{"mplus": "S", "raid": "S"},
-    "Mistweaver Monk":    {"mplus": "A", "raid": "A"},
-    "Holy Paladin":       {"mplus": "A", "raid": "A"},
-    "Holy Priest":        {"mplus": "B", "raid": "B"},
-    "Discipline Priest":  {"mplus": "B", "raid": "B"},
-    "Restoration Shaman": {"mplus": "A", "raid": "A"}
+    "Restoration Druid": {
+      "mplus": "B",
+      "raid": "S"
+    },
+    "Preservation Evoker": {
+      "mplus": "A",
+      "raid": "S"
+    },
+    "Mistweaver Monk": {
+      "mplus": "A",
+      "raid": "A"
+    },
+    "Holy Paladin": {
+      "mplus": "S",
+      "raid": "A"
+    },
+    "Holy Priest": {
+      "mplus": "B",
+      "raid": "B"
+    },
+    "Discipline Priest": {
+      "mplus": "B",
+      "raid": "B"
+    },
+    "Restoration Shaman": {
+      "mplus": "S",
+      "raid": "A"
+    }
   },
   "dps_specs_detailed": {
-    "Outlaw Rogue":         {"mplus": "A", "raid": "A", "complexity": 4, "mobility": 5, "aoe": 5, "single_target": 3},
-    "Subtlety Rogue":       {"mplus": "B", "raid": "B", "complexity": 5, "mobility": 4, "aoe": 2, "single_target": 5},
-    "Assassination Rogue":  {"mplus": "C", "raid": "B", "complexity": 4, "mobility": 3, "aoe": 3, "single_target": 5},
-    "Arcane Mage":          {"mplus": "S", "raid": "S", "complexity": 5, "mobility": 3, "aoe": 4, "single_target": 5},
-    "Fire Mage":            {"mplus": "B", "raid": "B", "complexity": 4, "mobility": 3, "aoe": 5, "single_target": 4},
-    "Frost Mage":           {"mplus": "C", "raid": "C", "complexity": 3, "mobility": 3, "aoe": 4, "single_target": 3},
-    "Demonology Warlock":   {"mplus": "S", "raid": "S", "complexity": 4, "mobility": 1, "aoe": 5, "single_target": 5},
-    "Destruction Warlock":  {"mplus": "B", "raid": "B", "complexity": 2, "mobility": 1, "aoe": 4, "single_target": 4},
-    "Affliction Warlock":   {"mplus": "C", "raid": "B", "complexity": 4, "mobility": 1, "aoe": 3, "single_target": 5},
-    "Unholy Death Knight":  {"mplus": "S", "raid": "S", "complexity": 4, "mobility": 2, "aoe": 5, "single_target": 4},
-    "Frost Death Knight":   {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 2, "aoe": 4, "single_target": 4},
-    "Beast Mastery Hunter": {"mplus": "B", "raid": "B", "complexity": 2, "mobility": 5, "aoe": 4, "single_target": 4},
-    "Marksmanship Hunter":  {"mplus": "C", "raid": "B", "complexity": 3, "mobility": 3, "aoe": 4, "single_target": 4},
-    "Survival Hunter":      {"mplus": "C", "raid": "C", "complexity": 4, "mobility": 4, "aoe": 4, "single_target": 4},
-    "Havoc Demon Hunter":   {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 5, "aoe": 5, "single_target": 4},
-    "Enhancement Shaman":   {"mplus": "A", "raid": "A", "complexity": 4, "mobility": 4, "aoe": 5, "single_target": 4},
-    "Elemental Shaman":     {"mplus": "B", "raid": "B", "complexity": 3, "mobility": 2, "aoe": 4, "single_target": 4},
-    "Feral Druid":          {"mplus": "A", "raid": "B", "complexity": 5, "mobility": 4, "aoe": 4, "single_target": 4},
-    "Balance Druid":        {"mplus": "B", "raid": "A", "complexity": 3, "mobility": 3, "aoe": 5, "single_target": 4},
-    "Windwalker Monk":      {"mplus": "B", "raid": "B", "complexity": 4, "mobility": 5, "aoe": 4, "single_target": 4},
-    "Arms Warrior":         {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 3, "aoe": 4, "single_target": 5},
-    "Fury Warrior":         {"mplus": "C", "raid": "B", "complexity": 2, "mobility": 3, "aoe": 4, "single_target": 4},
-    "Retribution Paladin":  {"mplus": "B", "raid": "B", "complexity": 3, "mobility": 2, "aoe": 4, "single_target": 4},
-    "Devastation Evoker":   {"mplus": "C", "raid": "C", "complexity": 3, "mobility": 4, "aoe": 4, "single_target": 4},
-    "Augmentation Evoker":  {"mplus": "S", "raid": "S", "complexity": 5, "mobility": 4, "aoe": 3, "single_target": 4, "support": true, "note": "Support DPS — buffs allies more than topping the meter. Brought to most high-end groups."},
-    "Shadow Priest":        {"mplus": "C", "raid": "C", "complexity": 4, "mobility": 2, "aoe": 3, "single_target": 4}
+    "Outlaw Rogue": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 4,
+      "mobility": 5,
+      "aoe": 5,
+      "single_target": 3
+    },
+    "Subtlety Rogue": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 5,
+      "mobility": 4,
+      "aoe": 2,
+      "single_target": 5
+    },
+    "Assassination Rogue": {
+      "mplus": "C",
+      "raid": "B",
+      "complexity": 4,
+      "mobility": 3,
+      "aoe": 3,
+      "single_target": 5
+    },
+    "Arcane Mage": {
+      "mplus": "S",
+      "raid": "S",
+      "complexity": 5,
+      "mobility": 3,
+      "aoe": 4,
+      "single_target": 5
+    },
+    "Fire Mage": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 4,
+      "mobility": 3,
+      "aoe": 5,
+      "single_target": 4
+    },
+    "Frost Mage": {
+      "mplus": "C",
+      "raid": "C",
+      "complexity": 3,
+      "mobility": 3,
+      "aoe": 4,
+      "single_target": 3
+    },
+    "Demonology Warlock": {
+      "mplus": "S",
+      "raid": "S",
+      "complexity": 4,
+      "mobility": 1,
+      "aoe": 5,
+      "single_target": 5
+    },
+    "Destruction Warlock": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 2,
+      "mobility": 1,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Affliction Warlock": {
+      "mplus": "C",
+      "raid": "B",
+      "complexity": 4,
+      "mobility": 1,
+      "aoe": 3,
+      "single_target": 5
+    },
+    "Unholy Death Knight": {
+      "mplus": "S",
+      "raid": "S",
+      "complexity": 4,
+      "mobility": 2,
+      "aoe": 5,
+      "single_target": 4
+    },
+    "Frost Death Knight": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 2,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Beast Mastery Hunter": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 2,
+      "mobility": 5,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Marksmanship Hunter": {
+      "mplus": "C",
+      "raid": "B",
+      "complexity": 3,
+      "mobility": 3,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Survival Hunter": {
+      "mplus": "C",
+      "raid": "C",
+      "complexity": 4,
+      "mobility": 4,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Havoc Demon Hunter": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 5,
+      "aoe": 5,
+      "single_target": 4
+    },
+    "Enhancement Shaman": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 4,
+      "mobility": 4,
+      "aoe": 5,
+      "single_target": 4
+    },
+    "Elemental Shaman": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 3,
+      "mobility": 2,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Feral Druid": {
+      "mplus": "A",
+      "raid": "B",
+      "complexity": 5,
+      "mobility": 4,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Balance Druid": {
+      "mplus": "B",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 3,
+      "aoe": 5,
+      "single_target": 4
+    },
+    "Windwalker Monk": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 4,
+      "mobility": 5,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Arms Warrior": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 3,
+      "aoe": 4,
+      "single_target": 5
+    },
+    "Fury Warrior": {
+      "mplus": "C",
+      "raid": "B",
+      "complexity": 2,
+      "mobility": 3,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Retribution Paladin": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 3,
+      "mobility": 2,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Devastation Evoker": {
+      "mplus": "C",
+      "raid": "C",
+      "complexity": 3,
+      "mobility": 4,
+      "aoe": 4,
+      "single_target": 4
+    },
+    "Augmentation Evoker": {
+      "mplus": "S",
+      "raid": "S",
+      "complexity": 5,
+      "mobility": 4,
+      "aoe": 3,
+      "single_target": 4,
+      "support": true,
+      "note": "Support DPS — buffs allies more than topping the meter. Brought to most high-end groups."
+    },
+    "Shadow Priest": {
+      "mplus": "C",
+      "raid": "C",
+      "complexity": 4,
+      "mobility": 2,
+      "aoe": 3,
+      "single_target": 4
+    }
   },
   "tank_specs_detailed": {
-    "Blood Death Knight":     {"mplus": "B", "raid": "B", "complexity": 4, "mobility": 2, "survivability": 5, "active_mit": 5},
-    "Vengeance Demon Hunter": {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 5, "survivability": 5, "active_mit": 4},
-    "Guardian Druid":         {"mplus": "A", "raid": "S", "complexity": 3, "mobility": 3, "survivability": 5, "active_mit": 4},
-    "Brewmaster Monk":        {"mplus": "S", "raid": "A", "complexity": 4, "mobility": 4, "survivability": 4, "active_mit": 5},
-    "Protection Paladin":     {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 2, "survivability": 4, "active_mit": 5},
-    "Protection Warrior":     {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 3, "survivability": 4, "active_mit": 4}
+    "Blood Death Knight": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 4,
+      "mobility": 2,
+      "survivability": 5,
+      "active_mit": 5
+    },
+    "Vengeance Demon Hunter": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 5,
+      "survivability": 5,
+      "active_mit": 4
+    },
+    "Guardian Druid": {
+      "mplus": "A",
+      "raid": "S",
+      "complexity": 3,
+      "mobility": 3,
+      "survivability": 5,
+      "active_mit": 4
+    },
+    "Brewmaster Monk": {
+      "mplus": "S",
+      "raid": "A",
+      "complexity": 4,
+      "mobility": 4,
+      "survivability": 4,
+      "active_mit": 5
+    },
+    "Protection Paladin": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 2,
+      "survivability": 4,
+      "active_mit": 5
+    },
+    "Protection Warrior": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 3,
+      "survivability": 4,
+      "active_mit": 4
+    }
   },
   "healer_specs_detailed": {
-    "Restoration Druid":   {"mplus": "S", "raid": "S", "complexity": 4, "mobility": 4, "throughput": 5, "ramp": "hot",      "note": "HoT-focused — heals tick over time"},
-    "Preservation Evoker": {"mplus": "S", "raid": "S", "complexity": 4, "mobility": 4, "throughput": 5, "ramp": "empower",  "note": "Empower casts — hold to scale healing"},
-    "Mistweaver Monk":     {"mplus": "A", "raid": "A", "complexity": 5, "mobility": 5, "throughput": 4, "ramp": "fistweave","note": "Heal by dealing damage (Fistweaver) or traditional"},
-    "Holy Paladin":        {"mplus": "A", "raid": "A", "complexity": 3, "mobility": 2, "throughput": 4, "ramp": "burst",    "note": "Burst single-target — Avenging Wrath windows"},
-    "Holy Priest":         {"mplus": "B", "raid": "B", "complexity": 3, "mobility": 3, "throughput": 4, "ramp": "reactive", "note": "Reactive healing with strong cooldowns"},
-    "Discipline Priest":   {"mplus": "B", "raid": "B", "complexity": 5, "mobility": 3, "throughput": 4, "ramp": "atonement","note": "Heal by dealing damage via Atonement"},
-    "Restoration Shaman":  {"mplus": "A", "raid": "A", "complexity": 4, "mobility": 3, "throughput": 4, "ramp": "totem",    "note": "Totem-based — pre-place heals"}
+    "Restoration Druid": {
+      "mplus": "S",
+      "raid": "S",
+      "complexity": 4,
+      "mobility": 4,
+      "throughput": 5,
+      "ramp": "hot",
+      "note": "HoT-focused — heals tick over time"
+    },
+    "Preservation Evoker": {
+      "mplus": "S",
+      "raid": "S",
+      "complexity": 4,
+      "mobility": 4,
+      "throughput": 5,
+      "ramp": "empower",
+      "note": "Empower casts — hold to scale healing"
+    },
+    "Mistweaver Monk": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 5,
+      "mobility": 5,
+      "throughput": 4,
+      "ramp": "fistweave",
+      "note": "Heal by dealing damage (Fistweaver) or traditional"
+    },
+    "Holy Paladin": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 3,
+      "mobility": 2,
+      "throughput": 4,
+      "ramp": "burst",
+      "note": "Burst single-target — Avenging Wrath windows"
+    },
+    "Holy Priest": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 3,
+      "mobility": 3,
+      "throughput": 4,
+      "ramp": "reactive",
+      "note": "Reactive healing with strong cooldowns"
+    },
+    "Discipline Priest": {
+      "mplus": "B",
+      "raid": "B",
+      "complexity": 5,
+      "mobility": 3,
+      "throughput": 4,
+      "ramp": "atonement",
+      "note": "Heal by dealing damage via Atonement"
+    },
+    "Restoration Shaman": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 4,
+      "mobility": 3,
+      "throughput": 4,
+      "ramp": "totem",
+      "note": "Totem-based — pre-place heals"
+    }
   },
   "major_changes_pending": [],
   "changelog": [
     {
       "date": "2026-05-06",
       "patch": "12.0.5",
-      "changes": [{"note": "Initial data seed from Warcraftlogs / Icy Veins / Skycoach community rankings"}]
+      "changes": [
+        {
+          "note": "Initial data seed from Warcraftlogs / Icy Veins / Skycoach community rankings"
+        }
+      ]
     },
     {
       "date": "2026-05-11",
       "patch": "12.0.5",
       "changes": [
-        {"note": "Fixed Icy Veins scraper URLs (old /dps-tier-list paths returned 404 after Midnight relaunch)"},
-        {"note": "Updated tank rankings: Brewmaster #1 M+, Guardian Druid #1 Raid, Blood DK dropped to B-tier per April 22 hotfixes"}
+        {
+          "note": "Fixed Icy Veins scraper URLs (old /dps-tier-list paths returned 404 after Midnight relaunch)"
+        },
+        {
+          "note": "Updated tank rankings: Brewmaster #1 M+, Guardian Druid #1 Raid, Blood DK dropped to B-tier per April 22 hotfixes"
+        }
       ]
     },
     {
       "date": "2026-05-12",
       "patch": "12.0.5",
       "changes": [
-        {"note": "Vengeance Demon Hunter retuned B→A (M+ and Raid) — community consensus had it stronger than the seed data."},
-        {"note": "Added dps_specs_detailed / tank_specs_detailed / healer_specs_detailed for premium quiz to consume — no more hardcoded tier data in premium HTML."}
+        {
+          "note": "Vengeance Demon Hunter retuned B→A (M+ and Raid) — community consensus had it stronger than the seed data."
+        },
+        {
+          "note": "Added dps_specs_detailed / tank_specs_detailed / healer_specs_detailed for premium quiz to consume — no more hardcoded tier data in premium HTML."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "patch": "12.0.5",
+      "changes": [
+        {
+          "role": "dps",
+          "key": "Warrior",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "key": "Rogue",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "key": "Monk",
+          "from": "B",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "key": "Death Knight",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "key": "Paladin",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "key": "Warlock",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "key": "Priest",
+          "from": "C",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "key": "Evoker",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "tank",
+          "key": "Blood Death Knight",
+          "from": "B",
+          "to": "S"
+        },
+        {
+          "role": "tank",
+          "key": "Brewmaster Monk",
+          "from": "S",
+          "to": "B"
+        },
+        {
+          "role": "healer",
+          "key": "Holy Paladin",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "healer",
+          "key": "Restoration Shaman",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "healer",
+          "key": "Preservation Evoker",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "healer",
+          "key": "Restoration Druid",
+          "from": "S",
+          "to": "B"
+        }
       ]
     }
   ]

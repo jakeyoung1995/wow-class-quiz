@@ -52,10 +52,20 @@ DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "y
 # Icy Veins hub page — used to dynamically discover current tier list URLs.
 # If the hub scrape fails, these fallback URLs are used instead.
 ICYVEINS_HUB = "https://www.icy-veins.com/wow/tier-lists"
+# Icy Veins publishes a tier list per role AND per dimension. Raid was not
+# scraped at all before, which left every raid letter frozen at its May seed
+# while M+ updated weekly.
+#
+# The two families are easy to confuse: "mythic-dps-tier-list" is Mythic+,
+# "dps-rankings-tier-list" is raiding. Both contain "dps", so keyword scoring
+# ties between them — hence the explicit require/exclude rules below.
 ICYVEINS_FALLBACK_URLS = {
-    "dps":    "https://www.icy-veins.com/wow/mythic-dps-tier-list",
-    "tank":   "https://www.icy-veins.com/wow/mythic-tank-tier-list",
-    "healer": "https://www.icy-veins.com/wow/mythic-healer-tier-list",
+    ("dps", "mplus"):    "https://www.icy-veins.com/wow/mythic-dps-tier-list",
+    ("tank", "mplus"):   "https://www.icy-veins.com/wow/mythic-tank-tier-list",
+    ("healer", "mplus"): "https://www.icy-veins.com/wow/mythic-healer-tier-list",
+    ("dps", "raid"):     "https://www.icy-veins.com/wow/dps-rankings-tier-list",
+    ("tank", "raid"):    "https://www.icy-veins.com/wow/tank-rankings-tier-list",
+    ("healer", "raid"):  "https://www.icy-veins.com/wow/healer-rankings-tier-list",
 }
 
 # Blizzard's CDN version endpoint. This is the authoritative answer to "what
@@ -104,56 +114,63 @@ def fetch_live_patch(product: str = "wow") -> dict:
 
 
 # Keywords used to identify the right link on the hub page for each role
-ICYVEINS_HUB_KEYWORDS = {
-    "dps":    ["mythic", "dps", "ranking"],
-    "tank":   ["mythic", "tank", "ranking"],
-    "healer": ["mythic", "healer", "ranking"],
+# "mythic" is what separates M+ from raid, in both directions. Requiring and
+# excluding it explicitly avoids the tie that pure keyword scoring produced,
+# where whichever link Icy Veins happened to list first silently won.
+ICYVEINS_HUB_RULES = {
+    "mplus": {"require": ["mythic"], "exclude": ["pvp"]},
+    "raid":  {"require": ["rankings"], "exclude": ["mythic", "pvp"]},
 }
+ICYVEINS_ROLES = ("dps", "tank", "healer")
 
 
 def discover_icyveins_urls() -> dict:
     """
-    Scrape the Icy Veins tier-lists hub page to find the current M+ tier list URLs
-    for DPS, Tank, and Healer. Falls back to ICYVEINS_FALLBACK_URLS if scraping fails
-    or a URL can't be found.
+    Find the current tier-list URL for every (role, dimension) pair from the
+    Icy Veins hub, falling back per pair.
 
-    This makes the script resilient to Icy Veins renaming their URL slugs between
-    expansions (e.g. /dps-tier-list → /mythic-dps-tier-list).
+    Matching is require/exclude rather than keyword scoring:
+    "mythic-dps-tier-list" and "dps-rankings-tier-list" score identically on
+    keywords, so scoring alone picked whichever appeared first on the page —
+    a coin flip between the M+ and raid lists.
     """
     discovered = {}
     try:
         html = fetch_tier_page(ICYVEINS_HUB)
-        # Find all href="/wow/..." links on the hub page
         links = re.findall(r'href="(https?://www\.icy-veins\.com/wow/[^"]+)"[^>]*>([^<]+)<', html)
-        # Also catch relative links
         rel_links = re.findall(r'href="(/wow/[^"]+)"[^>]*>([^<]+)<', html)
-        all_links = links + [("https://www.icy-veins.com" + p, t) for p, t in rel_links]
+        all_links = links + [("https://www.icy-veins.com" + path, text)
+                             for path, text in rel_links]
 
-        for role, keywords in ICYVEINS_HUB_KEYWORDS.items():
-            best_url = None
-            best_score = 0
-            for url, text in all_links:
-                combined = (url + " " + text).lower()
-                score = sum(1 for kw in keywords if kw in combined)
-                # Prefer URLs that contain all keywords and are actual tier list pages
-                if score > best_score and ("tier-list" in url or "ranking" in url):
-                    best_score = score
-                    best_url = url
-            if best_url and best_score >= 2:
-                discovered[role] = best_url
-                print(f"  Discovered {role} URL: {best_url}")
-            else:
-                discovered[role] = ICYVEINS_FALLBACK_URLS[role]
-                print(f"  Could not discover {role} URL from hub — using fallback: {ICYVEINS_FALLBACK_URLS[role]}")
-    except Exception as e:
-        print(f"  WARNING: Hub page scrape failed ({e}) — using all fallback URLs")
+        for role in ICYVEINS_ROLES:
+            for dimension, rules in ICYVEINS_HUB_RULES.items():
+                match = None
+                for url, _text in all_links:
+                    low = url.lower()
+                    if role not in low:
+                        continue
+                    if "tier-list" not in low and "ranking" not in low:
+                        continue
+                    if any(bad in low for bad in rules["exclude"]):
+                        continue
+                    if not all(good in low for good in rules["require"]):
+                        continue
+                    match = url.split("#")[0]
+                    break
+                key = (role, dimension)
+                if match:
+                    discovered[key] = match
+                    print(f"  Discovered {role}/{dimension}: {match}")
+                else:
+                    discovered[key] = ICYVEINS_FALLBACK_URLS[key]
+                    print(f"  Could not discover {role}/{dimension} — using fallback: "
+                          f"{ICYVEINS_FALLBACK_URLS[key]}")
+    except Exception as exc:
+        print(f"  WARNING: Hub page scrape failed ({exc}) — using all fallback URLs")
         return dict(ICYVEINS_FALLBACK_URLS)
 
-    # Fill any missing roles with fallbacks
-    for role, url in ICYVEINS_FALLBACK_URLS.items():
-        if role not in discovered:
-            discovered[role] = url
-
+    for key, url in ICYVEINS_FALLBACK_URLS.items():
+        discovered.setdefault(key, url)
     return discovered
 
 # Map Icy Veins display names → our JSON keys
@@ -343,7 +360,7 @@ SPEC_LEVEL_SECTIONS = {"dps": "dps_specs"}
 # in the flat section) and left untouched for DPS (where the detailed section is
 # itself the curated home).
 DETAILED_SECTIONS = {
-    "dps_specs_detailed":    ("dps_specs", "tier", None),
+    "dps_specs_detailed":    ("dps_specs", "tier", "raid"),
     "tank_specs_detailed":   ("tank", "mplus", "raid"),
     "healer_specs_detailed": ("healer", "mplus", "raid"),
 }
@@ -374,7 +391,8 @@ def reconcile_detailed(data: dict) -> list:
     return fixed
 
 
-def sync_spec_tiers(data: dict, role: str, spec_tiers: dict) -> tuple:
+def sync_spec_tiers(data: dict, role: str, spec_tiers: dict,
+                    dimension: str = "mplus") -> tuple:
     """
     Apply spec-level tiers to the section the site renders from.
 
@@ -395,12 +413,17 @@ def sync_spec_tiers(data: dict, role: str, spec_tiers: dict) -> tuple:
         if name not in entries:
             # Only report specs we can attribute to a class we track, so an
             # unrelated page change does not spam issues.
-            if DISPLAY_TO_KEY.get(name.title()) or DISPLAY_TO_KEY.get(name):
+            if dimension == "mplus" and (DISPLAY_TO_KEY.get(name.title())
+                                          or DISPLAY_TO_KEY.get(name)):
                 unknown.append(name)
             continue
-        old_tier = entries[name].get("tier", "?")
+        # dps_specs stores the M+ letter as "tier" (it predates the raid
+        # scrape); raid goes in a sibling field that reconcile_detailed()
+        # copies into dps_specs_detailed.raid.
+        field = "tier" if dimension == "mplus" else "raid"
+        old_tier = entries[name].get(field, "?")
         if old_tier != tier:
-            entries[name]["tier"] = tier
+            entries[name][field] = tier
             changes.append((name, old_tier, tier))
 
     return changes, unknown
@@ -409,7 +432,8 @@ def sync_spec_tiers(data: dict, role: str, spec_tiers: dict) -> tuple:
 # ---------------------------------------------------------------------------
 # Detect structural vs tier-only changes
 # ---------------------------------------------------------------------------
-def classify_changes(old_data: dict, new_tiers: dict, role: str) -> dict:
+def classify_changes(old_data: dict, new_tiers: dict, role: str,
+                     dimension: str = "mplus") -> dict:
     """
     Returns:
       {
@@ -423,11 +447,13 @@ def classify_changes(old_data: dict, new_tiers: dict, role: str) -> dict:
 
     for key, new_tier in new_tiers.items():
         if key not in role_data:
-            # New spec/class not in our data
-            reason = f"New spec '{key}' appeared on Icy Veins tier list"
-            structural.append((key, reason))
+            # Reported once, on the M+ pass, so a spec missing from our data does
+            # not file two identical issues just for appearing on both lists.
+            if dimension == "mplus":
+                reason = f"New spec '{key}' appeared on Icy Veins tier list"
+                structural.append((key, reason))
         else:
-            old_tier = role_data[key].get("mplus", "?")  # we use mplus as canonical
+            old_tier = role_data[key].get(dimension, "?")
             if old_tier != new_tier:
                 tier_changes.append((key, old_tier, new_tier))
 
@@ -575,11 +601,12 @@ def build_tier_shift_email(all_tier_changes, patch):
         "What changed this week:",
     ]
     html_rows = []
-    for role, key, old_t, new_t in all_tier_changes:
-        plain_lines.append(f"  • [{role_labels.get(role, role)}] {key}: {old_t} → {new_t}")
+    for role, dimension, key, old_t, new_t in all_tier_changes:
+        dim = "M+" if dimension == "mplus" else "Raid"
+        plain_lines.append(f"  • [{role_labels.get(role, role)} {dim}] {key}: {old_t} → {new_t}")
         color = arrow_color.get((old_t, new_t), "#d4aa52")
         html_rows.append(
-            f'<tr><td style="padding:6px 14px;color:#b0a080;font-size:13px;">{role_labels.get(role, role)}</td>'
+            f'<tr><td style="padding:6px 14px;color:#b0a080;font-size:13px;">{role_labels.get(role, role)} {dim}</td>'
             f'<td style="padding:6px 14px;color:#f0e8d8;font-weight:600;">{key}</td>'
             f'<td style="padding:6px 14px;color:#b0a080;">{old_t} <span style="color:{color}">→</span> '
             f'<span style="color:{color};font-weight:700">{new_t}</span></td></tr>'
@@ -677,12 +704,12 @@ def main():
     print("\nDiscovering current Icy Veins tier list URLs...")
     icyveins_urls = discover_icyveins_urls()
 
-    for role, url in icyveins_urls.items():
-        print(f"\nFetching {role} tier list from {url} ...")
+    for (role, dimension), url in sorted(icyveins_urls.items()):
+        print(f"\nFetching {role} {dimension} tier list from {url} ...")
         try:
             html = fetch_tier_page(url)
         except Exception as e:
-            msg = f"Failed to fetch {role} tier list: {e}"
+            msg = f"Failed to fetch {role} {dimension} tier list: {e}"
             print(f"  ERROR: {msg}")
             fetch_errors.append(msg)
             continue
@@ -691,31 +718,28 @@ def main():
         print(f"  Parsed {len(new_tiers)} class entries, {len(spec_tiers)} spec entries")
 
         if not new_tiers:
-            msg = f"No tier data parsed for {role} — Icy Veins page structure may have changed"
+            msg = (f"No tier data parsed for {role} {dimension} — "
+                   f"Icy Veins page structure may have changed")
             print(f"  WARNING: {msg}")
             fetch_errors.append(msg)
             continue
 
-        changes = classify_changes(data, new_tiers, role)
-        all_tier_changes.extend([(role, *c) for c in changes["tier_changes"]])
+        # Each dimension writes only its own field, from its own source page.
+        # M+ and raid genuinely differ — Blood DK is S in M+ and B in raid — so
+        # the two must never be copied into one another.
+        changes = classify_changes(data, new_tiers, role, dimension)
+        all_tier_changes.extend([(role, dimension, *c) for c in changes["tier_changes"]])
         all_structural.extend([(role, *c) for c in changes["structural"]])
 
-        # Apply tier changes to data.
-        #
-        # Only "mplus" is touched. The source pages are Icy Veins' *Mythic+*
-        # tier lists, so they say nothing about raid performance — copying the
-        # M+ letter into "raid" silently overwrote hand-curated raid tiers and
-        # collapsed the M+/Raid toggle on tier-list.html into two identical
-        # views. Raid tiers stay manual until there is a raid source to scrape.
         for key, old_tier, new_tier in changes["tier_changes"]:
-            data[role][key]["mplus"] = new_tier
-            print(f"  Updated {key}: mplus {old_tier} → {new_tier} (raid left as-is)")
+            data[role][key][dimension] = new_tier
+            print(f"  Updated {key}: {dimension} {old_tier} → {new_tier}")
 
         # Spec-level pass. tier-list.html renders DPS from "dps_specs", so
         # without this the class-level write above never reaches the page.
-        spec_changes, unknown_specs = sync_spec_tiers(data, role, spec_tiers)
+        spec_changes, unknown_specs = sync_spec_tiers(data, role, spec_tiers, dimension)
         for name, old_tier, new_tier in spec_changes:
-            print(f"  Updated spec {name}: {old_tier} → {new_tier}")
+            print(f"  Updated spec {name}: {dimension} {old_tier} → {new_tier}")
         all_spec_changes.extend([(role, *c) for c in spec_changes])
         for name in unknown_specs:
             all_structural.append(
@@ -743,8 +767,8 @@ def main():
             "date": today,
             "patch": patch,
             "changes": [
-                {"role": r, "key": k, "from": o, "to": n}
-                for r, k, o, n in all_tier_changes
+                {"role": r, "dimension": d, "key": k, "from": o, "to": n}
+                for r, d, k, o, n in all_tier_changes
             ],
             "spec_changes": [
                 {"role": r, "spec": k, "from": o, "to": n}
@@ -787,8 +811,9 @@ def main():
 
         if all_tier_changes:
             lines.append("TIER CHANGES (auto-committed to main):")
-            for role, key, old_t, new_t in all_tier_changes:
-                lines.append(f"  [{role.upper()}] {key}: {old_t} → {new_t}")
+            for role, dimension, key, old_t, new_t in all_tier_changes:
+                dim = "M+" if dimension == "mplus" else "RAID"
+                lines.append(f"  [{role.upper()} {dim}] {key}: {old_t} → {new_t}")
             lines.append("")
 
         if all_spec_changes:

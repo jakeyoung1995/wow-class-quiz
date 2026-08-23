@@ -382,7 +382,10 @@ document.getElementById('gateInput')?.addEventListener('keydown', e => {
   const params = new URLSearchParams(window.location.search);
   if (params.get('unlock') === UNLOCK_WORD) {
     saveAccess();
-    history.replaceState({}, '', window.location.pathname);
+    // Strip only the unlock token, preserving any other params (utm_*, ref, …)
+    params.delete('unlock');
+    const qs = params.toString();
+    history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : ''));
   }
   if (hasAccess()) {
     document.getElementById('mainContent').style.display = 'block';

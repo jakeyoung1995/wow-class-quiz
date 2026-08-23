@@ -593,8 +593,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   if (params.get('unlock') === UNLOCK_WORD) {
     saveAccess();
-    // Strip the token from the URL so it's not visible or bookmarked
-    history.replaceState({}, '', window.location.pathname);
+    // Strip only the unlock token, preserving any other params (utm_*, ref, …)
+    params.delete('unlock');
+    const qs = params.toString();
+    history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : ''));
     dismissGate();
     return;
   }

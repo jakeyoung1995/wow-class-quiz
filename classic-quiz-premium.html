@@ -344,29 +344,80 @@
 
 <script>
 const UNLOCK_WORD = 'MIDNIGHT2026'; // change here only if you update Gumroad redirect
+const STORAGE_KEY = 'wowquiz_premium_v1';
 
 // ── Gate ──────────────────────────────────────────────────────────────────
-(function() {
+// Kept deliberately in step with the Midnight premium pages: same storage key,
+// same ?unlock= handling, same localhost bypass. This page used to accept only
+// a typed word, so a Gumroad link straight to it left buyers staring at the
+// gate with the unlock already in the URL.
+function saveAccess() {
   try {
-    const d = JSON.parse(localStorage.getItem('wowquiz_premium_v1') || 'null');
-    if (d && d.unlocked && d.expiry > Date.now()) {
-      return;
-    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      unlocked: true,
+      expiry: Date.now() + 365 * 24 * 60 * 60 * 1000  // 1 year
+    }));
   } catch(e) {}
+}
+
+function hasStoredAccess() {
+  try {
+    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    return !!(d.unlocked && d.expiry > Date.now());
+  } catch(e) { return false; }
+}
+
+function openGate() {
+  document.getElementById('gateWall').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+}
+
+function closeGate() {
   document.getElementById('gateWall').style.display = 'block';
   document.getElementById('mainContent').style.display = 'none';
+}
+
+(function checkAccess() {
+  // Dev bypass — never block on localhost / file://
+  if (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.protocol === 'file:') {
+    return;
+  }
+
+  // Gumroad redirect param (?unlock=MIDNIGHT2026)
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('unlock') === UNLOCK_WORD) {
+    saveAccess();
+    // Strip only the unlock token, preserving any other params on the URL.
+    params.delete('unlock');
+    const qs = params.toString();
+    history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : ''));
+    return;
+  }
+
+  if (hasStoredAccess()) return;
+
+  closeGate();
 })();
 
 function tryUnlock() {
   const val = document.getElementById('gateInput').value.trim().toUpperCase();
   if (val === UNLOCK_WORD) {
-    localStorage.setItem('wowquiz_premium_v1', JSON.stringify({ unlocked: true, word: val, expiry: Date.now() + 365*24*60*60*1000 }));
-    document.getElementById('gateWall').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
+    saveAccess();
+    openGate();
   } else {
     document.getElementById('gateError').style.display = 'block';
   }
 }
+
+// Submit on Enter, matching the Midnight premium pages.
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('gateInput');
+  if (input) input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); tryUnlock(); }
+  });
+});
 
 // ── Questions ─────────────────────────────────────────────────────────────
 const SECTIONS = [

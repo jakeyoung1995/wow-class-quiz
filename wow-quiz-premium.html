@@ -1037,23 +1037,28 @@ const classes = [
   },
   {
     name:'Demon Hunter', icon:'😤', bg:'rgba(255,80,80,0.12)', border:'rgba(255,80,80,0.3)', matchColor:'#e05050',
-    why:'Havoc is the definitive "cool factor" melee spec — double jumps, Metamorphosis, fel-green Eye Beam, Vengeful Retreat. The rotation is reactive and satisfying without being overwhelming, making it accessible for newcomers while still rewarding mastery. Only one DPS spec (Havoc), so spec-switching doesn\'t apply — you commit fully to one identity and perfect it. Consistent S/A-tier mythic raid presence historically.',
+    why:'Two DPS specs that share a soul but not a battlefield. Havoc is the definitive "cool factor" melee spec — double jumps, Metamorphosis, fel-green Eye Beam, Vengeful Retreat — reactive and satisfying without being overwhelming, accessible for newcomers while still rewarding mastery. Devourer, added in Midnight, is a 25-yard void caster: it devours Soul Fragments to trigger Void Metamorphosis on your own schedule instead of waiting on a cooldown timer, so your burst is something you plan rather than something you press. Picking Demon Hunter now means picking between melee and mid-range without leaving the class — and both keep the full movement kit and bring Chaos Brand.',
     specs:[
       { name:'Havoc', mythic:'A', mplus:'S', complexity:3, mobility:5, aoe:5, st:4,
         desc:'Metamorphosis burst, Eye Beam AoE, Fel Rush + Vengeful Retreat mobility — the most cinematic melee spec.',
         goodFor:'Players who want maximum mobility, flashy visuals, and a rewarding but accessible rotation.',
-        badFor:'Players who want multiple specs to explore or a heavy single-target focus spec.' },
+        badFor:'Players who want a mid-range playstyle or a heavy single-target focus spec.' },
+      { name:'Devourer', mythic:'A', mplus:'A', complexity:4, mobility:5, aoe:5, st:4,
+        desc:'A 25-yard void caster with a build-and-spend loop feeding Void Metamorphosis. Void Meta has no cooldown timer — you unlock it by collecting Soul Fragments, so burst lands roughly every 20–30 seconds and you decide exactly when.',
+        goodFor:'Players who want DH mobility and survivability at range, and who would rather earn their burst window than wait for a timer.',
+        badFor:'Players who want burst available instantly on pull — Devourer ramps briefly at the start of a fight, which wastes a little Bloodlust.' },
     ],
-    fit:{ yes:['Cool factor is your primary driver','You want the most mobile melee spec','You prefer mastering one spec deeply','AoE/M+ performance is critical to you'], no:['You want multiple DPS spec options','You want the deepest possible skill ceiling (DH is mid-complexity)','You prefer ranged playstyle'] },
+    fit:{ yes:['Cool factor is your primary driver','You want the most mobile melee spec','You want one class that covers both melee and mid-range','AoE/M+ performance is critical to you'], no:['You want three genuinely different DPS specs — DH has two','You want the deepest possible skill ceiling (DH is mid-complexity)','You want full 40-yard range — Devourer sits at 25 yards'] },
     roadmap:['Learn the Metamorphosis window: pre-pool Fury, align with lust, use Eye Beam for Demonic buff.','Set up mobility macros: Fel Rush + Vengeful Retreat back-to-back for repositioning.',
       'Study The Hunt vs other openers — opener optimization is significant for DH.','Track Fury capping in logs — that\'s the #1 DPS loss for Havoc players.',
+      'If you go Devourer: practise banking Soul Fragments so Void Metamorphosis lands on the pull and on add waves, rather than the moment it becomes available.',
       'Push high M+ keys — DH is arguably the best M+ melee spec and your reputation will grow fast.'],
     addons:['WeakAuras (Fury tracker, Metamorphosis timer)','Details!','DBM/BigWigs','OmniCD','MythicDungeonTools'],
     scores:{
-      range:{melee:3,any:1}, complexity:{reactive:3,simple:2},
-      fantasy:{fel:3,warrior:1}, resource:{cooldown:3,builder:1},
+      range:{melee:2,any:2,ranged:1}, complexity:{reactive:3,planned:2,simple:1},
+      fantasy:{fel:3,death:1,warrior:1}, resource:{cooldown:3,builder:2},
       mobility:{mobile:3}, visual:{flashy:3,epic:3},
-      spec_variety:{focused:3}, raid_role:{pure:2,execute:2},
+      spec_variety:{moderate:3,focused:1}, raid_role:{pure:2,execute:2},
       vibe:{cool:3,flow:2},
       aoe:{st:2,aoe:3,both:3}, meta:{meta:2,flex:2,love:2},
       defensives:{high:1,medium:2,low:2,ignore:2}, content:{raid:2,mplus:3,both_content:3,solo:1},
@@ -1061,7 +1066,7 @@ const classes = [
       pacing:{slow:1,medium_pace:2,fast:3}, utility_val:{dmg:3,both_util:2,util:1},
       pets_feel:{love_pets:1,ok_pets:2,no_pets:3}, mastery:{deep:2,medium_mastery:2,easy:2},
       guild_value:{anchor:3,swiss:1,caller:2,expert:2},
-      burst_type:{ramp:2,sustained:2,execute:1,proc_burst:3}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:3,two_spec:1,all_specs:1}, off_meta:{swap_meta:2,outplay:2,loyal:3}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:1,guide_prep:3,play_prep:3}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:2,maintain:2,utility_down:2}, identity_src:{kit_identity:2,visual_identity:3,power_identity:3}
+      burst_type:{ramp:2,sustained:2,execute:1,proc_burst:3}, cast_time:{all_instant:3,mixed_cast:1,love_cast:1}, spec_invest:{one_spec:2,two_spec:3,all_specs:1}, off_meta:{swap_meta:2,outplay:2,loyal:3}, movement_cast:{full_move:3,some_move:1,stand_still:1}, lust_sync:{lust_dep:2,flex_timing:3,consistent:2}, prep_style:{deep_prep:1,guide_prep:3,play_prep:3}, class_lore:{lore_first:3,both_lore:2,gameplay_only:1}, downtime_use:{pool:2,maintain:2,utility_down:2}, identity_src:{kit_identity:2,visual_identity:3,power_identity:3}
     }
   },
   {

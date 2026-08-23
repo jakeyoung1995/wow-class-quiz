@@ -1,0 +1,37 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-site:
+    name: Validate site
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # scripts/check_site.py is stdlib-only on purpose, so there is nothing
+      # to install and this stays fast. Run the same command locally before
+      # opening a PR: python3 scripts/check_site.py
+      - name: Run site checks
+        run: python3 scripts/check_site.py
+
+      # The weekly scraper rewrites this file unattended. A malformed commit
+      # would break tier-list.html in the browser with no other signal.
+      - name: Validate tier data JSON
+        run: python3 -c "import json; json.load(open('wow-patch-data.json')); print('wow-patch-data.json is valid JSON')"

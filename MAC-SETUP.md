@@ -62,8 +62,21 @@ the `docs-public/` folder that `publish-docs.py` reads.
 `publish-docs.py` is kept out of the repo on purpose: its secret scanner spells
 out the exact strings that must stay private, so publishing it would leak them.
 
-Without `deploy.py` you can still push with plain `git push`, which works fine,
-since GitHub Pages builds from `main` either way.
+**You do not actually need either script.** The supported workflow is now git +
+pull requests — see CLAUDE.md → Deployment. GitHub Pages builds from `main`, so
+merging a PR is the deploy. Skip this step unless you specifically want the old
+Contents-API push.
+
+To authenticate git for pushing and opening PRs on this machine, install the
+GitHub CLI and log in once:
+
+```bash
+brew install gh
+gh auth login --hostname github.com --git-protocol https --web
+```
+
+`gh auth login` stores the credential in the macOS keychain and configures git to
+use it, so `git push` and `gh pr create` both work afterwards. No `.env` needed.
 
 ### Marketing assets
 
@@ -131,10 +144,13 @@ The repo is the source of truth. Before you start work on either machine:
 git pull
 ```
 
-After deploying from one machine, pull on the other. This matters more than
-usual here because `deploy.py` pushes through the GitHub Contents API rather
-than a normal git push, so your local git history can drift out of date even
-though the live site is current. If `git pull` complains, this is safe:
+After deploying from one machine, pull on the other.
+
+If you use the PR workflow this is straightforward: everything goes through git,
+so `git pull` is always enough. The drift problem below only applies if you still
+run `deploy.py`, which pushes through the GitHub Contents API rather than a normal
+git push and therefore leaves your local history behind even though the live site
+is current. If `git pull` complains, this is safe:
 
 ```bash
 git fetch origin

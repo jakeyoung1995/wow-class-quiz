@@ -29,9 +29,10 @@ A static HTML website that helps WoW players choose their class through interact
 | Windows (`jakecomp`) | `C:\Users\jakey\Documents\wow-class-quiz\` |
 | macOS | `~/Documents/wow-class-quiz/` |
 
-**To push updates**: edit files in the working copy, then run `python deploy.py`
-(macOS: `python3 deploy.py`) from that folder locally. `deploy.py` reads `GH_TOKEN`
-from `.env`. It cannot run from a Cowork sandbox.
+**To push updates**: open a pull request. See [Deployment](#deployment) below.
+`deploy.py` is the legacy path and is being retired — it pushes straight to `main`
+through the Contents API, which leaves no review step and desynchronises local git
+history from the remote.
 
 ---
 
@@ -67,6 +68,8 @@ from `.env`. It cannot run from a Cowork sandbox.
 | `scripts/affiliate-tools.js` | Shared "My WoW gear" CTA renderer for results pages. Now just points to `/gear.html` — the single source of truth for affiliate recommendations. |
 | `scripts/apps-script-template.gs` | Reference template for the Google Apps Script backend (feedback + subscribers + tier-script GET endpoint) |
 | `.github/workflows/update-tier-data.yml` | Runs the scraper every Monday |
+| `.github/workflows/pr-checks.yml` | Runs `scripts/check_site.py` on every PR and every push to `main` |
+| `scripts/check_site.py` | Pre-flight validation — broken links, truncated HTML, duplicate GA4, sitemap drift, malformed tier JSON, committed secrets. Stdlib only. Run it before you push. |
 | `sitemap.xml` | 14 pages (orphan classic tank/healer removed) |
 | `robots.txt` | Points to sitemap |
 | Favicons | `favicon.ico` (multi-size), `favicon.svg`, `favicon-48.png`, `favicon-96.png`, `apple-touch-icon.png`, `icon-192.png` |
@@ -83,10 +86,42 @@ from `.env`. It cannot run from a Cowork sandbox.
 - Custom domain via CNAME
 
 ### Deployment
-- `deploy.py` reads `GH_TOKEN` from `.env`, then uses GitHub Contents API (PUT) to push each file
+
+**Current path — git + pull requests.** GitHub Pages builds from `main`, so
+merging a PR is the deploy. There is no separate publish step.
+
+```bash
+git checkout main && git pull          # always start from current main
+git checkout -b fix/short-description  # one branch per change
+# ...edit files...
+python3 scripts/check_site.py          # must print "0 error(s)" before you push
+git add -A && git commit -m "fix: ..."
+git push -u origin HEAD
+gh pr create --fill                    # or open the PR from the URL git prints
+```
+
+Merging the PR deploys to https://wowclassquiz.com within about a minute.
+Hard-refresh (`Cmd/Ctrl+Shift+R`) to get past browser cache.
+
+Every PR runs `.github/workflows/pr-checks.yml`, which executes
+`scripts/check_site.py` — the same command you run locally. It fails the build on
+broken internal links, truncated HTML, duplicate or missing GA4 tags, sitemap
+drift, malformed `wow-patch-data.json`, and anything that looks like a committed
+credential.
+
+To preview locally before pushing:
+
+```bash
+python3 -m http.server 8901
+```
+
+**Legacy path — `deploy.py`.** Still works, but prefer the PR flow. It reads
+`GH_TOKEN` from `.env` and PUTs each file through the GitHub Contents API.
 - Files declared in `FILES` array; scripts in `EXTRA` as (local_path, remote_path) tuples
 - `REMOVED_FILES` triggers DELETE for files that should no longer live on remote
 - Cannot push from the Linux sandbox (403 proxy) — must run `python deploy.py` locally
+- Because it bypasses git, your local clone drifts out of date after every run.
+  That drift is the main reason to stop using it.
 
 ### Live Tier Data Pipeline
 1. GitHub Actions runs `scripts/update_tier_data.py` every Monday at ~9am UTC
@@ -158,7 +193,8 @@ Header: sticky, 56px, crossed swords SVG + nav (DPS, Tank, Healer, Tier List, Te
 - **Never use `typeof varName` before a `const varName`** in the same function scope — throws a TDZ ReferenceError. All `showResults()` functions must declare `const ranked = calcScores()` BEFORE any gtag call. (Tank + Healer free quizzes had this bug pre-May-2026; fixed.)
 - **Premium quiz tier letters are still hardcoded in HTML.** The JSON has `dps_specs_detailed` etc. ready for consumption; full migration is in TASKS.md.
 - **Unlock word is in plain HTML** — no real anti-piracy. Acceptable tradeoff for the buyer UX win of cross-device access.
-- **`deploy.py` cannot run from the sandbox** — GitHub API returns 403 through the proxy. Always run locally.
+- **`deploy.py` cannot run from the sandbox** — GitHub API returns 403 through the proxy. Always run locally. Prefer the PR flow instead; it works from any machine with git.
+- **Run `python3 scripts/check_site.py` before every push.** It catches the exact bug classes this repo has shipped before: truncated HTML, links to deleted pages, duplicate GA4 tags.
 - **`update_tier_data.py` requires `GMAIL_APP_PASSWORD` GitHub secret** for emails to send. Get via myaccount.google.com/apppasswords on <NOTIFY_EMAIL>.
 - **`SUBSCRIBER_FETCH_URL` + `SUBSCRIBER_FETCH_KEY` GitHub secrets** needed for tier-shift subscriber emails to work.
 - **Google favicon delay**: 1–2 weeks after deploy. Normal.
@@ -199,4 +235,5 @@ Header: sticky, 56px, crossed swords SVG + nav (DPS, Tank, Healer, Tier List, Te
 | 2026-05-11 | Tank rankings updated per hotfixes |
 | 2026-05-12 | Favicon SERP upgrade + GA4 + Classic showResults fixes |
 | 2026-05-12 | **Full review + Phase 1–5 improvements pass** — see TASKS.md for the full punch list. Highlights: token rotation, 20→30 question copy fix, fake aggregateRating removed, hero CTA, M+ Team Comp Builder built, Shadow Priest added, Vengeance retuned A/A, affiliate Tools section, tier-shift email automation, orphan files deleted, Apps Script template documented |
+| 2026-08-23 | Adopted git + pull-request workflow as the deploy path (`deploy.py` deprecated); added `scripts/check_site.py` + `pr-checks.yml` CI; fixed 4 dead links to the deleted Classic tank/healer quizzes and removed duplicate GA4 tags that were double-counting pageviews on the free tank + healer quizzes |
 | 2026-08-23 | Second-machine setup documented (`MAC-SETUP.md`) + redacted `docs-public/` copies of CLAUDE.md and TASKS.md published to the public repo via new `publish-docs.py`; three orphan 8.3 short-name premium files (`WO0B2D~1.HTM`, `WOB48C~1.HTM`, `WOEE1A~1.HTM`) added to `REMOVED_FILES` — they were serving paid premium content for free |

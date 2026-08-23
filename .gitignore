@@ -21,9 +21,6 @@ tiktok-demo.html
 reddit-posts.md
 LAUNCH-CHECKLIST.md
 
-# Legacy hosting config (no longer used)
-netlify.toml
-
 # OS
 .DS_Store
 Thumbs.db

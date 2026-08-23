@@ -109,6 +109,11 @@
       "class": "Demon Hunter",
       "color": "#a330c9"
     },
+    "Devourer Demon Hunter": {
+      "tier": "A",
+      "class": "Demon Hunter",
+      "color": "#a330c9"
+    },
     "Feral Druid": {
       "tier": "A",
       "class": "Druid",
@@ -378,6 +383,14 @@
       "mplus": "A",
       "raid": "A",
       "complexity": 3,
+      "mobility": 5,
+      "aoe": 5,
+      "single_target": 4
+    },
+    "Devourer Demon Hunter": {
+      "mplus": "A",
+      "raid": "A",
+      "complexity": 4,
       "mobility": 5,
       "aoe": 5,
       "single_target": 4

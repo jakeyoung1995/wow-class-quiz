@@ -58,6 +58,51 @@ ICYVEINS_FALLBACK_URLS = {
     "healer": "https://www.icy-veins.com/wow/mythic-healer-tier-list",
 }
 
+# Blizzard's CDN version endpoint. This is the authoritative answer to "what
+# build is live right now" — it flips the moment Blizzard pushes a patch, with
+# no news article, scrape or human in the loop. Product codes:
+#   wow             retail live      wowt              retail PTR
+#   wow_classic     classic live     wow_classic_ptr   classic PTR
+BLIZZ_VERSIONS_URL = "http://us.patch.battle.net:1119/{product}/versions"
+
+
+def fetch_live_patch(product: str = "wow") -> dict:
+    """
+    Return {'patch': '12.1', 'build': '69404', 'version': '12.1.0.69404'} for a
+    Blizzard product, or {} if the endpoint is unreachable or malformed.
+
+    The response is a pipe-delimited table; we want the `us` row's VersionsName
+    (e.g. "12.1.0.69404"). The marketing patch number is the first two
+    components — 12.1.0 ships as "Patch 12.1", and 12.0.5 as "Patch 12.0.5",
+    so a trailing ".0" is dropped but a non-zero third component is kept.
+    """
+    url = BLIZZ_VERSIONS_URL.format(product=product)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "wowclassquiz-patch-bot"})
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+    except Exception as exc:
+        print(f"  Could not reach Blizzard versions endpoint for '{product}': {exc}")
+        return {}
+
+    for line in body.splitlines():
+        if not line.startswith("us|"):
+            continue
+        fields = line.split("|")
+        if len(fields) < 6:
+            continue
+        version = fields[5].strip()          # e.g. 12.1.0.69404
+        parts = version.split(".")
+        if len(parts) < 3:
+            continue
+        major, minor, third = parts[0], parts[1], parts[2]
+        patch = f"{major}.{minor}" if third == "0" else f"{major}.{minor}.{third}"
+        return {"patch": patch, "build": fields[4].strip(), "version": version}
+
+    print(f"  Blizzard versions response for '{product}' had no parseable us row")
+    return {}
+
+
 # Keywords used to identify the right link on the hub page for each role
 ICYVEINS_HUB_KEYWORDS = {
     "dps":    ["mythic", "dps", "ranking"],
@@ -559,6 +604,24 @@ def main():
     today = date.today().isoformat()
     patch = data["_meta"].get("patch", "unknown")
 
+    # Reconcile the recorded patch against what is actually live. Previously
+    # _meta.patch was seeded by hand and never touched again, so the site sat on
+    # "12.0.5" for months after 12.1 shipped.
+    patch_change = None
+    live = fetch_live_patch("wow")
+    if live and live["patch"] != patch:
+        patch_change = (patch, live["patch"])
+        print(f"\nPATCH CHANGE DETECTED: {patch} -> {live['patch']} (build {live['build']})")
+        data["_meta"]["patch"] = live["patch"]
+        data["_meta"]["build"] = live["build"]
+        patch = live["patch"]
+        # The season almost always rolls with a major patch, but Blizzard does
+        # not publish it anywhere machine-readable. Flag it rather than guess.
+        data["_meta"]["season_needs_review"] = True
+    elif live:
+        data["_meta"]["build"] = live["build"]
+        print(f"\nLive patch confirmed: {live['patch']} (build {live['build']})")
+
     all_tier_changes = []
     all_spec_changes = []
     all_structural = []
@@ -653,7 +716,7 @@ def main():
     # -----------------------------------------------------------------------
     # Build email + issue content
     # -----------------------------------------------------------------------
-    if not all_tier_changes and not all_spec_changes and not all_structural and not fetch_errors:
+    if not patch_change and not all_tier_changes and not all_spec_changes and not all_structural and not fetch_errors:
         subject = f"[WoW Class Quiz] No tier changes this week (patch {patch})"
         body = (
             f"Weekly tier check ran on {today}.\n\n"
@@ -662,6 +725,13 @@ def main():
         )
     else:
         lines = [f"Weekly tier update report — {today} — patch {patch}\n"]
+
+        if patch_change:
+            lines.append(f"*** NEW PATCH LIVE: {patch_change[0]} -> {patch_change[1]} ***")
+            lines.append("  _meta.patch has been updated automatically.")
+            lines.append("  _meta.season still says "
+                         f"'{data['_meta'].get('season', '?')}' — review that manually.")
+            lines.append("")
 
         if all_tier_changes:
             lines.append("TIER CHANGES (auto-committed to main):")
@@ -690,7 +760,8 @@ def main():
         lines.append("Site: https://wowclassquiz.com")
         lines.append("Repo: https://github.com/jakeyoung1995/wow-class-quiz")
 
-        subject = (f"[WoW Class Quiz] Tier update — {len(all_tier_changes)} class, "
+        subject = (f"[WoW Class Quiz] {'PATCH ' + patch_change[1] + ' LIVE — ' if patch_change else ''}"
+                   f"Tier update — {len(all_tier_changes)} class, "
                    f"{len(all_spec_changes)} spec, {len(all_structural)} structural")
         body = "\n".join(lines)
 

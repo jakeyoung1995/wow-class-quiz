@@ -226,11 +226,16 @@ def fetch_tier_page(url: str) -> str:
         return resp.read().decode("utf-8", errors="replace")
 
 
-def parse_tier_list(html: str) -> dict:
+def parse_tier_list(html: str) -> tuple:
     """
-    Parse an Icy Veins tier list page and return a dict:
-      { our_json_key: best_tier_letter }
-    For classes with multiple specs, we take the best (highest) tier across specs.
+    Parse an Icy Veins tier list page and return:
+      ( { our_json_key: best_tier_letter },      # class-level aggregate
+        { spec_display_name: tier_letter } )     # raw spec-level
+
+    For classes with multiple specs the aggregate takes the best (highest)
+    tier across specs. The spec-level dict is returned unaggregated because
+    tier-list.html renders DPS from the spec-level "dps_specs" structure, not
+    from the class-level one.
     """
     raw = parse_tier_table(html)
 
@@ -255,7 +260,7 @@ def parse_tier_list(html: str) -> dict:
             if tier_order.get(tier, 9) < tier_order.get(aggregated[key], 9):
                 aggregated[key] = tier
 
-    return aggregated
+    return aggregated, raw
 
 
 def regex_fallback_parse(html: str) -> dict:
@@ -274,6 +279,44 @@ def regex_fallback_parse(html: str) -> dict:
     for tier_letter, spec_name in blocks:
         results[spec_name.strip()] = tier_letter.upper()
     return results
+
+
+# Which JSON structure each role's page actually renders from. tier-list.html
+# reads dps_specs for DPS but the flat tank/healer maps for the other two, so
+# DPS needs a second write that the others do not.
+SPEC_LEVEL_SECTIONS = {"dps": "dps_specs"}
+
+
+def sync_spec_tiers(data: dict, role: str, spec_tiers: dict) -> tuple:
+    """
+    Apply spec-level tiers to the section the site renders from.
+
+    Returns (changes, unknown_specs) where changes is
+    [(spec_name, old_tier, new_tier), ...] and unknown_specs are specs Icy
+    Veins lists that we have no entry for — reported as structural rather than
+    silently dropped, because a missing spec is a hole in the published list.
+    """
+    section = SPEC_LEVEL_SECTIONS.get(role)
+    if not section or section not in data:
+        return [], []
+
+    entries = data[section]
+    changes, unknown = [], []
+
+    for spec_display, tier in spec_tiers.items():
+        name = spec_display.strip()
+        if name not in entries:
+            # Only report specs we can attribute to a class we track, so an
+            # unrelated page change does not spam issues.
+            if DISPLAY_TO_KEY.get(name.title()) or DISPLAY_TO_KEY.get(name):
+                unknown.append(name)
+            continue
+        old_tier = entries[name].get("tier", "?")
+        if old_tier != tier:
+            entries[name]["tier"] = tier
+            changes.append((name, old_tier, tier))
+
+    return changes, unknown
 
 
 # ---------------------------------------------------------------------------
@@ -517,6 +560,7 @@ def main():
     patch = data["_meta"].get("patch", "unknown")
 
     all_tier_changes = []
+    all_spec_changes = []
     all_structural = []
     fetch_errors = []
 
@@ -538,8 +582,8 @@ def main():
             fetch_errors.append(msg)
             continue
 
-        new_tiers = parse_tier_list(html)
-        print(f"  Parsed {len(new_tiers)} entries: {new_tiers}")
+        new_tiers, spec_tiers = parse_tier_list(html)
+        print(f"  Parsed {len(new_tiers)} class entries, {len(spec_tiers)} spec entries")
 
         if not new_tiers:
             msg = f"No tier data parsed for {role} — Icy Veins page structure may have changed"
@@ -562,19 +606,35 @@ def main():
             data[role][key]["mplus"] = new_tier
             print(f"  Updated {key}: mplus {old_tier} → {new_tier} (raid left as-is)")
 
+        # Spec-level pass. tier-list.html renders DPS from "dps_specs", so
+        # without this the class-level write above never reaches the page.
+        spec_changes, unknown_specs = sync_spec_tiers(data, role, spec_tiers)
+        for name, old_tier, new_tier in spec_changes:
+            print(f"  Updated spec {name}: {old_tier} → {new_tier}")
+        all_spec_changes.extend([(role, *c) for c in spec_changes])
+        for name in unknown_specs:
+            all_structural.append(
+                (role, name, f"Spec '{name}' is on the Icy Veins {role} list but "
+                             f"has no entry in {SPEC_LEVEL_SECTIONS.get(role)}")
+            )
+
     # Update metadata
     data["_meta"]["last_updated"] = today
     if all_tier_changes or not fetch_errors:
         data["_meta"]["needs_refresh"] = False  # we have fresh data
 
     # Log changes
-    if all_tier_changes:
+    if all_tier_changes or all_spec_changes:
         data["changelog"].append({
             "date": today,
             "patch": patch,
             "changes": [
                 {"role": r, "key": k, "from": o, "to": n}
                 for r, k, o, n in all_tier_changes
+            ],
+            "spec_changes": [
+                {"role": r, "spec": k, "from": o, "to": n}
+                for r, k, o, n in all_spec_changes
             ]
         })
         # Keep only last 20 changelog entries
@@ -583,7 +643,8 @@ def main():
     # Write updated JSON
     if DRY_RUN:
         print(f"\n[dry-run] would write {DATA_FILE} "
-              f"({len(all_tier_changes)} tier change(s)) — file left untouched")
+              f"({len(all_tier_changes)} class + {len(all_spec_changes)} spec "
+              f"change(s)) — file left untouched")
     else:
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
@@ -592,7 +653,7 @@ def main():
     # -----------------------------------------------------------------------
     # Build email + issue content
     # -----------------------------------------------------------------------
-    if not all_tier_changes and not all_structural and not fetch_errors:
+    if not all_tier_changes and not all_spec_changes and not all_structural and not fetch_errors:
         subject = f"[WoW Class Quiz] No tier changes this week (patch {patch})"
         body = (
             f"Weekly tier check ran on {today}.\n\n"
@@ -606,6 +667,12 @@ def main():
             lines.append("TIER CHANGES (auto-committed to main):")
             for role, key, old_t, new_t in all_tier_changes:
                 lines.append(f"  [{role.upper()}] {key}: {old_t} → {new_t}")
+            lines.append("")
+
+        if all_spec_changes:
+            lines.append("SPEC-LEVEL CHANGES (what tier-list.html renders for DPS):")
+            for role, name, old_t, new_t in all_spec_changes:
+                lines.append(f"  [{role.upper()}] {name}: {old_t} → {new_t}")
             lines.append("")
 
         if all_structural:
@@ -623,7 +690,8 @@ def main():
         lines.append("Site: https://wowclassquiz.com")
         lines.append("Repo: https://github.com/jakeyoung1995/wow-class-quiz")
 
-        subject = f"[WoW Class Quiz] Tier update — {len(all_tier_changes)} change(s), {len(all_structural)} structural"
+        subject = (f"[WoW Class Quiz] Tier update — {len(all_tier_changes)} class, "
+                   f"{len(all_spec_changes)} spec, {len(all_structural)} structural")
         body = "\n".join(lines)
 
     print(f"\n--- Admin Email ---\nSubject: {subject}\n{body}\n---")
@@ -646,7 +714,8 @@ def main():
             f"**Patch:** {patch}\n\n"
             f"**Reason:** {reason}\n\n"
             f"### What needs to happen\n"
-            f"1. Decide whether to add **{key}** to `wow-patch-data.json` under `{role}`.\n"
+            f"1. Decide whether to add **{key}** to `wow-patch-data.json` under "
+            f"`{role}` and/or `{SPEC_LEVEL_SECTIONS.get(role, role)}`.\n"
             f"2. Update the quiz HTML (`wow-quiz-{role}.html` or relevant file) to include the new spec/class in scoring.\n"
             f"3. Update `scripts/update_tier_data.py` → `DISPLAY_TO_KEY` map if needed.\n"
             f"4. Open a PR against main — merging deploys via GitHub Pages.\n\n"

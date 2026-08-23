@@ -57,7 +57,7 @@ function doGet(e) {
   const key = e.parameter.key || '';
 
   if (action === 'list_subscribers') {
-    if (key !== SECRET_KEY) {
+    if (!secureEquals(key, SECRET_KEY)) {
       return ContentService.createTextOutput(JSON.stringify({ error: 'unauthorized' }))
         .setMimeType(ContentService.MimeType.JSON);
     }
@@ -70,25 +70,50 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.TEXT);
 }
 
+// ─── Safety helpers ─────────────────────────────────────
+/**
+ * Neutralise spreadsheet formula injection.
+ *
+ * Everything written to the sheet arrives from a public endpoint that is
+ * embedded in the site's HTML, so anyone can post anything. A value starting
+ * with = + - or @ is executed as a formula when the sheet is opened, which
+ * can exfiltrate other cells (=IMPORTXML(...&A1)) or just corrupt the sheet.
+ * Prefixing with an apostrophe forces Sheets to treat it as literal text.
+ */
+function safeCell(value) {
+  var text = (value === null || value === undefined) ? '' : String(value);
+  if (text.length > 1000) text = text.slice(0, 1000);   // bound runaway input
+  if (/^[=+\-@\t\r]/.test(text)) return "'" + text;
+  return text;
+}
+
+/** Basic shape check — not RFC-complete, just enough to reject junk. */
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) && email.length <= 254;
+}
+
 // ─── Feedback ───────────────────────────────────────────
 function handleFeedback(p) {
   const sheet = getSheet(FEEDBACK_TAB, ['Timestamp', 'Quiz Type', 'Top Class', 'Rating', 'Recommend', 'Comment']);
   sheet.appendRow([
     new Date(),
-    p.quizType || '',
-    p.topClass || '',
-    p.rating   || '',
-    p.recommend || '',
-    p.comment  || ''
+    safeCell(p.quizType),
+    safeCell(p.topClass),
+    safeCell(p.rating),
+    safeCell(p.recommend),
+    safeCell(p.comment)
   ]);
-  notifySlack(`📝 New feedback: ${p.quizType || '?'} — ${p.rating || '?'}★ — ${p.comment ? '"' + p.comment.slice(0, 140) + '"' : '(no comment)'}`);
+  notifySlack('📝 New feedback: ' + String(p.quizType || '?') + ' — ' + String(p.rating || '?') +
+              '★ — ' + (p.comment ? '"' + String(p.comment).slice(0, 140) + '"' : '(no comment)'));
   return ok();
 }
 
 // ─── Subscribe ──────────────────────────────────────────
 function handleSubscribe(p) {
   const email = (p.email || '').trim().toLowerCase();
-  if (!email || email.indexOf('@') === -1) {
+  // indexOf('@') accepted "@" and "a@b" — anything with an at-sign became a
+  // real recipient for the weekly tier-shift mailout.
+  if (!isValidEmail(email)) {
     return ContentService.createTextOutput('invalid_email').setMimeType(ContentService.MimeType.TEXT);
   }
   const sheet = getSheet(SUBSCRIBERS_TAB, ['Email', 'Source', 'Signup Date', 'Active']);
@@ -99,7 +124,7 @@ function handleSubscribe(p) {
       return ok();
     }
   }
-  sheet.appendRow([email, p.source || 'unknown', new Date(), true]);
+  sheet.appendRow([safeCell(email), safeCell(p.source || 'unknown'), new Date(), true]);
   notifySlack(`✉️ New subscriber: ${email} (source: ${p.source || '?'})`);
   return ok();
 }
@@ -107,7 +132,14 @@ function handleSubscribe(p) {
 // ─── Unsubscribe ────────────────────────────────────────
 function handleUnsubscribe(p) {
   const email = (p.email || '').trim().toLowerCase();
-  if (!email) return ContentService.createTextOutput('invalid_email').setMimeType(ContentService.MimeType.TEXT);
+  if (!isValidEmail(email)) {
+    return ContentService.createTextOutput('invalid_email').setMimeType(ContentService.MimeType.TEXT);
+  }
+  // Require the per-address token. Without this anyone who knows a subscriber's
+  // address can unsubscribe them by posting a single request.
+  if ((p.token || '') !== unsubscribeToken(email)) {
+    return ContentService.createTextOutput('invalid_token').setMimeType(ContentService.MimeType.TEXT);
+  }
   const sheet = getSheet(SUBSCRIBERS_TAB, ['Email', 'Source', 'Signup Date', 'Active']);
   const data = sheet.getDataRange().getValues();
   for (let i = 1; i < data.length; i++) {
@@ -116,6 +148,18 @@ function handleUnsubscribe(p) {
     }
   }
   return ok();
+}
+
+/**
+ * Deterministic per-address unsubscribe token: HMAC(email, SECRET_KEY),
+ * truncated. Deterministic so the mailer can regenerate it without storing
+ * anything extra, and unguessable without SECRET_KEY.
+ */
+function unsubscribeToken(email) {
+  const raw = Utilities.computeHmacSha256Signature(email, SECRET_KEY);
+  return raw.map(function (b) {
+    return ('0' + (b & 0xFF).toString(16)).slice(-2);
+  }).join('').slice(0, 20);
 }
 
 // ─── List subscribers (for tier-shift email script) ─────
@@ -139,6 +183,15 @@ function getSheet(name, headers) {
     if (headers && headers.length) sheet.appendRow(headers);
   }
   return sheet;
+}
+
+/** Length-independent comparison, so a wrong key leaks no timing signal. */
+function secureEquals(a, b) {
+  a = String(a); b = String(b);
+  if (a.length !== b.length) return false;
+  var diff = 0;
+  for (var i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
 }
 
 function ok() {

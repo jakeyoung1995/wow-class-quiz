@@ -189,12 +189,41 @@ def check_canonicals():
         body = read(name)
         match = re.search(r'<link rel="canonical" href="([^"]+)"', body)
         if not match:
-            warn(f"{name} has no canonical link")
+            err(f"{name} has no canonical link — duplicate-content risk")
             continue
         href = match.group(1)
         expected = f"{SITE}/" if name == "index.html" else f"{SITE}/{name}"
         if href.rstrip("/") != expected.rstrip("/"):
-            warn(f"{name} canonical is '{href}', expected '{expected}'")
+            err(f"{name} canonical is '{href}', expected '{expected}'")
+
+
+def check_social_tags():
+    """A page with no og:image renders as a bare grey link when someone shares
+    it in Discord or on Reddit — where most of this site's traffic starts."""
+    required = ("og:title", "og:image", "og:url", "twitter:card")
+    for name in html_files():
+        if name in NOT_A_PAGE or name == "404.html":
+            continue
+        body = read(name)
+        for tag in required:
+            attr = "name" if tag.startswith("twitter:") else "property"
+            if not re.search(r'<meta\s+%s="%s"' % (attr, re.escape(tag)), body):
+                err(f"{name} is missing <meta {attr}=\"{tag}\">")
+        # og:image must point at a file that exists.
+        m = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', body)
+        if m:
+            target = m.group(1).replace(SITE + "/", "")
+            if not os.path.exists(os.path.join(REPO, target)):
+                err(f"{name} og:image points at '{target}' which is not in the repo")
+
+
+def check_external_links():
+    """target=_blank without rel=noopener lets the opened page reach back
+    through window.opener."""
+    for name in html_files():
+        for tag in re.findall(r'<a\b[^>]*target="_blank"[^>]*>', read(name)):
+            if "noopener" not in tag:
+                err(f"{name} has a target=_blank link without rel=noopener")
 
 
 def check_gitignore_conflicts():
@@ -229,6 +258,8 @@ def main():
         check_sitemap,
         check_secrets,
         check_canonicals,
+        check_social_tags,
+        check_external_links,
         check_gitignore_conflicts,
     ):
         check()

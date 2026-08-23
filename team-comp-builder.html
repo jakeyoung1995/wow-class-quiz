@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WoW Midnight M+ Team Comp Builder — Score Your Group</title>
-  <meta name="description" content="Build a Mythic+ team comp for WoW Midnight Season 1. Score your group on tier, utility, bloodlust, battle rez, and interrupts. Free tool — auto-updated weekly.">
+  <meta name="description" content="Build a Mythic+ team comp for WoW Midnight Season 2. Score your group on tier, utility, bloodlust, battle rez, and interrupts. Free tool — auto-updated weekly.">
   <link rel="canonical" href="https://wowclassquiz.com/team-comp-builder.html">
   <meta name="keywords" content="wow team comp builder, wow mythic plus comp builder, m+ comp builder, wow midnight team comp, wow group composition tool">
   <link rel="icon" href="/favicon.ico" sizes="any">
@@ -19,7 +19,7 @@
   <meta property="og:url" content="https://wowclassquiz.com/team-comp-builder.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="WoW M+ Team Comp Builder — Score Your Group">
-  <meta name="twitter:description" content="Build a Mythic+ team comp for WoW Midnight Season 1. Score your group on tier, utility, bloodlust, battle rez, and interrupts. Free tool — auto-updated weekly.">
+  <meta name="twitter:description" content="Build a Mythic+ team comp for WoW Midnight Season 2. Score your group on tier, utility, bloodlust, battle rez, and interrupts. Free tool — auto-updated weekly.">
 
   <script type="application/ld+json">
   {
@@ -168,7 +168,7 @@
 
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow">Free · WoW Midnight · Season 1</div>
+    <div class="hero-eyebrow">Free · WoW Midnight · Season 2</div>
     <h1>WoW Midnight<br><em>M+ Team Comp Builder</em></h1>
     <p>Build your 5-player group, instantly see its tier rating, utility gaps, and suggested swaps. Tier data updates weekly from current Mythic+ rankings.</p>
     <div class="live-tag"><span class="live-dot"></span><span id="liveTag">Loading current patch…</span></div>
@@ -340,7 +340,7 @@ async function loadData() {
 
     const meta = PATCH_DATA._meta || {};
     document.getElementById('liveTag').textContent =
-      'Patch ' + (meta.patch || '12.0') + ' · ' + (meta.season || 'Season 1') + ' · Updated ' + (meta.last_updated || 'recently');
+      'Patch ' + (meta.patch || '12.1') + ' · ' + (meta.season || 'Season 2') + ' · Updated ' + (meta.last_updated || 'recently');
 
     // Hydrate from URL params if user shared a comp
     hydrateFromUrl();

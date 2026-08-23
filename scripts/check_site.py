@@ -261,6 +261,55 @@ def check_data_contract():
                     f"'{key}' key — the page will render nothing for it")
 
 
+def check_premium_tier_drift():
+    """
+    The premium quizzes carry their own hardcoded `tiers: { mythic, mplus }`
+    block per spec, entirely separate from wow-patch-data.json. The weekly
+    scraper cannot reach it, so it has drifted since it was written — and it is
+    the paid product: buyers are sold "spec-by-spec tier ratings".
+
+    Reported as warnings rather than errors because fixing it means migrating
+    the premium quizzes onto the JSON (TASKS.md Phase 5), not a one-line edit.
+    Kept visible on every run so the drift cannot be forgotten again.
+    """
+    path = os.path.join(REPO, "wow-patch-data.json")
+    if not os.path.exists(path):
+        return
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except json.JSONDecodeError:
+        return
+
+    truth = {}
+    for name, v in data.get("tank", {}).items():
+        truth[name] = (v.get("mplus"), v.get("raid"))
+    for name, v in data.get("healer", {}).items():
+        truth[name] = (v.get("mplus"), v.get("raid"))
+
+    pattern = re.compile(
+        r"name: '([^']+)',(?:.{0,400}?)tiers: \{ mythic: '([SABC])', mplus: '([SABC])'",
+        re.S,
+    )
+    drifted = 0
+    total = 0
+    for name in ("wow-quiz-premium-tank.html", "wow-quiz-premium-healer.html"):
+        if not os.path.exists(os.path.join(REPO, name)):
+            continue
+        for match in pattern.finditer(read(name)):
+            spec, mythic, mplus = match.group(1), match.group(2), match.group(3)
+            if spec not in truth:
+                continue
+            total += 1
+            live_mplus, live_raid = truth[spec]
+            if mplus != live_mplus or mythic != live_raid:
+                drifted += 1
+    if drifted:
+        warn(f"{drifted} of {total} premium spec tier ratings disagree with "
+             f"wow-patch-data.json — premium quizzes still hardcode their own "
+             f"tiers (see TASKS.md Phase 5)")
+
+
 def check_gitignore_conflicts():
     """A file that is both tracked and gitignored is a trap: the ignore rule
     does nothing, and the next person assumes it does."""
@@ -296,6 +345,7 @@ def main():
         check_social_tags,
         check_external_links,
         check_data_contract,
+        check_premium_tier_drift,
         check_gitignore_conflicts,
     ):
         check()

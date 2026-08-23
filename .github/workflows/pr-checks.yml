@@ -33,5 +33,11 @@ jobs:
 
       # The weekly scraper rewrites this file unattended. A malformed commit
       # would break tier-list.html in the browser with no other signal.
+      # wow-patch-data.json is the source of truth for patch/season/S-tier.
+      # This fails if the HTML copy has drifted from it — the failure mode that
+      # left the site advertising Season 1 for months after Season 2 shipped.
+      - name: Check patch/season copy is stamped
+        run: python3 scripts/stamp_patch_copy.py --check
+
       - name: Validate tier data JSON
         run: python3 -c "import json; json.load(open('wow-patch-data.json')); print('wow-patch-data.json is valid JSON')"

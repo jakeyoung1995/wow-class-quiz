@@ -39,6 +39,9 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+          SUBSCRIBER_FETCH_URL: ${{ secrets.SUBSCRIBER_FETCH_URL }}
+          SUBSCRIBER_FETCH_KEY: ${{ secrets.SUBSCRIBER_FETCH_KEY }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: python scripts/update_tier_data.py
 

@@ -75,7 +75,7 @@
   },
   "dps_specs": {
     "Demonology Warlock": {
-      "tier": "S",
+      "tier": "A",
       "class": "Warlock",
       "color": "#8788ee"
     },
@@ -85,22 +85,22 @@
       "color": "#3fc7eb"
     },
     "Unholy Death Knight": {
-      "tier": "S",
+      "tier": "A",
       "class": "Death Knight",
       "color": "#c41e3a"
     },
     "Augmentation Evoker": {
-      "tier": "S",
+      "tier": "A",
       "class": "Evoker",
       "color": "#33937f"
     },
     "Outlaw Rogue": {
-      "tier": "A",
+      "tier": "S",
       "class": "Rogue",
       "color": "#fff468"
     },
     "Arms Warrior": {
-      "tier": "A",
+      "tier": "S",
       "class": "Warrior",
       "color": "#c69b3a"
     },
@@ -125,77 +125,77 @@
       "color": "#c41e3a"
     },
     "Beast Mastery Hunter": {
-      "tier": "B",
+      "tier": "C",
       "class": "Hunter",
       "color": "#aad372"
     },
     "Destruction Warlock": {
-      "tier": "B",
+      "tier": "A",
       "class": "Warlock",
       "color": "#8788ee"
     },
     "Fire Mage": {
-      "tier": "B",
+      "tier": "A",
       "class": "Mage",
       "color": "#3fc7eb"
     },
     "Windwalker Monk": {
-      "tier": "B",
+      "tier": "S",
       "class": "Monk",
       "color": "#00ff98"
     },
     "Retribution Paladin": {
-      "tier": "B",
+      "tier": "A",
       "class": "Paladin",
       "color": "#f48cba"
     },
     "Elemental Shaman": {
-      "tier": "B",
+      "tier": "A",
       "class": "Shaman",
       "color": "#0070dd"
     },
     "Subtlety Rogue": {
-      "tier": "B",
+      "tier": "A",
       "class": "Rogue",
       "color": "#fff468"
     },
     "Balance Druid": {
-      "tier": "B",
+      "tier": "A",
       "class": "Druid",
       "color": "#ff7c0a"
     },
     "Shadow Priest": {
-      "tier": "C",
+      "tier": "A",
       "class": "Priest",
       "color": "#ffffff"
     },
     "Marksmanship Hunter": {
-      "tier": "C",
+      "tier": "B",
       "class": "Hunter",
       "color": "#aad372"
     },
     "Fury Warrior": {
-      "tier": "C",
+      "tier": "A",
       "class": "Warrior",
       "color": "#c69b3a"
     },
     "Affliction Warlock": {
-      "tier": "C",
+      "tier": "B",
       "class": "Warlock",
       "color": "#8788ee"
     },
     "Frost Mage": {
-      "tier": "C",
+      "tier": "B",
       "class": "Mage",
       "color": "#3fc7eb"
     },
     "Survival Hunter": {
-      "tier": "C",
+      "tier": "B",
       "class": "Hunter",
       "color": "#aad372"
     },
     "Assassination Rogue": {
-      "tier": "C",
+      "tier": "A",
       "class": "Rogue",
       "color": "#fff468"
     },
@@ -710,6 +710,133 @@
           "key": "Restoration Druid",
           "from": "S",
           "to": "B"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "patch": "12.0.5",
+      "changes": [],
+      "spec_changes": [
+        {
+          "role": "dps",
+          "spec": "Arms Warrior",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "spec": "Outlaw Rogue",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "spec": "Windwalker Monk",
+          "from": "B",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "spec": "Elemental Shaman",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Assassination Rogue",
+          "from": "C",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Subtlety Rogue",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Unholy Death Knight",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Balance Druid",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Retribution Paladin",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Destruction Warlock",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Shadow Priest",
+          "from": "C",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Demonology Warlock",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Fury Warrior",
+          "from": "C",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Fire Mage",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Augmentation Evoker",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "spec": "Affliction Warlock",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "spec": "Frost Mage",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "spec": "Marksmanship Hunter",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "spec": "Survival Hunter",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "spec": "Beast Mastery Hunter",
+          "from": "B",
+          "to": "C"
         }
       ]
     }

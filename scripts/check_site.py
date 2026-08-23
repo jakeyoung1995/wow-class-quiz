@@ -268,9 +268,9 @@ def check_premium_tier_drift():
     scraper cannot reach it, so it has drifted since it was written — and it is
     the paid product: buyers are sold "spec-by-spec tier ratings".
 
-    Reported as warnings rather than errors because fixing it means migrating
-    the premium quizzes onto the JSON (TASKS.md Phase 5), not a one-line edit.
-    Kept visible on every run so the drift cannot be forgotten again.
+    scripts/stamp_patch_copy.py now keeps them in step, so any disagreement
+    means the stamper was not run — an error, not a warning. It was a warning
+    while the drift was a known 22-of-39 backlog; that backlog is closed.
     """
     path = os.path.join(REPO, "wow-patch-data.json")
     if not os.path.exists(path):
@@ -286,6 +286,9 @@ def check_premium_tier_drift():
         truth[name] = (v.get("mplus"), v.get("raid"))
     for name, v in data.get("healer", {}).items():
         truth[name] = (v.get("mplus"), v.get("raid"))
+    detailed = data.get("dps_specs_detailed", {})
+    for name, v in data.get("dps_specs", {}).items():
+        truth[name] = (v.get("tier"), detailed.get(name, {}).get("raid", v.get("tier")))
 
     pattern = re.compile(
         r"name: '([^']+)',(?:.{0,400}?)tiers: \{ mythic: '([SABC])', mplus: '([SABC])'",
@@ -304,10 +307,60 @@ def check_premium_tier_drift():
             live_mplus, live_raid = truth[spec]
             if mplus != live_mplus or mythic != live_raid:
                 drifted += 1
+    # The DPS quiz nests specs inside class blocks, so its key is "<spec> <class>".
+    dps_file = "wow-quiz-premium.html"
+    if os.path.exists(os.path.join(REPO, dps_file)):
+        body = read(dps_file)
+        class_starts = [(m.group(1), m.start())
+                        for m in re.finditer(r"name:'([A-Za-z ]+)', icon:", body)]
+        bounds = class_starts + [("", len(body))]
+        for i in range(len(class_starts)):
+            cls, start = bounds[i]
+            segment = body[start:bounds[i + 1][1]]
+            for match in re.finditer(
+                    r"\{ name:'([^']+)', mythic:'([SABC])', mplus:'([SABC])'", segment):
+                spec, mythic, mplus = match.groups()
+                key = f"{spec} {cls}"
+                if key not in truth:
+                    continue
+                total += 1
+                live_mplus, live_raid = truth[key]
+                if mplus != live_mplus or mythic != live_raid:
+                    drifted += 1
+
     if drifted:
-        warn(f"{drifted} of {total} premium spec tier ratings disagree with "
-             f"wow-patch-data.json — premium quizzes still hardcode their own "
-             f"tiers (see TASKS.md Phase 5)")
+        err(f"{drifted} of {total} premium spec tier ratings disagree with "
+            f"wow-patch-data.json — run: python3 scripts/stamp_patch_copy.py")
+
+
+def check_question_counts():
+    """
+    Quiz pages advertise a question count in body copy. The DPS premium quiz was
+    corrected from 20 to 30 in an earlier pass but the tank and healer quizzes
+    kept a stale "20 Questions" badge while delivering 30 — the paid product
+    understating itself on the page that sells it.
+    """
+    for name in html_files():
+        if name in NOT_A_PAGE:
+            continue
+        body = read(name)
+        start = body.find("const questions = [")
+        if start == -1:
+            continue
+        block = body[start:body.find("\n];", start)]
+        actual = len(re.findall(r"\{ *id:'", block)) or len(re.findall(r"id: '", block))
+        if not actual:
+            continue
+        # Only the page's own badge counts. Free quizzes legitimately mention
+        # "30 questions vs. 9" when upselling the premium version, which is a
+        # statement about a different quiz, not a claim about themselves.
+        badges = re.findall(r'class="premium-badge">([^<]*)', body)
+        claimed = {int(n) for badge in badges
+                   for n in re.findall(r"(\d+)\s+[Qq]uestions", badge)}
+        wrong = sorted(c for c in claimed if c != actual)
+        if wrong:
+            err(f"{name} badge advertises {', '.join(str(w) for w in wrong)} "
+                f"question(s) but the quiz has {actual}")
 
 
 def check_gitignore_conflicts():
@@ -346,6 +399,7 @@ def main():
         check_external_links,
         check_data_contract,
         check_premium_tier_drift,
+        check_question_counts,
         check_gitignore_conflicts,
     ):
         check()

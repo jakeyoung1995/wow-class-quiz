@@ -269,7 +269,7 @@
   },
   "dps_specs_detailed": {
     "Outlaw Rogue": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "complexity": 4,
       "mobility": 5,
@@ -277,7 +277,7 @@
       "single_target": 3
     },
     "Subtlety Rogue": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "B",
       "complexity": 5,
       "mobility": 4,
@@ -285,7 +285,7 @@
       "single_target": 5
     },
     "Assassination Rogue": {
-      "mplus": "C",
+      "mplus": "A",
       "raid": "B",
       "complexity": 4,
       "mobility": 3,
@@ -301,7 +301,7 @@
       "single_target": 5
     },
     "Fire Mage": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "B",
       "complexity": 4,
       "mobility": 3,
@@ -309,7 +309,7 @@
       "single_target": 4
     },
     "Frost Mage": {
-      "mplus": "C",
+      "mplus": "B",
       "raid": "C",
       "complexity": 3,
       "mobility": 3,
@@ -317,7 +317,7 @@
       "single_target": 3
     },
     "Demonology Warlock": {
-      "mplus": "S",
+      "mplus": "A",
       "raid": "S",
       "complexity": 4,
       "mobility": 1,
@@ -325,7 +325,7 @@
       "single_target": 5
     },
     "Destruction Warlock": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "B",
       "complexity": 2,
       "mobility": 1,
@@ -333,7 +333,7 @@
       "single_target": 4
     },
     "Affliction Warlock": {
-      "mplus": "C",
+      "mplus": "B",
       "raid": "B",
       "complexity": 4,
       "mobility": 1,
@@ -341,7 +341,7 @@
       "single_target": 5
     },
     "Unholy Death Knight": {
-      "mplus": "S",
+      "mplus": "A",
       "raid": "S",
       "complexity": 4,
       "mobility": 2,
@@ -357,7 +357,7 @@
       "single_target": 4
     },
     "Beast Mastery Hunter": {
-      "mplus": "B",
+      "mplus": "C",
       "raid": "B",
       "complexity": 2,
       "mobility": 5,
@@ -365,7 +365,7 @@
       "single_target": 4
     },
     "Marksmanship Hunter": {
-      "mplus": "C",
+      "mplus": "B",
       "raid": "B",
       "complexity": 3,
       "mobility": 3,
@@ -373,7 +373,7 @@
       "single_target": 4
     },
     "Survival Hunter": {
-      "mplus": "C",
+      "mplus": "B",
       "raid": "C",
       "complexity": 4,
       "mobility": 4,
@@ -405,7 +405,7 @@
       "single_target": 4
     },
     "Elemental Shaman": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "B",
       "complexity": 3,
       "mobility": 2,
@@ -421,7 +421,7 @@
       "single_target": 4
     },
     "Balance Druid": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "A",
       "complexity": 3,
       "mobility": 3,
@@ -429,7 +429,7 @@
       "single_target": 4
     },
     "Windwalker Monk": {
-      "mplus": "B",
+      "mplus": "S",
       "raid": "B",
       "complexity": 4,
       "mobility": 5,
@@ -437,7 +437,7 @@
       "single_target": 4
     },
     "Arms Warrior": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "complexity": 3,
       "mobility": 3,
@@ -445,7 +445,7 @@
       "single_target": 5
     },
     "Fury Warrior": {
-      "mplus": "C",
+      "mplus": "A",
       "raid": "B",
       "complexity": 2,
       "mobility": 3,
@@ -453,7 +453,7 @@
       "single_target": 4
     },
     "Retribution Paladin": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "B",
       "complexity": 3,
       "mobility": 2,
@@ -469,7 +469,7 @@
       "single_target": 4
     },
     "Augmentation Evoker": {
-      "mplus": "S",
+      "mplus": "A",
       "raid": "S",
       "complexity": 5,
       "mobility": 4,
@@ -479,7 +479,7 @@
       "note": "Support DPS — buffs allies more than topping the meter. Brought to most high-end groups."
     },
     "Shadow Priest": {
-      "mplus": "C",
+      "mplus": "A",
       "raid": "C",
       "complexity": 4,
       "mobility": 2,
@@ -489,7 +489,7 @@
   },
   "tank_specs_detailed": {
     "Blood Death Knight": {
-      "mplus": "B",
+      "mplus": "S",
       "raid": "B",
       "complexity": 4,
       "mobility": 2,
@@ -513,7 +513,7 @@
       "active_mit": 4
     },
     "Brewmaster Monk": {
-      "mplus": "S",
+      "mplus": "B",
       "raid": "A",
       "complexity": 4,
       "mobility": 4,
@@ -539,7 +539,7 @@
   },
   "healer_specs_detailed": {
     "Restoration Druid": {
-      "mplus": "S",
+      "mplus": "B",
       "raid": "S",
       "complexity": 4,
       "mobility": 4,
@@ -548,7 +548,7 @@
       "note": "HoT-focused — heals tick over time"
     },
     "Preservation Evoker": {
-      "mplus": "S",
+      "mplus": "A",
       "raid": "S",
       "complexity": 4,
       "mobility": 4,
@@ -566,7 +566,7 @@
       "note": "Heal by dealing damage (Fistweaver) or traditional"
     },
     "Holy Paladin": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "complexity": 3,
       "mobility": 2,
@@ -593,7 +593,7 @@
       "note": "Heal by dealing damage via Atonement"
     },
     "Restoration Shaman": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "complexity": 4,
       "mobility": 3,

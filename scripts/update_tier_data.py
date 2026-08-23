@@ -332,6 +332,48 @@ def regex_fallback_parse(html: str) -> dict:
 SPEC_LEVEL_SECTIONS = {"dps": "dps_specs"}
 
 
+# The *_specs_detailed sections carry a second copy of every tier letter,
+# alongside ratings the premium quizzes render. Nothing was ever writing them,
+# so they drifted from the sections the scraper does maintain — 20 of 26 DPS
+# entries disagreed. Reconciled on every run so the file self-heals rather than
+# needing a one-off repair.
+#
+# M+ is scraped and therefore authoritative. Raid is hand-curated and flows the
+# other way, so it is copied down for tank/healer (where the curated value lives
+# in the flat section) and left untouched for DPS (where the detailed section is
+# itself the curated home).
+DETAILED_SECTIONS = {
+    "dps_specs_detailed":    ("dps_specs", "tier", None),
+    "tank_specs_detailed":   ("tank", "mplus", "raid"),
+    "healer_specs_detailed": ("healer", "mplus", "raid"),
+}
+
+
+def reconcile_detailed(data: dict) -> list:
+    """Bring *_specs_detailed back in line with the sections the scraper owns.
+    Returns [(section, spec, field, old, new), ...]."""
+    fixed = []
+    for detailed_key, (source_key, mplus_field, raid_field) in DETAILED_SECTIONS.items():
+        detailed = data.get(detailed_key)
+        source = data.get(source_key)
+        if not isinstance(detailed, dict) or not isinstance(source, dict):
+            continue
+        for spec, src in source.items():
+            entry = detailed.get(spec)
+            if not isinstance(entry, dict) or not isinstance(src, dict):
+                continue
+            live_mplus = src.get(mplus_field)
+            if live_mplus and entry.get("mplus") != live_mplus:
+                fixed.append((detailed_key, spec, "mplus", entry.get("mplus"), live_mplus))
+                entry["mplus"] = live_mplus
+            if raid_field:
+                live_raid = src.get(raid_field)
+                if live_raid and entry.get("raid") != live_raid:
+                    fixed.append((detailed_key, spec, "raid", entry.get("raid"), live_raid))
+                    entry["raid"] = live_raid
+    return fixed
+
+
 def sync_spec_tiers(data: dict, role: str, spec_tiers: dict) -> tuple:
     """
     Apply spec-level tiers to the section the site renders from.
@@ -681,6 +723,15 @@ def main():
                              f"has no entry in {SPEC_LEVEL_SECTIONS.get(role)}")
             )
 
+    # Bring the detailed sections back in line with what was just scraped.
+    detailed_fixes = reconcile_detailed(data)
+    if detailed_fixes:
+        print(f"\nReconciled {len(detailed_fixes)} detailed tier field(s):")
+        for section, spec, field, was, now in detailed_fixes[:10]:
+            print(f"  {section}.{spec}.{field}: {was} -> {now}")
+        if len(detailed_fixes) > 10:
+            print(f"  ... and {len(detailed_fixes) - 10} more")
+
     # Update metadata
     data["_meta"]["last_updated"] = today
     if all_tier_changes or not fetch_errors:
@@ -716,7 +767,8 @@ def main():
     # -----------------------------------------------------------------------
     # Build email + issue content
     # -----------------------------------------------------------------------
-    if not patch_change and not all_tier_changes and not all_spec_changes and not all_structural and not fetch_errors:
+    if (not patch_change and not all_tier_changes and not all_spec_changes
+            and not detailed_fixes and not all_structural and not fetch_errors):
         subject = f"[WoW Class Quiz] No tier changes this week (patch {patch})"
         body = (
             f"Weekly tier check ran on {today}.\n\n"

@@ -367,7 +367,8 @@ document.addEventListener('DOMContentLoaded', function() {
 (function checkAccess() {
   if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') { dismissGate(); return; }
   const params = new URLSearchParams(window.location.search);
-  if (params.get('unlock') === UNLOCK_WORD) { saveAccess(); history.replaceState({}, '', window.location.pathname); dismissGate(); return; }
+  // Strip only the unlock token, preserving any other params (utm_*, ref, …)
+  if (params.get('unlock') === UNLOCK_WORD) { saveAccess(); params.delete('unlock'); const qs = params.toString(); history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : '')); dismissGate(); return; }
   if (hasStoredAccess()) { dismissGate(); return; }
 })();
 

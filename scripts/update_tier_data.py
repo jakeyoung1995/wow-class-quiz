@@ -14,9 +14,13 @@ compares to wow-patch-data.json, and:
     and sends each subscriber a "tier shift" notification.
 
 Environment variables (set as GitHub Secrets):
-  GMAIL_APP_PASSWORD     — 16-char Google App Password for jy.220529@gmail.com
+  NOTIFY_EMAIL           — admin address; also the SMTP login and From address.
+                           If unset, all email is skipped (tier updates still run).
+  GMAIL_APP_PASSWORD     — 16-char Google App Password for NOTIFY_EMAIL
   GITHUB_TOKEN           — automatically provided by GitHub Actions
   GITHUB_REPOSITORY      — automatically provided by GitHub Actions (owner/repo)
+  DRY_RUN                — "true" to parse and report without writing, emailing,
+                           or opening issues
   SUBSCRIBER_FETCH_URL   — (optional) Google Apps Script endpoint that returns JSON list of subscriber emails
   SUBSCRIBER_FETCH_KEY   — (optional) shared secret appended as ?key=… to SUBSCRIBER_FETCH_URL
 """
@@ -30,14 +34,20 @@ import urllib.request
 import urllib.error
 from datetime import date, datetime, timezone
 from email.mime.text import MIMEText
-from html.parser import HTMLParser
 
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
 DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "wow-patch-data.json")
-NOTIFY_EMAIL = "jy.220529@gmail.com"
-FROM_EMAIL = "jy.220529@gmail.com"
+# Admin address. Kept out of source because this repo is public — set the
+# NOTIFY_EMAIL GitHub secret. Without it the tier update still runs and commits;
+# only the notification emails are skipped.
+NOTIFY_EMAIL = os.environ.get("NOTIFY_EMAIL", "")
+FROM_EMAIL = os.environ.get("NOTIFY_EMAIL", "")
+
+# When true, parse and report but change nothing: no file write, no email,
+# no GitHub issue. Set by the workflow_dispatch "dry_run" input.
+DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "yes")
 
 # Icy Veins hub page — used to dynamically discover current tier list URLs.
 # If the hub scrape fails, these fallback URLs are used instead.
@@ -117,6 +127,7 @@ DISPLAY_TO_KEY = {
     "Arms Warrior": "Warrior", "Fury Warrior": "Warrior",
     "Retribution Paladin": "Paladin",
     "Devastation Evoker": "Evoker", "Augmentation Evoker": "Evoker",
+    "Shadow Priest": "Priest",
     # Tank
     "Blood Death Knight": "Blood Death Knight",
     "Vengeance Demon Hunter": "Vengeance Demon Hunter",
@@ -134,60 +145,67 @@ DISPLAY_TO_KEY = {
     "Restoration Shaman": "Restoration Shaman",
 }
 
-# Specs not in our JSON yet that we know about (new in Midnight) — flag as structural
-KNOWN_NEW_SPECS = {"Devourer Demon Hunter"}
-
 # ---------------------------------------------------------------------------
 # HTML parser: scrape tier rank from Icy Veins tier list pages
 # ---------------------------------------------------------------------------
-class IcyVeinsTierParser(HTMLParser):
+TIER_TABLE_RE = re.compile(r'<table[^>]*class="[^"]*\btier-list\b[^"]*"[^>]*>(.*?)</table>', re.S | re.I)
+TR_RE = re.compile(r'<tr[^>]*>(.*?)</tr>', re.S | re.I)
+TD_RE = re.compile(r'<td[^>]*>(.*?)</td>', re.S | re.I)
+ENTRY_RE = re.compile(r'<span[^>]*class="[^"]*\btier-list-entry\b[^"]*"[^>]*>(.*?)(?=<span[^>]*class="[^"]*\btier-list-entry\b|$)', re.S | re.I)
+IMG_ALT_RE = re.compile(r'<img[^>]*\balt="([^"]+)"', re.I)
+TAG_RE = re.compile(r'<[^>]+>')
+
+# Icy Veins grades on a finer scale (S+, S, A+, A, B+, B, C, D) than our JSON,
+# which only stores S/A/B/C. Collapse the "+" variants onto the base letter.
+TIER_NORMALISE = {
+    "S+": "S", "S": "S",
+    "A+": "A", "A": "A",
+    "B+": "B", "B": "B",
+    "C+": "C", "C": "C", "D": "C", "F": "C",
+}
+
+
+def parse_tier_table(html: str) -> dict:
     """
-    Parses the Icy Veins tier list page.
-    Looks for elements with class like 'tier-s', 'tier-a', 'tier-b', 'tier-c'
-    and extracts the spec names listed within each tier group.
+    Parse an Icy Veins tier list page into {spec display name: tier letter}.
+
+    Current structure (verified against the live pages):
+
+        <table class="tier-list">
+          <tr>
+            <td>S+</td>                                  <- tier label
+            <td><span class="tier-list-entry" ...>
+                  <img alt="Arms Warrior" ...>           <- spec name
+                  ...
+            </td>
+            ...
+
+    The spec name is read from the entry image's alt text, which is a clean
+    "Spec Class" string. The surrounding <details> body is long-form prose and
+    is deliberately ignored.
     """
+    results = {}
+    table_match = TIER_TABLE_RE.search(html)
+    if not table_match:
+        return results
 
-    def __init__(self):
-        super().__init__()
-        self.results = {}          # spec_name -> tier letter ("S","A","B","C")
-        self._current_tier = None
-        self._in_spec_name = False
-        self._spec_buffer = ""
+    for row in TR_RE.findall(table_match.group(1)):
+        cells = TD_RE.findall(row)
+        if len(cells) < 2:
+            continue  # header row, or a row with no entries
 
-    def handle_starttag(self, tag, attrs):
-        attr_dict = dict(attrs)
-        cls = attr_dict.get("class", "")
+        tier_raw = TAG_RE.sub("", cells[0]).strip().upper()
+        tier = TIER_NORMALISE.get(tier_raw)
+        if not tier:
+            continue
 
-        # Icy Veins uses divs/sections with class names like "tier-list-item-s" etc.
-        # Also check for data-tier attributes as a fallback.
-        tier_match = re.search(r'\btier-list-item-([sabc])\b', cls, re.I)
-        if tier_match:
-            self._current_tier = tier_match.group(1).upper()
-            return
+        for cell in cells[1:]:
+            for entry in ENTRY_RE.findall(cell):
+                alt = IMG_ALT_RE.search(entry)
+                if alt:
+                    results[alt.group(1).strip()] = tier
 
-        # Also handle data-tier="S" style attributes
-        data_tier = attr_dict.get("data-tier", "")
-        if data_tier and data_tier.upper() in ("S", "A", "B", "C"):
-            self._current_tier = data_tier.upper()
-            return
-
-        # Spec name spans/divs
-        if self._current_tier and tag in ("span", "div", "a", "p"):
-            if any(k in cls for k in ("class-name", "spec-name", "tier-list-spec", "spec")):
-                self._in_spec_name = True
-                self._spec_buffer = ""
-
-    def handle_endtag(self, tag):
-        if self._in_spec_name and tag in ("span", "div", "a", "p"):
-            name = self._spec_buffer.strip()
-            if name and self._current_tier:
-                self.results[name] = self._current_tier
-            self._in_spec_name = False
-            self._spec_buffer = ""
-
-    def handle_data(self, data):
-        if self._in_spec_name:
-            self._spec_buffer += data
+    return results
 
 
 def fetch_tier_page(url: str) -> str:
@@ -208,17 +226,16 @@ def fetch_tier_page(url: str) -> str:
         return resp.read().decode("utf-8", errors="replace")
 
 
-def parse_tier_list(html: str, role: str) -> dict:
+def parse_tier_list(html: str) -> dict:
     """
     Parse an Icy Veins tier list page and return a dict:
       { our_json_key: best_tier_letter }
     For classes with multiple specs, we take the best (highest) tier across specs.
     """
-    parser = IcyVeinsTierParser()
-    parser.feed(html)
-    raw = parser.results  # spec display name → tier
+    raw = parse_tier_table(html)
 
-    # If the parser found nothing (page structure changed), try a regex fallback
+    # If the table parser found nothing (page structure changed again), try the
+    # looser regex fallback before giving up.
     if not raw:
         raw = regex_fallback_parse(html)
 
@@ -267,7 +284,7 @@ def classify_changes(old_data: dict, new_tiers: dict, role: str) -> dict:
     Returns:
       {
         'tier_changes': [(key, old_tier, new_tier), ...],
-        'structural': [(key, reason), ...]   # new specs, removed specs
+        'structural': [(key, reason), ...]   # specs on Icy Veins but not in our JSON
       }
     """
     tier_changes = []
@@ -294,6 +311,9 @@ def create_github_issue(title: str, body: str):
     """Create a GitHub Issue via the REST API."""
     token = os.environ.get("GITHUB_TOKEN", "")
     repo = os.environ.get("GITHUB_REPOSITORY", "jakeyoung1995/wow-class-quiz")
+    if DRY_RUN:
+        print(f"  [dry-run] would open GitHub issue: {title}")
+        return
     if not token:
         print("WARNING: GITHUB_TOKEN not set — cannot create issue")
         return
@@ -332,8 +352,18 @@ def send_email(subject: str, body: str, to_email: str = None, html_body: str = N
     if not password:
         print("WARNING: GMAIL_APP_PASSWORD not set — skipping email")
         return False
+    if not FROM_EMAIL:
+        print("WARNING: NOTIFY_EMAIL not set — skipping email")
+        return False
 
     to_email = to_email or NOTIFY_EMAIL
+    if not to_email:
+        print("WARNING: no recipient — skipping email")
+        return False
+
+    if DRY_RUN:
+        print(f"  [dry-run] would email {to_email}: {subject}")
+        return True
 
     if html_body:
         from email.mime.multipart import MIMEMultipart
@@ -491,6 +521,8 @@ def main():
     fetch_errors = []
 
     print(f"WoW Class Quiz — Tier Update Run ({today}, patch {patch})")
+    if DRY_RUN:
+        print("DRY RUN — no file writes, no email, no issues.")
     print("=" * 60)
 
     print("\nDiscovering current Icy Veins tier list URLs...")
@@ -506,7 +538,7 @@ def main():
             fetch_errors.append(msg)
             continue
 
-        new_tiers = parse_tier_list(html, role)
+        new_tiers = parse_tier_list(html)
         print(f"  Parsed {len(new_tiers)} entries: {new_tiers}")
 
         if not new_tiers:
@@ -519,11 +551,16 @@ def main():
         all_tier_changes.extend([(role, *c) for c in changes["tier_changes"]])
         all_structural.extend([(role, *c) for c in changes["structural"]])
 
-        # Apply tier changes to data
+        # Apply tier changes to data.
+        #
+        # Only "mplus" is touched. The source pages are Icy Veins' *Mythic+*
+        # tier lists, so they say nothing about raid performance — copying the
+        # M+ letter into "raid" silently overwrote hand-curated raid tiers and
+        # collapsed the M+/Raid toggle on tier-list.html into two identical
+        # views. Raid tiers stay manual until there is a raid source to scrape.
         for key, old_tier, new_tier in changes["tier_changes"]:
             data[role][key]["mplus"] = new_tier
-            data[role][key]["raid"] = new_tier  # Icy Veins overall rank used for both
-            print(f"  Updated {key}: {old_tier} → {new_tier}")
+            print(f"  Updated {key}: mplus {old_tier} → {new_tier} (raid left as-is)")
 
     # Update metadata
     data["_meta"]["last_updated"] = today
@@ -544,9 +581,13 @@ def main():
         data["changelog"] = data["changelog"][-20:]
 
     # Write updated JSON
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"\nWrote updated {DATA_FILE}")
+    if DRY_RUN:
+        print(f"\n[dry-run] would write {DATA_FILE} "
+              f"({len(all_tier_changes)} tier change(s)) — file left untouched")
+    else:
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        print(f"\nWrote updated {DATA_FILE}")
 
     # -----------------------------------------------------------------------
     # Build email + issue content
@@ -608,7 +649,7 @@ def main():
             f"1. Decide whether to add **{key}** to `wow-patch-data.json` under `{role}`.\n"
             f"2. Update the quiz HTML (`wow-quiz-{role}.html` or relevant file) to include the new spec/class in scoring.\n"
             f"3. Update `scripts/update_tier_data.py` → `DISPLAY_TO_KEY` map if needed.\n"
-            f"4. Commit and push to main — Netlify will auto-deploy.\n\n"
+            f"4. Open a PR against main — merging deploys via GitHub Pages.\n\n"
             f"_This issue was auto-generated by the weekly tier update script._"
         )
         create_github_issue(issue_title, issue_body)

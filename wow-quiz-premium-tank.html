@@ -347,48 +347,9 @@
   <p>© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
 </footer>
 
+<script src="/scripts/pro-access.js"></script>
 <script>
 // ── ACCESS GATE ──────────────────────────────────────────
-const STORAGE_KEY = 'wowquiz_premium_v1';
-const UNLOCK_WORD = 'MIDNIGHT2026';
-
-function dismissGate() {
-  const o = document.getElementById('gateOverlay');
-  if (!o) return;
-  o.style.transition = 'opacity 0.4s';
-  o.style.opacity = '0';
-  setTimeout(() => o.remove(), 420);
-}
-function saveAccess() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expiry: Date.now() + 365*24*60*60*1000 })); } catch(e) {}
-}
-function hasStoredAccess() {
-  try { const d = JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'); return !!(d.unlocked && d.expiry > Date.now()); } catch(e) { return false; }
-}
-function restoreAccess() {
-  if (hasStoredAccess()) { dismissGate(); }
-  else { alert('No purchase found on this browser.\n\nOpen the confirmation email from Gumroad and click the product link — or enter the unlock word manually below.'); }
-}
-function unlockWithWord() {
-  const input = document.getElementById('unlockInput');
-  const err = document.getElementById('unlockErr');
-  const val = (input && input.value || '').trim().toUpperCase();
-  if (val === UNLOCK_WORD) { if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'word' }); saveAccess(); dismissGate(); }
-  else { if (err) err.style.display = 'block'; if (input) input.focus(); }
-}
-document.addEventListener('DOMContentLoaded', function() {
-  const i = document.getElementById('unlockInput');
-  if (i) i.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); unlockWithWord(); } });
-});
-(function checkAccess() {
-  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') { dismissGate(); return; }
-  const params = new URLSearchParams(window.location.search);
-  // Strip only the unlock token, preserving any other params (utm_*, ref, …)
-  if (params.get('unlock') === UNLOCK_WORD) { if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'url' }); saveAccess(); params.delete('unlock'); const qs = params.toString(); history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : '')); dismissGate(); return; }
-  if (hasStoredAccess()) { dismissGate(); return; }
-})();
-
-// ── QUESTIONS (20) ───────────────────────────────────────
 const SECTIONS = [
   { at: 0, icon: '🛡️', title: 'Section 1: Core Tanking Style', desc: 'Questions 1–9 cover your fundamental tank preferences.' },
   { at: 9, icon: '🏆', title: 'Section 2: Advanced Tanking Profile', desc: 'Questions 10–20 go deeper into pull style, mastery goals, and content focus.' },

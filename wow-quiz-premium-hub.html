@@ -350,62 +350,7 @@
   <p style="margin-top:10px;">© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
 </footer>
 
-<script>
-const STORAGE_KEY = 'wowquiz_premium_v1';
-const UNLOCK_WORD = 'MIDNIGHT2026';
+<script src="/scripts/pro-access.js"></script>
 
-function saveAccess() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      unlocked: true,
-      word: UNLOCK_WORD,
-      expiry: Date.now() + 365 * 24 * 60 * 60 * 1000
-    }));
-  } catch(e) {}
-}
-
-function hasAccess() {
-  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') return true;
-  try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    return !!(d.unlocked && d.expiry > Date.now());
-  } catch(e) { return false; }
-}
-
-function tryUnlock() {
-  const val = document.getElementById('gateInput').value.trim().toUpperCase();
-  if (val === UNLOCK_WORD) {
-    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'word' });
-    saveAccess();
-    document.getElementById('gateWall').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else {
-    document.getElementById('gateError').style.display = 'block';
-  }
-}
-
-document.getElementById('gateInput')?.addEventListener('keydown', e => {
-  if (e.key === 'Enter') tryUnlock();
-});
-
-// Check on load
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('unlock') === UNLOCK_WORD) {
-    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'url' });
-    saveAccess();
-    // Strip only the unlock token, preserving any other params (utm_*, ref, …)
-    params.delete('unlock');
-    const qs = params.toString();
-    history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : ''));
-  }
-  if (hasAccess()) {
-    document.getElementById('mainContent').style.display = 'block';
-  } else {
-    document.getElementById('gateWall').style.display = 'block';
-  }
-})();
-</script>
 </body>
 </html>

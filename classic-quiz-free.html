@@ -205,6 +205,7 @@
     gtag('js', new Date());
     gtag('config', 'G-YMTTK4WJ3F');
   </script>
+  <script src="/scripts/analytics.js" defer></script>
 </head>
 <body>
 
@@ -633,6 +634,9 @@ let current = 0;
 let answers = {};
 
 function startQuiz() {
+  // Paired with quiz_complete to give a real completion rate.
+  if (typeof wowTrack === 'function') wowTrack('quiz_start', { quiz_type: 'dps_free_classic' });
+
   document.getElementById('hero').style.display = 'none';
   document.getElementById('quiz').style.display = 'block';
   renderQuestion();

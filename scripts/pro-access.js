@@ -270,12 +270,78 @@
       return;
     }
 
+    // A licence key handed over in the URL, so the receipt can carry a link
+    // that unlocks in one click instead of asking someone to copy a 35
+    // character string into a box they have to find first.
+    var urlKey = params.get('key');
+    if (urlKey && looksLikeKey(urlKey)) {
+      unlockWithKey(urlKey).then(function (result) {
+        params.delete('key');
+        var q = params.toString();
+        window.history.replaceState({}, '', window.location.pathname + (q ? '?' + q : ''));
+        if (!result.ok) {
+          showGate();
+          showError(MESSAGES[result.reason] || MESSAGES.invalid);
+        }
+      });
+      return;
+    }
+
     if (hasStoredAccess()) {
       dismissGate();
+      addKeyEntryLink();
       return;
     }
 
     showGate();
+  }
+
+  /**
+   * Someone who already has access has nowhere to enter a licence key — the
+   * only field lives inside the gate, and the gate is gone. That is fine until
+   * they buy, receive a key, and find no box to put it in, which is exactly
+   * what happened during testing.
+   *
+   * This adds a quiet link for that case. It is deliberately small: the common
+   * path is having access and not thinking about it.
+   */
+  function addKeyEntryLink() {
+    if (document.getElementById('proKeyEntry')) return;
+    onReady(function () {
+      var footer = document.querySelector('.site-footer') || document.body;
+      var wrap = document.createElement('p');
+      wrap.id = 'proKeyEntry';
+      wrap.style.cssText = 'text-align:center;margin:14px 0 0;font-size:12px;opacity:0.55;';
+      var a = document.createElement('a');
+      a.href = '#';
+      a.textContent = 'Have a licence key?';
+      a.style.cssText = 'color:inherit;text-decoration:underline;cursor:pointer;';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        promptForKey();
+      });
+      wrap.appendChild(a);
+      footer.appendChild(wrap);
+    });
+  }
+
+  function promptForKey() {
+    var entered = window.prompt(
+      'Paste the licence key from your Gumroad receipt:\n\n' +
+      'It looks like A1B2C3D4-E5F60718-9ABCDEF0-1234ABCD'
+    );
+    if (entered === null) return;
+    entered = entered.trim();
+    if (!entered) return;
+    if (!looksLikeKey(entered)) {
+      window.alert(MESSAGES.invalid);
+      return;
+    }
+    unlockWithKey(entered).then(function (result) {
+      window.alert(result.ok
+        ? 'Thanks — that key is verified. Your access is now tied to your purchase.'
+        : (MESSAGES[result.reason] || MESSAGES.invalid));
+    });
   }
 
   function onReady(fn) {
@@ -309,6 +375,7 @@
     verifyKey: verifyKey,
     looksLikeKey: looksLikeKey,
     restore: restoreAccess,
+    promptForKey: promptForKey,
     UNLOCK_WORD: UNLOCK_WORD,
     PRODUCT_ID: GUMROAD_PRODUCT_ID
   };

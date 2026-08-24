@@ -289,59 +289,194 @@
 
     if (hasStoredAccess()) {
       dismissGate();
-      addKeyEntryLink();
       return;
     }
 
     showGate();
   }
 
-  /**
-   * Someone who already has access has nowhere to enter a licence key — the
-   * only field lives inside the gate, and the gate is gone. That is fine until
-   * they buy, receive a key, and find no box to put it in, which is exactly
-   * what happened during testing.
-   *
-   * This adds a quiet link for that case. It is deliberately small: the common
-   * path is having access and not thinking about it.
-   */
-  function addKeyEntryLink() {
-    if (document.getElementById('proKeyEntry')) return;
-    onReady(function () {
-      var footer = document.querySelector('.site-footer') || document.body;
-      var wrap = document.createElement('p');
-      wrap.id = 'proKeyEntry';
-      wrap.style.cssText = 'text-align:center;margin:14px 0 0;font-size:12px;opacity:0.55;';
-      var a = document.createElement('a');
-      a.href = '#';
-      a.textContent = 'Have a licence key?';
-      a.style.cssText = 'color:inherit;text-decoration:underline;cursor:pointer;';
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        promptForKey();
-      });
-      wrap.appendChild(a);
-      footer.appendChild(wrap);
-    });
+  // ── Pro chooser ───────────────────────────────────────────────────────
+  // Every Pro CTA used to go straight to Gumroad, which is wrong for the
+  // people who have already bought: they arrive with a licence key and get
+  // shown a checkout. The CTA now asks which of the two they are, and the
+  // answer is remembered so it is asked exactly once.
+
+  function accentOf(el) {
+    // Pages use different token names for the same idea (--gold on Midnight
+    // pages, --cgold on Classic). Read whichever exists so the dialog belongs
+    // to the page it opened on.
+    var cs = window.getComputedStyle(document.documentElement);
+    var v = (cs.getPropertyValue('--gold') || cs.getPropertyValue('--cgold') || '').trim();
+    return v || '#d4aa52';
   }
 
-  function promptForKey() {
-    var entered = window.prompt(
-      'Paste the licence key from your Gumroad receipt:\n\n' +
-      'It looks like A1B2C3D4-E5F60718-9ABCDEF0-1234ABCD'
-    );
-    if (entered === null) return;
-    entered = entered.trim();
-    if (!entered) return;
-    if (!looksLikeKey(entered)) {
-      window.alert(MESSAGES.invalid);
+  var chooser = null;
+
+  function closeChooser() {
+    if (!chooser) return;
+    chooser.remove();
+    chooser = null;
+    document.removeEventListener('keydown', onChooserKey, true);
+    document.body.style.overflow = '';
+  }
+
+  function onChooserKey(e) {
+    if (e.key === 'Escape') { e.preventDefault(); closeChooser(); }
+  }
+
+  function openChooser(sourceLink) {
+    if (chooser) return;
+    var accent = accentOf();
+    document.body.style.overflow = 'hidden';
+
+    chooser = document.createElement('div');
+    chooser.id = 'proChooser';
+    chooser.setAttribute('role', 'dialog');
+    chooser.setAttribute('aria-modal', 'true');
+    chooser.setAttribute('aria-label', 'Get Pro access');
+    chooser.style.cssText =
+      'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;' +
+      'justify-content:center;padding:20px;background:rgba(0,0,0,0.72);' +
+      'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;';
+
+    chooser.innerHTML =
+      '<div id="proChooserCard" style="background:#14110a;border:1px solid #2e2a1e;' +
+      'border-radius:14px;max-width:400px;width:100%;padding:26px 24px;' +
+      'box-shadow:0 20px 60px rgba(0,0,0,0.5);position:relative;">' +
+        '<button type="button" data-pc-close aria-label="Close" style="position:absolute;' +
+        'top:10px;right:12px;background:none;border:none;color:#7a6f58;font-size:22px;' +
+        'line-height:1;cursor:pointer;padding:4px;">&times;</button>' +
+
+        '<h2 style="margin:0 0 6px;font-size:19px;color:#f0e8d8;font-weight:700;">Get Pro</h2>' +
+        '<p style="margin:0 0 20px;font-size:13.5px;color:#a89878;line-height:1.5;">' +
+        'All four deep-dive quizzes, live tier data, and every future quiz.</p>' +
+
+        '<button type="button" data-pc-buy style="width:100%;background:' + accent + ';' +
+        'color:#0a0800;border:none;border-radius:99px;padding:13px 18px;font-size:15px;' +
+        'font-weight:700;cursor:pointer;font-family:inherit;">Buy Pro &mdash; $1.99 &rarr;</button>' +
+
+        '<div style="display:flex;align-items:center;gap:10px;margin:16px 0 14px;">' +
+          '<span style="flex:1;height:1px;background:#2e2a1e;"></span>' +
+          '<span style="font-size:11px;color:#6e6450;letter-spacing:0.08em;">ALREADY BOUGHT?</span>' +
+          '<span style="flex:1;height:1px;background:#2e2a1e;"></span>' +
+        '</div>' +
+
+        '<label for="proChooserKey" style="display:block;font-size:12.5px;color:#a89878;' +
+        'margin-bottom:7px;">Paste your licence key or unlock word</label>' +
+        '<input id="proChooserKey" type="text" autocomplete="off" spellcheck="false" ' +
+        'placeholder="A1B2C3D4-E5F60718-9ABCDEF0-1234ABCD" style="width:100%;' +
+        'background:#0a0800;border:1px solid #2e2a1e;color:#f0e8d8;border-radius:8px;' +
+        'padding:11px 13px;font-size:13.5px;font-family:inherit;outline:none;">' +
+
+        '<p id="proChooserErr" role="alert" style="display:none;margin:9px 0 0;' +
+        'font-size:12.5px;color:#e07a6a;line-height:1.45;"></p>' +
+
+        '<button type="button" data-pc-unlock style="width:100%;margin-top:11px;' +
+        'background:transparent;color:' + accent + ';border:1px solid ' + accent + ';' +
+        'border-radius:99px;padding:11px 18px;font-size:14px;font-weight:600;' +
+        'cursor:pointer;font-family:inherit;">Unlock</button>' +
+
+        '<p style="margin:15px 0 0;font-size:11.5px;color:#6e6450;line-height:1.5;">' +
+        'Your key is in the receipt email from Gumroad. You only need to enter it once ' +
+        'on this device.</p>' +
+      '</div>';
+
+    document.body.appendChild(chooser);
+
+    var card = chooser.querySelector('#proChooserCard');
+    var input = chooser.querySelector('#proChooserKey');
+    var err = chooser.querySelector('#proChooserErr');
+    var unlockBtn = chooser.querySelector('[data-pc-unlock]');
+
+    function fail(msg) {
+      err.textContent = msg;
+      err.style.display = 'block';
+      input.focus();
+    }
+
+    function submit() {
+      var raw = (input.value || '').trim();
+      if (!raw) { fail('Enter your licence key or unlock word.'); return; }
+
+      if (looksLikeKey(raw)) {
+        unlockBtn.disabled = true;
+        unlockBtn.textContent = 'Checking…';
+        err.style.display = 'none';
+        unlockWithKey(raw).then(function (result) {
+          unlockBtn.disabled = false;
+          unlockBtn.textContent = 'Unlock';
+          if (result.ok) { closeChooser(); afterUnlock(); }
+          else fail(MESSAGES[result.reason] || MESSAGES.invalid);
+        });
+        return;
+      }
+
+      if (raw.toUpperCase() === UNLOCK_WORD) {
+        track('unlock_success', { page: pageName(), method: 'word' });
+        saveAccess();
+        closeChooser();
+        afterUnlock();
+        return;
+      }
+      fail(MESSAGES.word);
+    }
+
+    // Clicking the backdrop closes; clicking the card must not.
+    chooser.addEventListener('click', function (e) {
+      if (e.target === chooser) closeChooser();
+    });
+    card.addEventListener('click', function (e) { e.stopPropagation(); });
+    chooser.querySelector('[data-pc-close]').addEventListener('click', closeChooser);
+    unlockBtn.addEventListener('click', submit);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); submit(); }
+    });
+
+    chooser.querySelector('[data-pc-buy]').addEventListener('click', function () {
+      closeChooser();
+      // Hand back to the link that was clicked, flagged so the interceptor
+      // lets it through to Gumroad's overlay this time.
+      if (sourceLink) {
+        sourceLink.dataset.pcAllow = '1';
+        sourceLink.click();
+        delete sourceLink.dataset.pcAllow;
+      }
+    });
+
+    document.addEventListener('keydown', onChooserKey, true);
+    input.focus();
+  }
+
+  function afterUnlock() {
+    // On a gated page the content is right there, so just reveal it. Elsewhere
+    // the person asked for Pro and now has it, so take them to it.
+    if (document.getElementById('gateOverlay') || document.getElementById('gateWall')) {
+      dismissGate();
       return;
     }
-    unlockWithKey(entered).then(function (result) {
-      window.alert(result.ok
-        ? 'Thanks — that key is verified. Your access is now tied to your purchase.'
-        : (MESSAGES[result.reason] || MESSAGES.invalid));
-    });
+    window.location.href = '/wow-quiz-premium-hub.html';
+  }
+
+  function interceptProCtas() {
+    document.addEventListener('click', function (ev) {
+      var link = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+      if (!link || link.href.indexOf('gumroad.com') === -1) return;
+      if (link.dataset.pcAllow) return;               // second pass, let it buy
+
+      // Inside the gate there is already a key field and a buy button; a
+      // dialog on top of that would be a dialog on top of a dialog.
+      if (link.closest('#gateOverlay, #gateWall')) return;
+
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      if (hasStoredAccess()) {
+        // They already own it. Selling again is the wrong answer.
+        window.location.href = '/wow-quiz-premium-hub.html';
+        return;
+      }
+      openChooser(link);
+    }, true);
   }
 
   function onReady(fn) {
@@ -365,6 +500,7 @@
 
   // Run immediately so gated content is never briefly visible.
   checkAccess();
+  interceptProCtas();
 
   window.ProAccess = {
     hasAccess: hasStoredAccess,
@@ -375,7 +511,8 @@
     verifyKey: verifyKey,
     looksLikeKey: looksLikeKey,
     restore: restoreAccess,
-    promptForKey: promptForKey,
+    openChooser: openChooser,
+    closeChooser: closeChooser,
     UNLOCK_WORD: UNLOCK_WORD,
     PRODUCT_ID: GUMROAD_PRODUCT_ID
   };

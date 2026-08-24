@@ -510,6 +510,7 @@
   <p>© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment</p>
 </footer>
 
+<script src="/scripts/pro-access.js"></script>
 <script>
 // ──────────────────────────────────────────────────────
 // ACCESS GATE — Gumroad redirect URL approach
@@ -526,102 +527,6 @@
 //   - Update UNLOCK_WORD below
 //   - Update your Gumroad product's "Redirect URL" to match
 //   - Redeploy — old localStorage tokens keep working for existing buyers
-// ──────────────────────────────────────────────────────
-const STORAGE_KEY  = 'wowquiz_premium_v1';
-const UNLOCK_WORD  = 'MIDNIGHT2026'; // also set this in Gumroad → Product → Redirect URL
-
-function dismissGate() {
-  const overlay = document.getElementById('gateOverlay');
-  if (!overlay) return;
-  overlay.style.transition = 'opacity 0.4s';
-  overlay.style.opacity = '0';
-  setTimeout(() => overlay.remove(), 420);
-}
-
-function saveAccess() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      unlocked: true,
-      expiry: Date.now() + 365 * 24 * 60 * 60 * 1000  // 1 year
-    }));
-  } catch(e) {}
-}
-
-function hasStoredAccess() {
-  try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    return !!(d.unlocked && d.expiry > Date.now());
-  } catch(e) { return false; }
-}
-
-// Called by the "Already purchased?" link in the gate
-// Tells users the access is stored automatically — they just need to use
-// the redirect link from their Gumroad confirmation email on this device
-function restoreAccess() {
-  if (hasStoredAccess()) {
-    dismissGate();
-  } else {
-    alert(
-      'No purchase found on this browser.\n\n' +
-      'Open the confirmation email from Gumroad and click the product link — ' +
-      'it will unlock access on this device automatically. Or enter the unlock word manually below.'
-    );
-  }
-}
-
-function unlockWithWord() {
-  const input = document.getElementById('unlockInput');
-  const err = document.getElementById('unlockErr');
-  const val = (input && input.value || '').trim().toUpperCase();
-  if (val === UNLOCK_WORD) {
-    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'word' });
-    saveAccess();
-    dismissGate();
-  } else {
-    if (err) err.style.display = 'block';
-    if (input) input.focus();
-  }
-}
-// Submit on Enter key
-document.addEventListener('DOMContentLoaded', function() {
-  const input = document.getElementById('unlockInput');
-  if (input) input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); unlockWithWord(); }
-  });
-});
-
-// Run on page load
-(function checkAccess() {
-  // Dev bypass — never block on localhost / file://
-  if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') {
-    dismissGate();
-    return;
-  }
-
-  // Check for Gumroad redirect param (?unlock=MIDNIGHT2026)
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('unlock') === UNLOCK_WORD) {
-    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'url' });
-    saveAccess();
-    // Strip only the unlock token, preserving any other params (utm_*, ref, …)
-    params.delete('unlock');
-    const qs = params.toString();
-    history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : ''));
-    dismissGate();
-    return;
-  }
-
-  // Check localStorage for returning buyers on the same device
-  if (hasStoredAccess()) {
-    dismissGate();
-    return;
-  }
-
-  // Nothing matched — gate stays visible
-})();
-
-// ──────────────────────────────────────────────────────
-// QUESTIONS (30)
 // ──────────────────────────────────────────────────────
 const SECTIONS = [
   { at: 0,  icon: '⚔️', title: 'Section 1: Core Playstyle', desc: 'Questions 1–9 cover your fundamental preferences.' },

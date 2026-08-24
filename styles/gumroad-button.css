@@ -1,0 +1,42 @@
+/**
+ * gumroad-button.css — undo Gumroad's branding of our own buttons
+ *
+ * Adding `class="gumroad-button"` is how the overlay script finds a buy link,
+ * but it also loads Gumroad's stylesheet, which appends a GUMROAD wordmark
+ * inside the button and forces their typeface. A nav item reading
+ * "✦ Premium GUMROAD" in a different font is not our design.
+ *
+ * The overlay itself is a cross-origin iframe and cannot be styled from here —
+ * see the note at the bottom.
+ */
+
+/* The injected wordmark. Their script adds this span; we do not put it there. */
+.gumroad-button .logo-full,
+.gumroad-button .logo,
+.gumroad-button img[alt*="Gumroad" i] {
+  display: none !important;
+}
+
+/* Their sheet sets font-family on .gumroad-button. Inheriting puts each button
+   back on whatever the surrounding page uses, rather than hardcoding a stack
+   here that would drift from the pages. */
+.gumroad-button {
+  font-family: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: none !important;
+}
+
+/* Their sheet also gives the class its own box. Neutralise it so each button
+   keeps the styling it already had from the site's own classes. */
+a.gumroad-button,
+.gumroad-button-filled {
+  box-shadow: none !important;
+  border-radius: inherit;
+}
+
+/* NOTE ON THE PINK
+   The Buy button inside the overlay is Gumroad's own product page, served in a
+   cross-origin iframe and driven by --accent: 255 144 232 on their document.
+   Nothing in this file can reach it — same-origin policy, not a missing rule.
+   It changes in one of two places only: Gumroad's own accent setting, or a
+   custom landing page, which replaces that page with markup we control. */

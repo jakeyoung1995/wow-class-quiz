@@ -229,10 +229,10 @@
     </div>
     <a href="https://jynova2.gumroad.com/l/yejhos" class="gate-btn" target="_blank" rel="noopener">Get Premium — $1.99 →</a>
     <div class="gate-restore">
-      <div style="margin-top:14px;">Already purchased? Enter your unlock word:</div>
+      <div style="margin-top:14px;">Already purchased? Enter your licence key or unlock word:</div>
       <div style="display:flex;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap;">
-        <input id="unlockInput" type="text" placeholder="Unlock word" style="background:#1e2636;border:1px solid rgba(180,150,70,0.4);color:#f2e8d5;padding:8px 14px;border-radius:99px;font-size:13px;font-family:inherit;min-width:160px;" autocomplete="off">
-        <button onclick="unlockWithWord()" style="background:#58c878;color:#0a1808;border:none;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13px;cursor:pointer;">Unlock →</button>
+        <input id="unlockInput" type="text" placeholder="Licence key or unlock word" style="background:#1e2636;border:1px solid rgba(180,150,70,0.4);color:#f2e8d5;padding:8px 14px;border-radius:99px;font-size:13px;font-family:inherit;min-width:280px;" autocomplete="off">
+        <button data-unlock-btn onclick="unlockWithWord()" style="background:#58c878;color:#0a1808;border:none;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13px;cursor:pointer;">Unlock →</button>
       </div>
       <div id="unlockErr" style="color:#e05858;font-size:12px;margin-top:8px;display:none;">That doesn't look right — check your Gumroad email for the word.</div>
     </div>

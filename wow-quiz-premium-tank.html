@@ -224,6 +224,7 @@
     gtag('js', new Date());
     gtag('config', 'G-YMTTK4WJ3F');
   </script>
+  <script src="/scripts/analytics.js" defer></script>
 </head>
 <body>
 
@@ -372,7 +373,7 @@ function unlockWithWord() {
   const input = document.getElementById('unlockInput');
   const err = document.getElementById('unlockErr');
   const val = (input && input.value || '').trim().toUpperCase();
-  if (val === UNLOCK_WORD) { saveAccess(); dismissGate(); }
+  if (val === UNLOCK_WORD) { if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'word' }); saveAccess(); dismissGate(); }
   else { if (err) err.style.display = 'block'; if (input) input.focus(); }
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -383,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (window.location.hostname === 'localhost' || window.location.protocol === 'file:') { dismissGate(); return; }
   const params = new URLSearchParams(window.location.search);
   // Strip only the unlock token, preserving any other params (utm_*, ref, …)
-  if (params.get('unlock') === UNLOCK_WORD) { saveAccess(); params.delete('unlock'); const qs = params.toString(); history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : '')); dismissGate(); return; }
+  if (params.get('unlock') === UNLOCK_WORD) { if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'url' }); saveAccess(); params.delete('unlock'); const qs = params.toString(); history.replaceState({}, '', window.location.pathname + (qs ? '?' + qs : '')); dismissGate(); return; }
   if (hasStoredAccess()) { dismissGate(); return; }
 })();
 
@@ -738,6 +739,9 @@ const tanks = [
 let current = 0, answers = {};
 
 function startQuiz() {
+  // Paired with quiz_complete to give a real completion rate.
+  if (typeof wowTrack === 'function') wowTrack('quiz_start', { quiz_type: 'tank_premium' });
+
   document.getElementById('hero').style.display = 'none';
   document.getElementById('quiz').style.display = 'block';
   renderQuestion();

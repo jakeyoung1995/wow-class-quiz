@@ -165,6 +165,7 @@
     gtag('js', new Date());
     gtag('config', 'G-YMTTK4WJ3F');
   </script>
+  <script src="/scripts/analytics.js" defer></script>
 </head>
 <body>
 
@@ -374,6 +375,7 @@ function hasAccess() {
 function tryUnlock() {
   const val = document.getElementById('gateInput').value.trim().toUpperCase();
   if (val === UNLOCK_WORD) {
+    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'word' });
     saveAccess();
     document.getElementById('gateWall').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
@@ -391,6 +393,7 @@ document.getElementById('gateInput')?.addEventListener('keydown', e => {
 (function() {
   const params = new URLSearchParams(window.location.search);
   if (params.get('unlock') === UNLOCK_WORD) {
+    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'url' });
     saveAccess();
     // Strip only the unlock token, preserving any other params (utm_*, ref, …)
     params.delete('unlock');

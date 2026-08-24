@@ -236,6 +236,7 @@
     gtag('js', new Date());
     gtag('config', 'G-YMTTK4WJ3F');
   </script>
+  <script src="/scripts/analytics.js" defer></script>
 </head>
 <body>
 
@@ -393,6 +394,7 @@ function closeGate() {
   // Gumroad redirect param (?unlock=MIDNIGHT2026)
   const params = new URLSearchParams(window.location.search);
   if (params.get('unlock') === UNLOCK_WORD) {
+    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'url' });
     saveAccess();
     // Strip only the unlock token, preserving any other params on the URL.
     params.delete('unlock');
@@ -409,6 +411,7 @@ function closeGate() {
 function tryUnlock() {
   const val = document.getElementById('gateInput').value.trim().toUpperCase();
   if (val === UNLOCK_WORD) {
+    if (typeof wowTrack === 'function') wowTrack('unlock_success', { page: location.pathname.split('/').pop(), method: 'word' });
     saveAccess();
     openGate();
   } else {
@@ -1160,6 +1163,9 @@ let current = 0;
 const answers = {};
 
 function startQuiz() {
+  // Paired with quiz_complete to give a real completion rate.
+  if (typeof wowTrack === 'function') wowTrack('quiz_start', { quiz_type: 'premium_classic' });
+
   document.getElementById('hero').style.display = 'none';
   document.getElementById('quiz').style.display = 'block';
   renderQuestion();

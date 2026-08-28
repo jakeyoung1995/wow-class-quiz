@@ -353,7 +353,7 @@
 
         '<button type="button" data-pc-buy style="width:100%;background:' + accent + ';' +
         'color:#0a0800;border:none;border-radius:99px;padding:13px 18px;font-size:15px;' +
-        'font-weight:700;cursor:pointer;font-family:inherit;">Buy Pro &mdash; $1.99 &rarr;</button>' +
+        'font-weight:700;cursor:pointer;font-family:inherit;">Buy Pro &mdash; $6.99 &rarr;</button>' +
 
         '<div style="display:flex;align-items:center;gap:10px;margin:16px 0 14px;">' +
           '<span style="flex:1;height:1px;background:#2e2a1e;"></span>' +

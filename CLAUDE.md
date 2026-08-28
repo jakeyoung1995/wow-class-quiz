@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-A static HTML website that helps WoW players choose their class through interactive quizzes. Covers WoW Midnight (retail) and WoW Classic (Vanilla, with Classic Plus support planned). Currently monetized via a $1.99 Gumroad premium bundle and (planned) affiliate links.
+A static HTML website that helps WoW players choose their class through interactive quizzes. Covers WoW Midnight (retail) and WoW Classic (Vanilla, with Classic Plus support planned). Currently monetized via a $6.99 Gumroad premium bundle and (planned) affiliate links.
 
 ---
 
@@ -155,7 +155,13 @@ python3 -m http.server 8901
 
 ### Current
 - **Free quizzes**: 9 questions, role-based result with class cards
-- **Premium bundle** ($1.99 on Gumroad): 30-question deep-dive quizzes for DPS/Tank/Healer (Midnight) + 25-question Classic premium quiz
+- **Pro** ($6.99 on Gumroad, one-time): 30-question deep-dive quizzes for DPS/Tank/Healer
+  (Midnight) + 25-question Classic quiz, plus every future quiz including Classic+
+- Access is a per-sale Gumroad licence key verified in the browser via
+  `POST /v2/licenses/verify` (no backend). The legacy shared unlock word still works
+  indefinitely for the four pre-Pro buyers
+- Checkout opens in Gumroad's overlay on-site; the Pro CTA first asks whether the
+  visitor is buying or already has a key (`scripts/pro-access.js`)
 - Premium unlock: shared word `<UNLOCK_WORD>` (also accepted via input on every gated premium page now)
 
 ### Planned (after Amazon/Raider.IO approval)
@@ -235,5 +241,6 @@ Header: sticky, 56px, crossed swords SVG + nav (DPS, Tank, Healer, Tier List, Te
 | 2026-05-11 | Tank rankings updated per hotfixes |
 | 2026-05-12 | Favicon SERP upgrade + GA4 + Classic showResults fixes |
 | 2026-05-12 | **Full review + Phase 1–5 improvements pass** — see TASKS.md for the full punch list. Highlights: token rotation, 20→30 question copy fix, fake aggregateRating removed, hero CTA, M+ Team Comp Builder built, Shadow Priest added, Vengeance retuned A/A, affiliate Tools section, tier-shift email automation, orphan files deleted, Apps Script template documented |
+| 2026-08-28 | Price raised $1.99 → $6.99 across 19 places incl. the Schema.org Offer; `check_price_consistency` added so the site cannot advertise two prices |
 | 2026-08-23 | Adopted git + pull-request workflow as the deploy path (`deploy.py` deprecated); added `scripts/check_site.py` + `pr-checks.yml` CI; fixed 4 dead links to the deleted Classic tank/healer quizzes and removed duplicate GA4 tags that were double-counting pageviews on the free tank + healer quizzes |
 | 2026-08-23 | Second-machine setup documented (`MAC-SETUP.md`) + redacted `docs-public/` copies of CLAUDE.md and TASKS.md published to the public repo via new `publish-docs.py`; three orphan 8.3 short-name premium files (`WO0B2D~1.HTM`, `WOB48C~1.HTM`, `WOEE1A~1.HTM`) added to `REMOVED_FILES` — they were serving paid premium content for free |

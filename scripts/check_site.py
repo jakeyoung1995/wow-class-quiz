@@ -363,6 +363,37 @@ def check_question_counts():
                 f"question(s) but the quiz has {actual}")
 
 
+def check_price_consistency():
+    """
+    The price is written into 19 places — buy buttons, FAQ answers, the chooser
+    dialog, and the Schema.org Offer that Google reads. Nothing derives it from
+    anything else, so a price change is a manual sweep and a missed spot means
+    one page quietly advertises the old number.
+
+    This does not care what the price is, only that the whole site agrees.
+    """
+    prices = {}
+    for name in html_files() + ["scripts/pro-access.js"]:
+        path = os.path.join(REPO, name)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            body = fh.read()
+        found = set(re.findall(r"\$(\d+\.\d\d)\b", body))
+        found |= set(re.findall(r'"price":\s*"(\d+\.\d\d)"', body))
+        for value in found:
+            prices.setdefault(value, []).append(name)
+
+    # $0.00-style figures in unrelated copy would be a false positive; only
+    # complain when there is genuine disagreement about the product price.
+    if len(prices) > 1:
+        summary = "; ".join(
+            f"${value} in {', '.join(sorted(files)[:3])}"
+            for value, files in sorted(prices.items())
+        )
+        err(f"the site advertises more than one price — {summary}")
+
+
 def check_gitignore_conflicts():
     """A file that is both tracked and gitignored is a trap: the ignore rule
     does nothing, and the next person assumes it does."""
@@ -400,6 +431,7 @@ def main():
         check_data_contract,
         check_premium_tier_drift,
         check_question_counts,
+        check_price_consistency,
         check_gitignore_conflicts,
     ):
         check()

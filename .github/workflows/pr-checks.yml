@@ -19,6 +19,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          # Per-file git dates drive sitemap <lastmod>. A shallow clone has no
+          # history, so the check would pass by skipping rather than by being
+          # correct.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -38,6 +43,11 @@ jobs:
       # left the site advertising Season 1 for months after Season 2 shipped.
       - name: Check patch/season copy is stamped
         run: python3 scripts/stamp_patch_copy.py --check
+
+      # A wrong lastmod is worse than none: it tells crawlers a changed page is
+      # unchanged. After the price change, 15 of 16 entries claimed that.
+      - name: Check sitemap lastmod dates
+        run: python3 scripts/update_sitemap.py --check
 
       - name: Validate tier data JSON
         run: python3 -c "import json; json.load(open('wow-patch-data.json')); print('wow-patch-data.json is valid JSON')"

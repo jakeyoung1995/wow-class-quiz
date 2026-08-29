@@ -67,7 +67,7 @@ These cannot be done from inside Cowork. In priority order:
    - Go to https://github.com/settings/tokens
    - Delete the token starting `<REVOKED_TOKEN_PREFIX>…`
    - Generate a new token with `repo` scope
-   - Create `C:\Users\jakey\Documents\wow-class-quiz\.env` with one line:
+   - Create `the Windows working copy's `.env`` with one line:
      ```
      GH_TOKEN=ghp_yournewtoken
      ```

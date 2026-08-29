@@ -27,6 +27,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          # sitemap <lastmod> is derived from per-file git dates
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -54,6 +57,7 @@ jobs:
         run: |
           python3 scripts/update_tier_data.py || true
           python3 scripts/stamp_patch_copy.py
+          python3 scripts/update_sitemap.py
           python3 scripts/check_site.py
 
           git config --global user.name "wow-class-quiz-bot"

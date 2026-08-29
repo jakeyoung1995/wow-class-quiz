@@ -24,3 +24,8 @@ LAUNCH-CHECKLIST.md
 # OS
 .DS_Store
 Thumbs.db
+
+# Business notes — traffic, revenue, rankings, unlaunched plans.
+# This repo is public; keep anything a competitor can't already read off the
+# live site out of git. See CLAUDE.md for the pointer.
+NOTES.md

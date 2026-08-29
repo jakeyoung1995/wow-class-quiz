@@ -1,8 +1,14 @@
 # WoW Class Quiz — Project Reference
 
-> **Public copy.** Secrets are redacted as `<PLACEHOLDERS>`. The real values live
-> in `.env` (gitignored) and in GitHub Actions secrets. See `MAC-SETUP.md` for how
-> to set up a second machine.
+> **This repo is public**, and every file in it is served from wowclassquiz.com.
+> Assume anything committed here is readable by anyone.
+>
+> Business context — traffic, revenue, conversion, keyword rankings, unlaunched
+> plans — lives in `NOTES.md`, which is gitignored and local-only. Read it when you
+> need that context; never move its contents into a tracked file.
+>
+> Credentials live in `.env` (gitignored) and GitHub Actions secrets. See
+> `MAC-SETUP.md` for setting up a second machine.
 
 ## Project Overview
 
@@ -22,12 +28,7 @@ A static HTML website that helps WoW players choose their class through interact
 | Premium unlock word | <UNLOCK_WORD> |
 | Notify email | <NOTIFY_EMAIL> |
 
-**Working copies**
-
-| Machine | Path |
-|---------|------|
-| Windows (`jakecomp`) | `C:\Users\jakey\Documents\wow-class-quiz\` |
-| macOS | `~/Documents/wow-class-quiz/` |
+**Working copies**: see `NOTES.md` (local, gitignored).
 
 **To push updates**: open a pull request. See [Deployment](#deployment) below.
 `deploy.py` is the legacy path and is being retired — it pushes straight to `main`
@@ -153,22 +154,20 @@ python3 -m http.server 8901
 
 ## Monetization
 
-### Current
-- **Free quizzes**: 9 questions, role-based result with class cards
-- **Pro** ($6.99 on Gumroad, one-time): 30-question deep-dive quizzes for DPS/Tank/Healer
-  (Midnight) + 25-question Classic quiz, plus every future quiz including Classic+
-- Access is a per-sale Gumroad licence key verified in the browser via
-  `POST /v2/licenses/verify` (no backend). The legacy shared unlock word still works
-  indefinitely for the four pre-Pro buyers
-- Checkout opens in Gumroad's overlay on-site; the Pro CTA first asks whether the
-  visitor is buying or already has a key (`scripts/pro-access.js`)
-- Premium unlock: shared word `<UNLOCK_WORD>` (also accepted via input on every gated premium page now)
+How it works in the code. Pricing strategy, revenue and conversion figures live
+in `NOTES.md` (local, gitignored) — this repo is public.
 
-### Planned (after Amazon/Raider.IO approval)
-- **Affiliate links** in the `scripts/affiliate-tools.js` Tools section on every results page
-- Amazon Associates tag → set `AFFILIATE_TAGS.AMZ_TAG` in `scripts/affiliate-tools.js`
-- Raider.IO referral path → optional, set in same file
-- **Ads not used** — at current traffic (~65 weekly users) the visual cost outweighs the revenue. Revisit at 5k+ monthly sessions.
+- **Free quizzes**: 9 questions, role-based result with class cards
+- **Pro**: one-time purchase on Gumroad covering all deep-dive quizzes plus every
+  future quiz. Price is stamped across the site; `check_price_consistency` in
+  `scripts/check_site.py` fails the build if any page disagrees.
+- Access is a per-sale Gumroad licence key verified in the browser via
+  `POST /v2/licenses/verify` — no backend, no access token needed. The legacy
+  shared unlock word still works indefinitely for pre-Pro buyers.
+- Checkout opens in Gumroad's overlay on-site. The Pro CTA first asks whether the
+  visitor is buying or already has a key (`scripts/pro-access.js`).
+- Affiliate links render through `scripts/affiliate-tools.js`; the tracking tag is
+  set in that file.
 
 ---
 
@@ -208,23 +207,22 @@ Header: sticky, 56px, crossed swords SVG + nav (DPS, Tank, Healer, Tier List, Te
 
 ---
 
-## SEO Targets
+## SEO
 
-| Keyword | Status |
-|---------|--------|
-| wow healer class quiz | #1 |
-| wow tank class quiz | ~#7 |
-| wow class quiz 2026 | ~#9 |
-| wow class quiz | Top 5 push needed |
-| wow class selector | selector.html |
-| wow class tier list midnight | tier-list.html |
-| wow team comp builder | NEW — team-comp-builder.html (no direct competitor as of May 2026) |
-| wow midnight class recommendation | Gap — Overgear, Icy Veins dominate |
+Mechanics only. Ranking positions, keyword targets and traffic figures are in
+`NOTES.md` (local, gitignored).
 
-### SEO Tools
-- Cowork scheduled task `weekly-seo-check` — Sundays 9am, posts to Slack `#wow-quiz-seo-reports`, saves report to `seo-reports/YYYY-MM-DD.md`
-- Google Search Console: verified, sitemap submitted
-- GA4: G-YMTTK4WJ3F
+- `sitemap.xml` is generated-adjacent: `scripts/update_sitemap.py` derives every
+  `<lastmod>` from that file's last git commit, and CI fails if any drift. Needs
+  `fetch-depth: 0` on checkout to work.
+- Patch and season strings, the S-tier sentence, and premium tier letters are all
+  stamped from `wow-patch-data.json` by `scripts/stamp_patch_copy.py`. Never hand-edit
+  them; run the stamper.
+- GA4 measurement ID `G-YMTTK4WJ3F`. Custom event parameters must be registered as
+  custom dimensions in GA4 before they can be used as breakdowns, and registration
+  is not retroactive.
+- Schema.org `FAQPage` blocks must match the visible FAQ copy — Google expects
+  them to agree, so change both together.
 
 ---
 

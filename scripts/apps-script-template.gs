@@ -25,6 +25,7 @@ const SHEET_ID    = 'PASTE_YOUR_GOOGLE_SHEET_ID_HERE';   // The Sheet that backs
 const SECRET_KEY  = 'PASTE_A_RANDOM_STRING_HERE';        // Used to authenticate the tier script GET
 
 const FEEDBACK_TAB    = 'Feedback';
+const SUPPORT_TAB     = 'Support';
 const SUBSCRIBERS_TAB = 'Subscribers';
 
 // Optional Slack webhook for new-subscriber pings. Leave blank to disable.
@@ -42,6 +43,9 @@ function doPost(e) {
     }
     if (type === 'unsubscribe') {
       return handleUnsubscribe(payload);
+    }
+    if (type === 'support') {
+      return handleSupport(payload);
     }
     // Default: treat as feedback (preserves backward compatibility with the existing widget)
     return handleFeedback(payload);
@@ -105,6 +109,25 @@ function handleFeedback(p) {
   ]);
   notifySlack('📝 New feedback: ' + String(p.quizType || '?') + ' — ' + String(p.rating || '?') +
               '★ — ' + (p.comment ? '"' + String(p.comment).slice(0, 140) + '"' : '(no comment)'));
+  return ok();
+}
+
+// ─── Support ────────────────────────────────────────────
+// Gets its own tab so support requests are not buried among star ratings.
+// Until this is deployed, support messages fall through to handleFeedback with
+// quizType 'support' — nothing is lost either way, so redeploying is an
+// improvement rather than a prerequisite.
+function handleSupport(p) {
+  const sheet = getSheet(SUPPORT_TAB, ['Timestamp', 'Email', 'Message', 'Context', 'Status']);
+  sheet.appendRow([
+    new Date(),
+    safeCell(p.email),
+    safeCell(p.message),
+    safeCell(p.context),
+    'new'
+  ]);
+  notifySlack('🆘 Support request from ' + String(p.email || 'unknown') + ': "' +
+              String(p.message || '').slice(0, 200) + '"');
   return ok();
 }
 

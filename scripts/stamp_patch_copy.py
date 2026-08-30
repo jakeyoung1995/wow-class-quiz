@@ -29,6 +29,11 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(REPO, "wow-patch-data.json")
 
 
+def load_data():
+    with open(DATA, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def load_facts():
     with open(DATA, encoding="utf-8") as fh:
         data = json.load(fh)
@@ -144,6 +149,156 @@ def stamp_premium_role(text, truth):
     return pattern.sub(_sub, text), changes
 
 
+# ── Tier list pre-rendering ───────────────────────────────────────────────
+# tier-list.html shipped the rankings as "Loading tier data…" and injected the
+# real content from JSON after load. Everything the page is actually about —
+# every spec name, the patch, the updated date — existed only after JavaScript
+# ran.
+#
+# That is the wrong trade for this page specifically. Its one advantage over
+# Icy Veins is being current within minutes of a patch, and a crawler could not
+# see that claim or the data behind it. Google does render JavaScript, but it
+# does so on a delay and not always, and "Loading tier data…" is what gets
+# indexed when it does not.
+#
+# So the same markup the browser builds is now written into the HTML at stamp
+# time. The JavaScript still runs and still re-renders, so nothing about the
+# live behaviour changes — the toggles and the fetch are untouched. This only
+# means the page is complete before any of that happens.
+
+TIER_DESCS = {
+    "dps": {
+        "S": "Best in slot — dominant in both raid and M+",
+        "A": "Strong performers — competitive in any group",
+        "B": "Solid — viable for all content, slightly behind meta",
+        "C": "Can clear all content — may struggle for mythic raid spots",
+    },
+    "tank": {
+        "S": "Top-tier survivability and utility",
+        "A": "Strong raid and M+ presence",
+        "B": "Capable — excellent in the right hands",
+    },
+    "heal": {
+        "S": "Dominant throughput and utility",
+        "A": "Strong in raid and M+ environments",
+        "B": "Viable — unique utility in certain comps",
+    },
+}
+
+
+def _pill(name, color=None):
+    dot = ('<div class="spec-dot" style="background:%s"></div>' % color) if color else ""
+    return '<div class="spec-pill">%s%s</div>' % (dot, name)
+
+
+def _tier_blocks(groups, role):
+    """Mirror of buildTierBlocks / buildSimpleTierBlocks in tier-list.html."""
+    out = []
+    for tier in ("S", "A", "B", "C"):
+        items = groups.get(tier)
+        if not items:
+            continue
+        desc = TIER_DESCS.get(role, {}).get(tier, "")
+        out.append(
+            '<div class="tier-block">'
+            '<div class="tier-header">'
+            '<div class="tier-label %s">%s</div>'
+            '<div class="tier-desc">%s</div>'
+            "</div>"
+            '<div class="tier-specs">%s</div>'
+            "</div>" % (tier.lower(), tier, desc, "".join(items))
+        )
+    return "".join(out)
+
+
+def render_tier_html(data):
+    """Return {container_id: html} for the three tier sections."""
+    rendered = {}
+
+    groups = {}
+    for name, spec in data.get("dps_specs", {}).items():
+        groups.setdefault(spec.get("tier"), []).append(_pill(name, spec.get("color")))
+    rendered["dps-tiers"] = _tier_blocks(groups, "dps")
+
+    # Tank and healer default to the M+ view, which is what the page shows
+    # before anyone touches the dimension toggle.
+    for section, container, role in (("tank", "tank-tiers", "tank"),
+                                     ("healer", "heal-tiers", "heal")):
+        groups = {}
+        for name, spec in data.get(section, {}).items():
+            groups.setdefault(spec.get("mplus"), []).append(_pill(name))
+        rendered[container] = _tier_blocks(groups, role)
+
+    return rendered
+
+
+def stamp_tier_list(text, facts, data):
+    """Fill the three tier containers, the eyebrow and the freshness note.
+
+    Content is wrapped in sentinel comments. Without them the second run would
+    have to match a div containing nested divs, and a lazy regex would stop at
+    the first closing tag and corrupt the page.
+    """
+    changes = []
+
+    for container, html in render_tier_html(data).items():
+        open_tag = "<!--tiers:%s-->" % container
+        close_tag = "<!--/tiers:%s-->" % container
+        wrapped = open_tag + html + close_tag
+
+        if open_tag in text:
+            # Already stamped: replace only what sits between the sentinels.
+            pattern = re.compile(re.escape(open_tag) + r".*?" + re.escape(close_tag), re.S)
+            if pattern.search(text).group(0) != wrapped:
+                changes.append("re-rendered " + container)
+            text = pattern.sub(lambda _m: wrapped, text, count=1)
+        else:
+            # First run: the container still holds the loading placeholder.
+            pattern = re.compile(
+                r'(<div id="%s"[^>]*>)(.*?)(</div>)' % re.escape(container), re.S
+            )
+            match = pattern.search(text)
+            if not match:
+                continue
+            changes.append("pre-rendered " + container)
+            text = text[:match.start()] + match.group(1) + wrapped + match.group(3) + text[match.end():]
+
+    # The patch and updated date are the freshness claim. They belong in the
+    # HTML rather than in a string the browser assembles after load.
+    eyebrow = "WoW Midnight · %s · Patch %s" % (facts["season_token"], facts["patch"])
+    updated = data.get("_meta", {}).get("last_updated", "")
+    note = ('<div class="freshness-dot"></div>Updated %s · Patch %s · '
+            "Data: Warcraftlogs &amp; M+ rankings" % (updated, facts["patch"]))
+
+    # The eyebrow holds no nested tags, so a lazy match is safe there.
+    compiled = re.compile(r'(<p class="hero-eyebrow" id="heroEyebrow">)(.*?)(</p>)', re.S)
+    match = compiled.search(text)
+    if match and match.group(2).strip() != eyebrow.strip():
+        changes.append("hero eyebrow")
+        text = compiled.sub(lambda m: m.group(1) + eyebrow + m.group(3), text, count=1)
+
+    # The freshness note DOES contain a nested div, so the same lazy match would
+    # stop at the inner closing tag, duplicate the content and leave a stray
+    # </div>. Sentinels again, for the same reason as the tier blocks.
+    open_tag, close_tag = "<!--freshness-->", "<!--/freshness-->"
+    wrapped = open_tag + note + close_tag
+    if open_tag in text:
+        pattern = re.compile(re.escape(open_tag) + r".*?" + re.escape(close_tag), re.S)
+        if pattern.search(text).group(0) != wrapped:
+            changes.append("freshness note")
+        text = pattern.sub(lambda _m: wrapped, text, count=1)
+    else:
+        pattern = re.compile(
+            r'(<div class="freshness-note" id="freshnessNote">)(.*?)(</div>\s*</section>)', re.S
+        )
+        match = pattern.search(text)
+        if match:
+            changes.append("freshness note")
+            text = pattern.sub(lambda m: m.group(1) + wrapped + m.group(3), text, count=1)
+
+    return text, changes
+
+
 def stamp(text, facts):
     """Return (new_text, [descriptions of what changed])."""
     changes = []
@@ -195,6 +350,9 @@ def main():
         with open(path, encoding="utf-8") as fh:
             before = fh.read()
         after, changes = stamp(before, facts)
+        if name == "tier-list.html":
+            after, extra = stamp_tier_list(after, facts, load_data())
+            changes += extra
         if name == PREMIUM_DPS:
             after, extra = stamp_premium_dps(after, facts["premium_truth"])
             changes += extra

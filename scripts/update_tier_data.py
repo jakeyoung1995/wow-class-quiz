@@ -740,7 +740,7 @@ def main():
         spec_changes, unknown_specs = sync_spec_tiers(data, role, spec_tiers, dimension)
         for name, old_tier, new_tier in spec_changes:
             print(f"  Updated spec {name}: {dimension} {old_tier} → {new_tier}")
-        all_spec_changes.extend([(role, *c) for c in spec_changes])
+        all_spec_changes.extend([(role, dimension, *c) for c in spec_changes])
         for name in unknown_specs:
             all_structural.append(
                 (role, name, f"Spec '{name}' is on the Icy Veins {role} list but "
@@ -771,8 +771,8 @@ def main():
                 for r, d, k, o, n in all_tier_changes
             ],
             "spec_changes": [
-                {"role": r, "spec": k, "from": o, "to": n}
-                for r, k, o, n in all_spec_changes
+                {"role": r, "dimension": d, "spec": k, "from": o, "to": n}
+                for r, d, k, o, n in all_spec_changes
             ]
         })
         # Keep only last 20 changelog entries
@@ -818,8 +818,9 @@ def main():
 
         if all_spec_changes:
             lines.append("SPEC-LEVEL CHANGES (what tier-list.html renders for DPS):")
-            for role, name, old_t, new_t in all_spec_changes:
-                lines.append(f"  [{role.upper()}] {name}: {old_t} → {new_t}")
+            for role, dimension, name, old_t, new_t in all_spec_changes:
+                dim = "M+" if dimension == "mplus" else "RAID"
+                lines.append(f"  [{role.upper()} {dim}] {name}: {old_t} → {new_t}")
             lines.append("")
 
         if all_structural:

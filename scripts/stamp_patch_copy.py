@@ -232,6 +232,104 @@ def render_tier_html(data):
     return rendered
 
 
+ROLE_LABEL = {"dps": "DPS", "tank": "Tank", "healer": "Healer"}
+DIM_LABEL = {"mplus": "Mythic+", "raid": "Raid"}
+TIER_RANK = {"S": 0, "A": 1, "B": 2, "C": 3, "D": 4}
+
+
+def _direction(old, new):
+    """up / down / same, by tier rank rather than alphabet."""
+    a, b = TIER_RANK.get(old, 9), TIER_RANK.get(new, 9)
+    return "up" if b < a else ("down" if b > a else "same")
+
+
+def render_recent_changes(data):
+    """Build the "what moved this week" block from the scraper's own changelog.
+
+    This is the one thing on the page a competitor cannot copy without also
+    building the pipeline: an automatic record of what actually moved, dated,
+    rather than a hand-written "updated for patch X" line.
+    """
+    log = data.get("changelog") or []
+    if not log:
+        return ""
+
+    latest = log[-1]
+    rows = []
+
+    def add(entry, name_key):
+        old_tier = entry.get("from")
+        # "?" means the field had no previous value — the first time a rating
+        # was recorded, not something that moved. Showing "? -> B" as a change
+        # is both wrong and unreadable.
+        if not old_tier or old_tier == "?":
+            return
+        # Changelog entries written before Aug 2026 have no dimension field.
+        # Omit the label rather than defaulting it — guessing "Mythic+"
+        # mislabelled an entire raid pass as M+.
+        dim = entry.get("dimension")
+        rows.append({
+            "what": entry.get(name_key, ""),
+            "role": ROLE_LABEL.get(entry.get("role"), entry.get("role", "")),
+            "dim": DIM_LABEL.get(dim) if dim else None,
+            "from": old_tier,
+            "to": entry.get("to", "?"),
+        })
+
+    for change in latest.get("changes", []):
+        add(change, "key")
+    for change in latest.get("spec_changes", []):
+        add(change, "spec")
+
+    if not rows:
+        return ('<h2 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;">'
+                "No tier changes this week</h2>"
+                '<p style="font-size:14px;color:var(--text2);margin:0;">'
+                "Rankings were re-checked against current data on %s and nothing moved. "
+                "This list is verified weekly whether or not it changes.</p>"
+                % latest.get("date", ""))
+
+    # Risers first — they are what people came to find out.
+    rows.sort(key=lambda r: (0 if _direction(r["from"], r["to"]) == "up" else 1, r["what"]))
+
+    items = []
+    for r in rows[:12]:
+        d = _direction(r["from"], r["to"])
+        colour = {"up": "#58c878", "down": "#e07a6a"}.get(d, "var(--text2)")
+        arrow = {"up": "&uarr;", "down": "&darr;"}.get(d, "&rarr;")
+        items.append(
+            '<li style="display:flex;align-items:center;gap:10px;padding:7px 0;'
+            'border-bottom:1px solid var(--border);font-size:14px;">'
+            '<span style="color:%s;font-weight:700;width:14px;">%s</span>'
+            '<span style="color:var(--text);font-weight:600;flex:1;">%s</span>'
+            '<span style="color:var(--text3);font-size:12px;">%s</span>'
+            '<span style="color:var(--text2);font-family:ui-monospace,monospace;">'
+            "%s &rarr; <b style=\"color:%s\">%s</b></span></li>"
+            % (colour, arrow, r["what"],
+               (r["role"] + " &middot; " + r["dim"]) if r["dim"] else r["role"],
+               r["from"], colour, r["to"])
+        )
+
+    more = ""
+    if len(rows) > 12:
+        more = ('<p style="font-size:12px;color:var(--text3);margin:10px 0 0;">'
+                "and %d more</p>" % (len(rows) - 12))
+
+    risers = sum(1 for r in rows if _direction(r["from"], r["to"]) == "up")
+    fallers = len(rows) - risers
+
+    return (
+        '<h2 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;">'
+        "What moved in the last update</h2>"
+        '<p style="font-size:13.5px;color:var(--text2);margin:0 0 14px;">'
+        "%d change%s on %s &mdash; %d up, %d down. Rankings are re-checked weekly "
+        "and within about twenty minutes of a new patch going live.</p>"
+        '<ul style="list-style:none;margin:0;padding:0;">%s</ul>%s'
+        % (len(rows), "" if len(rows) == 1 else "s", latest.get("date", ""),
+           risers, fallers, "".join(items), more)
+    )
+
+
 def stamp_tier_list(text, facts, data):
     """Fill the three tier containers, the eyebrow and the freshness note.
 
@@ -269,6 +367,35 @@ def stamp_tier_list(text, facts, data):
     updated = data.get("_meta", {}).get("last_updated", "")
     note = ('<div class="freshness-dot"></div>Updated %s · Patch %s · '
             "Data: Warcraftlogs &amp; M+ rankings" % (updated, facts["patch"]))
+
+    # Recent changes block — same sentinel approach, since the content it
+    # replaces contains nested list markup.
+    changes_html = render_recent_changes(data)
+    if changes_html:
+        wrapped = "<!--changes-->" + changes_html + "<!--/changes-->"
+        pattern = re.compile(r"<!--changes-->.*?<!--/changes-->", re.S)
+        found = pattern.search(text)
+        if found:
+            if found.group(0) != wrapped:
+                changes.append("recent changes")
+            text = pattern.sub(lambda _m: wrapped, text, count=1)
+
+    # dateModified in the Article schema. Google reads this as the freshness
+    # claim, so it has to track the data rather than the day the file was
+    # written.
+    # Matched on the JSON key, not sentinels: this sits inside a JSON-LD
+    # block, where an HTML comment is literal text rather than a comment and
+    # would make dateModified an invalid date.
+    modified = data.get("_meta", {}).get("last_updated", "")
+    if modified:
+        pattern = re.compile(r'("dateModified":\s*")([\d-]+)(")')
+        found = pattern.search(text)
+        if found:
+            if found.group(2) != modified:
+                changes.append("schema dateModified")
+            text = pattern.sub(
+                lambda m: m.group(1) + modified + m.group(3), text, count=1
+            )
 
     # The eyebrow holds no nested tags, so a lazy match is safe there.
     compiled = re.compile(r'(<p class="hero-eyebrow" id="heroEyebrow">)(.*?)(</p>)', re.S)

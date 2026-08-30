@@ -23,7 +23,14 @@
   'use strict';
 
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
-  var SUPPORT_EMAIL = 'support@wowclassquiz.com';
+  // Empty until an address is verified to actually deliver. Namecheap's free
+  // forwarding was configured for support@wowclassquiz.com — correct MX, correct
+  // SPF, identical across three public resolvers — and mail still does not
+  // arrive. Advertising a route that silently drops messages is worse than
+  // offering no route at all, so the line is hidden rather than wrong.
+  //
+  // To re-enable: put the verified address here. Nothing else needs changing.
+  var SUPPORT_EMAIL = '';
 
   var modal = null;
 
@@ -119,8 +126,11 @@
           'version. Your licence key is never sent.</p>' +
         '</details>' +
 
-        '<p style="margin:14px 0 0;font-size:11.5px;color:#6e6450;">' +
-        'Prefer email? <a href="mailto:' + SUPPORT_EMAIL + '" style="color:' + a + ';">' + SUPPORT_EMAIL + '</a></p>' +
+        (SUPPORT_EMAIL
+          ? '<p style="margin:14px 0 0;font-size:11.5px;color:#6e6450;">' +
+            'Prefer email? <a href="mailto:' + SUPPORT_EMAIL + '" style="color:' + a + ';">' +
+            SUPPORT_EMAIL + '</a></p>'
+          : '') +
       '</div>';
 
     document.body.appendChild(modal);
@@ -151,8 +161,13 @@
       // no-cors: Apps Script does not send CORS headers, so the response is
       // opaque. Success cannot be read, which is why the address below is shown
       // as a fallback rather than assumed unnecessary.
-      try {
-        fetch(ENDPOINT, {
+      // A no-cors response is opaque, so an HTTP error is invisible — but a
+      // genuine network failure still rejects, and that is worth catching. The
+      // previous version wrapped this in a synchronous try/catch, which cannot
+      // catch a promise rejection, and then showed success unconditionally.
+      // With the email fallback gone this is the only route, so a message that
+      // never left must not be reported as sent.
+      fetch(ENDPOINT, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -170,18 +185,22 @@
             comment: m + '  ||  ' + context,
             ts: new Date().toISOString()
           })
-        });
-      } catch (ignored) {}
-
-      if (typeof window.wowTrack === 'function') {
-        window.wowTrack('support_request', { page: d.page, access: d.access });
-      }
-
-      send.style.display = 'none';
-      email.disabled = true;
-      msg.disabled = true;
-      ok.style.display = 'block';
-      window.setTimeout(close, 3200);
+      }).then(function () {
+        if (typeof window.wowTrack === 'function') {
+          window.wowTrack('support_request', { page: d.page, access: d.access });
+        }
+        send.style.display = 'none';
+        email.disabled = true;
+        msg.disabled = true;
+        ok.style.display = 'block';
+        window.setTimeout(close, 3600);
+      }).catch(function () {
+        // Keep what they wrote on screen so it is not lost to a retry.
+        send.disabled = false;
+        send.textContent = 'Try again';
+        fail('That did not send — you may be offline. Your message is still here, ' +
+             'so try again in a moment.');
+      });
     });
 
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });

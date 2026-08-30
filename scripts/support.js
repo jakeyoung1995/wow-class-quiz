@@ -151,8 +151,12 @@
       // no-cors: Apps Script does not send CORS headers, so the response is
       // opaque. Success cannot be read, which is why the address below is shown
       // as a fallback rather than assumed unnecessary.
-      try {
-        fetch(ENDPOINT, {
+      // A no-cors response is opaque, so an HTTP error is invisible — but a
+      // genuine network failure still rejects the promise, and that is worth
+      // catching. This was previously a synchronous try/catch, which cannot
+      // catch an async rejection, so success was reported even when the request
+      // never left the browser.
+      fetch(ENDPOINT, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -170,18 +174,22 @@
             comment: m + '  ||  ' + context,
             ts: new Date().toISOString()
           })
-        });
-      } catch (ignored) {}
-
-      if (typeof window.wowTrack === 'function') {
-        window.wowTrack('support_request', { page: d.page, access: d.access });
-      }
-
-      send.style.display = 'none';
-      email.disabled = true;
-      msg.disabled = true;
-      ok.style.display = 'block';
-      window.setTimeout(close, 3200);
+      }).then(function () {
+        if (typeof window.wowTrack === 'function') {
+          window.wowTrack('support_request', { page: d.page, access: d.access });
+        }
+        send.style.display = 'none';
+        email.disabled = true;
+        msg.disabled = true;
+        ok.style.display = 'block';
+        window.setTimeout(close, 3600);
+      }).catch(function () {
+        // Keep what they wrote on screen rather than discarding it on a retry.
+        send.disabled = false;
+        send.textContent = 'Try again';
+        fail('That did not send — you may be offline. Your message is still here, ' +
+             'so try again in a moment.');
+      });
     });
 
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });

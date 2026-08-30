@@ -21,6 +21,7 @@ Usage:
 Stdlib only, like the rest of scripts/.
 """
 
+import datetime
 import os
 import re
 import subprocess
@@ -31,8 +32,30 @@ SITEMAP = os.path.join(REPO, "sitemap.xml")
 SITE = "https://wowclassquiz.com/"
 
 
+def is_dirty(path):
+    """True if the file has uncommitted changes."""
+    try:
+        out = subprocess.run(
+            ["git", "status", "--porcelain", "--", path],
+            cwd=REPO, capture_output=True, text=True, check=True,
+        ).stdout.strip()
+        return bool(out)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+
+
 def git_date(path):
-    """Last commit date for one file, YYYY-MM-DD, or None if unknown."""
+    """The date this file last actually changed, YYYY-MM-DD.
+
+    Uses the last commit date, except when the file has uncommitted changes —
+    then it changed today, and today is the honest answer.
+
+    Without that exception the script had a chicken-and-egg problem: it ran
+    before the commit, so it stamped the *previous* commit's date, and CI then
+    failed on the commit it had just been run for.
+    """
+    if is_dirty(path):
+        return datetime.date.today().isoformat()
     try:
         out = subprocess.run(
             ["git", "log", "-1", "--format=%cd", "--date=short", "--", path],

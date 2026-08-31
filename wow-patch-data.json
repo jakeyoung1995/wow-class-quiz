@@ -2,10 +2,10 @@
   "_meta": {
     "patch": "12.1",
     "season": "Midnight Season 2",
-    "last_updated": "2026-08-24",
+    "last_updated": "2026-08-31",
     "needs_refresh": false,
     "note": "Tiers auto-updated weekly from Icy Veins by GitHub Actions. Patch/build auto-detected from the Blizzard CDN versions endpoint. Season is set manually — Blizzard does not publish it machine-readably.",
-    "build": "69404"
+    "build": "69497"
   },
   "dps": {
     "Rogue": {
@@ -15,31 +15,31 @@
     },
     "Mage": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "S",
       "best_spec": "Arcane"
     },
     "Warlock": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "best_spec": "Demonology"
     },
     "Death Knight": {
       "mplus": "A",
-      "raid": "A",
+      "raid": "B",
       "best_spec": "Unholy"
     },
     "Hunter": {
-      "mplus": "B",
-      "raid": "B",
+      "mplus": "A",
+      "raid": "A",
       "best_spec": "Beast Mastery"
     },
     "Demon Hunter": {
       "mplus": "A",
-      "raid": "S",
+      "raid": "A",
       "best_spec": "Havoc"
     },
     "Shaman": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "best_spec": "Enhancement"
     },
@@ -59,33 +59,33 @@
       "best_spec": "Arms"
     },
     "Paladin": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "S",
+      "raid": "A",
       "best_spec": "Retribution"
     },
     "Evoker": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "B",
+      "raid": "A",
       "best_spec": "Augmentation"
     },
     "Priest": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "B",
+      "raid": "A",
       "best_spec": "Shadow"
     }
   },
   "dps_specs": {
     "Demonology Warlock": {
-      "tier": "A",
+      "tier": "S",
       "class": "Warlock",
       "color": "#8788ee",
-      "raid": "B"
+      "raid": "A"
     },
     "Arcane Mage": {
       "tier": "S",
       "class": "Mage",
       "color": "#3fc7eb",
-      "raid": "A"
+      "raid": "S"
     },
     "Unholy Death Knight": {
       "tier": "A",
@@ -94,10 +94,10 @@
       "raid": "B"
     },
     "Augmentation Evoker": {
-      "tier": "A",
+      "tier": "C",
       "class": "Evoker",
       "color": "#33937f",
-      "raid": "B"
+      "raid": "C"
     },
     "Outlaw Rogue": {
       "tier": "S",
@@ -121,7 +121,7 @@
       "tier": "A",
       "class": "Demon Hunter",
       "color": "#a330c9",
-      "raid": "S"
+      "raid": "A"
     },
     "Feral Druid": {
       "tier": "A",
@@ -139,10 +139,10 @@
       "tier": "A",
       "class": "Death Knight",
       "color": "#c41e3a",
-      "raid": "A"
+      "raid": "B"
     },
     "Beast Mastery Hunter": {
-      "tier": "C",
+      "tier": "A",
       "class": "Hunter",
       "color": "#aad372",
       "raid": "B"
@@ -154,10 +154,10 @@
       "raid": "A"
     },
     "Fire Mage": {
-      "tier": "A",
+      "tier": "B",
       "class": "Mage",
       "color": "#3fc7eb",
-      "raid": "C"
+      "raid": "A"
     },
     "Windwalker Monk": {
       "tier": "S",
@@ -166,13 +166,13 @@
       "raid": "A"
     },
     "Retribution Paladin": {
-      "tier": "A",
+      "tier": "S",
       "class": "Paladin",
       "color": "#f48cba",
-      "raid": "B"
+      "raid": "A"
     },
     "Elemental Shaman": {
-      "tier": "A",
+      "tier": "S",
       "class": "Shaman",
       "color": "#0070dd",
       "raid": "A"
@@ -190,16 +190,16 @@
       "raid": "A"
     },
     "Shadow Priest": {
-      "tier": "A",
+      "tier": "B",
       "class": "Priest",
       "color": "#ffffff",
-      "raid": "B"
+      "raid": "A"
     },
     "Marksmanship Hunter": {
       "tier": "B",
       "class": "Hunter",
       "color": "#aad372",
-      "raid": "B"
+      "raid": "A"
     },
     "Fury Warrior": {
       "tier": "A",
@@ -208,10 +208,10 @@
       "raid": "A"
     },
     "Affliction Warlock": {
-      "tier": "B",
+      "tier": "A",
       "class": "Warlock",
       "color": "#8788ee",
-      "raid": "B"
+      "raid": "A"
     },
     "Frost Mage": {
       "tier": "B",
@@ -220,10 +220,10 @@
       "raid": "A"
     },
     "Survival Hunter": {
-      "tier": "B",
+      "tier": "A",
       "class": "Hunter",
       "color": "#aad372",
-      "raid": "C"
+      "raid": "B"
     },
     "Assassination Rogue": {
       "tier": "A",
@@ -232,10 +232,10 @@
       "raid": "A"
     },
     "Devastation Evoker": {
-      "tier": "C",
+      "tier": "B",
       "class": "Evoker",
       "color": "#33937f",
-      "raid": "B"
+      "raid": "A"
     }
   },
   "tank": {
@@ -252,7 +252,7 @@
       "raid": "A"
     },
     "Brewmaster Monk": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "A"
     },
     "Protection Paladin": {
@@ -282,7 +282,7 @@
       "raid": "S"
     },
     "Holy Priest": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "A"
     },
     "Discipline Priest": {
@@ -321,15 +321,15 @@
     },
     "Arcane Mage": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "S",
       "complexity": 5,
       "mobility": 3,
       "aoe": 4,
       "single_target": 5
     },
     "Fire Mage": {
-      "mplus": "A",
-      "raid": "C",
+      "mplus": "B",
+      "raid": "A",
       "complexity": 4,
       "mobility": 3,
       "aoe": 5,
@@ -344,8 +344,8 @@
       "single_target": 3
     },
     "Demonology Warlock": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "S",
+      "raid": "A",
       "complexity": 4,
       "mobility": 1,
       "aoe": 5,
@@ -360,8 +360,8 @@
       "single_target": 4
     },
     "Affliction Warlock": {
-      "mplus": "B",
-      "raid": "B",
+      "mplus": "A",
+      "raid": "A",
       "complexity": 4,
       "mobility": 1,
       "aoe": 3,
@@ -377,14 +377,14 @@
     },
     "Frost Death Knight": {
       "mplus": "A",
-      "raid": "A",
+      "raid": "B",
       "complexity": 3,
       "mobility": 2,
       "aoe": 4,
       "single_target": 4
     },
     "Beast Mastery Hunter": {
-      "mplus": "C",
+      "mplus": "A",
       "raid": "B",
       "complexity": 2,
       "mobility": 5,
@@ -393,15 +393,15 @@
     },
     "Marksmanship Hunter": {
       "mplus": "B",
-      "raid": "B",
+      "raid": "A",
       "complexity": 3,
       "mobility": 3,
       "aoe": 4,
       "single_target": 4
     },
     "Survival Hunter": {
-      "mplus": "B",
-      "raid": "C",
+      "mplus": "A",
+      "raid": "B",
       "complexity": 4,
       "mobility": 4,
       "aoe": 4,
@@ -417,7 +417,7 @@
     },
     "Devourer Demon Hunter": {
       "mplus": "A",
-      "raid": "S",
+      "raid": "A",
       "complexity": 4,
       "mobility": 5,
       "aoe": 5,
@@ -432,7 +432,7 @@
       "single_target": 4
     },
     "Elemental Shaman": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "complexity": 3,
       "mobility": 2,
@@ -480,24 +480,24 @@
       "single_target": 4
     },
     "Retribution Paladin": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "S",
+      "raid": "A",
       "complexity": 3,
       "mobility": 2,
       "aoe": 4,
       "single_target": 4
     },
     "Devastation Evoker": {
-      "mplus": "C",
-      "raid": "B",
+      "mplus": "B",
+      "raid": "A",
       "complexity": 3,
       "mobility": 4,
       "aoe": 4,
       "single_target": 4
     },
     "Augmentation Evoker": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "C",
+      "raid": "C",
       "complexity": 5,
       "mobility": 4,
       "aoe": 3,
@@ -506,8 +506,8 @@
       "note": "Support DPS — buffs allies more than topping the meter. Brought to most high-end groups."
     },
     "Shadow Priest": {
-      "mplus": "A",
-      "raid": "B",
+      "mplus": "B",
+      "raid": "A",
       "complexity": 4,
       "mobility": 2,
       "aoe": 3,
@@ -540,7 +540,7 @@
       "active_mit": 4
     },
     "Brewmaster Monk": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "A",
       "complexity": 4,
       "mobility": 4,
@@ -602,7 +602,7 @@
       "note": "Burst single-target — Avenging Wrath windows"
     },
     "Holy Priest": {
-      "mplus": "B",
+      "mplus": "A",
       "raid": "A",
       "complexity": 3,
       "mobility": 3,
@@ -1166,6 +1166,273 @@
           "role": "dps",
           "spec": "Survival Hunter",
           "from": "?",
+          "to": "C"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-31",
+      "patch": "12.1",
+      "changes": [
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "key": "Shaman",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "key": "Warlock",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "key": "Paladin",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "key": "Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "key": "Evoker",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "key": "Priest",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Mage",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Evoker",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Priest",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Paladin",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Demon Hunter",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Death Knight",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "healer",
+          "dimension": "mplus",
+          "key": "Holy Priest",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "tank",
+          "dimension": "mplus",
+          "key": "Brewmaster Monk",
+          "from": "B",
+          "to": "A"
+        }
+      ],
+      "spec_changes": [
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Elemental Shaman",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Demonology Warlock",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Retribution Paladin",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Beast Mastery Hunter",
+          "from": "C",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Affliction Warlock",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Survival Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Devastation Evoker",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Fire Mage",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Shadow Priest",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Augmentation Evoker",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Arcane Mage",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Devastation Evoker",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Shadow Priest",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Marksmanship Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Retribution Paladin",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Fire Mage",
+          "from": "C",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Devourer Demon Hunter",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Demonology Warlock",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Affliction Warlock",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Frost Death Knight",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Survival Hunter",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Augmentation Evoker",
+          "from": "B",
           "to": "C"
         }
       ]

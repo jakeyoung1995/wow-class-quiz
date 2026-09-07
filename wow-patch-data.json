@@ -2,10 +2,10 @@
   "_meta": {
     "patch": "12.1",
     "season": "Midnight Season 2",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-09-07",
     "needs_refresh": false,
     "note": "Tiers auto-updated weekly from Icy Veins by GitHub Actions. Patch/build auto-detected from the Blizzard CDN versions endpoint. Season is set manually — Blizzard does not publish it machine-readably.",
-    "build": "69497"
+    "build": "69587"
   },
   "dps": {
     "Rogue": {
@@ -20,12 +20,12 @@
     },
     "Warlock": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "S",
       "best_spec": "Demonology"
     },
     "Death Knight": {
       "mplus": "A",
-      "raid": "B",
+      "raid": "A",
       "best_spec": "Unholy"
     },
     "Hunter": {
@@ -79,7 +79,7 @@
       "tier": "S",
       "class": "Warlock",
       "color": "#8788ee",
-      "raid": "A"
+      "raid": "S"
     },
     "Arcane Mage": {
       "tier": "S",
@@ -139,13 +139,13 @@
       "tier": "A",
       "class": "Death Knight",
       "color": "#c41e3a",
-      "raid": "B"
+      "raid": "A"
     },
     "Beast Mastery Hunter": {
       "tier": "A",
       "class": "Hunter",
       "color": "#aad372",
-      "raid": "B"
+      "raid": "A"
     },
     "Destruction Warlock": {
       "tier": "A",
@@ -223,7 +223,7 @@
       "tier": "A",
       "class": "Hunter",
       "color": "#aad372",
-      "raid": "B"
+      "raid": "A"
     },
     "Assassination Rogue": {
       "tier": "A",
@@ -257,7 +257,7 @@
     },
     "Protection Paladin": {
       "mplus": "A",
-      "raid": "A"
+      "raid": "S"
     },
     "Protection Warrior": {
       "mplus": "A",
@@ -279,11 +279,11 @@
     },
     "Holy Paladin": {
       "mplus": "S",
-      "raid": "S"
+      "raid": "A"
     },
     "Holy Priest": {
       "mplus": "A",
-      "raid": "A"
+      "raid": "S"
     },
     "Discipline Priest": {
       "mplus": "B",
@@ -345,7 +345,7 @@
     },
     "Demonology Warlock": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "S",
       "complexity": 4,
       "mobility": 1,
       "aoe": 5,
@@ -377,7 +377,7 @@
     },
     "Frost Death Knight": {
       "mplus": "A",
-      "raid": "B",
+      "raid": "A",
       "complexity": 3,
       "mobility": 2,
       "aoe": 4,
@@ -385,7 +385,7 @@
     },
     "Beast Mastery Hunter": {
       "mplus": "A",
-      "raid": "B",
+      "raid": "A",
       "complexity": 2,
       "mobility": 5,
       "aoe": 4,
@@ -401,7 +401,7 @@
     },
     "Survival Hunter": {
       "mplus": "A",
-      "raid": "B",
+      "raid": "A",
       "complexity": 4,
       "mobility": 4,
       "aoe": 4,
@@ -549,7 +549,7 @@
     },
     "Protection Paladin": {
       "mplus": "A",
-      "raid": "A",
+      "raid": "S",
       "complexity": 3,
       "mobility": 2,
       "survivability": 4,
@@ -594,7 +594,7 @@
     },
     "Holy Paladin": {
       "mplus": "S",
-      "raid": "S",
+      "raid": "A",
       "complexity": 3,
       "mobility": 2,
       "throughput": 4,
@@ -603,7 +603,7 @@
     },
     "Holy Priest": {
       "mplus": "A",
-      "raid": "A",
+      "raid": "S",
       "complexity": 3,
       "mobility": 3,
       "throughput": 4,
@@ -1434,6 +1434,77 @@
           "spec": "Augmentation Evoker",
           "from": "B",
           "to": "C"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-07",
+      "patch": "12.1",
+      "changes": [
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Warlock",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Death Knight",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "healer",
+          "dimension": "raid",
+          "key": "Holy Priest",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "healer",
+          "dimension": "raid",
+          "key": "Holy Paladin",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "tank",
+          "dimension": "raid",
+          "key": "Protection Paladin",
+          "from": "A",
+          "to": "S"
+        }
+      ],
+      "spec_changes": [
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Demonology Warlock",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Beast Mastery Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Frost Death Knight",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Survival Hunter",
+          "from": "B",
+          "to": "A"
         }
       ]
     }

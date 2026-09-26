@@ -44,6 +44,12 @@ jobs:
       - name: Check patch/season copy is stamped
         run: python3 scripts/stamp_patch_copy.py --check
 
+      # Every page carries the game-version switcher strip. It is stamped, not
+      # hand-written, so a new page without it is caught here rather than by a
+      # visitor who cannot find their way back to the other versions.
+      - name: Check game-version bar is stamped
+        run: python3 scripts/version_bar.py --check
+
       # A wrong lastmod is worse than none: it tells crawlers a changed page is
       # unchanged. After the price change, 15 of 16 entries claimed that.
       - name: Check sitemap lastmod dates

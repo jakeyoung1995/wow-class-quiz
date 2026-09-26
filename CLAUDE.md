@@ -12,7 +12,7 @@
 
 ## Project Overview
 
-A static HTML website that helps WoW players choose their class through interactive quizzes. Covers WoW Midnight (retail) and WoW Classic (Vanilla, with Classic Plus support planned). Currently monetized via a $6.99 Gumroad premium bundle and (planned) affiliate links.
+A static HTML website that helps WoW players choose their class through interactive quizzes. Covers three versions of the game, each with its own section and look: **World of Warcraft: Forever** (the Classic+ product, in beta, launches 2026-11-04; the primary product and the homepage since 2026-09-26), WoW Midnight (retail) and WoW Classic (Vanilla). Monetized via a $6.99 Gumroad Pro bundle covering every deep-dive quiz across all three, and (planned) affiliate links.
 
 ---
 
@@ -42,7 +42,14 @@ history from the remote.
 ### Pages
 | File | Description |
 |------|-------------|
-| `index.html` | Homepage — hero with above-fold CTA, Midnight/Classic toggle, role cards, More Tools row, FAQ |
+| `index.html` | Homepage = the **WoW Forever** landing. Hero, Forever/Midnight/Classic toggle (Forever default), two Forever quiz cards, facts strip, Pro banner, FAQ with matching FAQPage schema. `#midnight` / `#classic` in the URL opens that tab |
+| `wow-forever-class-quiz.html` | Free Forever "most fun class" quiz (10 questions, 9 classes). Class fantasy, leveling feel, race options incl. the 6 new combos and the paid Skyborne |
+| `wow-forever-strongest-class-quiz.html` | Free Forever "strongest class" quiz (9 questions). Scores STRENGTH DIMENSIONS, not classes: each answer weights dimensions, each class has structural 1-5 ratings. **No tier data by design** while Forever is in beta; every strength figure carries an on-screen pre-launch label |
+| `wow-forever-class-quiz-pro.html` | Pro Forever fun quiz (25 questions, 5 sections). Adds professions ranked against the player's profession answers, race per faction with racials, the spec their role/distance answers point to, milestones, campsite object, persona note (vet / from Retail / new) |
+| `wow-forever-strongest-class-quiz-pro.html` | Pro Forever strongest quiz (25 questions, 5 sections). Adds spec power notes, power race per faction, power professions, launch outlook, how-to-pilot tips |
+| `wow-forever-classes.html` | Forever class guide article. Per-class sections, race/class grid and TOC are **stamped from `scripts/forever-data.js` by `scripts/stamp_forever_guide.js`** between sentinel comments; hand-written prose around them. Replaces `classic-plus.html` |
+| `classic-plus.html` | **Redirect stub** (meta refresh + canonical) to `wow-forever-classes.html`. Kept so old links live. Listed in `REDIRECT_STUBS` in `check_site.py`; not in the sitemap; `noindex, follow` |
+| `midnight-hub.html` | Midnight section landing (was the homepage content): DPS/Tank/Healer cards, tools row, Midnight FAQ |
 | `wow-quiz-free.html` | Free DPS quiz (9 questions, 13 classes — includes Shadow Priest) |
 | `wow-quiz-tank.html` | Free Tank quiz (9 questions, 6 specs) |
 | `wow-quiz-healer.html` | Free Healer quiz (9 questions, 7 specs) |
@@ -50,7 +57,7 @@ history from the remote.
 | `wow-quiz-premium-tank.html` | Premium Tank quiz (30 questions) |
 | `wow-quiz-premium-healer.html` | Premium Healer quiz (30 questions) |
 | `wow-quiz-premium-hub.html` | Premium hub — links all Midnight premium quizzes + Classic |
-| `classic-hub.html` | Classic WoW hub (Vanilla; will expand for Classic Plus when released) |
+| `classic-hub.html` | Classic WoW hub (Vanilla, Classic Era). Forever has its own section; the two do not mix |
 | `classic-quiz-free.html` | Free Classic quiz — single quiz covering all 9 Vanilla classes across roles |
 | `classic-quiz-premium.html` | Premium Classic quiz (25 questions) |
 | `selector.html` | Class selector — browseable grid of all 13 classes with role filter |
@@ -70,8 +77,13 @@ history from the remote.
 | `scripts/apps-script-template.gs` | Reference template for the Google Apps Script backend (feedback + subscribers + tier-script GET endpoint) |
 | `.github/workflows/update-tier-data.yml` | Runs the scraper every Monday |
 | `.github/workflows/pr-checks.yml` | Runs `scripts/check_site.py` on every PR and every push to `main` |
-| `scripts/check_site.py` | Pre-flight validation — broken links, truncated HTML, duplicate GA4, sitemap drift, malformed tier JSON, committed secrets. Stdlib only. Run it before you push. |
-| `sitemap.xml` | 14 pages (orphan classic tank/healer removed) |
+| `scripts/check_site.py` | Pre-flight validation — broken links, truncated HTML, duplicate GA4, sitemap drift, malformed tier JSON, committed secrets, redirect stubs. Stdlib only. Run it before you push. |
+| `scripts/version_bar.py` | Stamps the Wowhead-style **game-version switcher** strip (Forever / Midnight / Classic / Pro) into every page between `<!--gvb-->` sentinels, active tab by filename prefix. `--check` runs in CI. Edit the template there, never the pages. Styles in `styles/version-bar.css` |
+| `scripts/forever-data.js` | **Single source of truth for everything Forever**: meta (dates), races and racials, the 6 new combos, all 9 classes (specs, changes, leveling feel, professions per Wowhead/Warcraft Tavern, milestones, camp object, strength ratings, power notes). All four Forever quizzes read it in the browser; the class guide is stamped from it. No tier rankings in it, on purpose. Research briefs behind it live outside the repo in `INTREPID-2/work/research/wow-forever/` |
+| `scripts/stamp_forever_guide.js` | Node. Renders the class sections, race grid and TOC of `wow-forever-classes.html` from `forever-data.js`. Run after any data edit. `--check` to verify. Not run in CI |
+| `styles/forever.css` | Shared Forever section styles: evergreen-black environment, gold accent, green for beta/positive, and every quiz component (options, result cards, race chips with NEW / PAID RACE badges, stat bars, gate) |
+| `og-forever.jpg` | Open Graph image for the Forever pages (1200x630) |
+| `sitemap.xml` | 21 pages. `classic-plus.html` is a stub and deliberately absent |
 | `robots.txt` | Points to sitemap |
 | Favicons | `favicon.ico` (multi-size), `favicon.svg`, `favicon-48.png`, `favicon-96.png`, `apple-touch-icon.png`, `icon-192.png` |
 | OG images | `og-main.jpg`, `og-preview.jpg`, `og-tank.jpg`, `og-healer.jpg` |
@@ -189,7 +201,17 @@ in `NOTES.md` (local, gitignored) — this repo is public.
 | Heal color | `#58c878` |
 
 Font: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`
-Header: sticky, 56px, crossed swords SVG + nav (DPS, Tank, Healer, Tier List, Team Comp, Classic, Premium)
+Header: sticky, 56px, crossed swords SVG + nav. Above it on every page: the game-version strip (`version_bar.py`).
+
+**Per-version environments** (the Wowhead pattern: same site, tinted per game):
+
+| Version | Background | Accent | Where |
+|---|---|---|---|
+| Forever | evergreen black `#070b09` | gold `#d4aa52`, green `#5fbf8a` for beta / positive | `styles/forever.css` |
+| Midnight | cool navy `#0c0f14` | gold, violet `#8b7dd8` for Pro | inline per page |
+| Classic | warm brown `#0d0906` | bronze `#c89a30` | inline per page |
+
+Forever pages label anything unconfirmed on screen. Strength figures always carry the "pre-launch, kit-based, no tier data" pill. Race chips mark `NEW` (combo impossible in Classic) and `PAID RACE` (Skyborne).
 
 ---
 
@@ -202,6 +224,10 @@ Header: sticky, 56px, crossed swords SVG + nav (DPS, Tank, Healer, Tier List, Te
 - **Run `python3 scripts/check_site.py` before every push.** It catches the exact bug classes this repo has shipped before: truncated HTML, links to deleted pages, duplicate GA4 tags.
 - **`update_tier_data.py` requires `GMAIL_APP_PASSWORD` GitHub secret** for emails to send. Get via myaccount.google.com/apppasswords on <NOTIFY_EMAIL>.
 - **`SUBSCRIBER_FETCH_URL` + `SUBSCRIBER_FETCH_KEY` GitHub secrets** needed for tier-shift subscriber emails to work.
+- **Forever is in beta until 2026-10-21.** Blizzard tunes classes weekly. When a build changes a class, edit `scripts/forever-data.js` only, then run `node scripts/stamp_forever_guide.js`. Never hand-edit the class sections in `wow-forever-classes.html`. Update `META.betaNote` / `researched` dates at the same time.
+- **No tier data in the Forever strength quizzes** until Wowhead publishes rankings for the live game (Jake's call, 2026-09-26). When it does, add it as a labelled layer, do not replace the structural ratings.
+- **Every Forever claim must trace to Blizzard, Wowhead, Icy Veins or Warcraft Tavern.** Third-party-only facts are either omitted or phrased as "in beta". The briefs list what is UNCONFIRMED (dual spec, riding level, Shen'dralas level range, profession mounts).
+- **`version_bar.py` decides the active tab by filename prefix.** A new Forever page must start with `wow-forever-`; a new Classic page with `classic-`. Anything else is "neutral".
 - **Google favicon delay**: 1–2 weeks after deploy. Normal.
 - **Browser cache**: hard-refresh (`Ctrl+Shift+R`) after deploys.
 
@@ -239,6 +265,7 @@ Mechanics only. Ranking positions, keyword targets and traffic figures are in
 | 2026-05-11 | Tank rankings updated per hotfixes |
 | 2026-05-12 | Favicon SERP upgrade + GA4 + Classic showResults fixes |
 | 2026-05-12 | **Full review + Phase 1–5 improvements pass** — see TASKS.md for the full punch list. Highlights: token rotation, 20→30 question copy fix, fake aggregateRating removed, hero CTA, M+ Team Comp Builder built, Shadow Priest added, Vengeance retuned A/A, affiliate Tools section, tier-shift email automation, orphan files deleted, Apps Script template documented |
+| 2026-09-26 | **WoW Forever becomes the primary product.** Homepage rebuilt as the Forever landing; old homepage content moved to `midnight-hub.html`. Four new quizzes (fun free/Pro, strongest free/Pro) on a shared data file `scripts/forever-data.js` and shared `styles/forever.css`; class guide `wow-forever-classes.html` stamped from the same data; `classic-plus.html` retired to a redirect stub. Wowhead-style game-version switcher stamped into every page (`scripts/version_bar.py`, CI-checked). Pro hub and chooser copy updated to cover three games. Research briefs (Blizzard, Wowhead, Icy Veins, Warcraft Tavern; 2026-09-26) in `INTREPID-2/work/research/wow-forever/` |
 | 2026-08-28 | Price raised $1.99 → $6.99 across 19 places incl. the Schema.org Offer; `check_price_consistency` added so the site cannot advertise two prices |
 | 2026-08-23 | Adopted git + pull-request workflow as the deploy path (`deploy.py` deprecated); added `scripts/check_site.py` + `pr-checks.yml` CI; fixed 4 dead links to the deleted Classic tank/healer quizzes and removed duplicate GA4 tags that were double-counting pageviews on the free tank + healer quizzes |
 | 2026-08-23 | Second-machine setup documented (`MAC-SETUP.md`) + redacted `docs-public/` copies of CLAUDE.md and TASKS.md published to the public repo via new `publish-docs.py`; three orphan 8.3 short-name premium files (`WO0B2D~1.HTM`, `WOB48C~1.HTM`, `WOEE1A~1.HTM`) added to `REMOVED_FILES` — they were serving paid premium content for free |

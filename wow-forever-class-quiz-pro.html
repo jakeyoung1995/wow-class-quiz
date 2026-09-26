@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Forever Pro Class Quiz - 25 Questions, Professions, Races, Specs</title>
+  <meta name="description" content="The 25-question WoW Forever deep dive. Your most fun class plus the professions that fit you, the best race per faction with real racials, every spec explained, level-by-level milestones and your campsite buff. Pro, one-time purchase.">
+  <link rel="canonical" href="https://wowclassquiz.com/wow-forever-class-quiz-pro.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:site_name" content="WoW Class Quiz">
+  <meta property="og:title" content="WoW Forever Pro Class Quiz - 25 Questions, Your Whole Character">
+  <meta property="og:description" content="Class, professions, race, spec and milestones for World of Warcraft: Forever. 25 questions across 5 sections.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wowclassquiz.com/wow-forever-class-quiz-pro.html">
+  <meta property="og:image" content="https://wowclassquiz.com/og-forever.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WoW Forever Pro Class Quiz - 25 Questions">
+  <meta name="twitter:description" content="Class, professions, race, spec and milestones for World of Warcraft: Forever.">
+  <link rel="stylesheet" href="/styles/forever.css">
+  <link rel="stylesheet" href="/styles/gumroad-button.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTTK4WJ3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YMTTK4WJ3F');
+  </script>
+  <script src="/scripts/analytics.js" defer></script>
+  <script src="/scripts/support.js" defer></script>
+  <script src="/scripts/forever-data.js"></script>
+  <script src="https://gumroad.com/js/gumroad.js" defer></script>
+  <link rel="stylesheet" href="/styles/version-bar.css">
+</head>
+<body>
+<!--gvb--><nav class="gvb" data-active="forever" aria-label="Game version"><div class="gvb-inner"><span class="gvb-label">Game version</span><a class="gvb-tab active" data-v="forever" href="/"><span class="gvb-ico" aria-hidden="true">&#9854;&#65039;</span>WoW Forever<span class="gvb-sub">Beta &middot; Nov 4</span></a><a class="gvb-tab" data-v="midnight" href="/midnight-hub.html"><span class="gvb-ico" aria-hidden="true">&#127756;</span>Midnight</a><a class="gvb-tab" data-v="classic" href="/classic-hub.html"><span class="gvb-ico" aria-hidden="true">&#127942;</span>Classic</a><span class="gvb-spacer"></span><a class="gvb-pro" href="/wow-quiz-premium-hub.html">&#10022; Pro</a></div></nav><!--/gvb-->
+
+<header class="site-header">
+  <a class="logo" href="/">
+    <svg width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="64" height="64" rx="13" fill="#0a0600"/><line x1="10" y1="10" x2="54" y2="54" stroke="#d4a030" stroke-width="5" stroke-linecap="round"/><line x1="54" y1="10" x2="10" y2="54" stroke="#d4a030" stroke-width="5" stroke-linecap="round"/><line x1="10" y1="22" x2="22" y2="10" stroke="#f8dc80" stroke-width="3" stroke-linecap="round"/><line x1="42" y1="10" x2="54" y2="22" stroke="#f8dc80" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#f8dc80"/></svg>
+    WoW Class Quiz <span>· Forever Pro</span>
+  </a>
+  <nav class="header-nav">
+    <a href="wow-quiz-premium-hub.html" class="nav-link keep">← Pro Hub</a>
+    <a href="wow-forever-class-quiz.html" class="nav-link">Free version</a>
+    <a href="wow-forever-strongest-class-quiz-pro.html" class="nav-link">Strongest Class Pro</a>
+    <a href="wow-forever-classes.html" class="nav-link">Class Guide</a>
+  </nav>
+</header>
+
+<!-- Gate: pro-access.js shows this and hides #mainContent until a key or unlock word is entered -->
+<div id="gateWall" class="gate-wall">
+  <div style="font-size:40px;margin-bottom:16px;">🔒</div>
+  <h2>WoW Forever Pro Quiz</h2>
+  <p>Enter your licence key or unlock word to open the 25-question Forever deep dive.</p>
+  <input id="gateInput" type="text" placeholder="Licence key or unlock word" autocomplete="off" spellcheck="false">
+  <br>
+  <button class="gate-btn" data-unlock-btn onclick="tryUnlock()">Unlock →</button>
+  <p id="gateError" class="gate-err">That does not look right. Check your Gumroad receipt for the key or unlock word.</p>
+  <p class="gate-buy">Don't have Pro yet? <a href="https://jynova2.gumroad.com/l/yejhos" class="gumroad-button">Buy Pro - $6.99 →</a><br><span style="display:block;margin-top:8px">One purchase covers every Pro quiz on the site: Forever, Midnight and Classic, plus every future quiz.</span></p>
+  <p class="gate-buy" style="margin-top:12px"><a href="wow-forever-class-quiz.html">Or take the free 10-question version first →</a></p>
+</div>
+
+<div id="mainContent">
+
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="premium-badge">✦ Forever Pro · 25 Questions</div>
+    <h1>Your WoW Forever character,<br><em>fully mapped out.</em></h1>
+    <p>Not just which class is fun for you, but how you will actually play it: the professions that match your habits, the race whose racials suit you, the spec your answers point to, and what arrives at every level.</p>
+    <div class="feature-grid">
+      <span class="feat"><strong>25</strong> questions in 5 sections</span>
+      <span class="feat"><strong>9</strong> classes, all ranked</span>
+      <span class="feat"><strong>Professions</strong> matched to you</span>
+      <span class="feat"><strong>Race</strong> per faction, with racials</span>
+      <span class="feat"><strong>Spec</strong> your answers point to</span>
+      <span class="feat"><strong>Milestones</strong> level by level</span>
+      <span class="feat"><strong>Campsite</strong> buff</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Begin the Deep Dive →</button>
+    <p class="hero-sub">~7 minutes · Sourced from Blizzard, Wowhead, Icy Veins and Warcraft Tavern · Beta build 1.60.1</p>
+    <div class="beta-strip" style="max-width:640px;text-align:left;">
+      <span class="dot"></span>
+      <div><strong>Beta note.</strong> <span id="betaNote"></span> Pro owners get every update to this quiz at no extra cost.</div>
+    </div>
+  </div>
+</section>
+
+<section class="quiz-section container" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="qLabel">Question 1 of 25</span>
+      <span id="qPct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div id="sectionBanner"></div>
+  <div id="qContent"></div>
+  <div class="nav-row">
+    <button class="btn-nav" id="backBtn" onclick="goBack()" disabled>← Back</button>
+    <button class="btn-nav btn-next" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+  </div>
+</section>
+
+<section class="results-section container" id="results">
+  <div class="results-header">
+    <h2>Your WoW Forever character</h2>
+    <p>All nine classes ranked against 25 answers. Your top three are mapped in full; the rest are below for comparison.</p>
+  </div>
+  <div class="beta-strip" id="personaNote" style="margin-bottom:22px"></div>
+  <div class="result-cards" id="resultCards"></div>
+  <div id="restCards" style="margin-top:22px"></div>
+
+  <div class="feedback-widget" id="feedbackWidget">
+    <div class="feedback-heading">Did we get it right?</div>
+    <div class="feedback-sub">You paid for this, so your rating carries extra weight when I decide what to fix first. ♥ Jake</div>
+    <div id="fbQ1">
+      <div class="feedback-label">How well did your result fit you?</div>
+      <div class="star-row" id="starRow">
+        <button class="star-btn" data-v="1" aria-label="1 star">★</button>
+        <button class="star-btn" data-v="2" aria-label="2 stars">★</button>
+        <button class="star-btn" data-v="3" aria-label="3 stars">★</button>
+        <button class="star-btn" data-v="4" aria-label="4 stars">★</button>
+        <button class="star-btn" data-v="5" aria-label="5 stars">★</button>
+      </div>
+    </div>
+    <div class="feedback-q" id="fbQ2" style="display:none">
+      <div class="feedback-label">Would you recommend Pro to a friend?</div>
+      <div class="yn-row">
+        <button class="yn-btn" id="fbYes">👍 Yes</button>
+        <button class="yn-btn" id="fbNo">👎 No</button>
+      </div>
+    </div>
+    <div class="feedback-q" id="fbQ3" style="display:none">
+      <textarea class="feedback-comment" id="fbComment" placeholder="Anything wrong, missing or great? (optional)"></textarea>
+      <button class="feedback-submit" id="fbSubmit">Send →</button>
+    </div>
+    <div class="feedback-thanks" id="fbThanks"><span>✓</span><span>Thank you. That helps more than you would think.</span></div>
+  </div>
+
+  <div class="restart-row">
+    <button class="btn-restart" onclick="restart()">↩ Retake the quiz</button>
+    &nbsp; <a href="wow-forever-strongest-class-quiz-pro.html" class="btn-restart" style="text-decoration:none;display:inline-block;">Now the Strongest Class Pro quiz →</a>
+  </div>
+</section>
+
+</div><!-- /mainContent -->
+
+<footer class="site-footer">
+  <p>
+    <a href="/">WoW Forever Home</a>
+    <a href="wow-quiz-premium-hub.html">Pro Hub</a>
+    <a href="wow-forever-class-quiz.html">Free Fun Quiz</a>
+    <a href="wow-forever-strongest-class-quiz-pro.html">Strongest Class Pro</a>
+    <a href="wow-forever-classes.html">Class Guide</a>
+  </p>
+  <p>© 2026 WoW Class Quiz · Not affiliated with Blizzard Entertainment · World of Warcraft: Forever is a trademark of Blizzard Entertainment</p>
+</footer>
+
+<script src="/scripts/pro-access.js"></script>
+<script>
+const F = window.FOREVER;
+document.getElementById('betaNote').textContent = F.META.betaNote;
+
+const SECTIONS = [
+  { start: 0,  icon: '🧭', title: 'Your Forever Identity', sub: 'Why you are here, where you came from, what you want out of it.' },
+  { start: 5,  icon: '🗺️', title: 'The Road to 60',        sub: 'How you level, how you travel, how much time you really have.' },
+  { start: 10, icon: '⚔️', title: 'How You Fight',          sub: 'Distance, companions, complexity and the button you love.' },
+  { start: 15, icon: '🏰', title: 'Group Life',             sub: 'Dungeons, your seat at 60, PvP, faction.' },
+  { start: 20, icon: '🔮', title: 'Deep Cuts',              sub: 'New combos, professions, campsites, and your character in one line.' },
+];
+
+// s = class scores. p = profession signal. r = role signal. d = distance. persona = entry persona.
+const QUESTIONS = [
+  // ── 1. Identity ────────────────────────────────────────────────────────
+  { id: 'why', text: 'Why WoW Forever, for you?', cols: 2, opts: [
+    { val: 'vanilla',  icon: '🕰️', main: 'I loved Vanilla and I want more of it', sub: 'The pace, the world, the danger. Forever adds to it instead of replacing it.', s: { warrior: 1, rogue: 1, mage: 1, priest: 1 }, persona: 'vet' },
+    { val: 'retail',   icon: '🌌', main: "I'm coming from Retail", sub: 'Midnight is fine but I want a world that pushes back. New to Classic pacing.', s: { paladin: 1, hunter: 1, druid: 1 }, persona: 'retail' },
+    { val: 'first',    icon: '🌱', main: "I've never really played WoW", sub: 'The hype got me. I want the version that lasts.', s: { hunter: 2, paladin: 1, warlock: 1 }, persona: 'new' },
+    { val: 'changes',  icon: '✨', main: 'The class changes and new combos', sub: 'Undead Paladin, Dwarf Shaman, melee Survival. I want the new stuff.', s: { paladin: 1, shaman: 1, hunter: 1, druid: 1 }, persona: 'vet' },
+  ]},
+  { id: 'before', text: 'Last time you played any WoW, what did you main?', cols: 3, opts: [
+    { val: 'melee',   icon: '⚔️', main: 'A melee class', sub: '', s: { warrior: 1, rogue: 1, paladin: 1 }, d: 'melee' },
+    { val: 'caster',  icon: '🔮', main: 'A caster', sub: '', s: { mage: 1, warlock: 1, priest: 1, shaman: 1 }, d: 'ranged' },
+    { val: 'healer',  icon: '💚', main: 'A healer', sub: '', s: { priest: 1, paladin: 1, druid: 1, shaman: 1 }, r: 'heal' },
+    { val: 'tank',    icon: '🛡️', main: 'A tank', sub: '', s: { warrior: 1, paladin: 1, druid: 1 }, r: 'tank' },
+    { val: 'pet',     icon: '🐺', main: 'A pet class', sub: '', s: { hunter: 2, warlock: 2 }, d: 'ranged' },
+    { val: 'none',    icon: '🆕', main: 'Nothing yet', sub: 'Clean slate.', s: {} },
+  ]},
+  { id: 'zone', text: 'Which Azeroth calls to you?', cols: 2, opts: [
+    { val: 'forest',  icon: '🌲', main: 'Ancient Night Elf forests', sub: 'Teldrassil, Ashenvale, the new Shen\'dralas valley. Ethereal and old.', s: { druid: 2, hunter: 1, priest: 1, rogue: 1 }, f: 'alliance' },
+    { val: 'dark',    icon: '☠️', main: 'The Forsaken lands', sub: 'Tirisfal, the Ruins of Lordaeron dungeon, Bandarion Keep where the Undead Paladins gather.', s: { warlock: 2, priest: 1, paladin: 1, rogue: 1, mage: 1 }, f: 'horde' },
+    { val: 'plains',  icon: '🌋', main: 'The Barrens and Durotar', sub: 'Drums, dust, Orgrimmar. Horde culture at full volume.', s: { warrior: 2, shaman: 2, hunter: 1 }, f: 'horde' },
+    { val: 'stone',   icon: '🏰', main: 'Stormwind and Ironforge', sub: 'Stone cities, the Hall of Thanes dungeon under Ironforge, Dwarf Shaman totems in Anvilmar.', s: { paladin: 2, warrior: 1, shaman: 1, priest: 1 }, f: 'alliance' },
+    { val: 'sky',     icon: '🪶', main: 'Zephras Isle, the Skyborne start', sub: 'The new race, the new zone, elemental sky. I might buy the pack.', s: { druid: 2, hunter: 1, rogue: 1, mage: 1, shaman: 1 }, sky: true },
+    { val: 'new',     icon: '🗺️', main: 'The new zones: Riverglades and Mount Hyjal', sub: 'Frontier trade routes at 35, Archimonde\'s aftermath at 60. Show me what I have not seen.', s: { hunter: 1, druid: 1, mage: 1, shaman: 1 } },
+  ]},
+  { id: 'social', text: 'Your social style on a fresh launch:', cols: 2, opts: [
+    { val: 'solo',    icon: '🧍', main: 'Solo until max, then find people', sub: 'I level alone and join up for dungeons and raids.', s: { hunter: 3, warlock: 3, mage: 1, druid: 1 } },
+    { val: 'crew',    icon: '👥', main: 'A crew all the way', sub: 'Leveling with friends is the point. I want to be useful to them.', s: { paladin: 2, priest: 2, shaman: 2, druid: 1, warrior: 1 } },
+    { val: 'famous',  icon: '🌟', main: 'I want a name people recognise', sub: 'Feared or beloved, I will take either.', s: { rogue: 2, warrior: 2, mage: 1, warlock: 1 } },
+    { val: 'quiet',   icon: '📊', main: 'Quiet, prepared, optimal', sub: 'I read guides before I log in.', s: { mage: 1, rogue: 1, warlock: 1, warrior: 1, shaman: 1 } },
+  ]},
+  { id: 'meta', text: 'Where do you sit on fun versus strength?', cols: 2, opts: [
+    { val: 'fun',     icon: '❤️', main: 'Fun first, always', sub: 'I will play what I enjoy and make it work.', s: { druid: 1, priest: 1, hunter: 1, warlock: 1 } },
+    { val: 'both',    icon: '⚖️', main: 'Fun, as long as it is not a liability', sub: 'I want to enjoy it and still get invited.', s: { paladin: 1, shaman: 1, mage: 1, hunter: 1 } },
+    { val: 'offmeta', icon: '🔥', main: 'I like proving the underdog works', sub: 'Balance Druid, Shadow Priest, Arms in a raid. Watch me.', s: { druid: 2, priest: 2, warrior: 1, hunter: 1 } },
+    { val: 'strong',  icon: '📈', main: 'Strong first, then I find the fun', sub: 'You probably want the Strongest Class quiz too.', s: { warrior: 1, rogue: 1, mage: 1, shaman: 1 } },
+  ]},
+  // ── 2. The Road to 60 ─────────────────────────────────────────────────
+  { id: 'gate', text: "Enemy fort. Packed. How are you going in?", cols: 2, opts: [
+    { val: 'sneak',  icon: '🕶️', main: 'Sneak past every one of them', sub: 'Stealth to the objective.', s: { rogue: 3, druid: 1 } },
+    { val: 'blast',  icon: '💥', main: 'Round them up and blast them at once', sub: 'Nova, Blizzard, walk away.', s: { mage: 3, shaman: 2, warlock: 1 } },
+    { val: 'smash',  icon: '🪓', main: 'One at a time, enjoying every hit', sub: 'Charge. Swing. Next.', s: { warrior: 3, paladin: 1 } },
+    { val: 'send',   icon: '🐺', main: 'Send something else in first', sub: 'Pet or demon takes the hits.', s: { hunter: 3, warlock: 3 } },
+    { val: 'walk',   icon: '🛡️', main: 'Walk in, take every hit, heal through it', sub: 'Slow, glowing, unkillable.', s: { paladin: 3, druid: 1, shaman: 1, priest: 1 } },
+    { val: 'lure',   icon: '🎣', main: 'Pull them one at a time and control the fight', sub: 'Trap, sheep, fear, sap.', s: { hunter: 2, mage: 2, rogue: 1, priest: 1, warlock: 1 } },
+  ]},
+  { id: 'dying', text: 'How do you feel about dying while leveling?', cols: 2, opts: [
+    { val: 'never',  icon: '🐺', main: 'I plan around never dying', sub: 'Pet tanks, I shoot, Feign Death.', s: { hunter: 3, warlock: 3 } },
+    { val: 'lots',   icon: '💀', main: "I'll die a lot and call it character development", sub: 'Warrior leveling is a rite of passage.', s: { warrior: 3, rogue: 1 } },
+    { val: 'slow',   icon: '🛡️', main: "I'd rather be unkillable than fast", sub: 'Bubble, heal, keep walking.', s: { paladin: 3, druid: 1, shaman: 1 } },
+    { val: 'escape', icon: '💨', main: 'Three escape buttons and I will press them all', sub: 'Blink, Vanish, Sprint, Nova.', s: { mage: 3, rogue: 3, hunter: 1 } },
+    { val: 'heal',   icon: '✨', main: 'I heal myself and carry on', sub: 'Slower kills, zero corpse runs.', s: { priest: 2, paladin: 2, druid: 2, shaman: 2 } },
+  ]},
+  { id: 'travel', text: 'Your travel montage:', cols: 2, opts: [
+    { val: 'wolf',   icon: '🐾', main: 'Sprinting as a wolf, cat or cheetah', sub: 'I never walk.', s: { druid: 3, shaman: 3, hunter: 2 } },
+    { val: 'blink',  icon: '✨', main: 'Blink, teleport, portal, arrive', sub: '', s: { mage: 3 } },
+    { val: 'charge', icon: '⚔️', main: 'Charging into whatever is on the road', sub: '', s: { warrior: 3 } },
+    { val: 'glow',   icon: '🕯️', main: 'Slowly. In plate. Glowing.', sub: '', s: { paladin: 3 } },
+    { val: 'demon',  icon: '😈', main: 'Floating menacingly with a demon in tow', sub: '', s: { warlock: 3, priest: 1 } },
+    { val: 'unseen', icon: '🌑', main: 'Stealthed. You did not see me pass.', sub: '', s: { rogue: 3, druid: 1 } },
+  ]},
+  { id: 'time', text: 'How much time do you actually have?', cols: 3, opts: [
+    { val: 'lots',   icon: '🌙', main: 'Plenty', sub: 'Evenings and weekends. I will do the slow grinds.', s: { warrior: 1, rogue: 1, mage: 1 }, time: 'lots' },
+    { val: 'some',   icon: '📅', main: 'A few nights a week', sub: 'I need progress every session.', s: { hunter: 1, paladin: 1, druid: 1, shaman: 1 }, time: 'some' },
+    { val: 'little', icon: '⏰', main: 'Not much, honestly', sub: 'Interrupted weekends. Efficiency and instant groups.', s: { hunter: 2, warlock: 2, paladin: 2, priest: 1 }, time: 'little' },
+  ]},
+  { id: 'pace', text: 'Forever cut dungeon mob XP hard and raised first-run dungeon quest XP. Which suits you?', cols: 2, opts: [
+    { val: 'quest',  icon: '📜', main: 'Questing through the new zones', sub: 'Riverglades, Shen\'dralas, food that gives XP. The world is the content.', s: { hunter: 2, warlock: 2, druid: 1, shaman: 1, mage: 1 } },
+    { val: 'dungeon',icon: '🏰', main: 'Every dungeon once, with a group', sub: 'Nine new ones. First-clear quest XP is the payoff.', s: { warrior: 2, paladin: 2, priest: 2, druid: 1 } },
+    { val: 'grind',  icon: '🔁', main: 'AoE grinding packs, methodically', sub: 'Efficiency is its own reward.', s: { mage: 3, warlock: 1, shaman: 1 } },
+    { val: 'wander', icon: '🧭', main: 'Wandering, rare hunting, exploring', sub: 'Hundreds of new rare-mob drops. I will find them.', s: { hunter: 2, druid: 2, rogue: 1 } },
+  ]},
+  // ── 3. How You Fight ──────────────────────────────────────────────────
+  { id: 'companion', text: 'Pick your travelling companion.', cols: 3, opts: [
+    { val: 'beast',  icon: '🐻', main: 'A wild animal I tamed', sub: '', s: { hunter: 3 } },
+    { val: 'imp',    icon: '🔥', main: 'A demon that does what I say', sub: 'Mostly.', s: { warlock: 3 } },
+    { val: 'totems', icon: '🗿', main: 'Four totems and the elements', sub: '', s: { shaman: 3 } },
+    { val: 'self',   icon: '🌿', main: 'My other selves', sub: 'Bear, cat, moonkin, tree.', s: { druid: 3 } },
+    { val: 'light',  icon: '☀️', main: 'The Light', sub: '', s: { paladin: 3, priest: 1 } },
+    { val: 'nobody', icon: '🗡️', main: 'Nobody. I work alone.', sub: '', s: { rogue: 3, warrior: 2 } },
+    { val: 'food',   icon: '🍞', main: 'A conjured picnic for the party', sub: '', s: { mage: 3 } },
+    { val: 'voices', icon: '🌀', main: 'The shadow voices', sub: '', s: { priest: 3 } },
+    { val: 'shout',  icon: '📣', main: 'A very loud Battle Shout', sub: '', s: { warrior: 3 } },
+  ]},
+  { id: 'distance', text: 'Where do you want to stand in a fight?', cols: 3, opts: [
+    { val: 'melee',  icon: '⚔️', main: 'In their face', sub: 'Melee. I want to feel the hits.', s: { warrior: 3, rogue: 3, paladin: 2, shaman: 1, druid: 1, hunter: 1 }, d: 'melee' },
+    { val: 'ranged', icon: '🏹', main: 'At range', sub: 'Casting or shooting from a safe distance.', s: { mage: 3, warlock: 3, hunter: 2, priest: 2, shaman: 1, druid: 1 }, d: 'ranged' },
+    { val: 'both',   icon: '🔄', main: 'Depends on the day', sub: 'A class that can do either.', s: { shaman: 3, druid: 3, hunter: 2, paladin: 1, priest: 1 }, d: 'both' },
+  ]},
+  { id: 'complexity', text: 'Forever reworked all 27 talent trees. How busy do you want your hands?', cols: 2, opts: [
+    { val: 'simple', icon: '🎯', main: 'Simple and clean', sub: 'Few buttons, done well. Icy Veins: Mage keeps "a manageable rotation".', s: { hunter: 2, mage: 2, warlock: 1, paladin: 1 } },
+    { val: 'react',  icon: '⚡', main: 'Reactive', sub: 'Procs, resets, moments. Hot Streak, Bloodthrill, Fingers of Frost.', s: { mage: 2, warrior: 2, druid: 1, shaman: 1, hunter: 1 } },
+    { val: 'juggle', icon: '🤹', main: 'Juggling lots of things', sub: 'Totems, DoTs, seals, forms. The more plates, the better.', s: { shaman: 2, warlock: 2, paladin: 2, druid: 2, priest: 1 } },
+    { val: 'setup',  icon: '🧩', main: 'Set-up and payoff', sub: 'Stealth openers, Eclipse, seal twisting, combo points.', s: { rogue: 3, druid: 1, paladin: 1 } },
+  ]},
+  { id: 'button', text: 'The button you would press for a year:', cols: 3, opts: [
+    { val: 'charge', icon: '⚔️', main: 'Charge', sub: '', s: { warrior: 3 } },
+    { val: 'bubble', icon: '🛡️', main: 'Divine Shield', sub: '', s: { paladin: 3 } },
+    { val: 'fd',     icon: '🪦', main: 'Feign Death', sub: '', s: { hunter: 3 } },
+    { val: 'vanish', icon: '🌫️', main: 'Vanish', sub: '', s: { rogue: 3 } },
+    { val: 'mc',     icon: '🧠', main: 'Mind Control', sub: '', s: { priest: 3 } },
+    { val: 'totems', icon: '🗿', main: 'Call of the Elements', sub: 'All four totems, one cast.', s: { shaman: 3 } },
+    { val: 'sheep',  icon: '🐑', main: 'Polymorph', sub: '', s: { mage: 3 } },
+    { val: 'fear',   icon: '😱', main: 'Fear, then Drain Life', sub: '', s: { warlock: 3 } },
+    { val: 'shift',  icon: '🐱', main: 'Shapeshift mid-fight', sub: '', s: { druid: 3 } },
+  ]},
+  { id: 'window', text: 'Your damage, ideally:', cols: 2, opts: [
+    { val: 'burst',  icon: '💥', main: 'Front-loaded burst', sub: 'Kill it before it acts.', s: { rogue: 3, mage: 2, shaman: 2, warrior: 1 } },
+    { val: 'aoe',    icon: '🌪️', main: 'Big packs, big numbers', sub: '', s: { mage: 3, shaman: 1, warrior: 1, warlock: 1 } },
+    { val: 'dot',    icon: '🕯️', main: 'Ticking damage while I do something else', sub: 'DoTs can crit now.', s: { warlock: 3, priest: 2, druid: 1 } },
+    { val: 'steady', icon: '⏳', main: 'Steady, reliable, every fight the same', sub: '', s: { hunter: 2, warrior: 2, paladin: 2, druid: 1 } },
+  ]},
+  // ── 4. Group Life ─────────────────────────────────────────────────────
+  { id: 'dungeon', text: 'The fun part of a dungeon:', cols: 2, opts: [
+    { val: 'tank',   icon: '🛡️', main: 'Holding the line while chaos happens', sub: '', s: { warrior: 3, paladin: 2, druid: 2 }, r: 'tank' },
+    { val: 'heal',   icon: '💚', main: 'Keeping everyone alive. Barely.', sub: '', s: { priest: 3, paladin: 2, shaman: 2, druid: 2 }, r: 'heal' },
+    { val: 'pull',   icon: '🎯', main: 'Setting up the perfect pull', sub: 'Trap, sheep, sap.', s: { mage: 3, rogue: 3, hunter: 3 } },
+    { val: 'meter',  icon: '📈', main: 'Topping the meter and mentioning it', sub: '', s: { warrior: 2, rogue: 2, mage: 2, warlock: 2, hunter: 1 }, r: 'dps' },
+    { val: 'buff',   icon: '🗿', main: 'The totem or Blessing that makes everyone better', sub: '', s: { shaman: 3, paladin: 2, priest: 1, druid: 1 } },
+    { val: 'summon', icon: '🌀', main: 'Summoning the person who is late', sub: '', s: { warlock: 3, mage: 1 } },
+  ]},
+  { id: 'seat', text: 'At 60, which seat do you want in the 10- and 20-player raids?', cols: 2, opts: [
+    { val: 'tank',   icon: '🛡️', main: 'Tank', sub: 'Warrior, Paladin or Bear. Instant groups forever.', s: { warrior: 3, paladin: 3, druid: 2 }, r: 'tank' },
+    { val: 'heal',   icon: '💚', main: 'Healer', sub: 'Priest, Paladin, Shaman or Druid.', s: { priest: 3, paladin: 2, shaman: 2, druid: 2 }, r: 'heal' },
+    { val: 'mdps',   icon: '⚔️', main: 'Melee DPS', sub: '', s: { rogue: 3, warrior: 2, shaman: 2, paladin: 1, druid: 1, hunter: 1 }, r: 'dps', d: 'melee' },
+    { val: 'rdps',   icon: '🏹', main: 'Ranged DPS', sub: '', s: { mage: 3, warlock: 3, hunter: 3, priest: 1, shaman: 1, druid: 1 }, r: 'dps', d: 'ranged' },
+    { val: 'flex',   icon: '🔄', main: 'Whatever the raid is short of that night', sub: '', s: { druid: 3, paladin: 3, shaman: 2, priest: 1 }, r: 'flex' },
+  ]},
+  { id: 'bring', text: 'What do you want to be known for bringing?', cols: 2, opts: [
+    { val: 'buffs',  icon: '✨', main: 'Buffs everyone feels', sub: 'Blessings, totems, Mark of the Wild, Battle Shout.', s: { paladin: 3, shaman: 3, druid: 1, warrior: 1 } },
+    { val: 'saves',  icon: '🆘', main: 'The save that turns a wipe into a kill', sub: 'Rebirth, Soulstone, Lay on Hands, Fear Ward.', s: { druid: 3, warlock: 2, paladin: 2, priest: 2 } },
+    { val: 'cc',     icon: '🧊', main: 'Control', sub: 'Polymorph, Sap, Freezing Trap, Fear.', s: { mage: 3, rogue: 2, hunter: 2, warlock: 1, priest: 1 } },
+    { val: 'damage', icon: '📈', main: 'Damage. Just damage.', sub: '', s: { rogue: 3, warrior: 2, mage: 2, warlock: 2, hunter: 2 } },
+    { val: 'logistics', icon: '🚚', main: 'Logistics', sub: 'Summons, portals, food, water, Healthstones.', s: { warlock: 3, mage: 3 } },
+  ]},
+  { id: 'pvp', text: 'PvP in Forever: world PvP, plus the new 15v15 Darkspear Islands battleground. You?', cols: 2, opts: [
+    { val: 'duel',   icon: '🗡️', main: 'I want to win 1v1', sub: 'Openers, stuns, escapes.', s: { rogue: 3, mage: 2, warlock: 1, hunter: 1 } },
+    { val: 'bg',     icon: '🏴', main: 'Swing a battleground', sub: 'AoE, control, group buffs.', s: { shaman: 3, mage: 2, warlock: 1, paladin: 1, priest: 1 } },
+    { val: 'survive',icon: '🛡️', main: 'Be the one they cannot kill', sub: '', s: { paladin: 3, druid: 2, priest: 1, warlock: 1 } },
+    { val: 'pve',    icon: '🕊️', main: 'Normal or RP ruleset. Not for me.', sub: '', s: { warrior: 1, hunter: 1, paladin: 1, priest: 1 } },
+  ]},
+  { id: 'faction', text: 'Faction?', cols: 3, opts: [
+    { val: 'alliance', icon: '🦁', main: 'Alliance', sub: 'Paladin: Human, Dwarf. Shaman: Dwarf only, or Skyborne with the pack.', s: { paladin: 1 }, f: 'alliance' },
+    { val: 'horde',    icon: '🐂', main: 'Horde', sub: 'Shaman: Orc, Tauren, Troll, Skyborne. Paladin: Undead only.', s: { shaman: 1 }, f: 'horde' },
+    { val: 'any',      icon: '🌍', main: 'Wherever my class is best', sub: '', s: {} },
+  ]},
+  // ── 5. Deep Cuts ──────────────────────────────────────────────────────
+  { id: 'combo', text: 'Which new combo makes you grin?', cols: 3, opts: [
+    { val: 'udpal',  icon: '💀', main: 'Undead Paladin', sub: '', s: { paladin: 3 }, f: 'horde' },
+    { val: 'dwsham', icon: '⚒️', main: 'Dwarf Shaman', sub: '', s: { shaman: 3 }, f: 'alliance' },
+    { val: 'gnpri',  icon: '🔦', main: 'Gnome Priest', sub: '', s: { priest: 3 }, f: 'alliance' },
+    { val: 'huhun',  icon: '🏹', main: 'Human Hunter', sub: '', s: { hunter: 3 }, f: 'alliance' },
+    { val: 'orcmag', icon: '📚', main: 'Orc Mage', sub: '', s: { mage: 3 }, f: 'horde' },
+    { val: 'trlock', icon: '🕯️', main: 'Troll Warlock', sub: '', s: { warlock: 3 }, f: 'horde' },
+    { val: 'skydru', icon: '🪶', main: 'Skyborne Druid', sub: 'New forms. Paid race.', s: { druid: 3 }, sky: true },
+    { val: 'classic',icon: '🏆', main: 'The classics', sub: 'Orc Warrior. Night Elf Rogue.', s: { warrior: 2, rogue: 2 } },
+  ]},
+  { id: 'hustle', text: 'Every profession now crafts campsite gadgets. Your side hustle:', cols: 2, opts: [
+    { val: 'eng',    icon: '⚙️', main: 'Engineering', sub: 'Stealth belt, goblin glider, Nitro Boosts, a Repair Bot at camp.', s: { warrior: 2, druid: 2, mage: 2, hunter: 1, rogue: 1 }, p: 'Engineering' },
+    { val: 'alch',   icon: '🌱', main: 'Herbalism and Alchemy', sub: 'Grow herbs at a Greenhouse, brew burst potions and flasks.', s: { druid: 2, shaman: 2, priest: 1, paladin: 1, warlock: 1 }, p: 'Alchemy' },
+    { val: 'lw',     icon: '🦌', main: 'Skinning and Leatherworking', sub: '289 new patterns and a tent that gives rested XP.', s: { hunter: 3, rogue: 2, druid: 2, shaman: 2 }, p: 'Leatherworking' },
+    { val: 'cloth',  icon: '🧵', main: 'Tailoring and Enchanting', sub: 'Robes, wands, and neck enchants for the first time ever.', s: { mage: 3, priest: 3, warlock: 3 }, p: 'Tailoring' },
+    { val: 'bs',     icon: '🔨', main: 'Mining and Blacksmithing', sub: 'Eleven new armour sets and your own Anvil in the wild.', s: { warrior: 3, paladin: 3, shaman: 1 }, p: 'Blacksmithing' },
+    { val: 'gather', icon: '⛏️', main: 'Pure gathering for gold', sub: 'Two gathering skills, sell everything, buy what I need.', s: { hunter: 1, rogue: 1, druid: 1, shaman: 1 }, p: 'gathering' },
+  ]},
+  { id: 'motive', text: 'What do you want your professions to do for you?', cols: 2, opts: [
+    { val: 'gear',   icon: '🛡️', main: 'Make my own gear', sub: 'Forever wants profession gear to matter from level 10. I want that.', s: {}, motive: 'gear' },
+    { val: 'gold',   icon: '💰', main: 'Make gold', sub: 'Gathering pairs and Alchemy are the reliable earners per Wowhead and Warcraft Tavern.', s: {}, motive: 'gold' },
+    { val: 'toys',   icon: '🧸', main: 'Give me toys and tricks', sub: 'Gliders, stealth, teleports, gardens, a tent.', s: {}, motive: 'toys' },
+    { val: 'party',  icon: '🏕️', main: 'Make my party stronger', sub: 'The campsite buff people ask me to drop.', s: {}, motive: 'party' },
+  ]},
+  { id: 'camp', text: 'You reach a campfire with your group. Which object do you want to be the one placing?', cols: 3, opts: [
+    { val: 'tent',   icon: '⛺', main: 'The Camp Tent', sub: 'Rested XP for everyone. Leatherworking.', s: { hunter: 1, rogue: 1, druid: 1 }, p: 'Leatherworking' },
+    { val: 'bot',    icon: '🤖', main: 'The Repair Bot', sub: 'Engineering.', s: { warrior: 1, mage: 1, druid: 1 }, p: 'Engineering' },
+    { val: 'well',   icon: '🧪', main: 'The Mana Well', sub: 'Party mp5. Alchemy.', s: { priest: 1, paladin: 1, shaman: 1, mage: 1, warlock: 1 }, p: 'Alchemy' },
+    { val: 'anvil',  icon: '⚒️', main: 'The Anvil', sub: 'A working anvil in the field. Blacksmithing.', s: { warrior: 1, paladin: 1 }, p: 'Blacksmithing' },
+    { val: 'lute',   icon: '🎻', main: 'The Enchanted Lute', sub: 'Armour and stats for the party. Enchanting.', s: { mage: 1, priest: 1, warlock: 1 }, p: 'Enchanting' },
+    { val: 'bowl',   icon: '🐟', main: 'The Fish Bowl', sub: '+8% all stats. Fishing, which anyone can learn.', s: {}, p: 'Fishing' },
+  ]},
+  { id: 'vibe', text: 'Your character, in one line:', cols: 3, opts: [
+    { val: 'hero',    icon: '✨', main: 'Honourable hero in shining plate', sub: '', s: { paladin: 3, warrior: 1 } },
+    { val: 'ranger',  icon: '🌲', main: 'Grizzled ranger, prefers animals to people', sub: '', s: { hunter: 3, druid: 1 } },
+    { val: 'gremlin', icon: '🧪', main: 'Chaotic gremlin with poisons and gadgets', sub: '', s: { rogue: 3, mage: 1 } },
+    { val: 'spirit',  icon: '🍃', main: 'Ancient nature spirit, slightly feral', sub: '', s: { druid: 3, shaman: 1 } },
+    { val: 'cursed',  icon: '🕯️', main: 'Cursed, brooding, probably a war criminal', sub: '', s: { warlock: 3, priest: 1 } },
+    { val: 'elder',   icon: '⚡', main: 'Wise elder who argues with the weather', sub: '', s: { shaman: 3 } },
+    { val: 'scholar', icon: '📖', main: 'Scholar who thinks fireballs are a valid argument', sub: '', s: { mage: 3 } },
+    { val: 'loud',    icon: '🪓', main: 'Big loud person with a bigger axe', sub: '', s: { warrior: 3 } },
+    { val: 'faith',   icon: '🌙', main: 'Faith healer with a dark side', sub: '', s: { priest: 3 } },
+  ]},
+];
+
+// ── State ────────────────────────────────────────────────────────────────
+let current = 0;
+let answers = {};
+
+function startQuiz() {
+  if (typeof wowTrack === 'function') wowTrack('quiz_start', { quiz_type: 'forever_fun_pro' });
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const total = QUESTIONS.length;
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('qLabel').textContent = `Question ${current + 1} of ${total}`;
+  document.getElementById('qPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  const sec = SECTIONS.find(s => s.start === current);
+  document.getElementById('sectionBanner').innerHTML = sec ? `
+    <div class="section-divider"><span class="s-icon">${sec.icon}</span>
+      <div><h3>Section ${SECTIONS.indexOf(sec) + 1} of 5: ${sec.title}</h3><p>${sec.sub}</p></div></div>` : '';
+  const gridCls = q.cols === 3 ? 'options-grid cols-3' : 'options-grid';
+  const sel = answers[q.id];
+  document.getElementById('qContent').innerHTML = `
+    <div class="q-label">Question ${current + 1} of ${total}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="${gridCls}">
+      ${q.opts.map(o => `
+        <button class="opt${sel === o.val ? ' selected' : ''}" onclick="choose('${o.val}')">
+          <span class="opt-icon">${o.icon}</span>
+          <div class="opt-main">${o.main}</div>
+          ${o.sub ? `<div class="opt-sub">${o.sub}</div>` : ''}
+        </button>`).join('')}
+    </div>`;
+  document.getElementById('backBtn').disabled = current === 0;
+  const nb = document.getElementById('nextBtn');
+  nb.disabled = !sel;
+  nb.textContent = current === total - 1 ? 'Map My Character →' : 'Next →';
+}
+function choose(val) { answers[QUESTIONS[current].id] = val; renderQuestion(); }
+function goNext() {
+  if (!answers[QUESTIONS[current].id]) return;
+  if (current < QUESTIONS.length - 1) { current++; renderQuestion(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else showResults();
+}
+function goBack() { if (current > 0) { current--; renderQuestion(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }
+
+function chosen() {
+  return QUESTIONS.map(q => q.opts.find(o => o.val === answers[q.id])).filter(Boolean);
+}
+
+function calcScores() {
+  const totals = {};
+  F.order.forEach(k => totals[k] = 0);
+  const sig = { faction: { alliance: 0, horde: 0 }, role: {}, dist: {}, prof: {}, motive: null, persona: 'vet', sky: false, time: 'some' };
+  chosen().forEach(o => {
+    Object.entries(o.s || {}).forEach(([c, p]) => totals[c] += p);
+    if (o.f) sig.faction[o.f] += 1;
+    if (o.r) sig.role[o.r] = (sig.role[o.r] || 0) + 1;
+    if (o.d) sig.dist[o.d] = (sig.dist[o.d] || 0) + 1;
+    if (o.p) sig.prof[o.p] = (sig.prof[o.p] || 0) + 1;
+    if (o.motive) sig.motive = o.motive;
+    if (o.persona) sig.persona = o.persona;
+    if (o.sky) sig.sky = true;
+    if (o.time) sig.time = o.time;
+  });
+  // Faction realism: a strong lean toward one faction should not be told the
+  // best class is one with a single race there. Small nudge, not a veto.
+  const lean = sig.faction.alliance > sig.faction.horde ? 'alliance' : sig.faction.horde > sig.faction.alliance ? 'horde' : null;
+  if (lean) {
+    F.order.forEach(k => {
+      const n = F.racesFor(k)[lean].filter(r => !r.paid || sig.sky).length;
+      if (n === 1) totals[k] -= 2;
+    });
+  }
+  sig.lean = lean;
+  const ranked = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  return { ranked, sig };
+}
+
+const PERSONA = {
+  vet:    { title: 'Returning Classic player', text: 'You know the pace. The result below leans on what has changed: new combos, reworked trees, and the profession system that now matters from level 10. Where Forever differs from your memory, the card says so.' },
+  retail: { title: 'Coming from Retail', text: 'Two things will feel different: there is no dungeon finder (only a Classic-style listing tool, and no summoning stones), and solo mobs take 10 to 15 seconds to kill by design. The class below was weighted toward self-sufficiency and the roles you said you enjoyed.' },
+  new:    { title: 'New to WoW', text: 'Good news: Forever launches fresh for everyone on November 4, so nobody has a head start. Your result was nudged toward classes that forgive mistakes while leveling. Icy Veins and Warcraft Tavern both name Hunter and Warlock as the safest first characters; if one of them is in your top three, it is a very good pick.' }
+};
+
+function showResults() {
+  const res = calcScores();               // before any tracking call
+  const ranked = res.ranked;
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  if (typeof wowTrack === 'function') wowTrack('quiz_complete', { quiz_type: 'forever_fun_pro', top_class: ranked[0][0] });
+
+  const p = PERSONA[res.sig.persona] || PERSONA.vet;
+  document.getElementById('personaNote').innerHTML = `<span class="dot"></span><div><strong>${p.title}.</strong> ${p.text}</div>`;
+
+  const max = ranked[0][1] || 1, min = ranked[ranked.length - 1][1];
+  document.getElementById('resultCards').innerHTML = ranked.slice(0, 3).map(([key, score], i) =>
+    buildCard(F.CLASSES[key], i + 1, score, min, max, res.sig)).join('');
+  document.getElementById('restCards').innerHTML = `
+    <div class="section-title">The other six, ranked</div>
+    <div class="block"><div class="spec-list">${ranked.slice(3).map(([key, score], i) => {
+      const c = F.CLASSES[key];
+      const pct = max > min ? Math.round(40 + ((score - min) / (max - min)) * 40) : 60;
+      return `<div class="spec-item"><div class="spec-name">#${i + 4} ${c.icon} ${c.name}<small>${pct}% match</small></div><div class="spec-note">${F.escapeHtml(c.fantasy)}</div></div>`;
+    }).join('')}</div></div>`;
+  initFeedbackWidget('forever_fun_pro', ranked[0][0]);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Pick the spec the player's role/distance answers point to.
+function pickSpec(c, sig) {
+  const role = Object.entries(sig.role).sort((a, b) => b[1] - a[1])[0]?.[0];
+  const dist = Object.entries(sig.dist).sort((a, b) => b[1] - a[1])[0]?.[0];
+  const by = (re) => c.specs.find(s => re.test(s.role));
+  let pick = null, why = '';
+  if (role === 'tank')  { pick = by(/tank/i);   why = 'you said you want the tank seat'; }
+  if (!pick && role === 'heal') { pick = by(/heal/i); why = 'you said you want to heal'; }
+  if (!pick && role === 'flex') { pick = c.specs.length > 1 ? c.specs.find(s => /\//.test(s.role)) || c.specs[1] : c.specs[0]; why = 'you asked for flexibility'; }
+  if (!pick && dist === 'melee')  { pick = by(/melee/i);  why = 'you want to be in melee'; }
+  if (!pick && dist === 'ranged') { pick = by(/ranged/i); why = 'you want to fight at range'; }
+  if (!pick) { pick = c.specs[0]; why = 'it is the most direct expression of the class'; }
+  const fallback = (role === 'tank' && !/tank/i.test(pick.role)) || (role === 'heal' && !/heal/i.test(pick.role));
+  return { spec: pick, why, fallback, role };
+}
+
+// Rank the class's profession pairings against the player's profession answers.
+function rankProfessions(c, sig) {
+  const cands = c.professions.forever.concat([c.professions.alt]);
+  const wants = Object.keys(sig.prof);
+  const scored = cands.map(pr => {
+    let sc = 0;
+    wants.forEach(w => { if (w !== 'gathering' && pr.pair.indexOf(w) !== -1) sc += 2 * sig.prof[w]; });
+    if (wants.indexOf('gathering') !== -1 && /Mining|Herbalism|Skinning/.test(pr.pair)) sc += 1;
+    if (sig.motive === 'gold' && /Alchemy|Skinning|Herbalism|Mining/.test(pr.pair)) sc += 1;
+    if (sig.motive === 'toys' && /Engineering/.test(pr.pair)) sc += 2;
+    if (sig.motive === 'gear' && /Blacksmithing|Leatherworking|Tailoring/.test(pr.pair)) sc += 2;
+    if (sig.motive === 'party' && /Alchemy|Enchanting|Tailoring|Leatherworking/.test(pr.pair)) sc += 1;
+    return { pr, sc };
+  }).sort((a, b) => b.sc - a.sc);
+  return scored;
+}
+
+function roleBadge(r) {
+  const cls = /tank/i.test(r) ? 'role-tank' : /heal/i.test(r) ? 'role-heal' : 'role-dps';
+  return `<span class="badge ${cls}">${r}</span>`;
+}
+function raceRows(list) {
+  if (!list.length) return '<span class="race-note">Not available on this faction</span>';
+  return list.map(r => `<div style="padding:6px 0;border-bottom:1px solid var(--border)">
+      <span class="race-tag">${r.name}${r.isNew && !r.paid ? '<span class="new">NEW</span>' : ''}${r.paid ? '<span class="paid">PAID RACE</span>' : ''}</span>
+      <div class="race-note" style="margin-top:4px">${F.escapeHtml(r.racials)}</div></div>`).join('');
+}
+
+function buildCard(c, rank, score, min, max, sig) {
+  const e = F.escapeHtml;
+  const pct = max > min ? Math.round(60 + ((score - min) / (max - min)) * 40) : 100;
+  const races = F.racesFor(c.key);
+  const sp = pickSpec(c, sig);
+  const profs = rankProfessions(c, sig);
+  const motiveLabel = { gear: 'self-made gear', gold: 'gold', toys: 'toys and tricks', party: 'party buffs' }[sig.motive] || 'your answers';
+  const timeNote = sig.time === 'little'
+    ? (c.levelingEase >= 4 ? 'You said your time is limited: this class is one of the more efficient levelers, which helps.' : c.roles.some(r => /tank|heal/i.test(r)) ? 'You said your time is limited: as a tank or healer you skip the group queue, which is where most short sessions die.' : 'You said your time is limited. This class levels at a middling pace; lean on the Camp Tent for rested XP and food for its XP bonus.')
+    : '';
+  return `
+  <div class="result-card rank-${rank}" style="--class-color:${c.color}">
+    <div class="card-accent"></div>
+    <div class="card-header">
+      <div class="card-rank">#${rank}</div>
+      <div class="card-icon">${c.icon}</div>
+      <div class="card-main">
+        <div class="card-name">${c.name}${rank === 1 ? '<span class="top-badge">Your character</span>' : ''}</div>
+        <div class="card-tagline">${e(c.tagline)}</div>
+        <div class="card-badges">${c.roles.map(roleBadge).join('')}${c.vibe.map(v => `<span class="badge">${e(v)}</span>`).join('')}</div>
+        <div class="match-row"><div class="match-bar"><div class="match-fill" style="width:${pct}%"></div></div><div class="match-pct">${pct}% match</div></div>
+      </div>
+    </div>
+    <p class="card-why">${e(c.fantasy)}</p>
+    <div class="card-body">
+
+      <div class="full">
+        <div class="section-title">Your spec <span class="hint">· because ${e(sp.why)}</span></div>
+        <div class="block" style="border:1px solid var(--border2)">
+          <div class="spec-list">
+            ${c.specs.map(s => `<div class="spec-item" style="${s === sp.spec ? '' : 'opacity:0.75'}"><div class="spec-name">${s === sp.spec ? '★ ' : ''}${e(s.name)}<small>${e(s.role)}</small></div><div class="spec-note">${e(s.note)}</div></div>`).join('')}
+          </div>
+          ${sp.fallback ? `<p class="race-note" style="margin-top:8px">You asked for a ${sp.role} seat; ${c.name} does not have one. The starred spec is the closest fit, and your #2 and #3 below may serve that role better.</p>` : ''}
+        </div>
+      </div>
+
+      <div class="full">
+        <div class="section-title">Professions that fit you <span class="hint">· ranked for ${e(motiveLabel)}</span></div>
+        ${profs.map((x, i) => `<div class="prof-item"><div class="prof-pair">${e(x.pr.pair)}${i === 0 ? '<span class="fit">best fit for you</span>' : ''}</div><div class="prof-why">${e(x.pr.why)}</div></div>`).join('')}
+        <p class="race-note" style="margin-top:8px"><strong>Campsite object to place:</strong> ${e(c.camp)}</p>
+      </div>
+
+      <div class="full">
+        <div class="section-title">Race per faction, with the racials that matter${sig.lean ? ` <span class="hint">· you lean ${sig.lean === 'alliance' ? 'Alliance' : 'Horde'}</span>` : ''}</div>
+        <div class="race-grid">
+          <div class="race-group" style="${sig.lean === 'horde' ? 'opacity:0.7' : ''}"><div class="race-group-label a">Alliance</div>${raceRows(races.alliance)}</div>
+          <div class="race-group" style="${sig.lean === 'alliance' ? 'opacity:0.7' : ''}"><div class="race-group-label h">Horde</div>${raceRows(races.horde)}</div>
+        </div>
+        <p class="race-note">NEW marks a combo that did not exist in Classic. Skyborne require the Heroic Pack or higher${sig.sky ? ', which you said you might buy' : ''}. Racials quoted from Blizzard's character-creation guide; numbers can still change in beta.</p>
+      </div>
+
+      <div class="full">
+        <div class="section-title">Level-by-level milestones <span class="hint">· beta build, Classic where unchanged; levels may move before launch</span></div>
+        <div class="block"><div class="milestones">${c.milestones.map(([l, t]) => `<div class="ms"><span class="ms-lvl">Lv ${l}</span><span class="ms-txt">${e(t)}</span></div>`).join('')}</div></div>
+      </div>
+
+      <div class="full">
+        <div class="section-title">How leveling feels</div>
+        <div class="block"><p>${e(c.leveling)}</p>${timeNote ? `<p style="margin-top:8px;color:var(--ever-lt)">${e(timeNote)}</p>` : ''}</div>
+      </div>
+
+      <div class="full">
+        <div class="section-title">Everything new in Forever</div>
+        <div class="block"><ul>${c.whatsNew.map(w => `<li>${e(w)}</li>`).join('')}</ul></div>
+      </div>
+
+      <div class="full pros-cons">
+        <div class="pros"><div class="pc-label">Why you'll love it</div>${c.loveIt.map(p => `<div class="pc-item">${e(p)}</div>`).join('')}</div>
+        <div class="cons"><div class="pc-label">Know going in</div>${c.knowGoingIn.map(p => `<div class="pc-item">${e(p)}</div>`).join('')}</div>
+      </div>
+
+      <div class="full">
+        <div class="section-title">Utility and mobility</div>
+        <div class="block"><p><strong style="color:var(--text)">Brings:</strong> ${e(c.utility)}</p><p style="margin-top:6px"><strong style="color:var(--text)">Moves:</strong> ${e(c.mobility)}</p></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function restart() {
+  current = 0; answers = {};
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('hero').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+var FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQS_lKQgT6yujyXOe29wgYl0bzmzpindk-_oN_OnPrlR6us4BZvkOEy4-dMClP4AnM6A/exec';
+var feedbackBound = false;
+function initFeedbackWidget(quizType, topClass) {
+  if (feedbackBound) return;
+  feedbackBound = true;
+  var stars = 0, recommend = null;
+  var starBtns = document.querySelectorAll('.star-btn');
+  function litStars(n) { starBtns.forEach(function(b) { b.classList.toggle('lit', parseInt(b.dataset.v) <= n); }); }
+  starBtns.forEach(function(btn) {
+    btn.addEventListener('mouseover', function() { litStars(parseInt(btn.dataset.v)); });
+    btn.addEventListener('mouseout', function() { litStars(stars); });
+    btn.addEventListener('click', function() { stars = parseInt(btn.dataset.v); litStars(stars); document.getElementById('fbQ2').style.display = 'block'; });
+  });
+  function setYN(v) {
+    document.getElementById('fbYes').classList.toggle('selected', v === 'yes');
+    document.getElementById('fbNo').classList.toggle('selected', v === 'no');
+  }
+  document.getElementById('fbYes').addEventListener('click', function() { recommend = 'yes'; setYN('yes'); document.getElementById('fbQ3').style.display = 'block'; });
+  document.getElementById('fbNo').addEventListener('click', function() { recommend = 'no'; setYN('no'); document.getElementById('fbQ3').style.display = 'block'; });
+  document.getElementById('fbSubmit').addEventListener('click', function() {
+    var payload = { quiz_type: quizType, top_class: topClass, stars: stars, recommend: recommend, comment: document.getElementById('fbComment').value.trim() };
+    if (FEEDBACK_ENDPOINT) {
+      fetch(FEEDBACK_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) });
+    }
+    ['fbQ1','fbQ2','fbQ3'].forEach(function(id) { document.getElementById(id).style.display = 'none'; });
+    document.getElementById('fbThanks').style.display = 'flex';
+  });
+}
+</script>
+</body>
+</html>

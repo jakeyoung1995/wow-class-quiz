@@ -1,0 +1,107 @@
+/**
+ * version-bar.css — the game-version switcher at the very top of every page
+ *
+ * Modelled on Wowhead's top strip: one row of tabs, one per version of the
+ * game, and the active tab tints the strip so you always know which game the
+ * page underneath is about. It sits above the sticky site header and scrolls
+ * away with the page — it is wayfinding between sections, not page nav.
+ *
+ * Markup is stamped into each page by scripts/version_bar.py between
+ * <!--gvb--> sentinels. Edit the template there, not the pages.
+ *
+ * Accent per version. These deliberately reuse colours the site already has
+ * so the strip belongs to whichever page it sits on:
+ *   forever   — the site gold (#d4aa52), it is the primary product
+ *   midnight  — the violet the Pro banner already uses (#8b7dd8)
+ *   classic   — the warm bronze the Classic pages already use (#c89a30)
+ */
+
+.gvb {
+  --gvb-bg: #06070a;
+  --gvb-line: rgba(255,255,255,0.06);
+  --gvb-text: #8a8378;
+  --gvb-forever: #d4aa52;
+  --gvb-midnight: #8b7dd8;
+  --gvb-classic: #c89a30;
+  background: var(--gvb-bg);
+  border-bottom: 1px solid var(--gvb-line);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12.5px;
+  line-height: 1;
+  position: relative;
+  z-index: 101;
+}
+.gvb-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  height: 36px;
+}
+.gvb-label {
+  display: flex;
+  align-items: center;
+  color: var(--gvb-text);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+.gvb-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 13px;
+  color: var(--gvb-text);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, background 0.15s;
+}
+.gvb-tab:hover { color: #e8e0d0; background: rgba(255,255,255,0.03); }
+.gvb-tab .gvb-ico { font-size: 13px; }
+.gvb-tab .gvb-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  border-radius: 99px;
+  border: 1px solid currentColor;
+  opacity: 0.85;
+}
+.gvb-tab.active { color: #fff; }
+.gvb-tab.active[data-v="forever"]  { border-bottom-color: var(--gvb-forever);  color: var(--gvb-forever); }
+.gvb-tab.active[data-v="midnight"] { border-bottom-color: var(--gvb-midnight); color: #b0a5e8; }
+.gvb-tab.active[data-v="classic"]  { border-bottom-color: var(--gvb-classic);  color: #e8b840; }
+.gvb-tab.active .gvb-sub { opacity: 1; }
+
+.gvb-spacer { flex: 1; }
+.gvb-pro {
+  display: flex;
+  align-items: center;
+  color: var(--gvb-text);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+.gvb-pro:hover { color: #f0cc70; }
+
+/* The whole strip picks up the active version's accent as a hairline glow
+   so the tint reads even before you find the tab. */
+.gvb[data-active="forever"]  { box-shadow: inset 0 -1px 0 rgba(212,170,82,0.25); }
+.gvb[data-active="midnight"] { box-shadow: inset 0 -1px 0 rgba(139,125,216,0.25); }
+.gvb[data-active="classic"]  { box-shadow: inset 0 -1px 0 rgba(200,154,48,0.25); }
+
+@media (max-width: 640px) {
+  .gvb-label { display: none; }
+  .gvb-inner { padding: 0 8px; gap: 0; }
+  .gvb-tab { padding: 0 9px; font-size: 12px; gap: 5px; }
+  .gvb-tab .gvb-sub { display: none; }
+  .gvb-pro { display: none; }
+}

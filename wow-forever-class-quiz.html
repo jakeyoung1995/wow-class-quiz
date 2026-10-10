@@ -174,142 +174,117 @@
 // Every option scores classes directly. Weights: 3 = this option IS that class,
 // 2 = strong fit, 1 = a nod. Kept flat so the scoring is auditable.
 const QUESTIONS = [
+  // Every answer scores several classes with graded weights. No answer names a
+  // class, an ability, a race combo or a signature button: the point is that the
+  // player cannot see the mapping, so the result is a discovery, not a mirror.
   {
-    id: 'gate',
-    text: "You're standing at the gate of an enemy fort. It is packed. How are you going in?",
+    id: 'arrive',
+    text: "It's your first evening in a zone you have never seen. What do you actually do?",
     cols: 2,
     opts: [
-      { val: 'sneak',  icon: '🕶️', main: 'Sneak past every single one of them', sub: 'Stealth to the objective. Nobody knows I was there.', s: { rogue: 3, druid: 1 } },
-      { val: 'blast',  icon: '💥', main: 'Round them all up and blast them at once', sub: 'Frost Nova, Blizzard, walk away. Efficiency is beautiful.', s: { mage: 3, shaman: 2, warlock: 1 } },
-      { val: 'smash',  icon: '🪓', main: 'Smash them one at a time and enjoy each hit', sub: 'Charge. Swing. Next. There is no plan and it works.', s: { warrior: 3, paladin: 1 } },
-      { val: 'send',   icon: '🐺', main: 'Send something else in first', sub: 'My pet or my demon takes the hits. I take the credit.', s: { hunter: 3, warlock: 3 } },
-      { val: 'walk',   icon: '🛡️', main: 'Walk in, take every hit, heal through it', sub: 'Slow, glowing, and impossible to kill.', s: { paladin: 3, druid: 1, shaman: 1, priest: 1 } },
-      { val: 'lure',   icon: '🎣', main: 'Pull them to me one at a time and control the fight', sub: 'Trap, sheep, fear, sap. They fight on my terms.', s: { hunter: 2, mage: 2, rogue: 1, priest: 1, warlock: 1 } },
+      { val: 'wander', icon: '🧭', main: 'Pick a direction and go', sub: "I'll figure the quests out when I trip over them.", s: { hunter: 2, druid: 2, rogue: 2 } },
+      { val: 'plan',   icon: '🗺️', main: 'Read everything, plan a route', sub: 'Efficiency is a kind of joy.', s: { mage: 2, warlock: 2, priest: 2, paladin: 1 } },
+      { val: 'people', icon: '👥', main: 'Find other players and see what they are up to', sub: 'The zone is whoever is in it.', s: { paladin: 2, shaman: 2, priest: 2, druid: 1 } },
+      { val: 'poke',   icon: '🪓', main: 'Poke the biggest thing I can see', sub: "It's probably fine.", s: { warrior: 3, shaman: 2 } },
     ]
   },
   {
-    id: 'travel',
-    text: 'It is a long walk to the next zone. What does your travel montage look like?',
+    id: 'badfight',
+    text: 'A fight is going badly. Your instinct:',
     cols: 2,
     opts: [
-      { val: 'wolf',    icon: '🐾', main: 'Sprinting as a wolf, cat or cheetah', sub: 'I never walk anywhere and I never will.', s: { druid: 3, shaman: 3, hunter: 2 } },
-      { val: 'blink',   icon: '✨', main: 'Blink, teleport, portal, arrive', sub: 'Walking is for people without Arcane knowledge.', s: { mage: 3 } },
-      { val: 'charge',  icon: '⚔️', main: 'Charging headfirst into whatever is on the road', sub: 'The montage is mostly fights.', s: { warrior: 3 } },
-      { val: 'glow',    icon: '🕯️', main: 'Slowly. In plate. Glowing.', sub: 'Blessed, unbothered, in no hurry to die.', s: { paladin: 3 } },
-      { val: 'demon',   icon: '😈', main: 'Floating menacingly with a demon in tow', sub: 'Draining the life out of anything that looks at me.', s: { warlock: 3, priest: 1 } },
-      { val: 'unseen',  icon: '🌑', main: 'Stealthed. You did not see me pass.', sub: 'The montage is a blank screen.', s: { rogue: 3, druid: 1 } },
+      { val: 'leave',   icon: '💨', main: 'Leave. Live. Come back.', sub: 'A fight you walk away from is a fight you did not lose.', s: { rogue: 3, hunter: 2, mage: 2, druid: 1 } },
+      { val: 'outlast', icon: '🛡️', main: 'Outlast it', sub: 'I can take more than it can give.', s: { paladin: 3, warrior: 1, druid: 1, shaman: 1 } },
+      { val: 'change',  icon: '🧩', main: 'Change the fight', sub: 'Control it, distract it, make something else take the hits.', s: { warlock: 2, hunter: 2, mage: 1, priest: 2 } },
+      { val: 'push',    icon: '🔥', main: 'Push harder', sub: 'It dies first or I do.', s: { warrior: 2, rogue: 2, shaman: 2 } },
     ]
   },
   {
-    id: 'companion',
-    text: 'Pick your travelling companion.',
-    cols: 3,
-    opts: [
-      { val: 'beast',   icon: '🐻', main: 'A wild animal I tamed myself', sub: 'It has a name and it is a good name.', s: { hunter: 3 } },
-      { val: 'imp',     icon: '🔥', main: 'A demon that does what I say', sub: 'Mostly.', s: { warlock: 3 } },
-      { val: 'totems',  icon: '🗿', main: 'Four totems and the elements', sub: 'I am never alone. I have a Windfury Totem.', s: { shaman: 3 } },
-      { val: 'self',    icon: '🌿', main: 'My other selves', sub: 'Bear, cat, moonkin, tree. Company enough.', s: { druid: 3 } },
-      { val: 'light',   icon: '☀️', main: 'The Light', sub: 'And an hour-long Blessing for everyone nearby.', s: { paladin: 3, priest: 1 } },
-      { val: 'nobody',  icon: '🗡️', main: 'Nobody. I work alone.', sub: 'Companions get you caught.', s: { rogue: 3, warrior: 2 } },
-      { val: 'food',    icon: '🍞', main: 'A conjured picnic for the whole party', sub: 'Free food, free water, free portal home. I am the VIP.', s: { mage: 3 } },
-      { val: 'voices',  icon: '🌀', main: 'The voices. Specifically the shadow ones.', sub: 'They say Mind Control the guard. They are right.', s: { priest: 3 } },
-      { val: 'shout',   icon: '📣', main: 'A very loud Battle Shout', sub: 'It counts. It is the only buff I have.', s: { warrior: 3 } },
-    ]
-  },
-  {
-    id: 'combo',
-    text: 'WoW Forever added six race and class combos that were never possible. Which one makes you grin?',
-    cols: 3,
-    opts: [
-      { val: 'udpal',   icon: '💀', main: 'Undead Paladin', sub: 'The Light burns and you wield it anyway. Horde Paladin, at last.', s: { paladin: 3 } },
-      { val: 'dwsham',  icon: '⚒️', main: 'Dwarf Shaman', sub: 'Totems in Ironforge. Alliance Shaman, at last.', s: { shaman: 3 } },
-      { val: 'gnpri',   icon: '🔦', main: 'Gnome Priest', sub: 'Confounding Flash. A tiny cleric with big ideas.', s: { priest: 3 } },
-      { val: 'huhun',   icon: '🏹', main: 'Human Hunter', sub: 'A Stormwind ranger with a wolf. Overdue.', s: { hunter: 3 } },
-      { val: 'orcmag',  icon: '📚', main: 'Orc Mage', sub: 'Blood Fury on a Pyroblast. Yes.', s: { mage: 3 } },
-      { val: 'trlock',  icon: '🕯️', main: 'Troll Warlock', sub: 'Berserking demonologist. Darkspear finally embraces the void.', s: { warlock: 3 } },
-      { val: 'skydru',  icon: '🪶', main: 'Skyborne Druid', sub: 'The new race, with brand-new forms. Costs a pack, worth a look.', s: { druid: 3 } },
-      { val: 'classic', icon: '🏆', main: 'I want the classics', sub: 'Orc Warrior. Night Elf Rogue. Some things are perfect already.', s: { warrior: 2, rogue: 2 } },
-    ]
-  },
-  {
-    id: 'dungeon',
-    text: 'What is the actual fun part of a dungeon for you?',
+    id: 'word',
+    text: 'Pick the one word you want other players to use about you.',
     cols: 2,
     opts: [
-      { val: 'tank',    icon: '🛡️', main: 'Holding the line while chaos happens', sub: 'Everything is hitting me and that is correct.', s: { warrior: 3, paladin: 2, druid: 2 } },
-      { val: 'heal',    icon: '💚', main: 'Keeping everyone alive. Barely.', sub: 'The tank is at 8%. I have never felt more alive.', s: { priest: 3, paladin: 2, shaman: 2, druid: 2 } },
-      { val: 'pull',    icon: '🎯', main: 'Setting up the perfect pull', sub: 'Trap that one, sheep that one, sap the patrol. Art.', s: { mage: 3, rogue: 3, hunter: 3 } },
-      { val: 'meter',   icon: '📈', main: 'Topping the damage meter and mentioning it', sub: 'Once. Maybe twice.', s: { warrior: 2, rogue: 2, mage: 2, warlock: 2, hunter: 1 } },
-      { val: 'buff',    icon: '🗿', main: 'Dropping the totem or Blessing that makes everyone better', sub: 'Their numbers are my numbers.', s: { shaman: 3, paladin: 2, priest: 1, druid: 1 } },
-      { val: 'summon',  icon: '🌀', main: 'Summoning the person who is late', sub: 'And handing out Healthstones like a menace.', s: { warlock: 3, mage: 1 } },
+      { val: 'reliable',  icon: '🤝', main: 'Reliable', sub: '', s: { paladin: 2, priest: 2, warrior: 1, druid: 1 } },
+      { val: 'dangerous', icon: '🗡️', main: 'Dangerous', sub: '', s: { rogue: 3, warlock: 2, mage: 1 } },
+      { val: 'useful',    icon: '🎒', main: 'Useful', sub: '', s: { shaman: 2, mage: 2, warlock: 1, druid: 1 } },
+      { val: 'selfmade',  icon: '🧍', main: 'Self-sufficient', sub: '', s: { hunter: 3, druid: 1, warlock: 1 } },
     ]
   },
   {
-    id: 'vibe',
-    text: 'Your character, in one line:',
-    cols: 3,
-    opts: [
-      { val: 'hero',    icon: '✨', main: 'Honourable hero in shining plate', sub: '', s: { paladin: 3, warrior: 1 } },
-      { val: 'ranger',  icon: '🌲', main: 'Grizzled ranger who prefers animals to people', sub: '', s: { hunter: 3, druid: 1 } },
-      { val: 'gremlin', icon: '🧪', main: 'Chaotic gremlin with poisons and gadgets', sub: '', s: { rogue: 3, mage: 1 } },
-      { val: 'spirit',  icon: '🍃', main: 'Ancient nature spirit, slightly feral', sub: '', s: { druid: 3, shaman: 1 } },
-      { val: 'cursed',  icon: '🕯️', main: 'Cursed, brooding, probably a war criminal', sub: '', s: { warlock: 3, priest: 1 } },
-      { val: 'elder',   icon: '⚡', main: 'Wise elder who argues with the weather', sub: '', s: { shaman: 3 } },
-      { val: 'scholar', icon: '📖', main: 'Scholar who thinks fireballs are a valid argument', sub: '', s: { mage: 3 } },
-      { val: 'loud',    icon: '🪓', main: 'Big loud person with a bigger axe', sub: '', s: { warrior: 3 } },
-      { val: 'faith',   icon: '🌙', main: 'Faith healer with a dark side', sub: '', s: { priest: 3 } },
-    ]
-  },
-  {
-    id: 'dying',
-    text: 'Honest question. How do you feel about dying while leveling?',
+    id: 'look',
+    text: 'Your character walks into a tavern. What are they wearing?',
     cols: 2,
     opts: [
-      { val: 'never',   icon: '🐺', main: 'I plan around never dying', sub: 'Pet tanks, I shoot, I Feign Death. Death is for other classes.', s: { hunter: 3, warlock: 3 } },
-      { val: 'lots',    icon: '💀', main: "I'll die a lot and call it character development", sub: 'Warrior leveling is a rite of passage. I want the respect.', s: { warrior: 3, rogue: 1 } },
-      { val: 'slow',    icon: '🛡️', main: "I'd rather be unkillable than fast", sub: 'Bubble, heal, keep walking. Time is not the point.', s: { paladin: 3, druid: 1, shaman: 1 } },
-      { val: 'escape',  icon: '💨', main: 'I have three escape buttons and I will press all of them', sub: 'Blink. Vanish. Sprint. Nova. See you never.', s: { mage: 3, rogue: 3, hunter: 1 } },
-      { val: 'heal',    icon: '✨', main: 'I just heal myself and carry on', sub: 'Slower kills, zero corpse runs.', s: { priest: 2, paladin: 2, druid: 2, shaman: 2 } },
+      { val: 'gleam',   icon: '✨', main: 'Something that gleams', sub: 'Polished, heavy, meant to be seen.', s: { paladin: 2, warrior: 2 } },
+      { val: 'wild',    icon: '🪶', main: 'Weathered leather, feathers, bone', sub: 'Smells faintly of the woods.', s: { hunter: 2, druid: 2, shaman: 2 } },
+      { val: 'hood',    icon: '🌑', main: 'Dark cloth and a hood', sub: 'Nobody looks twice. On purpose.', s: { warlock: 2, priest: 2, rogue: 2 } },
+      { val: 'runes',   icon: '📖', main: 'Robes, runes, a book', sub: 'The hands are glowing slightly.', s: { mage: 2, priest: 1, shaman: 1 } },
     ]
   },
   {
-    id: 'hustle',
-    text: 'Forever gives every profession a campsite gadget. Pick your side hustle.',
+    id: 'responsible',
+    text: 'How do you feel about being responsible for other people in a group?',
     cols: 2,
     opts: [
-      { val: 'eng',     icon: '⚙️', main: 'Engineering: stealth belt, goblin glider, rocket boots', sub: 'Wowhead calls it the top pick for Fury, Feral and Frost. It is also the most fun.', s: { warrior: 2, druid: 2, mage: 2, hunter: 1, rogue: 1 } },
-      { val: 'garden',  icon: '🌱', main: 'A herb garden and a potion lab at my campsite', sub: 'Grow my own herbs, brew my own burst potions.', s: { druid: 2, shaman: 2, priest: 1, paladin: 1, warlock: 1 } },
-      { val: 'skin',    icon: '🦌', main: 'Skinning what I kill and making my own armour', sub: 'Leather sets every ten levels and a tent that gives rested XP.', s: { hunter: 3, rogue: 2, druid: 2, shaman: 2 } },
-      { val: 'cloth',   icon: '🧵', main: 'Tailoring robes and enchanting wands', sub: 'Cloth drops from everything, so no gathering needed. Wowhead: the caster default.', s: { mage: 3, priest: 3, warlock: 3 } },
-      { val: 'forge',   icon: '🔨', main: 'Forging plate at my own anvil in the wild', sub: 'Eleven new armour sets and a Master Forge at 300.', s: { warrior: 3, paladin: 3, shaman: 1 } },
-      { val: 'cook',    icon: '🔥', main: 'Cooking a feast for ten at a campfire', sub: 'Every food gives XP now. I am the reason people group.', s: { paladin: 1, priest: 1, druid: 1, shaman: 1, hunter: 1 } },
+      { val: 'want',   icon: '🫡', main: 'I want it', sub: "Give me the group's fate. I'll carry it.", s: { paladin: 2, priest: 2, druid: 1 } },
+      { val: 'help',   icon: '🤲', main: "I'll help, but my job is my job", sub: 'I make everyone better and then I do my thing.', s: { shaman: 2, mage: 1, warlock: 1, hunter: 1 } },
+      { val: 'me',     icon: '🧍', main: "I'd rather be responsible for exactly me", sub: 'Other people are a variable.', s: { rogue: 3, hunter: 2, mage: 1 } },
+      { val: 'depends',icon: '🔄', main: 'Depends on the night', sub: 'Sometimes I lead, sometimes I just want to hit things.', s: { druid: 3, shaman: 2 } },
     ]
   },
   {
-    id: 'button',
-    text: 'Which button would you most enjoy pressing, over and over, for a year?',
-    cols: 3,
-    opts: [
-      { val: 'charge',  icon: '⚔️', main: 'Charge', sub: 'Then Execute.', s: { warrior: 3 } },
-      { val: 'bubble',  icon: '🛡️', main: 'Divine Shield', sub: 'Then Holy Strike, the new one.', s: { paladin: 3 } },
-      { val: 'fd',      icon: '🪦', main: 'Feign Death', sub: 'The group wipes. I live.', s: { hunter: 3 } },
-      { val: 'vanish',  icon: '🌫️', main: 'Vanish', sub: 'Reset the fight. Win the rematch.', s: { rogue: 3 } },
-      { val: 'mc',      icon: '🧠', main: 'Mind Control', sub: 'Make the guard fight his friends.', s: { priest: 3 } },
-      { val: 'totems',  icon: '🗿', main: 'Call of the Elements', sub: 'All four totems in one cast. New in Forever.', s: { shaman: 3 } },
-      { val: 'sheep',   icon: '🐑', main: 'Polymorph', sub: 'Then Blink. Then laugh.', s: { mage: 3 } },
-      { val: 'fear',    icon: '😱', main: 'Fear, then Drain Life', sub: 'They run. I drink. Repeat.', s: { warlock: 3 } },
-      { val: 'shift',   icon: '🐱', main: 'Shapeshift mid-fight', sub: 'Bear to cat to healer in one pull.', s: { druid: 3 } },
-    ]
-  },
-  {
-    id: 'social',
-    text: 'Last one. Who are you playing with?',
+    id: 'ambush',
+    text: 'Something jumps you from behind. Honest reaction:',
     cols: 2,
     opts: [
-      { val: 'solo',    icon: '🧍', main: 'Mostly solo, I group when I feel like it', sub: 'I want a class that never needs anyone.', s: { hunter: 3, warlock: 3, mage: 1, paladin: 1, druid: 1 } },
-      { val: 'glue',    icon: '🤝', main: 'I want to be the glue of every group', sub: 'Buffs, heals, saves. The one they message first.', s: { paladin: 3, shaman: 3, priest: 2, druid: 2 } },
-      { val: 'duo',     icon: '👥', main: 'Levelling with one friend', sub: 'We cover each other. Something that pairs well.', s: { warrior: 2, priest: 2, paladin: 1, shaman: 1, druid: 1, hunter: 1 } },
-      { val: 'group',   icon: '🏰', main: 'Dungeons and raids, as much as possible', sub: 'The endgame is the game. Get me there.', s: { warrior: 3, rogue: 2, mage: 1, priest: 1 } },
+      { val: 'turn',   icon: '🪓', main: 'Turn around and hit it', sub: 'Hard.', s: { warrior: 2, shaman: 2 } },
+      { val: 'button', icon: '💨', main: 'Panic button, then counterattack', sub: 'Distance first. Then we talk.', s: { mage: 2, rogue: 2, hunter: 1, priest: 2 } },
+      { val: 'calm',   icon: '😌', main: 'Stay calm. Something of mine is already on it.', sub: '', s: { hunter: 2, warlock: 2 } },
+      { val: 'shrug',  icon: '🛡️', main: 'Shrug it off and carry on', sub: 'It will stop eventually.', s: { paladin: 2, druid: 1, priest: 1 } },
+    ]
+  },
+  {
+    id: 'lookforward',
+    text: 'Which part of the game are you most looking forward to?',
+    cols: 2,
+    opts: [
+      { val: 'world',  icon: '🌲', main: 'The long walk', sub: 'Exploring. The world itself.', s: { hunter: 2, druid: 2, shaman: 1, rogue: 1 } },
+      { val: 'crew',   icon: '🏰', main: 'The group night', sub: 'Dungeons, raids, a crew with in-jokes.', s: { warrior: 2, priest: 2, paladin: 1, shaman: 1 } },
+      { val: 'pvp',    icon: '🩸', main: 'Fighting other players', sub: '', s: { rogue: 3, mage: 1, warlock: 1, shaman: 1 } },
+      { val: 'tinker', icon: '⚙️', main: 'The tinkering', sub: 'Builds, professions, squeezing out a bit more.', s: { mage: 2, warlock: 1, shaman: 2 } },
+    ]
+  },
+  {
+    id: 'rhythm',
+    text: 'Your ideal combat rhythm:',
+    cols: 2,
+    opts: [
+      { val: 'fast',    icon: '⚡', main: 'Fast and constant', sub: 'Lots of small decisions, no dead time.', s: { rogue: 3, warrior: 2, shaman: 2 } },
+      { val: 'big',     icon: '💥', main: 'Big, slow hits that mean something', sub: 'One good one beats five small ones.', s: { mage: 2, warrior: 1, shaman: 1 } },
+      { val: 'motion',  icon: '🕯️', main: 'Set things in motion, then watch them work', sub: 'The fight is already decided; it just has not noticed.', s: { warlock: 3, priest: 2, hunter: 1 } },
+      { val: 'react',   icon: '🔄', main: 'Reactive', sub: 'Respond to what the fight gives me.', s: { druid: 2, priest: 2, mage: 1, shaman: 2 } },
+    ]
+  },
+  {
+    id: 'patience',
+    text: 'Honestly, how patient are you?',
+    cols: 2,
+    opts: [
+      { val: 'very',   icon: '🐢', main: 'Very', sub: 'Slow and certain wins.', s: { paladin: 2, warlock: 1, priest: 2, druid: 1 } },
+      { val: 'none',   icon: '🐇', main: 'Not at all', sub: 'I want results now.', s: { mage: 2, warrior: 1, rogue: 1 } },
+      { val: 'choice', icon: '🕶️', main: "Patient when it's my choice", sub: 'I can wait for the perfect moment. I hate waiting for other people.', s: { rogue: 3, hunter: 1, druid: 1, warlock: 1 } },
+      { val: 'deal',   icon: '⚖️', main: 'Depends what I get out of it', sub: '', s: { shaman: 2, druid: 1, mage: 1 } },
+    ]
+  },
+  {
+    id: 'secret',
+    text: 'Last one. If your character had a secret, what would it be?',
+    cols: 2,
+    opts: [
+      { val: 'violence', icon: '🪓', main: 'They enjoy the violence more than they admit', sub: '', s: { warrior: 2, rogue: 2, warlock: 1 } },
+      { val: 'useless',  icon: '😬', main: "They're scared of being useless", sub: '', s: { priest: 3, shaman: 1, mage: 1 } },
+      { val: 'view',     icon: '🏔️', main: "They'd leave everyone behind for a good view", sub: '', s: { hunter: 2, druid: 2, mage: 1 } },
+      { val: 'deal',     icon: '🤫', main: "They made a deal they don't talk about", sub: '', s: { warlock: 2, priest: 1, rogue: 1, shaman: 2 } },
     ]
   },
 ];
@@ -379,7 +354,13 @@ function calcScores() {
     if (!opt) return;
     Object.entries(opt.s).forEach(([cls, pts]) => { totals[cls] += pts; });
   });
-  return Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  // Normalise by the most a class could have scored, so a class that appears
+  // in many answers does not win on breadth alone. Ties fall back to raw points.
+  const maxOf = {};
+  F.order.forEach(k => { maxOf[k] = QUESTIONS.reduce((s, q) => s + Math.max(...q.opts.map(o => (o.s || {})[k] || 0)), 0) || 1; });
+  return Object.entries(totals)
+    .map(([k, v]) => [k, Math.round((v / maxOf[k]) * 100), v])
+    .sort((a, b) => (b[1] - a[1]) || (b[2] - a[2]));
 }
 
 function showResults() {

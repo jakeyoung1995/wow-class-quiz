@@ -178,16 +178,18 @@
 // "strongest" is always strongest FOR THE PLAYER, and the ratings that drive it
 // are the same ones shown on the result card.
 const QUESTIONS = [
+  // This quiz never scores a class directly. Each answer weights STRENGTH
+  // DIMENSIONS (forever-data.js STRENGTH_DIMS); a class's score is the weighted
+  // sum of its structural ratings. Four answers at most.
   {
     id: 'arena',
     text: 'Where do you most want to be the strong one?',
     cols: 2,
     opts: [
-      { val: 'raid',   icon: '🏰', main: 'Raids', sub: 'The 10- and 20-player raids open December 9. I want a guaranteed seat and big numbers.', w: { demand: 3, scaling: 2, utility: 1 } },
-      { val: 'dung',   icon: '⚔️', main: 'Dungeons', sub: 'Nine new dungeons. I want to be the reason the run goes smoothly.', w: { demand: 2, utility: 2, aoe: 1, control: 1 } },
-      { val: 'pvp',    icon: '🩸', main: 'PvP', sub: 'World PvP and the new 15v15 battleground. Winning fights is the point.', w: { control: 3, burst: 2, mobility: 1 } },
-      { val: 'world',  icon: '🌍', main: 'The open world', sub: 'Leveling, farming, rare hunting, four new zones. Alone and unbothered.', w: { solo: 3, selfSufficiency: 2, mobility: 1 } },
-      { val: 'all',    icon: '🎯', main: 'Everywhere', sub: 'I want a class with no weak arena.', w: { flexibility: 2, utility: 1, solo: 1, demand: 1, control: 1 } },
+      { val: 'raid',  icon: '🏰', main: 'Raids', sub: 'A guaranteed seat and big numbers.', w: { demand: 3, scaling: 2, utility: 1 } },
+      { val: 'dung',  icon: '⚔️', main: 'Dungeons', sub: 'The reason the run goes smoothly.', w: { demand: 2, utility: 2, aoe: 1, control: 1 } },
+      { val: 'pvp',   icon: '🩸', main: 'PvP', sub: 'Winning fights is the point.', w: { control: 3, burst: 2, mobility: 1 } },
+      { val: 'world', icon: '🌍', main: 'The open world', sub: 'Leveling, farming, rares. Alone and unbothered.', w: { solo: 3, selfSufficiency: 2, mobility: 1 } },
     ]
   },
   {
@@ -195,21 +197,20 @@ const QUESTIONS = [
     text: 'Finish the sentence. "A strong class is one that..."',
     cols: 2,
     opts: [
-      { val: 'meter',  icon: '📈', main: '...does the most damage', sub: 'The meter is the truth.', w: { burst: 2, scaling: 2, aoe: 1 } },
-      { val: 'live',   icon: '🛡️', main: '...refuses to die', sub: 'Survivability is the stat nobody tracks and everybody feels.', w: { selfSufficiency: 3, solo: 1 } },
-      { val: 'irr',    icon: '🗿', main: '...the group cannot function without', sub: 'Buffs, saves, summons. Irreplaceable beats replaceable-but-higher.', w: { utility: 3, demand: 2 } },
-      { val: 'flex',   icon: '🔄', main: '...can fill whatever seat is empty', sub: 'Tank tonight, heal tomorrow, DPS on the weekend.', w: { flexibility: 3, demand: 1 } },
-      { val: 'fast',   icon: '⏩', main: '...gets to 60 first', sub: 'The endgame starts when I get there.', w: { solo: 3, mobility: 1 } },
+      { val: 'meter', icon: '📈', main: '...does the most damage', sub: '', w: { burst: 2, scaling: 2, aoe: 1 } },
+      { val: 'live',  icon: '🛡️', main: '...refuses to die', sub: '', w: { selfSufficiency: 3, solo: 1 } },
+      { val: 'irr',   icon: '🗿', main: '...the group cannot function without', sub: '', w: { utility: 3, demand: 2 } },
+      { val: 'flex',  icon: '🔄', main: '...can fill whatever seat is empty', sub: '', w: { flexibility: 3, demand: 1 } },
     ]
   },
   {
     id: 'gear',
     text: 'How much do you plan to chase gear?',
-    cols: 2,
+    cols: 3,
     opts: [
-      { val: 'bis',    icon: '💎', main: "I'll farm best-in-slot and pre-raid lists", sub: 'Give me the class that turns every upgrade into output.', w: { scaling: 3 } },
-      { val: 'ok',     icon: '🎒', main: "I'll take what drops", sub: 'I want to be strong in blues and quest greens.', w: { selfSufficiency: 2, solo: 1, utility: 1 } },
-      { val: 'craft',  icon: '🔨', main: "I'll craft my own", sub: 'Forever pushes profession gear from level 10. I want a class that benefits.', w: { scaling: 1, selfSufficiency: 1, solo: 1 } },
+      { val: 'bis',   icon: '💎', main: "I'll farm best-in-slot", sub: 'Every upgrade should show.', w: { scaling: 3 } },
+      { val: 'ok',    icon: '🎒', main: "I'll take what drops", sub: 'Strong in greens.', w: { selfSufficiency: 2, solo: 1, utility: 1 } },
+      { val: 'craft', icon: '🔨', main: "I'll craft my own", sub: '', w: { scaling: 1, selfSufficiency: 1, solo: 1 } },
     ]
   },
   {
@@ -217,19 +218,19 @@ const QUESTIONS = [
     text: 'Pick your damage profile.',
     cols: 3,
     opts: [
-      { val: 'burst',  icon: '💥', main: 'Front-loaded burst', sub: 'Kill it before it does anything. Openers and cooldowns.', w: { burst: 3, control: 1 } },
-      { val: 'aoe',    icon: '🌪️', main: 'Big packs, big numbers', sub: 'Why kill one when you can kill eight.', w: { aoe: 3 } },
-      { val: 'sust',   icon: '⏳', main: 'Steady and reliable', sub: 'No cooldowns to line up. Consistent every fight.', w: { scaling: 2, selfSufficiency: 1 } },
+      { val: 'burst', icon: '💥', main: 'Front-loaded burst', sub: '', w: { burst: 3, control: 1 } },
+      { val: 'aoe',   icon: '🌪️', main: 'Big packs, big numbers', sub: '', w: { aoe: 3 } },
+      { val: 'sust',  icon: '⏳', main: 'Steady and reliable', sub: '', w: { scaling: 2, selfSufficiency: 1 } },
     ]
   },
   {
     id: 'roles',
-    text: 'Once you are 60, how many roles do you actually want on one character?',
+    text: 'Once you are 60, how many roles do you want on one character?',
     cols: 3,
     opts: [
-      { val: 'one',    icon: '1️⃣', main: 'One, done properly', sub: 'Pure classes are pure for a reason.', w: { burst: 1, scaling: 1 } },
-      { val: 'two',    icon: '2️⃣', main: 'Two I can swap between', sub: 'A main role and a fallback for when the group needs it.', w: { flexibility: 2, demand: 1 } },
-      { val: 'all',    icon: '♾️', main: 'All of them', sub: 'I never want to be the class a raid cannot use.', w: { flexibility: 3, demand: 2 } },
+      { val: 'one', icon: '1️⃣', main: 'One, done properly', sub: '', w: { burst: 1, scaling: 1 } },
+      { val: 'two', icon: '2️⃣', main: 'Two I can swap between', sub: '', w: { flexibility: 2, demand: 1 } },
+      { val: 'all', icon: '♾️', main: 'All of them', sub: '', w: { flexibility: 3, demand: 2 } },
     ]
   },
   {
@@ -237,11 +238,10 @@ const QUESTIONS = [
     text: 'When someone jumps you in the world, what wins the fight?',
     cols: 2,
     opts: [
-      { val: 'cc',     icon: '🧊', main: 'Control: stuns, slows, fears, roots', sub: 'They never get to act.', w: { control: 3 } },
-      { val: 'kill',   icon: '🗡️', main: 'Killing them faster than they kill me', sub: 'Burst wins duels.', w: { burst: 3 } },
-      { val: 'outlast', icon: '💚', main: 'Outlasting them', sub: 'Heals, shields, a pet in the way. They give up.', w: { selfSufficiency: 3 } },
-      { val: 'leave',  icon: '💨', main: 'Leaving', sub: 'Escape tools. The fight they cannot have is the fight I win.', w: { mobility: 3, control: 1 } },
-      { val: 'dontcare', icon: '🕊️', main: "I'm on a Normal ruleset, I don't care", sub: 'PvP strength should not count for me.', w: { demand: 1, solo: 1 } },
+      { val: 'cc',      icon: '🧊', main: 'Control', sub: 'They never get to act.', w: { control: 3 } },
+      { val: 'kill',    icon: '🗡️', main: 'Killing them first', sub: '', w: { burst: 3 } },
+      { val: 'survive', icon: '💚', main: 'Surviving it', sub: 'Heal through it or get away from it.', w: { selfSufficiency: 2, mobility: 2 } },
+      { val: 'none',    icon: '🕊️', main: "I'm not flagged. Skip this one.", sub: '', w: { demand: 1, solo: 1 } },
     ]
   },
   {
@@ -249,29 +249,29 @@ const QUESTIONS = [
     text: 'How much time do you realistically have?',
     cols: 3,
     opts: [
-      { val: 'lots',   icon: '🌙', main: 'Plenty', sub: 'Evenings and weekends. I will do the slow grinds.', w: { scaling: 2, demand: 1 } },
-      { val: 'some',   icon: '📅', main: 'A few nights a week', sub: 'I need progress every session.', w: { solo: 2, flexibility: 1, demand: 1 } },
-      { val: 'little', icon: '⏰', main: 'Not much, honestly', sub: 'Weekends, interrupted. Efficiency and instant groups matter most.', w: { solo: 2, demand: 2, selfSufficiency: 1 } },
+      { val: 'lots',   icon: '🌙', main: 'Plenty', sub: '', w: { scaling: 2, demand: 1 } },
+      { val: 'some',   icon: '📅', main: 'A few nights a week', sub: '', w: { solo: 2, flexibility: 1, demand: 1 } },
+      { val: 'little', icon: '⏰', main: 'Not much, honestly', sub: 'Efficiency and instant groups matter most.', w: { solo: 2, demand: 2, selfSufficiency: 1 } },
     ]
   },
   {
     id: 'faction',
-    text: 'Faction and race limits: do they matter to you?',
-    cols: 2,
+    text: 'Faction?',
+    cols: 3,
     opts: [
-      { val: 'alliance', icon: '🦁', main: 'Alliance, always', sub: 'Note: Paladin has two Alliance races, Shaman has one (Dwarf) unless you buy the Skyborne.', w: {}, f: 'alliance' },
-      { val: 'horde',    icon: '🐂', main: 'Horde, always', sub: 'Note: Paladin has one Horde race (Undead). Shaman has four.', w: {}, f: 'horde' },
-      { val: 'any',      icon: '🌍', main: 'Whatever makes the class strongest', sub: 'Racials and options first, faction second.', w: { scaling: 1 } },
+      { val: 'alliance', icon: '🦁', main: 'Alliance, always', sub: '', w: {}, f: 'alliance' },
+      { val: 'horde',    icon: '🐂', main: 'Horde, always', sub: '', w: {}, f: 'horde' },
+      { val: 'any',      icon: '🌍', main: 'Whatever makes the class strongest', sub: '', w: { scaling: 1 } },
     ]
   },
   {
     id: 'invite',
     text: 'Last one. How much does "always invited" matter?',
-    cols: 2,
+    cols: 3,
     opts: [
-      { val: 'always', icon: '📨', main: 'A lot. I want instant groups', sub: 'Tanks and healers get invited first. Utility classes second.', w: { demand: 3, utility: 1 } },
-      { val: 'some',   icon: '🤷', main: 'Some. I will wait a bit for the right class', sub: 'Being good matters more than being quick to group.', w: { scaling: 1, burst: 1 } },
-      { val: 'no',     icon: '🧍', main: 'Not at all. I mostly play solo', sub: 'Groups are optional.', w: { solo: 2, selfSufficiency: 1 } },
+      { val: 'always', icon: '📨', main: 'A lot. I want instant groups', sub: '', w: { demand: 3, utility: 1 } },
+      { val: 'some',   icon: '🤷', main: 'Some', sub: 'Being good matters more than being quick to group.', w: { scaling: 1, burst: 1 } },
+      { val: 'no',     icon: '🧍', main: 'Not at all. I mostly play solo', sub: '', w: { solo: 2, selfSufficiency: 1 } },
     ]
   },
 ];

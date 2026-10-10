@@ -175,68 +175,68 @@ const SECTIONS = [
 // Every option weights STRENGTH DIMENSIONS (forever-data.js STRENGTH_DIMS).
 // f = faction lean, r = role signal, d = distance, p = profession signal.
 const QUESTIONS = [
+  // Every answer weights STRENGTH DIMENSIONS (forever-data.js STRENGTH_DIMS).
+  // f = faction lean, r = role signal, p = profession signal. Four answers at most.
   // ── 1. Raids and dungeons ─────────────────────────────────────────────
-  { id: 'raidprio', text: 'The first raids open December 9: Barrow Deeps (10), Hyjal Summit (20), Onyxia (40). How important is a guaranteed spot?', cols: 2, opts: [
-    { val: 'must',  icon: '🎟️', main: 'I need a guaranteed seat', sub: 'Tanks and healers are never benched.', w: { demand: 3, flexibility: 1 } },
-    { val: 'earn',  icon: '📈', main: "I'll earn my seat with numbers", sub: 'DPS seats are competitive. I am fine with that.', w: { scaling: 2, burst: 1 } },
-    { val: 'util',  icon: '🗿', main: 'I want to be the utility they cannot drop', sub: 'Buffs, saves, summons.', w: { utility: 3 } },
-    { val: 'meh',   icon: '🤷', main: 'Raiding is not my priority', sub: '', w: { solo: 2, control: 1 } },
+  { id: 'raidprio', text: 'The first raids open December 9. How important is a guaranteed spot?', cols: 2, opts: [
+    { val: 'must', icon: '🎟️', main: 'I need a guaranteed seat', sub: '', w: { demand: 3, flexibility: 1 } },
+    { val: 'earn', icon: '📈', main: "I'll earn my seat with numbers", sub: '', w: { scaling: 2, burst: 1 } },
+    { val: 'util', icon: '🗿', main: 'I want to be the utility they cannot drop', sub: '', w: { utility: 3 } },
+    { val: 'meh',  icon: '🤷', main: 'Raiding is not my priority', sub: '', w: { solo: 2, control: 1 } },
   ]},
   { id: 'raidjob', text: 'In a raid, what do you want to be the best at?', cols: 2, opts: [
-    { val: 'dmg',   icon: '📈', main: 'Damage', sub: '', w: { scaling: 2, burst: 1, aoe: 1 } },
-    { val: 'tank',  icon: '🛡️', main: 'Tanking', sub: '', w: { demand: 2, selfSufficiency: 1, flexibility: 1 }, r: 'tank' },
-    { val: 'heal',  icon: '💚', main: 'Healing', sub: '', w: { demand: 2, utility: 1, flexibility: 1 }, r: 'heal' },
-    { val: 'buff',  icon: '✨', main: 'Making everyone else better', sub: 'Blessings, totems, Power Infusion, Innervate.', w: { utility: 3 } },
-    { val: 'save',  icon: '🆘', main: 'Saving the pull', sub: 'Rebirth, Soulstone, Lay on Hands, Fear Ward.', w: { utility: 2, flexibility: 1 } },
+    { val: 'dmg',  icon: '📈', main: 'Damage', sub: '', w: { scaling: 2, burst: 1, aoe: 1 } },
+    { val: 'tank', icon: '🛡️', main: 'Tanking', sub: '', w: { demand: 2, selfSufficiency: 1, flexibility: 1 }, r: 'tank' },
+    { val: 'heal', icon: '💚', main: 'Healing', sub: '', w: { demand: 2, utility: 1, flexibility: 1 }, r: 'heal' },
+    { val: 'buff', icon: '✨', main: 'Making everyone else better, and saving the pull', sub: '', w: { utility: 3, flexibility: 1 } },
   ]},
-  { id: 'dungeonjob', text: 'Nine new dungeons, first-clear quest XP raised, mob XP cut. In a dungeon you want to be:', cols: 2, opts: [
-    { val: 'tank',  icon: '🛡️', main: 'The tank. Instant groups', sub: '', w: { demand: 3 }, r: 'tank' },
-    { val: 'heal',  icon: '💚', main: 'The healer. Also instant groups', sub: '', w: { demand: 3 }, r: 'heal' },
-    { val: 'cc',    icon: '🧊', main: 'The one controlling the pull', sub: 'Sheep, sap, trap, fear.', w: { control: 2, utility: 1 } },
-    { val: 'aoe',   icon: '🌪️', main: 'The one melting the pack', sub: '', w: { aoe: 3 } },
-    { val: 'kit',   icon: '🚚', main: 'The one with food, water, summons, Healthstones', sub: '', w: { utility: 3 } },
+  { id: 'dungeonjob', text: 'In a dungeon you want to be:', cols: 2, opts: [
+    { val: 'tank', icon: '🛡️', main: 'The tank. Instant groups', sub: '', w: { demand: 3 }, r: 'tank' },
+    { val: 'heal', icon: '💚', main: 'The healer. Also instant groups', sub: '', w: { demand: 3 }, r: 'heal' },
+    { val: 'cc',   icon: '🧊', main: 'The one controlling the pull', sub: '', w: { control: 2, utility: 1 } },
+    { val: 'aoe',  icon: '🌪️', main: 'The one melting the pack', sub: '', w: { aoe: 3 } },
   ]},
   { id: 'trash', text: 'Trash packs versus bosses. Where do you want to shine?', cols: 3, opts: [
-    { val: 'trash', icon: '🌪️', main: 'Trash: packs, AoE, tempo', sub: '', w: { aoe: 3, burst: 1 } },
+    { val: 'trash', icon: '🌪️', main: 'Trash: packs, tempo', sub: '', w: { aoe: 3, burst: 1 } },
     { val: 'boss',  icon: '🐉', main: 'Bosses: sustained single-target', sub: '', w: { scaling: 3 } },
     { val: 'both',  icon: '⚖️', main: 'Both, evenly', sub: '', w: { aoe: 1, scaling: 1, burst: 1 } },
   ]},
-  { id: 'stack', text: 'Blizzard says no class should be so strong that raids want to stack it. What matters more to you?', cols: 2, opts: [
-    { val: 'unique', icon: '💎', main: 'Bringing something nobody else brings', sub: 'One of me is enough, and one of me is required.', w: { utility: 3, demand: 1 } },
+  { id: 'stack', text: 'Blizzard says no class should be so strong that raids stack it. What matters more to you?', cols: 3, opts: [
+    { val: 'unique',  icon: '💎', main: 'Bringing something nobody else brings', sub: '', w: { utility: 3, demand: 1 } },
     { val: 'anyseat', icon: '🔄', main: 'Being able to take any empty seat', sub: '', w: { flexibility: 3, demand: 1 } },
-    { val: 'output', icon: '📈', main: 'Raw output, and let the roster sort itself', sub: '', w: { scaling: 2, burst: 2 } },
+    { val: 'output',  icon: '📈', main: 'Raw output', sub: '', w: { scaling: 2, burst: 2 } },
   ]},
   // ── 2. PvP ─────────────────────────────────────────────────────────────
   { id: 'ruleset', text: 'Forever is realmless: you pick a ruleset. Which one?', cols: 2, opts: [
-    { val: 'pvp',    icon: '🩸', main: 'PvP', sub: 'Faction-locked, always flagged. Fights matter.', w: { control: 3, mobility: 1, selfSufficiency: 1 } },
-    { val: 'normal', icon: '🕊️', main: 'Normal', sub: 'PvP when I opt in.', w: { solo: 1, demand: 1 } },
+    { val: 'pvp',    icon: '🩸', main: 'PvP', sub: 'Always flagged.', w: { control: 3, mobility: 1, selfSufficiency: 1 } },
+    { val: 'normal', icon: '🕊️', main: 'Normal', sub: '', w: { solo: 1, demand: 1 } },
     { val: 'rp',     icon: '🎭', main: 'Roleplaying', sub: '', w: { flexibility: 1, utility: 1 } },
-    { val: 'hc',     icon: '💀', main: 'Hardcore, when it arrives this winter', sub: 'One life. Survivability is everything.', w: { selfSufficiency: 3, solo: 2 } },
+    { val: 'hc',     icon: '💀', main: 'Hardcore, when it arrives', sub: 'One life.', w: { selfSufficiency: 3, solo: 2 } },
   ]},
-  { id: 'duel', text: 'Someone jumps you in Riverglades. What wins?', cols: 2, opts: [
-    { val: 'cc',      icon: '🧊', main: 'Control: they never get to act', sub: '', w: { control: 3 } },
+  { id: 'duel', text: 'Someone jumps you in the wild. What wins?', cols: 2, opts: [
+    { val: 'cc',      icon: '🧊', main: 'Control', sub: '', w: { control: 3 } },
     { val: 'kill',    icon: '🗡️', main: 'Killing them first', sub: '', w: { burst: 3 } },
     { val: 'outlast', icon: '💚', main: 'Outlasting them', sub: '', w: { selfSufficiency: 3 } },
-    { val: 'leave',   icon: '💨', main: 'Leaving', sub: 'Vanish, Blink, Feign Death, travel form.', w: { mobility: 3, control: 1 } },
+    { val: 'leave',   icon: '💨', main: 'Leaving', sub: '', w: { mobility: 3, control: 1 } },
   ]},
-  { id: 'bg', text: 'Darkspear Islands is the new 15v15 battleground: control points plus flag capture. Your job there:', cols: 2, opts: [
-    { val: 'flag',   icon: '🏴', main: 'Run the flag', sub: 'Speed and escapes.', w: { mobility: 3, selfSufficiency: 1 } },
-    { val: 'hold',   icon: '🛡️', main: 'Hold a point alone', sub: 'Outlast three people until help arrives.', w: { selfSufficiency: 3, control: 1 } },
-    { val: 'team',   icon: '🌪️', main: 'Win the team fight', sub: 'AoE, group buffs, burst.', w: { aoe: 2, burst: 1, utility: 1 } },
-    { val: 'peel',   icon: '🧊', main: 'Peel and protect', sub: 'Keep the healers alive, lock down the killers.', w: { control: 2, utility: 2 } },
+  { id: 'bg', text: 'The new 15v15 battleground mixes control points with flag capture. Your job there:', cols: 2, opts: [
+    { val: 'flag', icon: '🏴', main: 'Run the flag', sub: '', w: { mobility: 3, selfSufficiency: 1 } },
+    { val: 'hold', icon: '🛡️', main: 'Hold a point alone', sub: '', w: { selfSufficiency: 3, control: 1 } },
+    { val: 'team', icon: '🌪️', main: 'Win the team fight', sub: '', w: { aoe: 2, burst: 1, utility: 1 } },
+    { val: 'peel', icon: '🧊', main: 'Peel and protect', sub: '', w: { control: 2, utility: 2 } },
   ]},
   { id: 'pvpstyle', text: 'Your PvP style:', cols: 3, opts: [
-    { val: 'opener',  icon: '🎯', main: 'Pick the fight, win the opener', sub: '', w: { burst: 2, control: 1, mobility: 1 } },
-    { val: 'attrition', icon: '⏳', main: 'Attrition', sub: 'DoTs, drains, fears, heals.', w: { selfSufficiency: 2, control: 2 } },
-    { val: 'support', icon: '💚', main: 'Support', sub: 'Pocket healer, buffs, dispels.', w: { utility: 2, flexibility: 1, demand: 1 } },
+    { val: 'opener',    icon: '🎯', main: 'Pick the fight, win the opener', sub: '', w: { burst: 2, control: 1, mobility: 1 } },
+    { val: 'attrition', icon: '⏳', main: 'Attrition', sub: '', w: { selfSufficiency: 2, control: 2 } },
+    { val: 'support',   icon: '💚', main: 'Support', sub: '', w: { utility: 2, flexibility: 1, demand: 1 } },
   ]},
   { id: 'pvpweight', text: 'How much should PvP count in your result?', cols: 3, opts: [
-    { val: 'lots',   icon: '🔥', main: 'A lot', sub: '', w: { control: 2, burst: 1, mobility: 1 } },
-    { val: 'some',   icon: '⚖️', main: 'Some', sub: '', w: { control: 1 } },
-    { val: 'none',   icon: '🕊️', main: 'Not at all', sub: '', w: { demand: 1, solo: 1 } },
+    { val: 'lots', icon: '🔥', main: 'A lot', sub: '', w: { control: 2, burst: 1, mobility: 1 } },
+    { val: 'some', icon: '⚖️', main: 'Some', sub: '', w: { control: 1 } },
+    { val: 'none', icon: '🕊️', main: 'Not at all', sub: '', w: { demand: 1, solo: 1 } },
   ]},
   // ── 3. Open world and economy ──────────────────────────────────────────
-  { id: 'lvlspeed', text: 'Blizzard kept the 1 to 60 curve unchanged from Classic. How much does leveling speed matter?', cols: 3, opts: [
+  { id: 'lvlspeed', text: 'How much does leveling speed matter?', cols: 3, opts: [
     { val: 'race',   icon: '⏩', main: 'A lot. I want to be at 60 first', sub: '', w: { solo: 3, mobility: 1 } },
     { val: 'steady', icon: '🚶', main: 'Some. Steady is fine', sub: '', w: { solo: 1, selfSufficiency: 1 } },
     { val: 'no',     icon: '🌲', main: 'Not at all. The journey is the game', sub: '', w: { flexibility: 1, utility: 1 } },
@@ -246,78 +246,77 @@ const QUESTIONS = [
     { val: 'half',   icon: '👥', main: 'About half', sub: '', w: { solo: 1, selfSufficiency: 1, demand: 1 } },
     { val: 'little', icon: '🏰', main: 'Very little', sub: '', w: { demand: 2, utility: 1 } },
   ]},
-  { id: 'farm', text: 'Hundreds of new rare-mob drops, new gathering materials, seeds. Your gold plan:', cols: 2, opts: [
-    { val: 'farm',   icon: '⛏️', main: 'Farm it myself', sub: 'Efficient solo killing, gathering, rares.', w: { solo: 2, aoe: 1, selfSufficiency: 1 }, p: 'gathering' },
-    { val: 'craft',  icon: '🔨', main: 'Craft and sell', sub: '', w: { selfSufficiency: 1 }, p: 'craft' },
-    { val: 'earn',   icon: '🎒', main: 'Earn it in dungeons and raids', sub: '', w: { demand: 2 } },
-    { val: 'dont',   icon: '💸', main: "I don't want to think about gold", sub: 'Low upkeep classes.', w: { selfSufficiency: 2, solo: 1 } },
+  { id: 'farm', text: 'Your gold plan:', cols: 2, opts: [
+    { val: 'farm',  icon: '⛏️', main: 'Farm it myself', sub: '', w: { solo: 2, aoe: 1, selfSufficiency: 1 }, p: 'gathering' },
+    { val: 'craft', icon: '🔨', main: 'Craft and sell', sub: '', w: { selfSufficiency: 1 }, p: 'craft' },
+    { val: 'earn',  icon: '🎒', main: 'Earn it in dungeons and raids', sub: '', w: { demand: 2 } },
+    { val: 'dont',  icon: '💸', main: "I don't want to think about gold", sub: '', w: { selfSufficiency: 2, solo: 1 } },
   ]},
-  { id: 'danger', text: 'Solo mobs take 10 to 15 seconds to kill by design and there is no level scaling. Elite quests, rare spawns, dangerous zones: you?', cols: 2, opts: [
-    { val: 'soloelite', icon: '💪', main: 'I want to solo elites others need a group for', sub: '', w: { selfSufficiency: 3, solo: 1 } },
-    { val: 'skip',   icon: '🕶️', main: 'I want to skip what I cannot kill', sub: 'Stealth, Feign Death, speed.', w: { mobility: 2, control: 1 } },
-    { val: 'group',  icon: '👥', main: "I'll group for them", sub: '', w: { demand: 2 } },
-    { val: 'burn',   icon: '💥', main: 'I want to kill everything fast enough that it does not matter', sub: '', w: { burst: 2, aoe: 1 } },
+  { id: 'danger', text: 'No level scaling. Elite quests, rare spawns, dangerous zones: you?', cols: 2, opts: [
+    { val: 'soloelite', icon: '💪', main: 'I want to solo what others need a group for', sub: '', w: { selfSufficiency: 3, solo: 1 } },
+    { val: 'skip',      icon: '🕶️', main: 'I want to skip what I cannot kill', sub: '', w: { mobility: 2, control: 1 } },
+    { val: 'group',     icon: '👥', main: "I'll group for them", sub: '', w: { demand: 2 } },
+    { val: 'burn',      icon: '💥', main: 'I want to kill things fast enough that it does not matter', sub: '', w: { burst: 2, aoe: 1 } },
   ]},
-  { id: 'travel', text: 'No flying, and riding grants a mount at a level Blizzard has not published yet. Until then:', cols: 3, opts: [
-    { val: 'speed',  icon: '🐾', main: 'I want a speed form or aspect', sub: '', w: { mobility: 3 } },
-    { val: 'tele',   icon: '✨', main: 'I want teleports and portals', sub: '', w: { mobility: 1, utility: 2 } },
-    { val: 'walk',   icon: '🚶', main: "I'll walk. It builds character", sub: '', w: { scaling: 1, selfSufficiency: 1 } },
+  { id: 'travel', text: 'No flying, and the mount comes later. Until then:', cols: 3, opts: [
+    { val: 'speed', icon: '🐾', main: 'I want to be faster than everyone', sub: '', w: { mobility: 3 } },
+    { val: 'tele',  icon: '✨', main: 'I want shortcuts', sub: '', w: { mobility: 1, utility: 2 } },
+    { val: 'walk',  icon: '🚶', main: "I'll walk. It builds character", sub: '', w: { scaling: 1, selfSufficiency: 1 } },
   ]},
   // ── 4. Your character ─────────────────────────────────────────────────
   { id: 'roles', text: 'How many roles do you want on this one character?', cols: 3, opts: [
-    { val: 'one',   icon: '1️⃣', main: 'One, done properly', sub: '', w: { burst: 1, scaling: 1 } },
-    { val: 'two',   icon: '2️⃣', main: 'Two', sub: '', w: { flexibility: 2, demand: 1 } },
-    { val: 'all',   icon: '♾️', main: 'All of them', sub: '', w: { flexibility: 3, demand: 2 } },
+    { val: 'one', icon: '1️⃣', main: 'One, done properly', sub: '', w: { burst: 1, scaling: 1 } },
+    { val: 'two', icon: '2️⃣', main: 'Two', sub: '', w: { flexibility: 2, demand: 1 } },
+    { val: 'all', icon: '♾️', main: 'All of them', sub: '', w: { flexibility: 3, demand: 2 } },
   ]},
   { id: 'gear', text: 'Gear:', cols: 3, opts: [
-    { val: 'bis',   icon: '💎', main: "I'll chase best-in-slot", sub: 'Every upgrade should show.', w: { scaling: 3 } },
+    { val: 'bis',   icon: '💎', main: "I'll chase best-in-slot", sub: '', w: { scaling: 3 } },
     { val: 'ok',    icon: '🎒', main: 'Strong in whatever drops', sub: '', w: { selfSufficiency: 2, solo: 1 } },
-    { val: 'craft', icon: '🔨', main: "I'll craft my own from level 10", sub: 'Forever wants profession gear to matter early.', w: { scaling: 1, selfSufficiency: 1 }, p: 'craft' },
+    { val: 'craft', icon: '🔨', main: "I'll craft my own", sub: '', w: { scaling: 1, selfSufficiency: 1 }, p: 'craft' },
   ]},
   { id: 'complexity', text: 'How many things do you want to track at once?', cols: 3, opts: [
-    { val: 'few',   icon: '🎯', main: 'Few. Do it well', sub: '', w: { solo: 1, selfSufficiency: 1 }, d: 'simple' },
-    { val: 'some',  icon: '⚡', main: 'Procs and moments', sub: '', w: { burst: 1, scaling: 1 } },
-    { val: 'many',  icon: '🤹', main: 'Many. Totems, DoTs, seals, forms', sub: '', w: { utility: 1, flexibility: 1 } },
+    { val: 'few',  icon: '🎯', main: 'Few. Do it well', sub: '', w: { solo: 1, selfSufficiency: 1 } },
+    { val: 'some', icon: '⚡', main: 'Procs and moments', sub: '', w: { burst: 1, scaling: 1 } },
+    { val: 'many', icon: '🤹', main: 'Many', sub: '', w: { utility: 1, flexibility: 1 } },
   ]},
   { id: 'time', text: 'Time per week, honestly:', cols: 3, opts: [
     { val: 'lots',   icon: '🌙', main: 'Plenty', sub: '', w: { scaling: 2, demand: 1 }, time: 'lots' },
     { val: 'some',   icon: '📅', main: 'A few nights', sub: '', w: { solo: 1, flexibility: 1, demand: 1 }, time: 'some' },
-    { val: 'little', icon: '⏰', main: 'Not much', sub: 'Instant groups and efficient solo matter most.', w: { solo: 2, demand: 2, selfSufficiency: 1 }, time: 'little' },
+    { val: 'little', icon: '⏰', main: 'Not much', sub: '', w: { solo: 2, demand: 2, selfSufficiency: 1 }, time: 'little' },
   ]},
   { id: 'faction', text: 'Faction:', cols: 3, opts: [
-    { val: 'alliance', icon: '🦁', main: 'Alliance', sub: 'Shaman is Dwarf-only here unless you buy the Skyborne.', w: {}, f: 'alliance' },
-    { val: 'horde',    icon: '🐂', main: 'Horde', sub: 'Paladin is Undead-only here.', w: {}, f: 'horde' },
+    { val: 'alliance', icon: '🦁', main: 'Alliance', sub: '', w: {}, f: 'alliance' },
+    { val: 'horde',    icon: '🐂', main: 'Horde', sub: '', w: {}, f: 'horde' },
     { val: 'any',      icon: '🌍', main: 'Whatever is strongest', sub: '', w: { scaling: 1 } },
   ]},
   // ── 5. Deep cuts ──────────────────────────────────────────────────────
   { id: 'profpower', text: 'Professions for power. Which appeals?', cols: 2, opts: [
-    { val: 'eng',   icon: '⚙️', main: 'Engineering', sub: 'Wowhead: strongest for Fury Warrior, top for Feral and Frost. Grenades, Nitro Boosts, glider.', w: { control: 1, mobility: 1 }, p: 'Engineering' },
-    { val: 'alch',  icon: '🧪', main: 'Alchemy', sub: '30-second burst potions, Melee and Ranged Attack Power flasks, Mixology.', w: { burst: 1, scaling: 1 }, p: 'Alchemy' },
-    { val: 'armor', icon: '🛡️', main: 'Blacksmithing or Leatherworking', sub: 'Self-made sets every bracket. Wowhead: easy upgrades for Ret and Enhancement in beta.', w: { scaling: 1, selfSufficiency: 1 }, p: 'armor' },
-    { val: 'cloth', icon: '🧵', main: 'Tailoring and Enchanting', sub: 'Spell power sets, wands, and neck enchants for the first time ever.', w: { scaling: 1 }, p: 'Tailoring' },
+    { val: 'eng',   icon: '⚙️', main: 'Gadgets', sub: 'Things that explode, speed you up, or get you out.', w: { control: 1, mobility: 1 }, p: 'Engineering' },
+    { val: 'alch',  icon: '🧪', main: 'Potions and flasks', sub: '', w: { burst: 1, scaling: 1 }, p: 'Alchemy' },
+    { val: 'armor', icon: '🛡️', main: 'Self-made armour', sub: '', w: { scaling: 1, selfSufficiency: 1 }, p: 'armor' },
+    { val: 'cloth', icon: '🧵', main: 'Robes and enchants', sub: '', w: { scaling: 1 }, p: 'Tailoring' },
   ]},
   { id: 'racials', text: 'How much should racials weigh?', cols: 3, opts: [
     { val: 'lots', icon: '🧬', main: 'A lot. Show me the numbers', sub: '', w: { scaling: 1 }, racials: true },
     { val: 'some', icon: '⚖️', main: 'Some', sub: '', w: {}, racials: true },
     { val: 'none', icon: '🎭', main: 'Looks over racials', sub: '', w: {} },
   ]},
-  { id: 'tuning', text: 'Blizzard is tuning weekly in beta. Warrior rage and Balance Druid damage were the loudest threads. Your patience:', cols: 3, opts: [
-    { val: 'safe',   icon: '🛡️', main: 'Give me what is already proven', sub: 'Structural strengths that no patch removes.', w: { utility: 1, flexibility: 1, demand: 1 } },
-    { val: 'bet',    icon: '🎲', main: "I'll bet on the rework paying off", sub: '', w: { scaling: 1, burst: 1 } },
-    { val: 'flex',   icon: '🔄', main: 'I want a class that can respec out of a bad spot', sub: '', w: { flexibility: 2 } },
+  { id: 'tuning', text: 'Blizzard is tuning classes weekly in beta. Your patience:', cols: 3, opts: [
+    { val: 'safe', icon: '🛡️', main: 'Give me what is already proven', sub: '', w: { utility: 1, flexibility: 1, demand: 1 } },
+    { val: 'bet',  icon: '🎲', main: "I'll bet on the rework paying off", sub: '', w: { scaling: 1, burst: 1 } },
+    { val: 'flex', icon: '🔄', main: 'I want a class that can respec out of a bad spot', sub: '', w: { flexibility: 2 } },
   ]},
   { id: 'benched', text: 'What does "benched" mean to you?', cols: 2, opts: [
-    { val: 'never',   icon: '🎟️', main: 'Not getting a raid spot. Unacceptable', sub: '', w: { demand: 3 } },
+    { val: 'never',   icon: '🎟️', main: 'Not getting a raid spot', sub: '', w: { demand: 3 } },
     { val: 'wait',    icon: '⏳', main: 'Waiting 40 minutes for a dungeon group', sub: '', w: { demand: 2, solo: 1 } },
     { val: 'useless', icon: '🪑', main: 'Being in the group but not mattering', sub: '', w: { utility: 2, burst: 1 } },
     { val: 'dying',   icon: '💀', main: 'Dying to something I should have escaped', sub: '', w: { selfSufficiency: 1, mobility: 2 } },
   ]},
   { id: 'define', text: 'Last one. "A strong class is one that..."', cols: 2, opts: [
-    { val: 'meter',  icon: '📈', main: '...does the most damage', sub: '', w: { burst: 2, scaling: 2, aoe: 1 } },
-    { val: 'live',   icon: '🛡️', main: '...refuses to die', sub: '', w: { selfSufficiency: 3, solo: 1 } },
-    { val: 'irr',    icon: '🗿', main: '...the group cannot function without', sub: '', w: { utility: 3, demand: 2 } },
-    { val: 'flex',   icon: '🔄', main: '...fills whatever seat is empty', sub: '', w: { flexibility: 3, demand: 1 } },
-    { val: 'fast',   icon: '⏩', main: '...gets to 60 first', sub: '', w: { solo: 3, mobility: 1 } },
+    { val: 'meter', icon: '📈', main: '...does the most damage', sub: '', w: { burst: 2, scaling: 2, aoe: 1 } },
+    { val: 'live',  icon: '🛡️', main: '...refuses to die', sub: '', w: { selfSufficiency: 3, solo: 1 } },
+    { val: 'irr',   icon: '🗿', main: '...the group cannot function without', sub: '', w: { utility: 3, demand: 2 } },
+    { val: 'flex',  icon: '🔄', main: '...fills whatever seat is empty', sub: '', w: { flexibility: 3, demand: 1 } },
   ]},
 ];
 

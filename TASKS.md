@@ -112,4 +112,4 @@ Right now the subscription form on tier-list.html will POST emails, but nothing 
 
 - Full migration of premium quiz tier-letter rendering to consume `*_specs_detailed` from `wow-patch-data.json`. Data is already in JSON; the HTML cards still embed similar data. Migrating means weekly hotfix changes propagate to premium results too. Skipping now to keep the change surface small.
 - Extract shared CSS + quiz engine to `/styles/quiz.css` and `/scripts/quiz-core.js` — would dedupe ~80% of code across 10 quiz HTML files. Not blocking but pays off the next time you do a major design refresh.
-- Add a Classic Plus hub once Blizzard announces details.
+- ~~Add a Classic Plus hub once Blizzard announces details.~~ Done 2026-09-26 as the WoW Forever section (homepage + 4 quizzes + class guide). Next: re-check `scripts/forever-data.js` per beta build and at launch.

@@ -349,7 +349,7 @@
 
         '<h2 style="margin:0 0 6px;font-size:19px;color:#f0e8d8;font-weight:700;">Get Pro</h2>' +
         '<p style="margin:0 0 20px;font-size:13.5px;color:#a89878;line-height:1.5;">' +
-        'All four deep-dive quizzes, live tier data, and every future quiz.</p>' +
+        'Every deep-dive quiz across WoW Forever, Midnight and Classic, live tier data, and every future quiz.</p>' +
 
         '<button type="button" data-pc-buy style="width:100%;background:' + accent + ';' +
         'color:#0a0800;border:none;border-radius:99px;padding:13px 18px;font-size:15px;' +

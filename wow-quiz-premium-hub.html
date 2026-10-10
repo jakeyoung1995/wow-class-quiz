@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Class Quiz — Premium Hub</title>
-  <meta name="description" content="All premium WoW class quizzes — WoW Midnight and WoW Classic. One purchase unlocks every deep-dive quiz across both games.">
+  <title>WoW Class Quiz — Pro Hub: Forever, Midnight &amp; Classic Deep Dives</title>
+  <meta name="description" content="All Pro WoW class quizzes — WoW Forever, WoW Midnight and WoW Classic. One purchase unlocks every 25- and 30-question deep dive across all three games, plus every future quiz.">
   <link rel="canonical" href="https://wowclassquiz.com/wow-quiz-premium-hub.html">
   <meta property="og:site_name" content="WoW Class Quiz">
-  <meta property="og:title" content="WoW Midnight Premium — All Quizzes Unlocked">
+  <meta property="og:title" content="WoW Class Quiz Pro — Forever, Midnight & Classic Deep Dives">
   <meta property="og:description" content="All premium WoW class quizzes — WoW Midnight and WoW Classic. One purchase unlocks every deep-dive quiz across both games.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://wowclassquiz.com/og-main.jpg">
@@ -98,10 +98,12 @@
     .exp-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: var(--radius); margin-bottom: 14px; }
     .exp-header.midnight { background: rgba(155,143,232,0.08); border: 1px solid rgba(155,143,232,0.2); }
     .exp-header.classic  { background: rgba(200,154,48,0.06); border: 1px solid rgba(200,154,48,0.2); }
+    .exp-header.forever  { background: rgba(95,191,138,0.07); border: 1px solid rgba(95,191,138,0.25); }
     .exp-icon { font-size: 22px; }
     .exp-name { font-size: 14px; font-weight: 700; letter-spacing: 0.03em; }
     .exp-header.midnight .exp-name { color: var(--purple-lt); }
     .exp-header.classic  .exp-name { color: var(--cgold-lt); }
+    .exp-header.forever  .exp-name { color: #8fe0b4; }
     .exp-desc { font-size: 12px; color: var(--text3); margin-left: auto; }
 
     /* Quiz cards */
@@ -112,6 +114,8 @@
     .quiz-card.m-tank:hover { border-color: rgba(96,144,216,0.45); }
     .quiz-card.m-heal:hover { border-color: rgba(88,200,120,0.45); }
     .quiz-card.c-class:hover{ border-color: rgba(200,154,48,0.5); }
+    .quiz-card.f-fun:hover  { border-color: rgba(212,170,82,0.5); }
+    .quiz-card.f-strong:hover { border-color: rgba(95,191,138,0.5); }
     .quiz-icon { font-size: 32px; flex-shrink: 0; width: 46px; text-align: center; }
     .quiz-info { flex: 1; }
     .quiz-title { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
@@ -119,6 +123,8 @@
     .m-tank .quiz-title { color: var(--blue-lt); }
     .m-heal .quiz-title { color: var(--heal-lt); }
     .c-class .quiz-title { color: var(--cgold-lt); }
+    .f-fun .quiz-title { color: var(--gold-lt); }
+    .f-strong .quiz-title { color: #8fe0b4; }
     .quiz-sub { font-size: 12px; color: var(--text2); margin-bottom: 8px; line-height: 1.45; }
     .quiz-pills { display: flex; gap: 6px; flex-wrap: wrap; }
     .quiz-pill { font-size: 11px; color: var(--text3); background: var(--surf3); border: 1px solid var(--border); border-radius: 99px; padding: 2px 9px; }
@@ -131,11 +137,13 @@
     .inc-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 12px; }
     .inc-block.midnight .inc-title { color: var(--purple-lt); }
     .inc-block.classic  .inc-title { color: var(--cgold-lt); }
+    .inc-block.forever  .inc-title { color: #8fe0b4; }
     .inc-list { display: flex; flex-direction: column; gap: 7px; }
     .inc-item { font-size: 12px; color: var(--text2); display: flex; gap: 8px; line-height: 1.45; }
     .inc-item::before { content: '✦'; font-size: 10px; margin-top: 3px; flex-shrink: 0; }
     .inc-block.midnight .inc-item::before { color: var(--purple-lt); }
     .inc-block.classic  .inc-item::before { color: var(--cgold); }
+    .inc-block.forever  .inc-item::before { color: #5fbf8a; }
 
     /* One purchase note */
     .one-purchase { background: rgba(212,170,82,0.07); border: 1px solid rgba(212,170,82,0.2); border-radius: var(--radius-lg); padding: 18px 22px; margin-bottom: 40px; display: flex; gap: 14px; align-items: flex-start; }
@@ -169,8 +177,10 @@
   <script src="/scripts/support.js" defer></script>
   <link rel="stylesheet" href="/styles/gumroad-button.css">
   <script src="https://gumroad.com/js/gumroad.js" defer></script>
+  <link rel="stylesheet" href="/styles/version-bar.css">
 </head>
 <body>
+<!--gvb--><nav class="gvb" data-active="neutral" aria-label="Game version"><div class="gvb-inner"><span class="gvb-label">Game version</span><a class="gvb-tab" data-v="forever" href="/"><span class="gvb-ico" aria-hidden="true">&#9854;&#65039;</span>WoW Forever<span class="gvb-sub">Beta &middot; Nov 4</span></a><a class="gvb-tab" data-v="midnight" href="/midnight-hub.html"><span class="gvb-ico" aria-hidden="true">&#127756;</span>Midnight</a><a class="gvb-tab" data-v="classic" href="/classic-hub.html"><span class="gvb-ico" aria-hidden="true">&#127942;</span>Classic</a><span class="gvb-spacer"></span><a class="gvb-pro" href="/wow-quiz-premium-hub.html">&#10022; Pro</a></div></nav><!--/gvb-->
 
 <header class="site-header">
   <div class="logo">WoW Class Quiz <span class="logo-badge">⭐ Pro</span></div>
@@ -210,8 +220,51 @@
     <div class="unlock-icon">✦</div>
     <div class="unlock-text">
       <h2>All Pro Quizzes Unlocked</h2>
-      <p>Both WoW Midnight and WoW Classic deep dives are available on this device. Pick your game and role below.</p>
+      <p>Every WoW Forever, WoW Midnight and WoW Classic deep dive is available on this device. Pick your game and quiz below.</p>
       <span class="unlock-check">✓ Access saved to this browser</span>
+    </div>
+  </div>
+
+  <!-- WoW Forever Section -->
+  <div class="expansion-block">
+    <div class="exp-header forever">
+      <span class="exp-icon">♾️</span>
+      <span class="exp-name">WoW Forever</span>
+      <span class="exp-desc">25 questions each · 2 quizzes · in beta, launches Nov 4</span>
+    </div>
+    <div class="quiz-grid">
+
+      <a href="wow-forever-class-quiz-pro.html" class="quiz-card f-fun">
+        <div class="quiz-icon">🎭</div>
+        <div class="quiz-info">
+          <div class="quiz-title">Forever Fun Class Deep Dive</div>
+          <div class="quiz-sub">All 9 classes ranked on fantasy, leveling feel and vibe, then built out: professions matched to you, race per faction with racials, the spec your answers point to, level-by-level milestones, campsite buff</div>
+          <div class="quiz-pills">
+            <span class="quiz-pill">9 classes</span>
+            <span class="quiz-pill">25 questions</span>
+            <span class="quiz-pill">Professions</span>
+            <span class="quiz-pill">Racials</span>
+            <span class="quiz-pill">Milestones</span>
+          </div>
+        </div>
+        <div class="quiz-arrow">→</div>
+      </a>
+
+      <a href="wow-forever-strongest-class-quiz-pro.html" class="quiz-card f-strong">
+        <div class="quiz-icon">⚖️</div>
+        <div class="quiz-info">
+          <div class="quiz-title">Forever Strongest Class Deep Dive</div>
+          <div class="quiz-sub">Whole classes weighed across all 27 specs on 10 strength dimensions for how you play, then spec power notes, power race per faction, power professions, launch outlook and how to pilot it. No tier-list guessing</div>
+          <div class="quiz-pills">
+            <span class="quiz-pill">All 27 specs</span>
+            <span class="quiz-pill">25 questions</span>
+            <span class="quiz-pill">Strength profile</span>
+            <span class="quiz-pill">Launch outlook</span>
+          </div>
+        </div>
+        <div class="quiz-arrow">→</div>
+      </a>
+
     </div>
   </div>
 
@@ -305,12 +358,23 @@
     <span class="one-purchase-icon">🔑</span>
     <div>
       <h3>One purchase — everything, forever</h3>
-      <p>Your unlock code activates all current quizzes across both WoW Midnight and WoW Classic. Any new quizzes added to either game are included automatically — no additional purchase required.</p>
+      <p>Your licence key activates every current quiz across WoW Forever, WoW Midnight and WoW Classic. Any quiz added later, for any version, is included automatically — no additional purchase required.</p>
     </div>
   </div>
 
   <!-- What's included grid -->
   <div class="included-grid">
+    <div class="inc-block forever">
+      <div class="inc-title">♾️ Forever Pro includes</div>
+      <div class="inc-list">
+        <div class="inc-item">Two 25-question deep dives: the most fun class for you, and the strongest class for how you play</div>
+        <div class="inc-item">Professions matched to you and your class, from Wowhead's Forever guides</div>
+        <div class="inc-item">Race per faction with the actual racials, including the 6 new combos and the Skyborne</div>
+        <div class="inc-item">Spec-by-spec notes on what changed, and which spec your answers point to</div>
+        <div class="inc-item">Level-by-level milestones, campsite buff, launch outlook, how to pilot it</div>
+        <div class="inc-item">Every re-weighting as Blizzard tunes the beta, free</div>
+      </div>
+    </div>
     <div class="inc-block midnight">
       <div class="inc-title">🌌 Midnight Pro includes</div>
       <div class="inc-list">

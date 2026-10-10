@@ -31,9 +31,15 @@ SITE = "https://wowclassquiz.com"
 # text with an .html extension. It is not a page and must skip page-shaped checks.
 NOT_A_PAGE = {"google7243f81f2f7c028a.html"}
 
+# Redirect stubs: an old URL kept alive only to forward to its replacement via
+# <meta http-equiv="refresh">. GitHub Pages cannot do server-side redirects, so
+# this is the only way to move a page without losing the links pointing at it.
+# The canonical on a stub points at the destination, on purpose.
+REDIRECT_STUBS = {"classic-plus.html"}
+
 # Pages that intentionally have no analytics / are not in the sitemap.
-NO_GA4 = {"404.html"} | NOT_A_PAGE
-NOT_IN_SITEMAP = {"404.html"} | NOT_A_PAGE
+NO_GA4 = {"404.html"} | NOT_A_PAGE | REDIRECT_STUBS
+NOT_IN_SITEMAP = {"404.html"} | NOT_A_PAGE | REDIRECT_STUBS
 
 errors = []
 warnings = []
@@ -187,6 +193,16 @@ def check_canonicals():
         if name in NOT_A_PAGE or name == "404.html":
             continue
         body = read(name)
+        if name in REDIRECT_STUBS:
+            # A stub must forward somewhere real, and its canonical must be
+            # that destination — otherwise Google indexes an empty page.
+            refresh = re.search(r'http-equiv="refresh"\s+content="\d+;\s*url=([^"]+)"', body, re.I)
+            canon = re.search(r'<link rel="canonical" href="([^"]+)"', body)
+            if not refresh:
+                err(f"{name} is a redirect stub but has no <meta http-equiv=\"refresh\">")
+            elif not canon or canon.group(1).replace(SITE, "").lstrip("/") != refresh.group(1).lstrip("/"):
+                err(f"{name} redirect target and canonical disagree")
+            continue
         match = re.search(r'<link rel="canonical" href="([^"]+)"', body)
         if not match:
             err(f"{name} has no canonical link — duplicate-content risk")
@@ -202,7 +218,7 @@ def check_social_tags():
     it in Discord or on Reddit — where most of this site's traffic starts."""
     required = ("og:title", "og:image", "og:url", "twitter:card")
     for name in html_files():
-        if name in NOT_A_PAGE or name == "404.html":
+        if name in NOT_A_PAGE or name == "404.html" or name in REDIRECT_STUBS:
             continue
         body = read(name)
         for tag in required:

@@ -1,11 +1,12 @@
 {
   "_meta": {
-    "patch": "12.1",
+    "patch": "12.1.5",
     "season": "Midnight Season 2",
-    "last_updated": "2026-10-12",
+    "last_updated": "2026-10-13",
     "needs_refresh": false,
     "note": "Tiers auto-updated weekly from Icy Veins by GitHub Actions. Patch/build auto-detected from the Blizzard CDN versions endpoint. Season is set manually — Blizzard does not publish it machine-readably.",
-    "build": "69933"
+    "build": "70340",
+    "season_needs_review": true
   },
   "dps": {
     "Rogue": {

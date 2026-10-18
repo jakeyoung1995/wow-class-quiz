@@ -28,6 +28,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from forever_phase import pill_short  # noqa: E402  the Forever tab says what the pages say
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Not pages: the Search Console stub, the 404, and redirect stubs that exist
@@ -52,7 +55,7 @@ PREFIX_OF = (
 )
 
 TABS = [
-    ("forever",  "/",                  "&#9854;&#65039;", "WoW Forever", "Beta &middot; Nov 4"),
+    ("forever",  "/",                  "&#9854;&#65039;", "WoW Forever", pill_short()),
     ("midnight", "/midnight-hub.html", "&#127756;", "Midnight",  ""),
     ("classic",  "/classic-hub.html",  "&#127942;", "Classic",   ""),
 ]

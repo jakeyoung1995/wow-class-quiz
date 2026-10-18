@@ -50,6 +50,12 @@ jobs:
       - name: Check game-version bar is stamped
         run: python3 scripts/version_bar.py --check
 
+      # The Forever pages carry date-derived phase strings (beta / launch /
+      # raids). forever-phase.yml flips them daily on main; this catches a PR
+      # that was hand-edited back to a stale phase.
+      - name: Check Forever phase strings
+        run: python3 scripts/forever_phase.py --check
+
       # A wrong lastmod is worse than none: it tells crawlers a changed page is
       # unchanged. After the price change, 15 of 16 entries claimed that.
       - name: Check sitemap lastmod dates

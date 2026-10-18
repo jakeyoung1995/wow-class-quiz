@@ -24,6 +24,11 @@ jobs:
           # history, so the check would pass by skipping rather than by being
           # correct.
           fetch-depth: 0
+          # On a PR, check the branch's own commit, not GitHub's synthetic merge
+          # preview. The preview re-dates every file main touched since the
+          # branch was cut, which made the sitemap check fail for reasons the
+          # PR author could not see locally. Falls back to the pushed commit.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@v7

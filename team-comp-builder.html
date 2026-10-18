@@ -349,7 +349,7 @@ async function loadData() {
 
     const meta = PATCH_DATA._meta || {};
     document.getElementById('liveTag').textContent =
-      'Patch ' + (meta.patch || '12.1') + ' · ' + (meta.season || 'Season 2') + ' · Updated ' + (meta.last_updated || 'recently');
+      'Patch ' + (meta.patch || '12.1.5') + ' · ' + (meta.season || 'Season 2') + ' · Updated ' + (meta.last_updated || 'recently');
 
     // Hydrate from URL params if user shared a comp
     hydrateFromUrl();

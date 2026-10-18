@@ -1,11 +1,12 @@
 {
   "_meta": {
-    "patch": "12.1",
+    "patch": "12.1.5",
     "season": "Midnight Season 2",
-    "last_updated": "2026-10-05",
+    "last_updated": "2026-10-13",
     "needs_refresh": false,
     "note": "Tiers auto-updated weekly from Icy Veins by GitHub Actions. Patch/build auto-detected from the Blizzard CDN versions endpoint. Season is set manually — Blizzard does not publish it machine-readably.",
-    "build": "69933"
+    "build": "70340",
+    "season_needs_review": true
   },
   "dps": {
     "Rogue": {
@@ -35,12 +36,12 @@
     },
     "Demon Hunter": {
       "mplus": "A",
-      "raid": "B",
+      "raid": "A",
       "best_spec": "Havoc"
     },
     "Shaman": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "B",
       "best_spec": "Enhancement"
     },
     "Druid": {
@@ -121,7 +122,7 @@
       "tier": "A",
       "class": "Demon Hunter",
       "color": "#a330c9",
-      "raid": "B"
+      "raid": "A"
     },
     "Feral Druid": {
       "tier": "S",
@@ -151,7 +152,7 @@
       "tier": "B",
       "class": "Warlock",
       "color": "#8788ee",
-      "raid": "A"
+      "raid": "B"
     },
     "Fire Mage": {
       "tier": "B",
@@ -175,7 +176,7 @@
       "tier": "S",
       "class": "Shaman",
       "color": "#0070dd",
-      "raid": "A"
+      "raid": "B"
     },
     "Subtlety Rogue": {
       "tier": "A",
@@ -248,7 +249,7 @@
       "raid": "B"
     },
     "Guardian Druid": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A"
     },
     "Brewmaster Monk": {
@@ -267,11 +268,11 @@
   "healer": {
     "Restoration Druid": {
       "mplus": "A",
-      "raid": "A"
+      "raid": "S"
     },
     "Preservation Evoker": {
       "mplus": "A",
-      "raid": "S"
+      "raid": "A"
     },
     "Mistweaver Monk": {
       "mplus": "A",
@@ -279,7 +280,7 @@
     },
     "Holy Paladin": {
       "mplus": "S",
-      "raid": "A"
+      "raid": "B"
     },
     "Holy Priest": {
       "mplus": "B",
@@ -353,7 +354,7 @@
     },
     "Destruction Warlock": {
       "mplus": "B",
-      "raid": "A",
+      "raid": "B",
       "complexity": 2,
       "mobility": 1,
       "aoe": 4,
@@ -417,7 +418,7 @@
     },
     "Devourer Demon Hunter": {
       "mplus": "A",
-      "raid": "B",
+      "raid": "A",
       "complexity": 4,
       "mobility": 5,
       "aoe": 5,
@@ -433,7 +434,7 @@
     },
     "Elemental Shaman": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "B",
       "complexity": 3,
       "mobility": 2,
       "aoe": 4,
@@ -532,7 +533,7 @@
       "active_mit": 4
     },
     "Guardian Druid": {
-      "mplus": "A",
+      "mplus": "S",
       "raid": "A",
       "complexity": 3,
       "mobility": 3,
@@ -567,7 +568,7 @@
   "healer_specs_detailed": {
     "Restoration Druid": {
       "mplus": "A",
-      "raid": "A",
+      "raid": "S",
       "complexity": 4,
       "mobility": 4,
       "throughput": 5,
@@ -576,7 +577,7 @@
     },
     "Preservation Evoker": {
       "mplus": "A",
-      "raid": "S",
+      "raid": "A",
       "complexity": 4,
       "mobility": 4,
       "throughput": 5,
@@ -594,7 +595,7 @@
     },
     "Holy Paladin": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "B",
       "complexity": 3,
       "mobility": 2,
       "throughput": 4,
@@ -1702,6 +1703,77 @@
           "spec": "Beast Mastery Hunter",
           "from": "A",
           "to": "C"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12",
+      "patch": "12.1",
+      "changes": [
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Demon Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Shaman",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "healer",
+          "dimension": "raid",
+          "key": "Restoration Druid",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "healer",
+          "dimension": "raid",
+          "key": "Preservation Evoker",
+          "from": "S",
+          "to": "A"
+        },
+        {
+          "role": "healer",
+          "dimension": "raid",
+          "key": "Holy Paladin",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "tank",
+          "dimension": "mplus",
+          "key": "Guardian Druid",
+          "from": "A",
+          "to": "S"
+        }
+      ],
+      "spec_changes": [
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Devourer Demon Hunter",
+          "from": "B",
+          "to": "A"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Elemental Shaman",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Destruction Warlock",
+          "from": "A",
+          "to": "B"
         }
       ]
     }

@@ -1,0 +1,57 @@
+name: Forever Phase
+
+# WoW Forever's pages say "Beta · Launches Nov 4" in several places. Those
+# strings have three expiry dates (beta end, launch, first raids) and nobody
+# should have to remember to edit six pages on launch evening. This runs once a
+# day, re-derives the phase from the dates in scripts/forever-data.js, and
+# commits the flip if anything changed.
+#
+# Launch is 2026-11-04 at 23:00 UTC (3 pm Pacific). 23:30 UTC catches it the
+# same evening.
+on:
+  schedule:
+    - cron: '30 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: forever-phase
+  cancel-in-progress: false
+
+jobs:
+  phase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Stamp the phase strings
+        run: |
+          python3 scripts/forever_phase.py
+          python3 scripts/version_bar.py
+          python3 scripts/update_sitemap.py
+          python3 scripts/check_site.py
+
+      - name: Commit if anything flipped
+        run: |
+          git config --global user.name "wow-class-quiz-bot"
+          git config --global user.email "actions@github.com"
+          git add *.html sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Phase unchanged. Nothing to commit."
+          else
+            git commit -m "chore: WoW Forever phase strings updated [skip ci]"
+            git push
+            echo "Phase flip pushed. GitHub Pages will deploy it."
+          fi

@@ -24,6 +24,11 @@ jobs:
           # history, so the check would pass by skipping rather than by being
           # correct.
           fetch-depth: 0
+          # On a PR, check the branch's own commit, not GitHub's synthetic merge
+          # preview. The preview re-dates every file main touched since the
+          # branch was cut, which made the sitemap check fail for reasons the
+          # PR author could not see locally. Falls back to the pushed commit.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -49,6 +54,12 @@ jobs:
       # visitor who cannot find their way back to the other versions.
       - name: Check game-version bar is stamped
         run: python3 scripts/version_bar.py --check
+
+      # The Forever pages carry date-derived phase strings (beta / launch /
+      # raids). forever-phase.yml flips them daily on main; this catches a PR
+      # that was hand-edited back to a stale phase.
+      - name: Check Forever phase strings
+        run: python3 scripts/forever_phase.py --check
 
       # A wrong lastmod is worse than none: it tells crawlers a changed page is
       # unchanged. After the price change, 15 of 16 entries claimed that.

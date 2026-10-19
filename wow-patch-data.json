@@ -2,10 +2,10 @@
   "_meta": {
     "patch": "12.1.5",
     "season": "Midnight Season 2",
-    "last_updated": "2026-10-13",
+    "last_updated": "2026-10-19",
     "needs_refresh": false,
     "note": "Tiers auto-updated weekly from Icy Veins by GitHub Actions. Patch/build auto-detected from the Blizzard CDN versions endpoint. Season is set manually — Blizzard does not publish it machine-readably.",
-    "build": "70340",
+    "build": "70448",
     "season_needs_review": true
   },
   "dps": {

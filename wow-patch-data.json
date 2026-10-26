@@ -2,16 +2,16 @@
   "_meta": {
     "patch": "12.1.5",
     "season": "Midnight Season 2",
-    "last_updated": "2026-10-19",
+    "last_updated": "2026-10-26",
     "needs_refresh": false,
     "note": "Tiers auto-updated weekly from Icy Veins by GitHub Actions. Patch/build auto-detected from the Blizzard CDN versions endpoint. Season is set manually — Blizzard does not publish it machine-readably.",
-    "build": "70448",
+    "build": "70575",
     "season_needs_review": true
   },
   "dps": {
     "Rogue": {
       "mplus": "S",
-      "raid": "A",
+      "raid": "S",
       "best_spec": "Outlaw"
     },
     "Mage": {
@@ -158,7 +158,7 @@
       "tier": "B",
       "class": "Mage",
       "color": "#3fc7eb",
-      "raid": "B"
+      "raid": "A"
     },
     "Windwalker Monk": {
       "tier": "S",
@@ -179,10 +179,10 @@
       "raid": "B"
     },
     "Subtlety Rogue": {
-      "tier": "A",
+      "tier": "S",
       "class": "Rogue",
       "color": "#fff468",
-      "raid": "A"
+      "raid": "S"
     },
     "Balance Druid": {
       "tier": "A",
@@ -305,8 +305,8 @@
       "single_target": 3
     },
     "Subtlety Rogue": {
-      "mplus": "A",
-      "raid": "A",
+      "mplus": "S",
+      "raid": "S",
       "complexity": 5,
       "mobility": 4,
       "aoe": 2,
@@ -330,7 +330,7 @@
     },
     "Fire Mage": {
       "mplus": "B",
-      "raid": "B",
+      "raid": "A",
       "complexity": 4,
       "mobility": 3,
       "aoe": 5,
@@ -1774,6 +1774,42 @@
           "spec": "Destruction Warlock",
           "from": "A",
           "to": "B"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-26",
+      "patch": "12.1.5",
+      "changes": [
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "key": "Rogue",
+          "from": "A",
+          "to": "S"
+        }
+      ],
+      "spec_changes": [
+        {
+          "role": "dps",
+          "dimension": "mplus",
+          "spec": "Subtlety Rogue",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Subtlety Rogue",
+          "from": "A",
+          "to": "S"
+        },
+        {
+          "role": "dps",
+          "dimension": "raid",
+          "spec": "Fire Mage",
+          "from": "B",
+          "to": "A"
         }
       ]
     }
